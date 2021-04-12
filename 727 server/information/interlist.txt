@@ -1,0 +1,107 @@
+134 used on rotm
+142 daganoths
+173 dungeonering map
+178 new quests start inter
+201 buy customes
+205 - yearly awards for clans
+224 or 505 ? - travel from releka to islands
+226 - mole boss
+253 rotm?
+265 - clan wars
+267 - void knight rewards
+266 - gravestone text
+270 - newcomers map gotta add
+276 -  soul wars
+299 - charter ships travel
+301 - req assist
+309 air dresser salon
+318 - DEATH cutscene
+
+310 new stuff
+319 new stuff too. sound effects list
+
+332 eanchant battlestaff
+
+364 - treasure trail end realy usefull
+370 - chmpy hunter hats
+381 - wild icon
+382 - wild enter
+
+405 - unsuported java warning
+407 - pc start
+
+421 - used by old tutorial island, usefull text + scroll
+
+moonclan  island - pirates cove travel ship
+
+447 - waves
+468 - diango item return
+469 - hot ballons
+473 - barb assault rrewards
+475 - orb of occulus
+484 - 490 barb assault inters
+492 - invite barb assault
+545 - ship to dragon slayeri sland
+546 - elvarg dragon slayr
+549 - take photo pic
+554 - diangos item redemption?
+555 - rotm bob's amulet
+556 - new item information inter?
+561 - recent wilderness kills
+562 - 574 - warnings
+576 - 581 warnings
+583 - disable warnings
+590 - new emote tab
+593 - report abuse tutorial
+594 - report abuse
+622 loyalty programe
+623 adventurer log settings
+651 - rotm?
+658 - event long time ago christmas
+676 - 678 warnings
+691 - 693 bork
+
+725 - arms
+728 - shows
+729 - other stuff char look, theassiala makeover
+730 - 733 fist of guthix
+740 - open your stats menu and clic kon th flashing icon for more information
+741 - gratz lvl up
+755 - world map
+758 - canoe from lumby till edge
+759 - bank pin button (now i understand how it works)
+791 - clan wars challenge
+793 - clan wars safe for all
+798 - warning u carying a lot of items
+802 - 813 steal creation
+834 - 837 soul wars
+842 - quest kit
+889 - tracks down ge
+844 - resource locator
+866 - rotm
+880 - familiar left option select
+895 - adviser
+900 - skin color
+913 - temporary ignore player?
+917 - task list
+938 - select complexity dungeons
+939 - party details
+940 - daemoheim rewards
+942 - dung map
+947 - select floor
+949 - invite to  a dung party
+956 - dung shop
+982 chat setup
+993 - ring of kimsphio customize
+994 - auto group select floor
+995 - start room modifications dung
+1028 - acc creation
+1067 - subscrive now for more content
+1086 - rated clan wars challenge
+1108 - friends chat setup
+1127 - received hybird armor
+1128 steal creation reward shop
+1139 - stat to be advanced includes dung 
+
+95 - charter
+299 - normal travel

@@ -1,0 +1,13 @@
+//use: Object type rotation - x y plane boolean clip
+//edge home
+17010 10 0 - 3095 3503 0 true
+6552 10 2 - 3098 3504 0 true
+47120 10 0 - 3101 3503 0 true
+//Donatorzone
+4483 10 -3 - 2592 3916 0 true
+4483 10 -2 - 2581 3905 0 true
+3192 10 -3 - 2579 3917 0 true
+//k
+17010 10 0 - 2584 3918 0 true
+6552 10 2 - 2589 3919 0 true
+47120 10 0 - 2591 3919 0 true

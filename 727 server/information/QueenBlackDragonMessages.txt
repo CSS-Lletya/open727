@@ -1,0 +1,42 @@
+Worms burrow through her rotting flesh.
+
+You are unable to reflect damage back to this creature.
+
+(orange) The Queen Black Dragon takes a huge breath.
+(ligher orange) The Queen Black Dragon gathers her strength to breath extremely hot flames.
+(green) The tortured soul has stopped time for everyone except himself and the Queen Black<br>Dragon.
+(cyan-ish) The enchantment is restored! The Queen Black Dragon falls back into her cursed<br>slumber.
+The Queen Black Dragon's concentration wavers; the first artefact is now unguarded.
+The Queen Black Dragon's concentration wavers; the second artefact is now<br>unguarded.
+The Queen Black Dragon's concentration wavers; the third artefact is now<br>unguarded.
+The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.
+
+The power of the unprotected artefact leaks out and damages you!
+
+(purple) The Queen Black Dragon summons one of her captive, tortured souls.
+(purple) The Queen Black Dragon summons several of her captive, tortured souls.
+(purple) The Queen Black Dragon starts to siphon the energy of her mages.
+You are damaged for standing too long on the raw magical platforms.
+
+
+(kind of blue - crystalish) The Queen Black Dragon takes the consistency of crystal; she is more resistant to<br>magic, but weaker to physical damage.
+(kind of green) The Queen Black Dragon hardens her carepace; she is more resistant to physical<br>damage, but more vulerable to magic.
+
+
+(souls text) NO MORE! RELEASE ME, MY QUEEN! I BEG YOU!
+(souls text) We lost our free will long ago...
+(souls text) How long has it been since I was taken...
+(souls text) The cycle is never ending, mortal...
+--Time stop--
+(souls text) Kill me, mortal... quickly! HURRY! BEFORE THE SPELL IS COMPLETE!
+(souls text) Time is short!
+(souls text) She is pouring her energy into me... hurry!
+(souls text) The spell is nearly complete!
+
+You descend the stairs that appeared when you defeated the Queen Black Dragon.
+(chat box interface) This strange device is covered in indecipherable script. It opens for you, <br>displaying only a small sample of the objects it contains.
+You only had enough space in your inventory to accept some of the items.
+All the items were moved to your bank.
+The coffer is now empty.
+
+ 1186

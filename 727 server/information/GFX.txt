@@ -1,0 +1,41 @@
+Runespan:
+
+---Walking---
+Walking across floating grass: 3072/3073
+Walking across floating rock: 3074/3075
+Walking across floating ice: 3076/3077
+Walking across floating lava thing (2nd floor): 3077/3079
+Walking across floating grass (2nd floor): 3080/3081
+---Flying---
+Cloud shoots up: 3071
+Flying across a floating cloud: 3082/3083/3084/3085
+Shotting across a cloud: 3086
+Shooting Star Platform: 3095/3096
+---Special---
+Dragon Comes1: 3088
+Dragon Comes2: 3089
+Dragon Comes3: 3089
+Dragon breath: 3090
+Floating Cloud: 3092
+Cloud decends then goes away: 3093
+Cloud comes up and shoots: 3094
+Small cloud: 3097
+Cloud in front of player: 3069
+Box looking blue thing comes down on player: 3067-3068
+Nuke thing : 3066-3059
+Light up platform : 3063-3064-3065
+Fly up gfx-3086
+--Projectiles
+---NPC Death GFX---
+Earth ess: 3057
+Water ess: 3056
+Fire ess: 3065
+Air ess: 3064
+3060
+----Emotes-----
+16651-Maybe fly turns into npc 1957 Does 16672 emote. 16635-landing
+16596-Player Sihponing
+16645-Move across
+16571-NPC dead
+16599-Player done siphoning.
+16634- NPC siphon

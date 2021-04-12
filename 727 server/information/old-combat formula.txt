@@ -1,0 +1,146 @@
+	public int getRandomMaxHit(Player player, int weaponId, int attackStyle,
+			boolean ranging, boolean defenceAffects, double specMultiplier,
+			boolean usingSpec) {
+		Random r = new Random();
+		if (ranging) {
+			max_hit = (int) getRangeMaximum(player, attackStyle);
+			if (defenceAffects) {
+				double accuracy = getRangeAccuracy(player, attackStyle);
+				double defence = getRangeDefence(target);
+				if (r.nextInt((int) accuracy) < r.nextInt((int) defence)) {
+					return 0;
+				}
+			}
+		} else {
+			
+		}
+		max_hit = getMaxHit(player, weaponId, attackStyle, ranging, usingSpec,
+				specMultiplier);
+		if (defenceAffects) {
+			double att = player.getSkills().getLevel(ranging ? 4 : 0)
+					+ player.getCombatDefinitions().getBonuses()[ranging ? 4 : CombatDefinitions.getMeleeBonusStyle(weaponId, attackStyle)];
+			if (weaponId == -2) {
+				att += 82;
+			}
+			att *= ranging ? player.getPrayer().getRangeMultiplier() : player
+					.getPrayer().getAttackMultiplier();
+			if (fullVoidEquipped(player, ranging ? (new int[] { 11664, 11675 })
+					: (new int[] { 11665, 11676 })))
+				att *= 1.1;
+			if (ranging)
+				att *= player.getAuraManager().getRangeAccurayMultiplier();
+			double def = 0;
+			if (target instanceof Player) {
+				Player p2 = (Player) target;
+				def = (double) p2.getSkills().getLevel(Skills.DEFENCE)
+						+ (2 * p2.getCombatDefinitions().getBonuses()[ranging ? 9
+								: CombatDefinitions
+								.getMeleeDefenceBonus(CombatDefinitions
+										.getMeleeBonusStyle(weaponId,
+												attackStyle))]);
+
+				def *= p2.getPrayer().getDefenceMultiplier();
+				if (!ranging) {
+					if (p2.getFamiliar() instanceof Steeltitan)
+						def *= 1.15;
+				}
+			} else {
+				NPC n = (NPC) target;
+				def = n.getBonuses() != null ? n.getBonuses()[ranging ? 9
+						: CombatDefinitions
+						.getMeleeDefenceBonus(CombatDefinitions
+								.getMeleeBonusStyle(weaponId,
+										attackStyle))] : 0;
+				def *= 2;
+				if(n.getId() == 1160 && fullVeracsEquipped(player))
+					def *= 0.6;
+			}
+			if (usingSpec) {
+				double multiplier = /* 0.25 + */getSpecialAccuracyModifier(player);
+				att *= multiplier;
+			}
+			double prob = att / def;
+			if (prob > 0.90) // max, 90% prob hit so even lvl 138 can miss at
+				// lvl 3
+				prob = 0.90;
+			else if (prob < 0.05) // minimun 5% so even lvl 3 can hit lvl 138
+				prob = 0.05;
+			if (prob < Math.random())
+				return 0;
+		}
+		int hit = Utils.random(max_hit+1);
+		if (target instanceof NPC) {
+			NPC n = (NPC) target;
+			if (n.getId() == 9463 && hasFireCape(player))
+				hit += 40;
+		}
+		if (player.getAuraManager().usingEquilibrium()) {
+			int perc25MaxHit = (int) (max_hit * 0.25);
+			hit -= perc25MaxHit;
+			max_hit -= perc25MaxHit;
+			if (hit < 0)
+				hit = 0;
+			if (hit < perc25MaxHit)
+				hit += perc25MaxHit;
+
+		}
+		return hit;
+	}
+
+	public static final int getMaxHit(Player player, int weaponId,
+			int attackStyle, boolean ranging, boolean usingSpec,
+			double specMultiplier) {
+		if (!ranging) {
+			
+			/*//whip hiting 450 no pot no pray? lmao nty
+			int strLvl = player.getSkills().getLevel(Skills.STRENGTH);
+			int strBonus = player.getCombatDefinitions().getBonuses()[CombatDefinitions.STRENGTH_BONUS];
+			double strMult = player.getPrayer().getStrengthMultiplier();
+			double xpStyle = CombatDefinitions.getXpStyle(weaponId, attackStyle);
+			double style = xpStyle == Skills.STRENGTH ? 3 : xpStyle == CombatDefinitions.SHARED ? 1 : 0;
+			int dhp = 0;
+			double dharokMod = 1.0;
+			double hitMultiplier = 1.0;
+			if (fullDharokEquipped(player)) {
+				dhp = player.getMaxHitpoints() - player.getHitpoints();
+				dharokMod = (dhp * 0.001) + 1;
+			}
+			if (fullVoidEquipped(player, 11665, 11676)) {
+				hitMultiplier *= 1.1;
+			}
+			hitMultiplier *= specMultiplier;
+			double cumulativeStr = (strLvl * strMult + style) * dharokMod;
+			return (int) ((14 + cumulativeStr + (strBonus / 8) + ((cumulativeStr * strBonus) / 64)) * hitMultiplier);*/
+
+			double strengthLvl = player.getSkills().getLevel(Skills.STRENGTH);
+			int xpStyle = CombatDefinitions.getXpStyle(weaponId, attackStyle);
+			double styleBonus = xpStyle == Skills.STRENGTH ? 3 : xpStyle == CombatDefinitions.SHARED ? 1 : 0;
+			double otherBonus = 1;
+			if (fullDharokEquipped(player)) {
+				double hp = player.getHitpoints();
+				double maxhp = player.getMaxHitpoints();
+				double d = hp / maxhp;
+				otherBonus = 2 - d;
+			}
+			double effectiveStrength = 8 + Math.floor((strengthLvl * player.getPrayer().getStrengthMultiplier()) + styleBonus);
+			if (fullVoidEquipped(player, 11665, 11676)) 
+				effectiveStrength = Math.floor(effectiveStrength*1.1);
+			double strengthBonus = player.getCombatDefinitions().getBonuses()[CombatDefinitions.STRENGTH_BONUS];
+			if (weaponId == -2) {
+				strengthBonus += 82;
+			}
+			double baseDamage = 5 + effectiveStrength * (1 + (strengthBonus / 64));
+			return (int) Math.floor(baseDamage * specMultiplier * otherBonus);
+		} else {
+			double rangedLvl = player.getSkills().getLevel(Skills.RANGE);
+			double styleBonus = attackStyle == 0 ? 3 : attackStyle == 1 ? 0 : 1;
+			double effectiveStrenght = Math.floor(rangedLvl	* player.getPrayer().getRangeMultiplier()) + styleBonus;
+			
+			if (fullVoidEquipped(player, 11664, 11675))
+				effectiveStrenght += Math.floor((player.getSkills().getLevelForXp(
+						Skills.RANGE) / 5) + 1.6);
+			double strengthBonus = player.getCombatDefinitions().getBonuses()[CombatDefinitions.RANGED_STR_BONUS];
+			double baseDamage = 5 + (((effectiveStrenght + 8) * (strengthBonus + 64)) / 64);
+			return (int) Math.floor(baseDamage * specMultiplier);
+		}
+	}

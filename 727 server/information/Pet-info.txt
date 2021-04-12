@@ -1,0 +1,125 @@
+1% hunger = 40 ticks (every 24 seconds)
+10% hunger = 400 ticks (240s, 4m)
+15% hunger = 600 ticks (360s, 6m)
+
+6911 - Raven chick
+6912 - Raven
+7261 - Raven chick
+7262 - Raven
+7263 - Raven chick
+7264 - Raven
+7265 - Raven chick
+7266 - Raven
+7267 - Raven chick
+7268 - Raven
+7269 - Raven chick
+7270 - Raven
+
+6949 - Saradomin chick
+6950 - Saradomin bird
+6951 - Saradomin owl
+6952 - Zamorak chick
+6953 - Zamorak bird
+6954 - Zamorak hawk
+6955 - Guthix chick
+6956 - Guthix bird
+6957 - Guthix raptor
+
+6919 - Baby squirrel
+6920 - Squirrel
+6921 - Baby squirrel
+7301 - Baby squirrel
+7302 - Squirrel
+7303 - Baby squirrel
+7304 - Squirrel
+7305 - Baby squirrel
+7306 - Squirrel
+7307 - Baby squirrel
+7308 - Squirrel
+7309 - Baby squirrel
+7310 - Baby squirrel
+7311 - Baby squirrel
+7312 - Baby squirrel
+
+6922 - Baby chameleon
+6923 - Chameleon
+6924 - Baby chameleon
+6925 - Chameleon
+6926 - Baby chameleon
+6927 - Chameleon
+6928 - Baby chameleon
+6929 - Chameleon
+6930 - Baby chameleon
+6931 - Chameleon
+6932 - Baby chameleon
+6933 - Chameleon
+6934 - Baby chameleon
+6935 - Chameleon
+6936 - Baby chameleon
+6937 - Chameleon
+6938 - Baby chameleon
+6939 - Chameleon
+6940 - Baby chameleon
+6941 - Chameleon
+
+6942 - Baby monkey
+6943 - Monkey
+6944 - Baby monkey
+7210 - Baby monkey
+7211 - Monkey
+7212 - Baby monkey
+7213 - Monkey
+7214 - Baby monkey
+7215 - Monkey
+7216 - Baby monkey
+7217 - Monkey
+7218 - Baby monkey
+7219 - Monkey
+7220 - Baby monkey
+7221 - Monkey
+7222 - Baby monkey
+7223 - Monkey
+7224 - Baby monkey
+7225 - Monkey
+7226 - Baby monkey
+7227 - Monkey
+7228 - Baby monkey
+7229 - Baby monkey
+7230 - Baby monkey
+7231 - Baby monkey
+7232 - Baby monkey
+7233 - Baby monkey
+7234 - Baby monkey
+7235 - Baby monkey
+7236 - Baby monkey
+
+6945 - Vulture chick
+6946 - Vulture
+7319 - Vulture chick
+7320 - Vulture
+7321 - Vulture chick
+7322 - Vulture
+7323 - Vulture chick
+7324 - Vulture
+7325 - Vulture chick
+7326 - Vulture
+7327 - Vulture chick
+7328 - Vulture
+
+6913 - Baby raccoon
+6914 - Raccoon
+7271 - Baby raccoon
+7272 - Raccoon
+7273 - Baby raccoon
+7274 - Raccoon
+7275 - Baby Raccoon
+7276 - Baby raccoon
+
+6900 - Hatchling dragon
+6901 - Baby dragon
+6902 - Hatchling dragon
+6903 - Baby dragon
+6904 - Hatchling dragon
+6905 - Baby dragon
+6906 - Hatchling dragon
+6907 - Baby dragon

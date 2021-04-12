@@ -1,0 +1,834 @@
+////pak yak////
+5784-dies
+5783-atk
+5782-headbut atk
+5786-graz(eats)
+
+////rune minotaur/////(same as rune minotaur)
+8022-walk
+8023-block
+8024-axe smash
+8025-dies
+8026-some kind of axe atack
+
+Steel minotaur (6857)
+ - 8029
+
+Steel minotaur (6858)
+ - 8024
+ - 8023
+ - 8029
+
+Adamant minotaur (6861)
+ - 8029
+
+Adamant minotaur (6862)
+ - 8023
+ - 8024
+ - 8029
+
+Barricade (8601)
+ - 9658
+
+Man (1)
+ - 425
+ - 836
+ - 422
+
+Spirit cockatrice (6875)
+ - 7765
+
+Man (2)
+ - 425
+ - 836
+ - 422
+
+Man (3)
+ - 425
+ - 836
+ - 422
+
+Spirit cockatrice (6876)
+ - 7765
+ - 7762
+
+Avatar of Destruction (8596)
+ - 11197
+
+Wolpertinger (6869)
+ - 8309
+
+Avatar of Creation (8597)
+ - 11203
+ - 11202
+ - 11204
+
+Moss titan (7357)
+ - 7839
+
+Spirit cobra (6803)
+ - 8154
+ - 8157
+ - 8152
+
+Pyrefiend (8598)
+ - 8084
+ - 8080
+ - 11211
+
+Spirit cobra (6802)
+ - 8157
+
+Jelly (8599)
+ - 8569
+ - 8571
+ - 11210
+
+Wolpertinger (6870)
+ - 8309
+ - 8303
+
+Spirit terrorbird (6794)
+ - 8557
+
+Phoenix (8576)
+ - 11093
+ - 11095
+ - 11097
+
+Chaos dwogre (8771)
+ - 12147
+ - 12146
+ - 12151
+
+Black Guard (8772)
+ - 12185
+ - 99
+ - 102
+
+Black Guard (8773)
+ - 102
+ - 12185
+
+Chaos dwarf (8778)
+ - 102
+ - 12185
+ - 99
+
+Phoenix (8575)
+ - 11095
+
+Chaos dwarf (8779)
+ - 12185
+ - 99
+ - 102
+
+Chaos dwarf hand cannoneer (8776)
+ - 100
+ - 12141
+ - 12181
+
+Chaos dwarf hand cannoneer (8777)
+ - 100
+ - 12181
+ - 12141
+
+Black Guard crossbowdwarf (8782)
+ - 12173
+ - 102
+ - 12185
+
+Black Guard crossbowdwarf (8781)
+ - 12173
+ - 12185
+
+Black Guard berserker (8784)
+ - 99
+
+Magpie (6824)
+ - 8553
+
+Guard (297)
+ - 7221
+ - 7218
+
+Black demon (4705)
+ - 65
+ - 64
+ - 67
+
+War tortoise (6815)
+ - 8282
+
+Black demon (4704)
+ - 65
+ - 64
+ - 67
+
+Town crier (6137)
+ - 6863
+ - 6865
+
+Abyssal demon (9086)
+ - 1538
+
+Imp (708)
+ - 4288
+ - 4289
+
+Moss titan (7357)
+ - 7839
+
+Kuradal (9085)
+ - 2791
+
+Poison spider (134)
+ - 5328
+
+Black demon (84)
+ - 65
+ - 64
+ - 67
+
+Cow (81)
+ - 5854
+
+Spirit terrorbird (6794)
+ - 8231
+
+Skeletal Wyvern (3070)
+ - 1593
+ - 1587
+ - 1589
+ - 1590
+ - 1592
+ - 1591
+
+Unicorn stallion (6822)
+ - 8267
+
+Frost dragon (11636)
+ - 13154
+ - 13155
+ - 13153
+
+Frost dragon (11635)
+ - 13155
+ - 13152
+ - 13151
+ - 13153
+
+Black demon (4702)
+ - 64
+ - 65
+ - 67
+
+Jungle strykewyrm (9467)
+ - 12795
+ - 12792
+ - 12791
+ - 12794
+
+Black demon (4703)
+ - 64
+ - 65
+ - 67
+
+Man (1)
+ - 425
+ - 836
+
+Forgotten mage (10565)
+ - 425
+ - 711
+ - 836
+
+Dungeon spider (10498)
+ - 5327
+ - 5329
+
+Man (2)
+ - 425
+ - 422
+ - 836
+
+Man (3)
+ - 425
+ - 836
+
+Pyrefiend (10697)
+ - 8084
+ - 8080
+ - 11211
+
+Skeleton (10639)
+ - 5489
+ - 5491
+
+Forgotten ranger (10335)
+ - 425
+ - 426
+ - 836
+
+Mysterious mage (11889)
+ - 3645
+ - 425
+ - 2791
+ - 836
+
+Forgotten warrior (10266)
+ - 388
+ - 12311
+ - 836
+
+Dungeon spider (10505)
+ - 5328
+ - 5327
+ - 5329
+
+Mysterious mage (11888)
+ - 3645
+ - 425
+ - 2791
+ - 836
+
+Mysterious mage (11891)
+ - 3645
+ - 425
+ - 2791
+ - 836
+
+Mysterious mage (11890)
+ - 3645
+ - 836
+
+Crawling hand (10694)
+ - 9127
+ - 9126
+
+Mysterious mage (11893)
+ - 3645
+ - 836
+
+Mysterious mage (11892)
+ - 3645
+ - 836
+
+Animated pickaxe (10168)
+ - 185
+ - 186
+ - 188
+
+Forgotten warrior (10448)
+ - 430
+ - 428
+ - 836
+
+Hobgoblin (10237)
+ - 163
+ - 164
+ - 2958
+
+Mysterious mage (11894)
+ - 3645
+ - 836
+ - 425
+ - 2791
+
+Greater demon (10718)
+ - 65
+ - 4630
+ - 68
+
+Zombie (10383)
+ - 5574
+ - 10420
+ - 5575
+
+Skeleton (10654)
+ - 5489
+ - 5487
+ - 5491
+
+Mysterious mage (11887)
+ - 3645
+ - 425
+ - 2791
+ - 836
+
+Zombie (10380)
+ - 5574
+ - 10420
+ - 5575
+
+Yk'Lagor the Thunderous (11872)
+ - 14442
+ - 14443
+ - 14525
+ - 14370
+ - 14390
+ - 14392
+ - 14412
+ - 14369
+
+Zombie (10368)
+ - 5567
+ - 5568
+ - 5569
+
+Zombie (10375)
+ - 5574
+ - 5575
+
+Lesser demon (10492)
+ - 4630
+ - 65
+ - 64
+ - 67
+
+Necromancer (10196)
+ - 425
+ - 2791
+ - 836
+ - 711
+
+Mysterious shade (10838)
+ - 13406
+ - 13398
+ - 13407
+
+Necromancer (10197)
+ - 425
+ - 836
+
+Necromancer (10198)
+ - 711
+ - 425
+ - 718
+ - 2791
+ - 836
+
+Giant rat (10484)
+ - 14861
+ - 14859
+ - 14860
+
+Forgotten warrior (10423)
+ - 430
+ - 836
+
+Fire giant (10754)
+ - 4666
+ - 4664
+ - 4668
+
+Unholy cursebearer (10114)
+ - 13176
+ - 13170
+ - 13175
+ - 13169
+ - 13171
+
+Earth warrior (10182)
+ - 397
+ - 393
+ - 13744
+
+Ghost (10821)
+ - 5540
+ - 5542
+
+Skeleton (10673)
+ - 9398
+ - 5489
+ - 5491
+
+Bunyip (6813)
+ - 7741
+ - 7737
+
+Icefiend (3406)
+ - 8084
+ - 8078
+ - 8080
+
+Genie (409)
+ - 863
+
+Spirit terrorbird (6794)
+ - 8231
+
+Ogre (9185)
+ - 8578
+ - 8577
+ - 8576
+
+Ogre (9184)
+ - 8577
+ - 8578
+
+Thrower troll (1134)
+ - 1142
+
+Thrower troll (1132)
+ - 1142
+
+Thrower troll (1133)
+ - 1142
+
+Thrower troll (1130)
+ - 1142
+
+Thrower troll (1131)
+ - 1142
+
+Goblin (6280)
+ - 6185
+ - 6183
+ - 6182
+
+Goblin (6281)
+ - 7024
+
+Spirit kyatt (7365)
+ - 7909
+
+Goblin (6282)
+ - 6188
+ - 6190
+ - 6189
+
+Goblin (6283)
+ - 6185
+ - 6183
+ - 6182
+
+Spirit graahk (7363)
+ - 7909
+
+Ork (6272)
+ - 14031
+ - 14035
+
+Unicorn stallion (6822)
+ - 8266
+ - 8265
+ - 8267
+
+Ork (6273)
+ - 14036
+ - 14032
+
+Ork (6274)
+ - 14037
+ - 14033
+
+Hobgoblin (6275)
+ - 12406
+ - 12405
+ - 4784
+
+Spiritual warrior (6277)
+ - 4320
+ - 4322
+
+Spiritual mage (6278)
+ - 4322
+ - 7052
+ - 7064
+
+Fruit bat (6817)
+ - 8279
+ - 8320
+ - 8321
+
+Goblin (6279)
+ - 6183
+ - 6182
+ - 6185
+
+Pack yak (6873)
+ - 8058
+
+Sergeant Steelwill (6263)
+ - 7027
+ - 6155
+
+General Graardor (6260)
+ - 7061
+ - 7060
+
+Sergeant Strongstack (6261)
+ - 6154
+
+Knight of Saradomin (6258)
+ - 406
+ - 410
+
+Knight of Saradomin (6259)
+ - 401
+ - 403
+
+Spiritual ranger (6256)
+ - 426
+ - 836
+
+Spiritual mage (6257)
+ - 415
+ - 413
+ - 836
+ - 811
+
+Ork (6271)
+ - 13891
+ - 13893
+
+Jogre (6268)
+ - 8577
+ - 8578
+
+Cyclops (6269)
+ - 4651
+ - 4652
+
+Sergeant Grimspike (6265)
+ - 7029
+
+Aviansie (6246)
+ - 6953
+ - 6955
+ - 6956
+
+Aviansie (6243)
+ - 6953
+ - 6955
+ - 6956
+
+Ice wolf (1953)
+ - 6559
+
+Ice wolf (1955)
+ - 6559
+
+Aviansie (6240)
+ - 6955
+ - 6953
+ - 6956
+
+Spiritual warrior (6255)
+ - 14741
+ - 14740
+ - 836
+
+Saradomin priest (6254)
+ - 422
+ - 425
+ - 811
+
+Ogre (374)
+ - 8578
+ - 8577
+
+Flight Kilisa (6227)
+ - 6954
+ - 6955
+
+Ice wolf (1951)
+ - 6559
+
+Aviansie (6232)
+ - 6953
+ - 6955
+ - 6956
+
+Aviansie (6235)
+ - 6955
+ - 6953
+ - 6956
+
+Werewolf (6213)
+ - 6538
+ - 6536
+ - 6537
+
+Werewolf (6212)
+ - 6537
+ - 6538
+ - 6536
+
+Bloodveld (6215)
+ - 7580
+ - 9431
+ - 9430
+
+Vampire (6214)
+ - 424
+ - 1264
+ - 836
+
+Imp (6211)
+ - 169
+ - 172
+ - 170
+
+Hellhound (6210)
+ - 6581
+ - 6574
+ - 6576
+
+Spiritual mage (6221)
+ - 836
+ - 425
+ - 811
+
+Spiritual ranger (6220)
+ - 426
+
+Wingman Skree (6223)
+ - 6955
+ - 6952
+ - 6956
+
+Pyrefiend (6216)
+ - 8080
+ - 8078
+ - 8084
+
+Spiritual warrior (6219)
+ - 14741
+ - 14740
+ - 836
+
+Gorak (6218)
+ - 4300
+ - 4301
+ - 4302
+
+Bunyip (6813)
+ - 7736
+ - 7741
+ - 7747
+ - 8547
+
+Pack yak (6873)
+ - 8058
+
+Man (1)
+ - 425
+ - 422
+ - 836
+
+War tortoise (6815)
+ - 8282
+ - 8283
+
+Genie (409)
+ - 863
+
+Man (3)
+ - 422
+ - 425
+ - 836
+
+Fire titan (7355)
+ - 7829
+
+Skeleton warlord (6105)
+ - 2067
+
+Animated Adamant Armour (4283)
+ - 388
+ - 407
+ - 4167
+ - 4166
+
+Animated Black Armour (4281)
+ - 386
+ - 388
+ - 4167
+ - 4166
+
+Cyclops (6080)
+ - 4652
+ - 4653
+ - 4651
+
+Cyclops (6081)
+ - 4652
+ - 4651
+ - 4653
+
+Cyclossus (3478)
+ - 15084
+ - 15083
+ - 15087
+ - 15086
+ - 15085
+
+Waterfiend (5361)
+ - 301
+ - 300
+ - -1
+
+Spirit terrorbird (6794)
+ - 8231
+ - 8230
+
+Bob Barter (herbs) (6524)
+ - 857
+ - 2113
+
+Murky Matt (runes) (6525)
+ - 866
+
+Granite lobster (6849)
+ - 8122
+ - 8548
+
+Relobo Blinyo (logs) (6526)
+ - 857
+
+Saradomin chick (6949)
+ - 8311
+
+Cyclops (4292)
+ - 4651
+ - 4652
+ - 4653
+
+Cyclops (6079)
+ - 4652
+ - 4651
+ - 4653
+
+Cyclops (6078)
+ - 4652
+ - 4653
+ - 4651
+
+Imp (708)
+ - 4289
+
+Cyclops (4291)
+ - 4652
+ - 4653
+ - 4651
+
+Double agent (5145)
+ - 422
+ - 425
+ - 836
+
+Skeleton (5334)
+ - 12632
+
+Unicorn stallion (6822)
+ - 8266
+ - 8565
+ - 8267
+
+Iron titan (7375)
+ - 7950
+
+Uri (5143)
+ - 863

@@ -1,0 +1,13 @@
+			int maximum = getMaxHitpoints();
+			int percentage = hitpoints * 100 / maximum;
+			int halfed = percentage - 50;
+			if (halfed > 0) {
+				attacker.getPackets().sendConfig(2376, (halfed << 1) * 10000);
+				attacker.getPackets().sendConfig(2377, 1000);
+			} else {
+				attacker.getPackets().sendConfig(2376, 0);
+				attacker.getPackets().sendConfig(2377, (percentage << 1) * 10);
+			}
+
+
+interfaceId = 1133

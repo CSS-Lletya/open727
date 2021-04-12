@@ -1,0 +1,22 @@
+16 - player owned house
+22 - player owned house
+27 - cxhome music
+28 - buy sometthing
+37 - lvl up combat
+39 - lvl up wc
+53 - lvl up mining
+40 - quest complete
+49 - event end
+71 - peguim spy
+72 - someones getting married
+82 - end of castle wars
+90 - dead
+300 - lvl up summoning
+415, 416, 417 - complete dungeon
+
+emusic 262 - start first time lumby
+276 quest end
+
+284 - ge update 100% sure
+289 - clan wars
+302 - guitar

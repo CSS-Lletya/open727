@@ -1,0 +1,22 @@
+First platform----------
+
+SW: 24, 22
+NW: 24, 27
+SE: 25, 22
+NE: 35, 27
+
+
+Second platform----------
+
+SW: 41, 22
+NW: 31, 27
+SE: 42, 22
+NE: 42, 27
+
+
+Third platform----------
+
+SW: 33, 22
+NW: 29, 27
+SE: 33, 22
+NE: 36, 27

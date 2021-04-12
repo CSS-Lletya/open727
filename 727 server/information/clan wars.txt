@@ -1,0 +1,60 @@
+
+
+	/*
+	 * 
+	 * Global string 38 - caller.
+	 * Bconfig 260 1 - hides countdown/switches to time left in war
+	 * BConfig 261 - personal team player count
+	 * Bconfig 262 - other team player count
+	 * BConfig 263 - personal team kills
+	 * BConfig 264 - other team kills
+	 * Bconfig 270 (ticks) - countdown/time left in war
+	 * Bconfig 271 1 - clan name instead of "This team:"
+	 * 
+	 * sendConfigBoth(player, other, 5280, value);
+
+				sendConfigBoth(player, other, 5281, value1);
+
+5282 is accept
+5292 is for area
+5280 is for the first few options
+5281 is other options
+
+5281 is the time limit
+and configf
+5282 is stategy
+5280 is victory
+5283 is on death
+5284 - 5290 is the rules
+5291, is no rules changed
+well
+resset
+basically
+5292 is the area
+5293 is accept
+and done
+
+file: 5280, 3, 0, 1305
+file: 5281, 7, 4, 1305
+file: 5282, 8, 8, 1305
+file: 5283, 9, 9, 1305
+file: 5284, 10, 10, 1305
+file: 5285, 11, 11, 1305
+file: 5286, 13, 12, 1305
+file: 5287, 14, 14, 1305
+file: 5288, 15, 15, 1305
+file: 5289, 16, 16, 1305
+file: 5290, 17, 17, 1305
+file: 5291, 17, 0, 1305
+file: 5292, 30, 26, 1305
+file: 5293, 31, 31, 1305
+
+38691 = turrets
+38689 = blasted forest
+38687 = plateau
+38685 = forsaken quarry
+
+Plateau: 100% multi
+Blasted forest: 100% non-multi
+Forsaken quarry: 12 steps from every wall becomes multi (under 12 = non-multi)
+Turrets: 100% multi
