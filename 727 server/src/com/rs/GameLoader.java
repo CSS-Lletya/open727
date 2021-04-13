@@ -31,6 +31,9 @@ import com.rs.utils.ObjectSpawns;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.huffman.Huffman;
 
+import server.database.GameDatabase;
+import server.database.passive.PassiveDatabaseWorker;
+
 public class GameLoader {
 
 	public GameLoader() {
@@ -57,6 +60,13 @@ public class GameLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		getBackgroundLoader().submit(() -> {
+			if (Settings.mysqlEnabled) {
+				GameDatabase.initializeWebsiteDatabases();
+				PassiveDatabaseWorker.initialize();
+			}
+			return null;
+		});
 		getBackgroundLoader().submit(() -> {
 			ItemsEquipIds.init();
 			Huffman.init();
