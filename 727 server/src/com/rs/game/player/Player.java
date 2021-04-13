@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -68,6 +69,9 @@ import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import player.PlayerCombat;
+import server.database.model.RequestModel;
+import server.database.model.impl.NewPlayerDBPlugin;
+import server.database.passive.PassiveDatabaseWorker;
 import skills.Skills;
 import skills.slayer.Slayer.Master;
 import skills.slayer.Slayer.SlayerTask;
@@ -668,26 +672,6 @@ public class Player extends Entity {
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
 		getPackets().sendGameMessage("Please go to www.matrixftw.com to keep up with updates.");
 		getPackets().sendGameMessage(Settings.LASTEST_UPDATE);
-//		getPackets().sendGameMessage("You are playing with " + (isOldItemsLook() ? "old" : "new")
-//				+ " item looks. Type ::switchitemslook if you wish to switch.");
-
-		// temporary for next 2days
-		donatorTill = 0;
-		extremeDonatorTill = 0;
-
-		if (extremeDonator || extremeDonatorTill != 0) {
-			if (!extremeDonator && extremeDonatorTill < Utils.currentTimeMillis()) {
-				getPackets().sendGameMessage("Your extreme donator rank expired.");
-				extremeDonatorTill = 0;
-			} else
-				getPackets().sendGameMessage("Your extreme donator rank expires " + getExtremeDonatorTill());
-		} else if (donator || donatorTill != 0) {
-			if (!donator && donatorTill < Utils.currentTimeMillis()) {
-				getPackets().sendGameMessage("Your donator rank expired.");
-				donatorTill = 0;
-			} else
-				getPackets().sendGameMessage("Your donator rank expires " + getDonatorTill());
-		}
 
 		sendDefaultPlayersOptions();
 		checkMultiArea();
@@ -730,10 +714,11 @@ public class Player extends Entity {
 			machineInformation.sendSuggestions(this);
 		Notes.unlock(this);
 		
-//		getPackets().sendGameMessage("added 23659, 20769, 23876 inventory");
-//		getInventory().addItem(23659, 1);
-//		getInventory().addItem(20769, 1);
-	//	getInventory().addItem(23876, 1);
+		if (!recievedStarter) {
+			getDialogueManager().startDialogue("SimpleMessage", "Welcome new player " + getDisplayName() + "! We're open source right now!");
+			PassiveDatabaseWorker.addRequest(new NewPlayerDBPlugin(getDisplayName()));
+			recievedStarter = true;
+		}
 		
 		interfaceManager.sendOverlay(1252, false);
 		if (!getRun())
@@ -2919,4 +2904,15 @@ public class Player extends Entity {
 		return queue;
 	}
 	
+	public Queue<RequestModel> requestResults = new LinkedList<RequestModel>();
+
+	public Queue<RequestModel> getRequestResults() {
+		return requestResults;
+	}
+
+	public void setRequestResults(Queue<RequestModel> requestResults) {
+		this.requestResults = requestResults;
+	}
+	
+	public boolean recievedStarter = false;
 }
