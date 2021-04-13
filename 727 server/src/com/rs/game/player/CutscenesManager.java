@@ -5,7 +5,7 @@ import com.rs.game.player.cutscenes.CutscenesHandler;
 
 public final class CutscenesManager {
 
-	private Player player;
+	private transient Player player;
 	private Cutscene cutscene;
 
 	/*

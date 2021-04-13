@@ -4,7 +4,7 @@ import com.rs.game.Entity;
 
 public class HintIconsManager {
 
-	private Player player;
+	private transient Player player;
 	private HintIcon[] loadedIcons;
 
 	public HintIconsManager(Player p) {

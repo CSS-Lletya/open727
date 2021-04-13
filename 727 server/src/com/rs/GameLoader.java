@@ -16,7 +16,6 @@ import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.game.player.cutscenes.CutscenesHandler;
 import com.rs.game.player.dialogues.DialogueHandler;
 import com.rs.net.ServerChannelHandler;
-import com.rs.utils.IPBanL;
 import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.Logger;
@@ -70,7 +69,6 @@ public class GameLoader {
 		getBackgroundLoader().submit(() -> {
 			ItemsEquipIds.init();
 			Huffman.init();
-			IPBanL.init();
 			return null;
 		});
 		getBackgroundLoader().submit(() -> {

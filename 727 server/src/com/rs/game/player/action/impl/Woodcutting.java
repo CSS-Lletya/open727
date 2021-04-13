@@ -12,7 +12,7 @@ public final class Woodcutting extends Action {
 	/**
 	 * Represents the {@link Player} doing the {@code Woodcutting} to use.
 	 */
-	private Player player;
+	private transient Player player;
 
 	/**
 	 * Constructs a new {@code Woodcutting} {@link Object}.

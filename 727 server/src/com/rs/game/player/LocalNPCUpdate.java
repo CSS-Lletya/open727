@@ -14,7 +14,7 @@ import com.rs.utils.Utils;
 
 public final class LocalNPCUpdate {
 
-	private Player player;
+	private transient Player player;
 	private LinkedList<NPC> localNPCs;
 
 	public void reset() {

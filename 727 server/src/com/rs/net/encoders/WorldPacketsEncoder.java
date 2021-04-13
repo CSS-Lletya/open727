@@ -17,6 +17,7 @@ import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
+import com.rs.game.player.AccountCreation;
 import com.rs.game.player.HintIcon;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
@@ -25,7 +26,6 @@ import com.rs.game.player.content.FriendChatsManager;
 import com.rs.io.OutputStream;
 import com.rs.net.Session;
 import com.rs.utils.MapArchiveKeys;
-import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
 import com.rs.utils.huffman.Huffman;
 
@@ -499,7 +499,7 @@ public class WorldPacketsEncoder extends Encoder {
 	public void sendFriend(String username, String displayName, int world, boolean putOnline, boolean warnMessage) {
 		Player friend = World.getPlayerByDisplayName(username);
 		if (friend == null)
-			friend = SerializableFilesManager.loadPlayer(username);
+			friend = AccountCreation.loadPlayer(username);
 
 		if (friend == null) {
 			return;
