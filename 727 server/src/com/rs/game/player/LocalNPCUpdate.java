@@ -10,6 +10,8 @@ import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.io.OutputStream;
+import com.rs.json.GsonHandler;
+import com.rs.utils.NPCAutoSpawn;
 import com.rs.utils.Utils;
 
 public final class LocalNPCUpdate {
@@ -72,10 +74,12 @@ public final class LocalNPCUpdate {
 				stream.writeBits(2, 0);
 			if (needUpdate)
 				appendUpdateBlock(n, updateBlockData, false);
+			
 		}
 	}
 
 	private void addInScreenNPCs(OutputStream stream, OutputStream updateBlockData, boolean largeSceneView) {
+		GsonHandler.waitForLoad();
 		for (int regionId : player.getMapRegionsIds()) {
 			List<Integer> indexes = World.getRegion(regionId).getNPCsIndexes();
 			if (indexes == null)
@@ -104,7 +108,9 @@ public final class LocalNPCUpdate {
 				}
 				stream.writeBits(1, needUpdate ? 1 : 0);
 				stream.writeBits(largeSceneView ? 8 : 5, y);
-				stream.writeBits(3, (n.getDirection() >> 11) - 4);
+				stream.writeBits(3, ((NPCAutoSpawn) GsonHandler
+						.getJsonLoader(NPCAutoSpawn.class)).getDirection(n)
+						.getValue());
 				stream.writeBits(15, n.getId());
 				stream.writeBits(largeSceneView ? 8 : 5, x);
 				stream.writeBits(1, n.hasTeleported() ? 1 : 0);

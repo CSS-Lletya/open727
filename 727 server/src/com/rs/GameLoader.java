@@ -15,6 +15,7 @@ import com.rs.game.player.content.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.game.player.cutscenes.CutscenesHandler;
 import com.rs.game.player.dialogues.DialogueHandler;
+import com.rs.json.GsonHandler;
 import com.rs.net.ServerChannelHandler;
 import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
@@ -75,7 +76,7 @@ public class GameLoader {
 			MapArchiveKeys.init();
 			MapAreas.init();
 			ObjectSpawns.init();
-			NPCSpawns.init();
+//			NPCSpawns.init();
 			NPCCombatDefinitionsL.init();
 		});
 		getBackgroundLoader().submit(() -> {
@@ -95,7 +96,9 @@ public class GameLoader {
 			FriendChatsManager.init();
 			RegionBuilder.init();
 		});
-		
+		getBackgroundLoader().submit(() -> {
+			GsonHandler.initialize();
+		});
 	}
 	
 	private static final GameLoader LOADER = new GameLoader();

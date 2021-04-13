@@ -26,8 +26,10 @@ import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
+import com.rs.json.GsonHandler;
 import com.rs.utils.Logger;
 import com.rs.utils.MapAreas;
+import com.rs.utils.NPCAutoSpawn;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
@@ -90,9 +92,8 @@ public class NPC extends Entity implements Serializable {
 		this.setSpawned(spawned);
 		combatLevel = -1;
 		setHitpoints(getMaxHitpoints());
-		setDirection(getRespawnDirection());
-		System.out.println(getDefinitions().walkMask);
 		setRandomWalk(getDefinitions().walkMask);
+		setStartTile(tile);
 		bonuses = NPCBonuses.getBonuses(id);
 		combat = new NPCCombat(this);
 		capDamage = -1;
@@ -104,6 +105,8 @@ public class NPC extends Entity implements Serializable {
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
+		GsonHandler.waitForLoad();
+		setDirection(((NPCAutoSpawn) GsonHandler.getJsonLoader(NPCAutoSpawn.class)).getDirection(this).ordinal());
 	}
 
 	@Override
@@ -860,4 +863,21 @@ public class NPC extends Entity implements Serializable {
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 	}
+	
+	/**
+	 * @return the startTile
+	 */
+	public WorldTile getStartTile() {
+		return startTile;
+	}
+	
+	/**
+	 * @param startTile
+	 *            the startTile to set
+	 */
+	public void setStartTile(WorldTile startTile) {
+		this.startTile = startTile;
+	}
+	
+	private WorldTile startTile;
 }

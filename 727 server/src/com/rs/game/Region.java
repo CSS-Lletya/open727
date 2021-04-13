@@ -12,8 +12,11 @@ import com.rs.cores.CoresManager;
 import com.rs.game.item.FloorItem;
 import com.rs.game.player.Player;
 import com.rs.io.InputStream;
+import com.rs.json.GsonHandler;
 import com.rs.utils.Logger;
 import com.rs.utils.MapArchiveKeys;
+import com.rs.utils.NPCAutoSpawn;
+import com.rs.utils.NPCSpawning;
 import com.rs.utils.NPCSpawns;
 import com.rs.utils.ObjectSpawns;
 import com.rs.utils.Utils;
@@ -589,9 +592,9 @@ public class Region {
 		}
 	}
 
-	void loadNPCSpawns() {
-		NPCSpawns.loadNPCSpawns(regionId);
-	}
+//	void loadNPCSpawns() {
+//		NPCSpawns.loadNPCSpawns(regionId);
+//	}
 
 	void loadObjectSpawns() {
 		ObjectSpawns.loadObjectSpawns(regionId);
@@ -1014,4 +1017,19 @@ public class Region {
 		this.loadedNPCSpawns = loadedNPCSpawns;
 	}
 
+	public static final void loadNPCSpawns(int regionId) {
+		NPCAutoSpawn autoSpawn = GsonHandler.getJsonLoader(NPCAutoSpawn.class);
+		List<NPCSpawning> spawns = autoSpawn.getSpawns(regionId);
+		if (spawns == null) {
+			return;
+		}
+		for (NPCSpawning spawn : spawns) {
+			World.spawnNPC(spawn.getId(), spawn.getTile(), -1, true);
+		}
+	}
+	
+	public void loadNPCSpawns() {
+		loadNPCSpawns(regionId);
+	}
+	
 }
