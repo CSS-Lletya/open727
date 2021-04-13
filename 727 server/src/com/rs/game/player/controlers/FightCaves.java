@@ -16,12 +16,13 @@ import com.rs.game.npc.fightcaves.FightCavesNPC;
 import com.rs.game.npc.fightcaves.TzKekCaves;
 import com.rs.game.npc.fightcaves.TzTok_Jad;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Summoning;
 import com.rs.game.player.content.pet.Pets;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
+
+import skills.summoning.Summoning;
 
 public class FightCaves extends Controler {
 

@@ -1,6 +1,6 @@
 package com.rs.game.player.dialogues;
 
-import com.rs.game.player.Skills;
+import skills.Skills;
 
 /**
  * Setting a skill level.

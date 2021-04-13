@@ -8,11 +8,12 @@ import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
-import com.rs.game.player.actions.thieving.Thieving;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
+
+import skills.Skills;
+import skills.thieving.Thieving;
 
 public class Wilderness extends Controler {
 

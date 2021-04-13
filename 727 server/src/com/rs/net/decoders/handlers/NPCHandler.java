@@ -14,19 +14,20 @@ import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.CoordsEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.RouteEvent;
-import com.rs.game.player.actions.Fishing;
-import com.rs.game.player.actions.Fishing.FishingSpots;
-import com.rs.game.player.actions.mining.LivingMineralMining;
-import com.rs.game.player.actions.mining.MiningBase;
-import com.rs.game.player.actions.runecrafting.SiphonActionCreatures;
-import com.rs.game.player.actions.thieving.PickPocketAction;
-import com.rs.game.player.actions.thieving.PickPocketableNPC;
 import com.rs.game.player.content.PlayerLook;
 import com.rs.game.player.dialogues.FremennikShipmaster;
 import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.NPCSpawns;
 import com.rs.utils.ShopsHandler;
+
+import skills.fishing.Fishing;
+import skills.fishing.Fishing.FishingSpots;
+import skills.mining.LivingMineralMining;
+import skills.mining.MiningBase;
+import skills.runecrafting.SiphonActionCreatures;
+import skills.thieving.PickPocketAction;
+import skills.thieving.PickPocketableNPC;
 
 public class NPCHandler {
 

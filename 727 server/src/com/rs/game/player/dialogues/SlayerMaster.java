@@ -1,10 +1,11 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.player.actions.Slayer;
-import com.rs.game.player.actions.Slayer.Master;
-import com.rs.game.player.actions.Slayer.SlayerTask;
 import com.rs.utils.ShopsHandler;
+
+import skills.slayer.Slayer;
+import skills.slayer.Slayer.Master;
+import skills.slayer.Slayer.SlayerTask;
 
 public class SlayerMaster extends Dialogue {
 

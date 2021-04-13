@@ -5,8 +5,10 @@ import java.io.Serializable;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.player.actions.Bonfire;
 import com.rs.utils.ItemExamines;
+
+import skills.Skills;
+import skills.firemaking.Bonfire;
 
 public final class Equipment implements Serializable {
 

@@ -1,9 +1,10 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.WorldObject;
-import com.rs.game.player.actions.Cooking;
-import com.rs.game.player.actions.Cooking.Cookables;
 import com.rs.game.player.content.SkillsDialogue;
+
+import skills.cooking.Cooking;
+import skills.cooking.Cooking.Cookables;
 
 public class CookingD extends Dialogue {
 

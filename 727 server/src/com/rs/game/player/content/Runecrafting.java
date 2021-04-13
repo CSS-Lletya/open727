@@ -5,7 +5,8 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
+
+import skills.Skills;
 
 public final class Runecrafting {
 

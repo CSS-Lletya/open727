@@ -1,9 +1,10 @@
 package com.rs.game.player.dialogues;
 
-import com.rs.game.player.actions.Fletching;
-import com.rs.game.player.actions.Fletching.Fletch;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
+
+import skills.fletching.Fletching;
+import skills.fletching.Fletching.Fletch;
 
 public class FletchingD extends Dialogue {
 

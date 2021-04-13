@@ -47,8 +47,6 @@ import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.npc.sorgar.Elemental;
 import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
-import com.rs.game.player.actions.BoxAction.HunterNPC;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.LivingRockCavern;
 import com.rs.game.player.content.TriviaBot;
@@ -60,6 +58,9 @@ import com.rs.utils.Logger;
 import com.rs.utils.PkRank;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
+
+import skills.Skills;
+import skills.hunter.BoxAction.HunterNPC;
 
 public final class World {
 

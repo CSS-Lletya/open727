@@ -17,13 +17,14 @@ import com.rs.game.npc.fightkiln.FightKilnNPC;
 import com.rs.game.npc.fightkiln.HarAken;
 import com.rs.game.npc.fightkiln.TokHaarKetDill;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.game.player.content.FadingScreen;
 import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
+
+import skills.Skills;
 
 public class FightKiln extends Controler {
 

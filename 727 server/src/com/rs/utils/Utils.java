@@ -17,7 +17,8 @@ import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
+
+import skills.Skills;
 
 public final class Utils {
 

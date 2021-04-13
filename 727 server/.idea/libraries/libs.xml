@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/data/libs/decryptlibv1.0.0x1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/data/libs/netty-3.2.7.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/data/libs/FileStore.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

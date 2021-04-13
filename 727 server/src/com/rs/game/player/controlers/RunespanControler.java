@@ -13,10 +13,11 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.YellowWizard;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.runecrafting.SiphonActionCreatures;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
+
+import skills.runecrafting.SiphonActionCreatures;
 
 /**
  * 

@@ -8,6 +8,9 @@ import com.rs.game.minigames.clanwars.ClanWars;
 import com.rs.game.minigames.clanwars.ClanWars.Rules;
 import com.rs.utils.Utils;
 
+import player.CombatDefinitions;
+import skills.Skills;
+
 public class Prayer implements Serializable {
 
 	/**

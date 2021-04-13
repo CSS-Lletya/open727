@@ -16,9 +16,10 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.qbd.TorturedSoul;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.game.player.content.Magic;
 import com.rs.utils.Utils;
+
+import skills.Skills;
 
 public abstract class Entity extends WorldTile {
 

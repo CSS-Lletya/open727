@@ -20,10 +20,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.QuickChatMessage;
 import com.rs.game.player.RouteEvent;
-import com.rs.game.player.Skills;
-import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.actions.PlayerFollow;
-import com.rs.game.player.actions.Summoning;
 import com.rs.game.player.content.Commands;
 import com.rs.game.player.content.FriendChatsManager;
 import com.rs.game.player.content.Magic;
@@ -42,6 +39,10 @@ import com.rs.utils.DisplayNames;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 import com.rs.utils.huffman.Huffman;
+
+import player.PlayerCombat;
+import skills.Skills;
+import skills.summoning.Summoning;
 
 public final class WorldPacketsDecoder extends Decoder {
 

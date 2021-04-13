@@ -1,9 +1,10 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.WorldObject;
-import com.rs.game.player.actions.Bonfire;
-import com.rs.game.player.actions.Bonfire.Log;
 import com.rs.game.player.content.SkillsDialogue;
+
+import skills.firemaking.Bonfire;
+import skills.firemaking.Bonfire.Log;
 
 public class BonfireD extends Dialogue {
 

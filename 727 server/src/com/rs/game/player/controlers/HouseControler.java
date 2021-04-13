@@ -3,9 +3,10 @@ package com.rs.game.player.controlers;
 import com.rs.game.RegionBuilder;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
-import com.rs.game.player.content.construction.House;
-import com.rs.game.player.content.construction.House.Room;
-import com.rs.game.player.content.construction.House.RoomReference;
+
+import skills.construction.House;
+import skills.construction.House.Room;
+import skills.construction.House.RoomReference;
 
 public class HouseControler extends Controler {
 

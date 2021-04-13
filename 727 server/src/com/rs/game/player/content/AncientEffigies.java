@@ -2,7 +2,8 @@ package com.rs.game.player.content;
 
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
+
+import skills.Skills;
 
 /**
  * Handles ancient effigies non-dialogue related stuff.

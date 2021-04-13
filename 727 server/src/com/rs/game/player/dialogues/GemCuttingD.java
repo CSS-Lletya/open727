@@ -1,8 +1,9 @@
 package com.rs.game.player.dialogues;
 
-import com.rs.game.player.actions.GemCutting;
-import com.rs.game.player.actions.GemCutting.Gem;
 import com.rs.game.player.content.SkillsDialogue;
+
+import skills.crafting.GemCutting;
+import skills.crafting.GemCutting.Gem;
 
 public class GemCuttingD extends Dialogue {
 

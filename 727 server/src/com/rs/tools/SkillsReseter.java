@@ -5,8 +5,9 @@ import java.io.IOException;
 
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.utils.SerializableFilesManager;
+
+import skills.Skills;
 
 public class SkillsReseter {
 
