@@ -74,8 +74,8 @@ public class ItemExamines {
 				out.writeShort(itemId);
 				writeAlexString(out, splitedLine[1]);
 				itemExamines.put(itemId, splitedLine[1]);
+				in.close();
 			}
-			in.close();
 			out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {

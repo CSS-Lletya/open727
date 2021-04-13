@@ -362,6 +362,7 @@ public final class QueenBlackDragon extends NPC {
 	 * Switches the queen state.
 	 * @param state The state.
 	 */
+	@SuppressWarnings("incomplete-switch")
 	public void switchState(QueenState state) {
 		this.state = state;
 		if (state.getMessage() != null) {

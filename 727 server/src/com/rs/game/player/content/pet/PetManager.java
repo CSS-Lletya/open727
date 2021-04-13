@@ -108,6 +108,7 @@ public final class PetManager implements Serializable {
 	 * @param pet The pet.
 	 * @return {@code True} if so.
 	 */
+	@SuppressWarnings("incomplete-switch")
 	private boolean hasRequirements(Pets pet) {
 		switch (pet) {
 		case TZREK_JAD:

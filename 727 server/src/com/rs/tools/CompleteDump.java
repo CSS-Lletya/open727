@@ -138,6 +138,7 @@ public class CompleteDump {
 				out.writeShort(slot.getId());
 				out.write(slot.getType().toString().getBytes());
 			}
+			in.close();
 			out.close();
 			System.out.println("Packed Defintions.");
 		} catch (IOException e) {

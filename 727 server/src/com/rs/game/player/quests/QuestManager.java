@@ -17,6 +17,7 @@ public class QuestManager {
 	/**
 	 * The player reference.
 	 */
+	@SuppressWarnings("unused")
 	private Player player;
 
 	/**

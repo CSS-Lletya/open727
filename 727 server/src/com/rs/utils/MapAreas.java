@@ -93,10 +93,11 @@ public final class MapAreas {
 				for (int i = 0; i < coordsList.length; i++)
 					out.writeShort(coordsList[i]);
 				mapAreas.put(areaNameHash, coordsList);
+				in.close();
+				out.flush();
+				out.close();
 			}
-			in.close();
-			out.flush();
-			out.close();
+			
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}

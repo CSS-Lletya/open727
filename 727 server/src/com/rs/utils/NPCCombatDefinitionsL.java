@@ -100,9 +100,9 @@ public final class NPCCombatDefinitionsL {
 				npcCombatDefinitions.put(npcId,
 						new NPCCombatDefinitions(hitpoints, attackAnim, defenceAnim, deathAnim, attackDelay, deathDelay,
 								respawnDelay, maxHit, attackStyle, attackGfx, attackProjectile, agressivenessType));
+				in.close();
+				out.close();
 			}
-			in.close();
-			out.close();
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}

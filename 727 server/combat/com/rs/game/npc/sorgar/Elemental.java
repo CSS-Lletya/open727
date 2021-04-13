@@ -92,6 +92,7 @@ public class Elemental extends NPC {
 		return possibleTarget;
 	}
 
+	@SuppressWarnings("unused")
 	public boolean canBeTeleported(Entity t) {
 		final int NORTH = 1, SOUTH = 6, WEST = 3, EAST = 4;
 		if (getNextWalkDirection() == EAST && (t.getX() - getX()) < 4 && (t.getY() - getY()) == 0)

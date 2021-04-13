@@ -13,6 +13,7 @@ public class CreationSkillsAction extends Action {
 
 	private Animation animation;
 	private WorldObject object;
+	@SuppressWarnings("unused")
 	private int baseId;
 	private int objectIndex;
 

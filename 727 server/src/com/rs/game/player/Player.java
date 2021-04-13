@@ -23,7 +23,6 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.dialogue.DialogueEventListener;
-import com.rs.game.dialogue.DialogueEventRepository;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.minigames.clanwars.FfaZone;
@@ -141,6 +140,7 @@ public class Player extends Entity {
 	private int rights = 2;
 	private String displayName;
 	private String lastIP;
+	@SuppressWarnings("unused")
 	private long creationDate;
 	private Appearance appearence;
 	private Inventory inventory;
@@ -246,6 +246,7 @@ public class Player extends Entity {
 
 	private String yellColor = "ff0000";
 
+	@SuppressWarnings("unused")
 	private long voted;
 
 	private boolean isGraphicDesigner;

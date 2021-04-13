@@ -60,6 +60,7 @@ public final class Utils {
 		return getDistance(center, location) < radius;
 	}
 
+	@SuppressWarnings("resource")
 	public static void copyFile(File sourceFile, File destFile) throws IOException {
 		if (!destFile.exists()) {
 			destFile.createNewFile();

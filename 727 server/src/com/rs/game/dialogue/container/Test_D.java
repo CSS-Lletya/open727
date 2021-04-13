@@ -48,22 +48,26 @@ public class Test_D extends DialogueEventListener {
 			});
 	}
 	
+	@SuppressWarnings("unused")
 	private void give(int id){
 		player.getInventory().addItem(id, 1);
 		item(id, 1, "here you go!");
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void cool_item(){
 		player.getInventory().addItem(23659, 1);
 		item(23659, 1, "here you go!");
 	}
 	
+	@SuppressWarnings("unused")
 	private void shit_item(){
 		player.getInventory().addItem(5733, 1);
 		item(5733, 1, "here you go!");
 	}
 	
+	@SuppressWarnings("unused")
 	private void meh_item(){
 		player.getInventory().addItem(4153, 1);
 		item(4153, 1, "here you go!");

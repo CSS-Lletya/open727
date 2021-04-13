@@ -50,8 +50,8 @@ public final class ObjectSpawns {
 						Integer.parseInt(splitedLine3[2]));
 				addObjectSpawn(objectId, type, rotation, tile.getRegionId(), tile,
 						Boolean.parseBoolean(splitedLine3[3]));
+				in.close();
 			}
-			in.close();
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}

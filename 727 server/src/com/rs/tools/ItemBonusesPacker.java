@@ -46,6 +46,7 @@ public class ItemBonusesPacker {
 				out.writeShort(Integer.valueOf(reader.readLine()));
 				out.writeShort(Integer.valueOf(reader.readLine()));
 				out.writeShort(Integer.valueOf(reader.readLine()));
+				reader.close();
 				if (reader.readLine() != null)
 					throw new RuntimeException("Should be null line" + itemId);
 			}

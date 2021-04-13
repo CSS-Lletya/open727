@@ -159,6 +159,7 @@ public class Appearance implements Serializable {
 				model = player.getEquipment().getItem(slotId) == null ? -1 : player.getEquipment().getItem(slotId).getId();
 				boolean costume = false;//model != -1 && player.getCosmeticsManager().isCostume(slotId, model);
 				int costumeColor = 0;//player.getInt(Key.COSTUME_COLOR);
+				@SuppressWarnings("unused")
 				ItemDefinitions defs = ItemDefinitions.getItemDefinitions(model);
 				if (costume){
 					hash |= 1 << slotFlag;

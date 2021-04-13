@@ -53,9 +53,10 @@ public final class NPCBonuses {
 					out.writeShort(bonuses[i]);
 				}
 				npcBonuses.put(npcId, bonuses);
+				in.close();
+				out.close();
 			}
-			in.close();
-			out.close();
+			
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}
