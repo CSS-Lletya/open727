@@ -1,11 +1,12 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.WorldObject;
-import com.rs.game.player.Skills;
-import com.rs.game.player.actions.Smelting;
-import com.rs.game.player.actions.Smelting.SmeltingBar;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
+
+import skills.Skills;
+import skills.smithing.Smelting;
+import skills.smithing.Smelting.SmeltingBar;
 
 public class SmeltingD extends Dialogue {
 

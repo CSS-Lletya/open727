@@ -35,11 +35,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.Bork;
 import com.rs.game.player.InterfaceManager;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
-import com.rs.game.player.actions.Summoning;
-import com.rs.game.player.actions.Summoning.Pouches;
 import com.rs.game.player.content.Notes.Note;
-import com.rs.game.player.content.dungeoneering.DungeonPartyManager;
 import com.rs.game.player.content.pet.Pets;
 import com.rs.game.player.controlers.FightCaves;
 import com.rs.game.player.controlers.FightKiln;
@@ -56,6 +52,11 @@ import com.rs.utils.PkRank;
 import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
+
+import skills.Skills;
+import skills.dungeoneering.DungeonPartyManager;
+import skills.summoning.Summoning;
+import skills.summoning.Summoning.Pouches;
 
 /*
  * doesnt let it be extended
@@ -1985,9 +1986,9 @@ public final class Commands {
 				
 				return true;
 				
-			case "testdia":
-				Test_D.main(player, Integer.valueOf(cmd[1]));
-				return true;
+//			case "testdia":
+//				Test_D.main(player, Integer.valueOf(cmd[1]));
+//				return true;
 				
 				
 				

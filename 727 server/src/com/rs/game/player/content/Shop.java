@@ -5,12 +5,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
-import com.rs.game.player.CombatDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.ItemSetsKeyGenerator;
+
+import player.CombatDefinitions;
+import skills.Skills;
 
 public class Shop {
 

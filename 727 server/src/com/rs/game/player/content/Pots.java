@@ -8,12 +8,13 @@ import com.rs.game.item.Item;
 import com.rs.game.minigames.clanwars.FfaZone;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.game.player.controlers.CrucibleControler;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
+
+import skills.Skills;
 
 public final class Pots {
 

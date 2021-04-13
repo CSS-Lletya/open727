@@ -1,8 +1,9 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.item.Item;
-import com.rs.game.player.actions.Herblore;
 import com.rs.game.player.content.SkillsDialogue;
+
+import skills.herblore.Herblore;
 
 public class HerbloreD extends Dialogue {
 

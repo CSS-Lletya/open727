@@ -15,18 +15,6 @@ import com.rs.game.player.CoordsEvent;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.BoxAction;
-import com.rs.game.player.actions.BoxAction.HunterEquipment;
-import com.rs.game.player.actions.Firemaking;
-import com.rs.game.player.actions.Fletching;
-import com.rs.game.player.actions.Fletching.Fletch;
-import com.rs.game.player.actions.GemCutting;
-import com.rs.game.player.actions.GemCutting.Gem;
-import com.rs.game.player.actions.HerbCleaning;
-import com.rs.game.player.actions.Herblore;
-import com.rs.game.player.actions.LeatherCrafting;
-import com.rs.game.player.actions.Summoning;
-import com.rs.game.player.actions.Summoning.Pouches;
 import com.rs.game.player.content.AncientEffigies;
 import com.rs.game.player.content.ArmourSets;
 import com.rs.game.player.content.ArmourSets.Sets;
@@ -44,6 +32,19 @@ import com.rs.game.tasks.WorldTasksManager;
 import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
+
+import skills.crafting.GemCutting;
+import skills.crafting.LeatherCrafting;
+import skills.crafting.GemCutting.Gem;
+import skills.firemaking.Firemaking;
+import skills.fletching.Fletching;
+import skills.fletching.Fletching.Fletch;
+import skills.herblore.HerbCleaning;
+import skills.herblore.Herblore;
+import skills.hunter.BoxAction;
+import skills.hunter.BoxAction.HunterEquipment;
+import skills.summoning.Summoning;
+import skills.summoning.Summoning.Pouches;
 
 public class InventoryOptionsHandler {
 

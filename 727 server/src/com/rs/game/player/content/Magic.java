@@ -8,12 +8,13 @@ import com.rs.game.WorldTile;
 import com.rs.game.minigames.clanwars.FfaZone;
 import com.rs.game.minigames.clanwars.RequestController;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.game.player.controlers.Kalaboss;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
+
+import skills.Skills;
 
 /*
  * content package used for static stuff

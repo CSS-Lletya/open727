@@ -1,8 +1,9 @@
 package com.rs.game.player.dialogues;
 
-import com.rs.game.player.actions.LeatherCrafting;
-import com.rs.game.player.actions.LeatherCrafting.LeatherData;
 import com.rs.game.player.content.SkillsDialogue;
+
+import skills.crafting.LeatherCrafting;
+import skills.crafting.LeatherCrafting.LeatherData;
 
 public class LeatherCraftingD extends Dialogue {
 

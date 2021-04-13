@@ -6,12 +6,13 @@ import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.minigames.clanwars.ClanWars.Rules;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.Foods.Food;
 import com.rs.game.player.content.Pots.Pot;
 import com.rs.game.player.controlers.Controler;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
+
+import player.PlayerCombat;
 
 /**
  * A controler subclass handling players in the clan wars activity.

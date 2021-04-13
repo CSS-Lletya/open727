@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.rs.utils.Utils;
 
+import skills.Skills;
+
 public final class QuestManager implements Serializable {
 
 	private static final long serialVersionUID = -8085932531253271252L;
