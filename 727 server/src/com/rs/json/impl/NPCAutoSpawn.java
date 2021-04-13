@@ -1,4 +1,4 @@
-package com.rs.utils;
+package com.rs.json.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,7 @@ import com.rs.cache.Cache;
 import com.rs.game.npc.NPC;
 import com.rs.json.GsonHandler;
 import com.rs.json.GsonLoader;
+import com.rs.utils.NPCSpawning;
 
 public class NPCAutoSpawn extends GsonLoader<NPCSpawning> {
 

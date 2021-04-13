@@ -11,7 +11,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.io.OutputStream;
 import com.rs.json.GsonHandler;
-import com.rs.utils.NPCAutoSpawn;
+import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.utils.Utils;
 
 public final class LocalNPCUpdate {

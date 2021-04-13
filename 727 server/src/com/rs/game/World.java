@@ -1263,4 +1263,8 @@ public final class World {
 		}
 	}
 
+	public static final void spawnObject(WorldObject object) {
+		getRegion(object.getRegionId()).addObject(object, object.getPlane(), object.getXInRegion(),
+				object.getYInRegion());
+	}
 }

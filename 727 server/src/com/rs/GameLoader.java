@@ -26,8 +26,6 @@ import com.rs.utils.MusicHints;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
-import com.rs.utils.NPCSpawns;
-import com.rs.utils.ObjectSpawns;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.huffman.Huffman;
 
@@ -75,8 +73,6 @@ public class GameLoader {
 		getBackgroundLoader().submit(() -> {
 			MapArchiveKeys.init();
 			MapAreas.init();
-			ObjectSpawns.init();
-//			NPCSpawns.init();
 			NPCCombatDefinitionsL.init();
 		});
 		getBackgroundLoader().submit(() -> {

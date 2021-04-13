@@ -13,12 +13,11 @@ import com.rs.game.item.FloorItem;
 import com.rs.game.player.Player;
 import com.rs.io.InputStream;
 import com.rs.json.GsonHandler;
+import com.rs.json.impl.NPCAutoSpawn;
+import com.rs.json.impl.ObjectSpawnLoader;
 import com.rs.utils.Logger;
 import com.rs.utils.MapArchiveKeys;
-import com.rs.utils.NPCAutoSpawn;
 import com.rs.utils.NPCSpawning;
-import com.rs.utils.NPCSpawns;
-import com.rs.utils.ObjectSpawns;
 import com.rs.utils.Utils;
 
 public class Region {
@@ -597,7 +596,7 @@ public class Region {
 //	}
 
 	void loadObjectSpawns() {
-		ObjectSpawns.loadObjectSpawns(regionId);
+		ObjectSpawnLoader.loadObjectSpawns(regionId);
 	}
 
 	public int getRegionId() {
@@ -1030,6 +1029,11 @@ public class Region {
 	
 	public void loadNPCSpawns() {
 		loadNPCSpawns(regionId);
+	}
+
+	public void spawnObject(WorldObject object, int plane, int xInRegion, int yInRegion, boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

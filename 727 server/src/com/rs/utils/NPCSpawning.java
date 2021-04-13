@@ -1,7 +1,7 @@
 package com.rs.utils;
 
 import com.rs.game.WorldTile;
-import com.rs.utils.NPCAutoSpawn.Direction;
+import com.rs.json.impl.NPCAutoSpawn.Direction;
 
 /**
  * @author Tyluur <itstyluur@gmail.com>

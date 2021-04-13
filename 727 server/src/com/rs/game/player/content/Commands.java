@@ -18,7 +18,6 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
 import com.rs.game.player.cutscenes.HomeCutScene;
 import com.rs.utils.Encrypt;
-import com.rs.utils.NPCSpawns;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -387,28 +386,6 @@ public final class Commands {
 				player.getPetManager().setTrollBabyName(name);
 				if (player.getPet() != null && player.getPet().getId() == Pets.TROLL_BABY.getBabyNpcId()) {
 					player.getPet().setName(name);
-				}
-				return true;
-			case "spawn":
-				if (player.isSpawnsMode()) {
-					try {
-						if (cmd.length < 2) {
-							player.getPackets().sendGameMessage("Use: ::spawn npcid");
-							return true;
-						}
-						try {
-							if (NPCSpawns.addSpawn(player.getUsername(), Integer.parseInt(cmd[1]), player)) {
-								player.getPackets().sendGameMessage("Added spawn!");
-								return true;
-							}
-						} catch (Throwable e) {
-							e.printStackTrace();
-						}
-						player.getPackets().sendGameMessage("Failed removing spawn!");
-						return true;
-					} catch (NumberFormatException e) {
-						player.getPackets().sendGameMessage("Use: ::spawn npcid");
-					}
 				}
 				return true;
 			case "recanswer":
