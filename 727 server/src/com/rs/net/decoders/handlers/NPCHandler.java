@@ -17,7 +17,6 @@ import com.rs.game.player.content.PlayerLook;
 import com.rs.game.player.dialogues.FremennikShipmaster;
 import com.rs.io.InputStream;
 import com.rs.utils.Logger;
-import com.rs.utils.NPCSpawns;
 import com.rs.utils.ShopsHandler;
 
 import skills.fishing.Fishing;
@@ -43,17 +42,7 @@ public class NPCHandler {
 					+ ", " + npc.getPlane() + "]].");
 		}
 		player.getPackets().sendNPCMessage(0, npc, "It's a " + npc.getDefinitions().name + ".");
-		if (player.isSpawnsMode()) {
-			try {
-				if (NPCSpawns.removeSpawn(npc)) {
-					player.getPackets().sendGameMessage("Removed spawn!");
-					return;
-				}
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-			player.getPackets().sendGameMessage("Failed removing spawn!");
-		}
+		
 		if (Settings.DEBUG)
 			Logger.log("NPCHandler", "examined npc: " + npcIndex + ", " + npc.getId());
 	}

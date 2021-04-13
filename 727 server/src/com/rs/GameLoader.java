@@ -15,6 +15,7 @@ import com.rs.game.player.content.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.game.player.cutscenes.CutscenesHandler;
 import com.rs.game.player.dialogues.DialogueHandler;
+import com.rs.json.GsonHandler;
 import com.rs.net.ServerChannelHandler;
 import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
@@ -25,8 +26,6 @@ import com.rs.utils.MusicHints;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
-import com.rs.utils.NPCSpawns;
-import com.rs.utils.ObjectSpawns;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.huffman.Huffman;
 
@@ -74,8 +73,6 @@ public class GameLoader {
 		getBackgroundLoader().submit(() -> {
 			MapArchiveKeys.init();
 			MapAreas.init();
-			ObjectSpawns.init();
-			NPCSpawns.init();
 			NPCCombatDefinitionsL.init();
 		});
 		getBackgroundLoader().submit(() -> {
@@ -95,7 +92,9 @@ public class GameLoader {
 			FriendChatsManager.init();
 			RegionBuilder.init();
 		});
-		
+		getBackgroundLoader().submit(() -> {
+			GsonHandler.initialize();
+		});
 	}
 	
 	private static final GameLoader LOADER = new GameLoader();
