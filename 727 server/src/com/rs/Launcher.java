@@ -10,14 +10,10 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.Region;
 import com.rs.game.World;
+import com.rs.game.player.AccountCreation;
 import com.rs.game.player.Player;
 import com.rs.net.ServerChannelHandler;
-import com.rs.utils.DTRank;
-import com.rs.utils.DisplayNames;
-import com.rs.utils.IPBanL;
 import com.rs.utils.Logger;
-import com.rs.utils.PkRank;
-import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
 
 public final class Launcher {
@@ -69,12 +65,8 @@ public final class Launcher {
 		for (Player player : World.getPlayers()) {
 			if (player == null || !player.hasStarted() || player.hasFinished())
 				continue;
-			SerializableFilesManager.savePlayer(player);
+			AccountCreation.savePlayer(player);
 		}
-		DisplayNames.save();
-		IPBanL.save();
-		PkRank.save();
-		DTRank.save();
 	}
 
 	public static void cleanMemory(boolean force) {

@@ -2,6 +2,7 @@ package com.rs.net.decoders;
 
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.player.AccountCreation;
 import com.rs.game.player.Player;
 import com.rs.io.InputStream;
 import com.rs.net.Session;
@@ -10,13 +11,10 @@ import com.rs.utils.Encrypt;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
-import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
 
 public final class LoginPacketsDecoder extends Decoder {
-
-	private static final boolean CHANGED = true;
-
+	
 	public LoginPacketsDecoder(Session session) {
 		super(session);
 	}
@@ -99,18 +97,7 @@ public final class LoginPacketsDecoder extends Decoder {
 		String settings = stream.readString();
 		int affid = stream.readInt();
 		stream.skip(stream.readUnsignedByte()); // useless settings
-		/*
-		 * if (stream.readUnsignedByte() != 6) { //personal data start session.getLoginPackets().sendClientPacket(10); return; } int os =
-		 * stream.readUnsignedByte(); boolean x64Arch = stream.readUnsignedByte() == 1; int osVersion = stream.readUnsignedByte(); int osVendor =
-		 * stream.readUnsignedByte(); int javaVersion = stream.readUnsignedByte(); int javaVersionBuild = stream.readUnsignedByte(); int javaVersionBuild2 =
-		 * stream.readUnsignedByte(); boolean hasApplet = stream.readUnsignedByte() == 1; int heap = stream.readUnsignedShort(); int availableProcessors =
-		 * stream.readUnsignedByte(); int ram = stream.read24BitInt(); int cpuClockFrequency = stream.readUnsignedShort(); int cpuInfo3 =
-		 * stream.readUnsignedByte(); int cpuInfo4 = stream.readUnsignedByte(); int cpuInfo5 = stream.readUnsignedByte(); String empty1 =
-		 * stream.readJagString(); String empty2 = stream.readJagString(); String empty3 = stream.readJagString(); String empty4 = stream.readJagString(); int
-		 * unused1 = stream.readUnsignedByte(); int unused2 = stream.readUnsignedShort(); MachineInformation mInformation = new MachineInformation(os,
-		 * x64Arch, osVersion, osVendor, javaVersion, javaVersionBuild, javaVersionBuild2, hasApplet, heap, availableProcessors, ram, cpuClockFrequency,
-		 * cpuInfo3, cpuInfo4, cpuInfo5);
-		 */
+
 		MachineInformation mInformation = null;
 		int unknown3 = stream.readInt();
 		long userFlow = stream.readLong();
@@ -124,17 +111,7 @@ public final class LoginPacketsDecoder extends Decoder {
 		int unknown5 = stream.readInt();
 		String unknown6 = stream.readString();
 		boolean unknown7 = stream.readUnsignedByte() == 1;
-		// for (int index = 0; index < Cache.STORE.getIndexes().length; index++) {
-		// int crc = Cache.STORE.getIndexes()[index] == null ? -1011863738 : Cache.STORE.getIndexes()[index].getCRC();
-		// int receivedCRC = stream.readInt();
-		// if (crc != receivedCRC && index < 32) {
-		//
-		// Logger.log(this, "Invalid CRC at index: "+index+", "+receivedCRC+", "+crc);
-		//
-		// session.getLoginPackets().sendClientPacket(6);
-		// return;
-		// }
-		// }
+
 		if (Utils.invalidAccountName(username)) {
 			session.getLoginPackets().sendClientPacket(3);
 			return;
@@ -152,15 +129,11 @@ public final class LoginPacketsDecoder extends Decoder {
 			return;
 		}
 		Player player;
-		if (CHANGED || !SerializableFilesManager.containsPlayer(username))
+		if (!AccountCreation.exists(username)) {
 			player = new Player(password);
-		else {
-			player = SerializableFilesManager.loadPlayer(username);
+		} else {
+			player = AccountCreation.loadPlayer(username);
 			if (player == null) {
-				session.getLoginPackets().sendClientPacket(20);
-				return;
-			}
-			if (!SerializableFilesManager.createBackup(username)) {
 				session.getLoginPackets().sendClientPacket(20);
 				return;
 			}
@@ -173,12 +146,11 @@ public final class LoginPacketsDecoder extends Decoder {
 			session.getLoginPackets().sendClientPacket(4);
 			return;
 		}
-
 		player.init(session, username, displayMode, screenWidth, screenHeight, mInformation, new IsaacKeyPair(isaacKeys));
 		session.getLoginPackets().sendLoginDetails(player);
 		session.setDecoder(3, player);
 		session.setEncoder(2, player);
 		player.start();
+		AccountCreation.savePlayer(player);
 	}
-
 }

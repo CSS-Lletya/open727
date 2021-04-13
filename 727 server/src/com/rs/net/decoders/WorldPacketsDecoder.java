@@ -35,7 +35,6 @@ import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.net.decoders.handlers.NPCHandler;
 import com.rs.net.decoders.handlers.ObjectHandler;
-import com.rs.utils.DisplayNames;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 import com.rs.utils.huffman.Huffman;
@@ -1231,16 +1230,6 @@ public final class WorldPacketsDecoder extends Decoder {
 				}
 				player.getTemporaryAttributtes().put("view_clan", clan);
 				ClanWars.enter(player);
-			} else if (player.getTemporaryAttributtes().remove("setdisplay") != null) {
-				if (Utils.invalidAccountName(Utils.formatPlayerNameForProtocol(value))) {
-					player.getPackets().sendGameMessage("Invalid name!");
-					return;
-				}
-				if (!DisplayNames.setDisplayName(player, value)) {
-					player.getPackets().sendGameMessage("Name already in use!");
-					return;
-				}
-				player.getPackets().sendGameMessage("Changed display name!");
 			} else if (player.getTemporaryAttributtes().remove("checkvoteinput") != null)
 				Vote.checkVote(player, value);
 		} else if (packetId == ENTER_INTEGER_PACKET) {

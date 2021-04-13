@@ -193,10 +193,6 @@ public class CastleWarsPlaying extends Controler {
 					if (weaponId == 4037 || weaponId == 4039) {
 						CastleWars.setWeapon(player, null);
 						CastleWars.dropFlag(player, weaponId == 4037 ? CastleWars.SARADOMIN : CastleWars.ZAMORAK);
-					} else {
-						Player killer = player.getMostDamageReceivedSourcePlayer();
-						if (killer != null)
-							killer.increaseKillCount(player);
 					}
 
 					player.reset();

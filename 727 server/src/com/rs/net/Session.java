@@ -16,7 +16,6 @@ import com.rs.net.encoders.Encoder;
 import com.rs.net.encoders.GrabPacketsEncoder;
 import com.rs.net.encoders.LoginPacketsEncoder;
 import com.rs.net.encoders.WorldPacketsEncoder;
-import com.rs.utils.IPBanL;
 
 public class Session {
 
@@ -26,10 +25,6 @@ public class Session {
 
 	public Session(Channel channel) {
 		this.channel = channel;
-		if (IPBanL.isBanned(getIP())) {
-			channel.disconnect();
-			return;
-		}
 		setDecoder(0);
 	}
 

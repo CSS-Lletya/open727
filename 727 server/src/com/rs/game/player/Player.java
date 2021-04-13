@@ -63,8 +63,6 @@ import com.rs.net.encoders.WorldPacketsEncoder;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
-import com.rs.utils.PkRank;
-import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
@@ -205,8 +203,8 @@ public class Player extends Entity {
 	private String lastMsg;
 
 	// Used for storing recent ips and password
-	private ArrayList<String> passwordList = new ArrayList<String>();
-	private ArrayList<String> ipList = new ArrayList<String>();
+	private transient ArrayList<String> passwordList = new ArrayList<String>();
+	private transient ArrayList<String> ipList = new ArrayList<String>();
 
 	// honor
 	private int killCount, deathCount;
@@ -924,7 +922,8 @@ public class Player extends Entity {
 			pet.finish();
 		setFinished(true);
 		session.setDecoder(-1);
-		SerializableFilesManager.savePlayer(this);
+//		SerializableFilesManager.savePlayer(this);
+		AccountCreation.savePlayer(this);
 		World.updateEntityRegion(this);
 		World.removePlayer(this);
 		if (Settings.DEBUG)
@@ -1781,27 +1780,6 @@ public class Player extends Entity {
 		for (Item item : containedItems) {
 			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
 		}
-	}
-
-	public void increaseKillCount(Player killed) {
-		killed.deathCount++;
-		PkRank.checkRank(killed);
-		if (killed.getSession().getIP().equals(getSession().getIP()))
-			return;
-		killCount++;
-		getPackets().sendGameMessage(
-				"<col=ff0000>You have killed " + killed.getDisplayName() + ", you have now " + killCount + " kills.");
-		PkRank.checkRank(this);
-	}
-
-	public void increaseKillCountSafe(Player killed) {
-		PkRank.checkRank(killed);
-		if (killed.getSession().getIP().equals(getSession().getIP()))
-			return;
-		killCount++;
-		getPackets().sendGameMessage(
-				"<col=ff0000>You have killed " + killed.getDisplayName() + ", you have now " + killCount + " kills.");
-		PkRank.checkRank(this);
 	}
 
 	public void sendRandomJail(Player p) {

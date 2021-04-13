@@ -7,11 +7,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.minigames.clanwars.ClanWars;
+import com.rs.game.player.AccountCreation;
 import com.rs.game.player.FriendsIgnores;
 import com.rs.game.player.Player;
 import com.rs.game.player.QuickChatMessage;
 import com.rs.io.OutputStream;
-import com.rs.utils.SerializableFilesManager;
 import com.rs.utils.Utils;
 
 public class FriendChatsManager {
@@ -299,11 +299,11 @@ public class FriendChatsManager {
 			if (chat == null) {
 				Player owner = World.getPlayerByDisplayName(ownerName);
 				if (owner == null) {
-					if (!SerializableFilesManager.containsPlayer(formatedName)) {
+					if (!AccountCreation.exists(formatedName)) {
 						player.getPackets().sendGameMessage("The channel you tried to join does not exist.");
 						return;
 					}
-					owner = SerializableFilesManager.loadPlayer(formatedName);
+					owner = AccountCreation.loadPlayer(formatedName);
 					if (owner == null) {
 						player.getPackets().sendGameMessage("The channel you tried to join does not exist.");
 						return;

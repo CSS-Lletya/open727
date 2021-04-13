@@ -61,7 +61,6 @@ public final class WarControler extends Controler {
 						Player killer = player.getMostDamageReceivedSourcePlayer();
 						if (killer != null) {
 							killer.removeDamage(player);
-							killer.increaseKillCount(player);
 							player.sendItemsOnDeath(killer);
 						}
 						player.getEquipment().init();

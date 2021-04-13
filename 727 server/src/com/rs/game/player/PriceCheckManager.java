@@ -7,7 +7,7 @@ import com.rs.utils.EconomyPrices;
 
 public class PriceCheckManager {
 
-	private Player player;
+	private transient Player player;
 	private ItemsContainer<Item> pcInv;
 
 	public PriceCheckManager(Player player) {

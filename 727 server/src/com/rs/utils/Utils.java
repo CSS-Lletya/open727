@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -847,6 +848,68 @@ public final class Utils {
 
 	private Utils() {
 
+	}
+
+		/**
+	 * Decipher.
+	 *
+	 * @param key  the key
+	 * @param data the data
+	 * @return the byte[]
+	 */
+	public static byte[] decipher(int[] key, byte[] data) {
+		return decipher(key, data, 0, data.length);
+	}
+
+	public static byte[] decipher(int[] key, byte[] data, int offset, int length) {
+		int numBlocks = (length - offset) / 8;
+		ByteBuffer buffer = ByteBuffer.wrap(data);
+		buffer.position(offset);
+		for (int i = 0; i < numBlocks; i++) {
+			int y = buffer.getInt();
+			int z = buffer.getInt();
+			int sum = -957401312;
+			int delta = -1640531527;
+			int numRounds = 32;
+			while (numRounds > 0) {
+				z -= ((y >>> 5 ^ y << 4) + y ^ sum + key[sum >>> 11 & 0x56c00003]);
+				sum -= delta;
+				y -= ((z >>> 5 ^ z << 4) - -z ^ sum + key[sum & 0x3]);
+				numRounds--;
+			}
+			buffer.position(buffer.position() - 8);
+			buffer.putInt(y);
+			buffer.putInt(z);
+		}
+		return buffer.array();
+	}
+	
+	/**
+	 * Decode base37.
+	 *
+	 * @param value the value
+	 * @return the string
+	 */
+
+	public static String decodeBase37(long value) {
+		char[] chars = new char[12];
+		int pos = 0;
+		while (value != 0) {
+			int remainder = (int) (value % 37);
+			value /= 37;
+
+			char c;
+			if (remainder >= 1 && remainder <= 26) {
+				c = (char) ('a' + remainder - 1);
+			} else if (remainder >= 27 && remainder <= 36) {
+				c = (char) ('0' + remainder - 27);
+			} else {
+				c = '_';
+			}
+
+			chars[chars.length - pos++ - 1] = c;
+		}
+		return new String(chars, chars.length - pos, pos);
 	}
 
 }

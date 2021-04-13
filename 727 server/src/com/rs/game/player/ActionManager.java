@@ -4,7 +4,7 @@ import com.rs.game.player.actions.Action;
 
 public final class ActionManager {
 
-	private Player player;
+	private transient Player player;
 	private Action action;
 	private int actionDelay;
 

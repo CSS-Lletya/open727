@@ -6,7 +6,7 @@ import com.rs.game.player.Player;
 
 public class DuelRules {
 
-	private Player player, target;
+	private transient Player player, target;
 	public boolean[] duelRules = new boolean[26];
 	private ItemsContainer<Item> stake;
 

@@ -132,7 +132,6 @@ public class CrucibleControler extends Controler {
 					Player killer = player.getMostDamageReceivedSourcePlayer();
 					if (killer != null) {
 						killer.removeDamage(player);
-						killer.increaseKillCount(player);
 						killer.increaseCrucibleHighScore();
 						Crucible.setImmune(killer, 21);
 						killer.getHintIconsManager().addHintIcon(player.getX(), player.getY(), 0, 0, 2, 0, -1, true);

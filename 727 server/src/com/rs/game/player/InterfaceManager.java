@@ -11,7 +11,7 @@ public class InterfaceManager {
 	public static final int RESIZABLE_SCREEN_TAB_ID = 29;
 	public static final int FIXED_INV_TAB_ID = 172;//166;
 	public static final int RESIZABLE_INV_TAB_ID = 109;//108;
-	private Player player;
+	private transient  Player player;
 
 	private final ConcurrentHashMap<Integer, int[]> openedinterfaces = new ConcurrentHashMap<Integer, int[]>();
 

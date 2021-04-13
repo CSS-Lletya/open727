@@ -53,9 +53,7 @@ import com.rs.game.player.content.TriviaBot;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
 import com.rs.utils.AntiFlood;
-import com.rs.utils.IPBanL;
 import com.rs.utils.Logger;
-import com.rs.utils.PkRank;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
 
@@ -767,8 +765,6 @@ public final class World {
 							continue;
 						player.realFinish();
 					}
-					IPBanL.save();
-					PkRank.save();
 					if (restart)
 						Launcher.restart();
 					else
