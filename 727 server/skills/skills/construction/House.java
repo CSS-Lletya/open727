@@ -156,6 +156,7 @@ public class House {
 
 		private int chunkX, chunkY;
 		private boolean showRoof;
+		@SuppressWarnings("unused")
 		private int[] doorDirs;
 
 		private Room(int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
@@ -173,6 +174,7 @@ public class House {
 						RegionBuilder.SOUTH, RegionBuilder.NORTH);
 
 		private int chunkX, chunkY;
+		@SuppressWarnings("unused")
 		private int[] dirs;
 
 		private Roof(int chunkX, int chunkY, int... dirs) {

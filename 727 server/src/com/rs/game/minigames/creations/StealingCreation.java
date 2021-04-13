@@ -56,6 +56,7 @@ public class StealingCreation {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static class DynamicRegion {
 
 		int[][] boundChunks = { { 240, 714 /* kiln square */ }, { 240, 715 /* u jellies :D */ },
@@ -168,6 +169,7 @@ public class StealingCreation {
 		return level;
 	}
 
+	@SuppressWarnings("unused")
 	private static void sendGameEnding() {
 		sendGameConfig(556, 1);
 		WorldTasksManager.schedule(new WorldTask() {

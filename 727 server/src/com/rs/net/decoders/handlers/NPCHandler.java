@@ -11,7 +11,6 @@ import com.rs.game.npc.others.FireSpirit;
 import com.rs.game.npc.others.LivingRock;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.slayer.Strykewyrm;
-import com.rs.game.player.CoordsEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.RouteEvent;
 import com.rs.game.player.content.PlayerLook;

@@ -7,7 +7,8 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
+
+import skills.Skills;
 
 public class Fletching extends Action {
 

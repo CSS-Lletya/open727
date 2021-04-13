@@ -1417,32 +1417,6 @@ public class ButtonHandler {
 			player.getPackets().sendGameMessage("You can't wear that.");
 			return false;
 		}
-		String itemName = item.getDefinitions() == null ? "" : item.getDefinitions().getName().toLowerCase();
-//		for (String strings : Settings.DONATOR_ITEMS) {
-//			if (itemName.contains(strings) && !player.isDonator()) {
-//				player.getPackets().sendGameMessage("You need to be a donator to equip " + itemName + ".");
-//				return false;
-//			}
-//		}
-//		for (String strings : Settings.EXTREME_DONATOR_ITEMS) {
-//			if (itemName.contains(strings) && !player.isExtremeDonator()) {
-//				player.getPackets().sendGameMessage("You need to be a extreme donator to equip " + itemName + ".");
-//				return true;
-//			}
-//		}
-//		for (String strings : Settings.EARNED_ITEMS) {
-//			if (itemName.contains(strings) && player.getRights() <= 1) {
-//				player.getPackets().sendGameMessage("You must earn " + itemName + ".");
-//				return true;
-//			}
-//		}
-//		for (String strings : Settings.VOTE_REQUIRED_ITEMS) {
-//			if (itemName.toLowerCase().contains(strings) && !player.hasVoted()) {
-//				player.getPackets().sendGameMessage(
-//						"You need to vote to wear the prod item " + itemName + " for 24 hours, type ::vote to vote.");
-//				return true;
-//			}
-//		}
 		int targetSlot = Equipment.getItemSlot(itemId);
 		if (itemId == 4084)
 			targetSlot = 3;

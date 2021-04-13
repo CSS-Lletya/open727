@@ -158,6 +158,7 @@ public class SihponActionNodes extends Action {
 	 * Gets a random transformation id.
 	 * @return random node.
 	 */
+	@SuppressWarnings("unused")
 	private static int getRandomTransformationId() {
 		return getNode(Utils.getRandom(Nodes.values().length)).getObjectId();
 	}
@@ -221,6 +222,7 @@ public class SihponActionNodes extends Action {
 		return checkAll(player);
 	}
 
+	@SuppressWarnings("unused")
 	private void processNodeDestroy(final Player player) {
 		player.getPackets().sendGameMessage("The node you were siphoning from has been depleted of energy.", true);
 		WorldTasksManager.schedule(new WorldTask() {

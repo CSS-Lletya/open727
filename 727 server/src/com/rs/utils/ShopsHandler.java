@@ -66,8 +66,9 @@ public class ShopsHandler {
 					out.writeInt(item.getAmount());
 				}
 				addShop(key, new Shop(splitedLine[1], money, items, generalStore));
+				in.close();
 			}
-			in.close();
+			
 			out.close();
 		} catch (Throwable e) {
 			Logger.handle(e);

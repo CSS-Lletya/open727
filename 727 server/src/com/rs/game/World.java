@@ -840,8 +840,6 @@ public final class World {
 		// remakes object, has to be done because on static region coords arent
 		// same of real
 		final WorldObject realObject = object == null ? null : new WorldObject(object.getId(), object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
-		if (realObject == null)
-			return false;
 		removeObject(object, clip);
 		CoresManager.slowExecutor.schedule(new Runnable() {
 			@Override

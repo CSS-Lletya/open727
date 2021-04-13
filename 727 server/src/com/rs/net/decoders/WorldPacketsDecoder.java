@@ -73,7 +73,9 @@ public final class WorldPacketsDecoder extends Decoder {
 	private final static int PLAYER_OPTION_6_PACKET = 1;
 	private final static int PLAYER_OPTION_7_PACKET = 51;
 	private final static int PLAYER_OPTION_8_PACKET = 94;
+	@SuppressWarnings("unused")
 	private final static int PLAYER_OPTION_9_PACKET = 53;
+	@SuppressWarnings("unused")
 	private final static int PLAYER_OPTION_10_PACKET = 70;
 	
 	//OBJECT BUTTONS
@@ -91,6 +93,7 @@ public final class WorldPacketsDecoder extends Decoder {
 	private final static int NPC_CLICK1_PACKET = 65;
 	private final static int NPC_CLICK2_PACKET = 50;
 	private final static int NPC_CLICK3_PACKET = 77;
+	@SuppressWarnings("unused")
 	private final static int NPC_CLICK4_PACKET = 95;
 	
 	//MISC
@@ -334,6 +337,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.getPackets().sendGameMessage("A magical force prevents you from moving.");
 				return;
 			}
+			@SuppressWarnings("unused")
 			int length = stream.getLength();
 			/*
 			 * if (packetId == MINI_WALKING_PACKET) length -= 13;
@@ -355,7 +359,8 @@ public final class WorldPacketsDecoder extends Decoder {
 
 	        if (steps > 0) {
 
-	            int x = 0, y = 0;
+	            @SuppressWarnings("unused")
+				int x = 0, y = 0;
 	            for (int step = 0; step < steps; step++) {
 	                x = baseX + stream.readUnsignedByte();
 	                y = baseY + stream.readUnsignedByte();
@@ -1316,7 +1321,9 @@ public final class WorldPacketsDecoder extends Decoder {
 			
 			int toSlot = stream.readShortLE128();
 			int fromSlot = stream.readUnsignedShortLE();//.readIntV1(); -
+			@SuppressWarnings("unused")
 			int fromSlot22 = stream.readUnsignedShort();//.readInt();
+			@SuppressWarnings("unused")
 			int fromSlot2 = stream.readUnsignedShortLE128();//.readUnsignedShort();
 			int fromInterfaceHash = stream.readIntV1();//.readUnsignedShortLE128(); -
 			int toInterfaceHash = stream.readIntLE();//.readUnsignedShortLE();

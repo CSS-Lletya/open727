@@ -213,6 +213,7 @@ public final class WarControler extends Controler {
 		return true;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void moved() {
 		switch (clanWars.getAreaType()) {

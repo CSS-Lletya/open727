@@ -29,12 +29,12 @@ public class ItemDefinitionsGenerator {
 			writer.flush();
 
 			File bonuses = new File("bonuses/" + itemId + ".txt");
+			BufferedReader reader = new BufferedReader(new FileReader(bonuses));
 			if (bonuses.exists()) {
 				writer.write("<bonus>");
 				writer.newLine();
 				writer.flush();
 
-				BufferedReader reader = new BufferedReader(new FileReader(bonuses));
 				reader.readLine();
 				for (int i = 0; i < 5; i++) {
 					writer.write("<int>" + Integer.valueOf(reader.readLine()) + "</int>");
@@ -100,10 +100,12 @@ public class ItemDefinitionsGenerator {
 			writer.write("</itemDefinition>");
 			writer.newLine();
 			writer.flush();
+			reader.close();
 		}
 		writer.write("</list>");
 		writer.newLine();
 		writer.flush();
+		writer.close();
 
 	}
 }

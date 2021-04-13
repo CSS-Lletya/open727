@@ -234,6 +234,7 @@ public class NPC extends Entity implements Serializable {
 	/*
 	 * forces npc to random walk even if cache says no, used because of fake cache information
 	 */
+	@SuppressWarnings("unused")
 	private static boolean forceRandomWalk(int npcId) {
 		switch (npcId) {
 		case 11226:

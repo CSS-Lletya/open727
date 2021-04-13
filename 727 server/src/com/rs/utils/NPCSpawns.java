@@ -104,8 +104,9 @@ public final class NPCSpawns {
 					canBeAttackFromOutOfArea = Boolean.parseBoolean(splitedLine2[4]);
 				}
 				addNPCSpawn(npcId, tile.getRegionId(), tile, mapAreaNameHash, canBeAttackFromOutOfArea);
+				in.close();
 			}
-			in.close();
+			
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}

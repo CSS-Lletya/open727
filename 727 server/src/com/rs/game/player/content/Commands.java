@@ -21,7 +21,6 @@ import com.rs.game.ForceTalk;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.dialogue.container.Test_D;
 import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
@@ -33,7 +32,6 @@ import com.rs.game.minigames.clanwars.ClanWars;
 import com.rs.game.minigames.clanwars.WallHandler;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.Bork;
-import com.rs.game.player.InterfaceManager;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Notes.Note;
 import com.rs.game.player.content.pet.Pets;
@@ -339,6 +337,7 @@ public final class Commands {
 					writer.write("|| player.getX() == " + player.getX() + " && player.getY() == " + player.getY() + "");
 					writer.newLine();
 					writer.flush();
+					writer.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -1,4 +1,12 @@
 data/cache
+out/
+bin
+target/
+.settings
+.idea/
+*.iml
+.classpath
+.project
 data/displayNames.ser
 data/dtRanks.ser
 data/pkRanks.ser

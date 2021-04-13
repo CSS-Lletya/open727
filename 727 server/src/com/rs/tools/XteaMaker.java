@@ -37,6 +37,8 @@ public class XteaMaker {
 					writer.newLine();
 					writer.flush();
 				}
+				writer.close();
+				stream.close();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

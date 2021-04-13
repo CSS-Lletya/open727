@@ -73,6 +73,7 @@ public final class QuestManager implements Serializable {
 		// message completed quest
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public void sendCompletedQuestsData(Quests quest) {
 		switch (quest) {
 		case PERIL_OF_ICE_MONTAINS:
@@ -81,6 +82,7 @@ public final class QuestManager implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private void sendStageData(Quests quest) {
 		switch (quest) {
 		case NOMADS_REQUIEM:

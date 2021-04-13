@@ -67,10 +67,11 @@ public class MusicHints {
 				out.writeShort(musicId);
 				writeAlexString(out, splitedLine[1]);
 				musicHints.put(musicId, splitedLine[1]);
+				in.close();
+				out.flush();
+				out.close();
 			}
-			in.close();
-			out.flush();
-			out.close();
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

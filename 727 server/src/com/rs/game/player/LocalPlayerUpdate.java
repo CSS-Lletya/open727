@@ -467,6 +467,7 @@ public final class LocalPlayerUpdate {
 		data.writeByte128(p.getNextGraphics3().getSettings2Hash());
 	}
 
+	@SuppressWarnings("unused")
 	private void applyGraphicsMask4(Player p, OutputStream data) {
 		data.writeShort128(p.getNextGraphics4().getId());
 		data.writeIntV1(p.getNextGraphics4().getSettingsHash());
