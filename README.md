@@ -17,4 +17,4 @@ Official Cache link, if it ever gets removed DM Zed and this repo will be update
 [Click here to download the cache](https://mega.nz/file/ItUHlQhY#MSrZ7s4jJQDVo6LrsHYubczAgQ3HA91qPBu3ID7vZQQ)
 
 # Discord
-![https://discord.gg/Jb4svCb6XT](https://1000logos.net/wp-content/uploads/2020/10/Discord-logo.png)
+[<img src="https://1000logos.net/wp-content/uploads/2020/10/Discord-logo.png">](https://discord.gg/Jb4svCb6XT)
