@@ -481,6 +481,10 @@ public class Player extends Entity {
 			WorldPacketsDecoder.decodeLogicPacket(this, packet);
 	}
 
+	private transient int miscTick = 0;
+	private transient int runTick = 0;
+	private transient int healTick = 0;
+	
 	@Override
 	public void processEntity() {
 		if (!isRunning())
@@ -527,6 +531,29 @@ public class Player extends Entity {
 			}
 			prayerRenewalDelay--;
 		}
+		
+		miscTick++;
+		if (miscTick % 48 == 0)
+            getCombatDefinitions().restoreSpecialAttack();
+		boolean usingBerserk = Prayer.usingBerserker(this);
+		if (miscTick % (usingBerserk ? 110 : 96) == 0)
+			drainSkills();
+		boolean usingRapidRestore = Prayer.usingRapidRestore(this);
+		if (miscTick % (usingRapidRestore ? 48 : 96) == 0)
+			restoreSkills();
+		healTick++;
+        boolean usingRenewal = Prayer.usingRapidRenewal(this);
+        boolean usingRapidHeal = Prayer.usingRapidHeal(this);
+        if (healTick % (usingRenewal ? 2 : isResting() ? 2 : usingRapidHeal ? 5 : 10) == 0)
+            restoreHitPoints();
+        runTick += (8 + (getSkills().getLevelForXp(Skills.AGILITY) / 6)) / 1.43;
+		int requiredTick = isResting() ? 15 : 75;
+		if (runTick >= requiredTick) {
+			int leftOver = runTick - requiredTick;
+			runTick = leftOver;
+			restoreRunEnergy();
+		}
+		
 		if (lastBonfire > 0) {
 			lastBonfire--;
 			if (lastBonfire == 500)
@@ -544,6 +571,33 @@ public class Player extends Entity {
 		prayer.processPrayer();
 		controlerManager.process();
 	}
+	
+    public void restoreSkills() {
+        for (int skill = 0; skill < 25; skill++) {
+            if (skill == Skills.HITPOINTS || skill == Skills.SUMMONING || skill == Skills.PRAYER)
+                continue;
+            int currentLevel = getSkills().getLevel(skill);
+            int normalLevel = getSkills().getLevelForXp(skill);
+            if (currentLevel < normalLevel) {
+                getSkills().set(skill, currentLevel + 1);
+
+            }
+        }
+    }
+    
+    private void drainSkills() {
+        for (int skill = 0; skill < 25; skill++) {
+            if (skill == Skills.HITPOINTS)
+                continue;
+            int currentLevel = getSkills().getLevel(skill);
+            int normalLevel = getSkills().getLevelForXp(skill);
+            if (currentLevel > normalLevel) {
+                getSkills().set(skill, currentLevel - 1);
+
+            }
+        }
+    }
+    
 
 	@Override
 	public void processReceivedHits() {

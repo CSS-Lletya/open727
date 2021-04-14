@@ -60,7 +60,7 @@ public final class Commands {
 			WorldObject object;
 			switch (cmd[0]) {
 			case "test":
-				
+				player.logout(false);
 				return true;
 			case "tele":
                 if (cmd.length < 3) {
