@@ -1,6 +1,5 @@
 package com.rs.utils;
 
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.ServerChannelHandler;
 
 public final class Logger {
@@ -13,7 +12,6 @@ public final class Logger {
 	public static void debug(long processTime) {
 		log(Logger.class, "---DEBUG--- start");
 		log(Logger.class, "WorldProcessTime: " + processTime);
-		log(Logger.class, "WorldRunningTasks: " + WorldTasksManager.getTasksCount());
 		log(Logger.class, "ConnectedChannels: " + ServerChannelHandler.getConnectedChannelsSize());
 		log(Logger.class, "---DEBUG--- end");
 	}

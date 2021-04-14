@@ -48,6 +48,8 @@ import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
+import com.rs.game.task.Task;
+import com.rs.game.task.TaskManager;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Logger;
 import com.rs.utils.ShopsHandler;
@@ -66,7 +68,7 @@ public final class World {
 	private static final EntityList<NPC> npcs = new EntityList<NPC>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> regions = Collections.synchronizedMap(new HashMap<Integer, Region>());
 
-	public static final void init() {
+	public final void init() {
 		addDrainPrayerTask();
 		addRestoreShopItemsTask();
 		addSummoningEffectTask();
@@ -1128,5 +1130,32 @@ public final class World {
 	public static final void spawnObject(WorldObject object) {
 		getRegion(object.getRegionId()).addObject(object, object.getPlane(), object.getXInRegion(),
 				object.getYInRegion());
+	}
+	
+	/**
+	 * An implementation of the singleton pattern to prevent indirect
+	 * instantiation of this class file.
+	 */
+	private static final World singleton = new World();
+	
+	/**
+	 * Returns the singleton pattern implementation.
+	 * @return The returned implementation.
+	 */
+	public static World get() {
+		return singleton;
+	}
+	
+	/**
+	 * The manager for the queue of game tasks.
+	 */
+	public final TaskManager taskManager = new TaskManager();
+	
+	/**
+	 * Submits {@code t} to the backing {@link TaskManager}.
+	 * @param t the task to submit to the queue.
+	 */
+	public void submit(Task t) {
+		taskManager.submit(t);
 	}
 }

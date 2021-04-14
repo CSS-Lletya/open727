@@ -15,8 +15,7 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.others.BarrowsBrother;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Controler;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -33,12 +32,12 @@ public final class Barrows extends Controler {
 	// TORAG
 	// VERAC
 	private static enum Hills {
-		AHRIM_HILL(new WorldTile(3564, 3287, 0), new WorldTile(3557, 9703, 3)), DHAROK_HILL(
-				new WorldTile(3573, 3296, 0), new WorldTile(3556, 9718, 3)), GUTHAN_HILL(new WorldTile(3574, 3279, 0),
-						new WorldTile(3534, 9704, 3)), KARIL_HILL(new WorldTile(3563, 3276, 0),
-								new WorldTile(3546, 9684, 3)), TORAG_HILL(new WorldTile(3553, 3281, 0),
-										new WorldTile(3568, 9683, 3)), VERAC_HILL(new WorldTile(3556, 3296, 0),
-												new WorldTile(3578, 9706, 3));
+		AHRIM_HILL(new WorldTile(3564, 3287, 0), new WorldTile(3557, 9703, 3)),
+		DHAROK_HILL(new WorldTile(3573, 3296, 0), new WorldTile(3556, 9718, 3)),
+		GUTHAN_HILL(new WorldTile(3574, 3279, 0), new WorldTile(3534, 9704, 3)),
+		KARIL_HILL(new WorldTile(3563, 3276, 0), new WorldTile(3546, 9684, 3)),
+		TORAG_HILL(new WorldTile(3553, 3281, 0), new WorldTile(3568, 9683, 3)),
+		VERAC_HILL(new WorldTile(3556, 3296, 0), new WorldTile(3578, 9706, 3));
 
 		private WorldTile outBound;
 		private WorldTile inside;
@@ -57,10 +56,11 @@ public final class Barrows extends Controler {
 					&& player.getY() >= hill.outBound.getY() && player.getX() <= hill.outBound.getX() + 3
 					&& player.getY() <= hill.outBound.getY() + 3) {
 				player.useStairs(-1, hill.inside, 1, 2, "You've broken into a crypt.");
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(0) {
 					@Override
-					public void run() {
+					protected void execute() {
 						player.getControlerManager().startControler("Barrows");
+						this.cancel();
 					}
 				});
 				return true;
@@ -92,7 +92,8 @@ public final class Barrows extends Controler {
 			if (player.getHiddenBrother() == -1)
 				player.getPackets().sendStopCameraShake();
 			else
-				player.getPackets().closeInterface(player.getInterfaceManager().hasRezizableScreen() ? 11 : 0); // removes inter
+				player.getPackets().closeInterface(player.getInterfaceManager().hasRezizableScreen() ? 11 : 0); // removes
+																												// inter
 			removeControler();
 		}
 	}
@@ -176,7 +177,8 @@ public final class Barrows extends Controler {
 	public boolean processObjectClick1(WorldObject object) {
 		if (object.getId() >= 6702 && object.getId() <= 6707) {
 			WorldTile out = Hills.values()[object.getId() - 6702].outBound;
-			// cant make a perfect middle since 3/ 2 wont make a real integer number or wahtever u call it..
+			// cant make a perfect middle since 3/ 2 wont make a real integer number or
+			// wahtever u call it..
 			exit(new WorldTile(out.getX() + 1, out.getY() + 1, out.getPlane()));
 			return false;
 		} else if (object.getId() == 10284) {
@@ -192,7 +194,8 @@ public final class Barrows extends Controler {
 			}
 			sendReward();
 			player.getPackets().sendCameraShake(3, 12, 25, 12, 25);
-			player.getPackets().closeInterface(player.getInterfaceManager().hasRezizableScreen() ? 11 : 0); // removes inter
+			player.getPackets().closeInterface(player.getInterfaceManager().hasRezizableScreen() ? 11 : 0); // removes
+																											// inter
 			player.getPackets().sendSpawnedObject(new WorldObject(6775, 10, 0, 3551, 9695, 0));
 			player.resetBarrows();
 			return false;

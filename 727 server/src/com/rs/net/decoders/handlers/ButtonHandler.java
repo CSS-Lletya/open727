@@ -1,18 +1,16 @@
 package com.rs.net.decoders.handlers;
 
 import java.util.HashMap;
-import java.util.TimerTask;
 
 import com.rs.Settings;
-import com.rs.cores.CoresManager;
+import com.rs.game.World;
 import com.rs.game.event.EventManager;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
@@ -50,6 +48,21 @@ public class ButtonHandler {
 		
 		if (EventManager.get().handleButtonClick(player, interfaceId, componentId, packetId, slotId, itemId)) {
 			return;
+		}
+		
+		if (interfaceId == 884) {
+			if (componentId == 4) {
+				int weaponId = player.getEquipment().getWeaponId();
+				if (player.hasInstantSpecial(weaponId)) {
+					player.performInstantSpecial(weaponId);
+					return;
+				}
+
+				submitSpecialRequest(player);
+			} else if (componentId >= 7 && componentId <= 10)
+				player.getCombatDefinitions().setAttackStyle(componentId - 7);
+			else if (componentId == 11)
+				player.getCombatDefinitions().switchAutoRelatie();
 		}
 		
 		if (Settings.DEBUG)
@@ -277,21 +290,13 @@ public class ButtonHandler {
 	}
 
 	public static void submitSpecialRequest(final Player player) {
-		CoresManager.fastExecutor.schedule(new TimerTask() {
+		World.get().submit(new Task(0) {
 			@Override
-			public void run() {
-				try {
-					WorldTasksManager.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							player.getCombatDefinitions().switchUsingSpecialAttack();
-						}
-					}, 0);
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+			protected void execute() {
+				player.getCombatDefinitions().switchUsingSpecialAttack();
+				this.cancel();
 			}
-		}, 200);
+		});
 	}
 
 	public static void sendWear(Player player, int[] slotIds) {
