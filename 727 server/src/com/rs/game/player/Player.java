@@ -30,33 +30,28 @@ import com.rs.game.minigames.clanwars.FfaZone;
 import com.rs.game.minigames.clanwars.WarControler;
 import com.rs.game.minigames.duel.DuelArena;
 import com.rs.game.minigames.duel.DuelRules;
+import com.rs.game.minigames.pest.PestControlGame;
+import com.rs.game.minigames.pest.PestControlLobby;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.corp.CorpBeastControler;
 import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.npc.godwars.GodWars;
 import com.rs.game.npc.godwars.zaros.Nex;
+import com.rs.game.npc.godwars.zaros.ZGDControler;
 import com.rs.game.npc.pet.Pet;
-import com.rs.game.player.action.ActionQueue;
-import com.rs.game.player.content.FriendChatsManager;
+import com.rs.game.npc.qbd.QueenBlackDragonController;
 import com.rs.game.player.content.Notes;
 import com.rs.game.player.content.Pots;
+import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
-import com.rs.game.player.controlers.CorpBeastControler;
-import com.rs.game.player.controlers.CrucibleControler;
-import com.rs.game.player.controlers.DTControler;
-import com.rs.game.player.controlers.FightCaves;
-import com.rs.game.player.controlers.FightKiln;
-import com.rs.game.player.controlers.GodWars;
-import com.rs.game.player.controlers.NomadsRequiem;
-import com.rs.game.player.controlers.QueenBlackDragonController;
+import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.player.controlers.ZGDControler;
-import com.rs.game.player.controlers.castlewars.CastleWarsPlaying;
-import com.rs.game.player.controlers.castlewars.CastleWarsWaiting;
-import com.rs.game.player.controlers.fightpits.FightPitsArena;
-import com.rs.game.player.controlers.pestcontrol.PestControlGame;
-import com.rs.game.player.controlers.pestcontrol.PestControlLobby;
+import com.rs.game.player.dialogues.DialogueManager;
+import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.Session;
+import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.net.encoders.WorldPacketsEncoder;
@@ -91,7 +86,6 @@ public class Player extends Entity {
 	private transient DialogueManager dialogueManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient ActionManager actionManager;
-	private transient CutscenesManager cutscenesManager;
 	private transient PriceCheckManager priceCheckManager;
 	private transient CoordsEvent coordsEvent;
 	private transient FriendChatsManager currentFriendChat;
@@ -157,10 +151,8 @@ public class Player extends Entity {
 	private MusicsManager musicsManager;
 	private EmotesManager emotesManager;
 	private FriendsIgnores friendsIgnores;
-	private DominionTower dominionTower;
 	private Familiar familiar;
 	private AuraManager auraManager;
-	private QuestManager questManager;
 	private PetManager petManager;
 	private byte runEnergy;
 	private boolean allowChatEffects;
@@ -271,10 +263,8 @@ public class Player extends Entity {
 		musicsManager = new MusicsManager();
 		emotesManager = new EmotesManager();
 		friendsIgnores = new FriendsIgnores();
-		dominionTower = new DominionTower();
 		charges = new ChargesManager();
 		auraManager = new AuraManager();
-		questManager = new QuestManager();
 		petManager = new PetManager();
 		runEnergy = 100;
 		allowChatEffects = true;
@@ -291,12 +281,8 @@ public class Player extends Entity {
 	public void init(Session session, String username, int displayMode, int screenWidth, int screenHeight,
 			MachineInformation machineInformation, IsaacKeyPair isaacKeyPair) {
 		// temporary deleted after reset all chars
-		if (dominionTower == null)
-			dominionTower = new DominionTower();
 		if (auraManager == null)
 			auraManager = new AuraManager();
-		if (questManager == null)
-			questManager = new QuestManager();
 		if (petManager == null) {
 			petManager = new PetManager();
 		}
@@ -315,7 +301,6 @@ public class Player extends Entity {
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
 		actionManager = new ActionManager(this);
-		cutscenesManager = new CutscenesManager(this);
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -329,10 +314,8 @@ public class Player extends Entity {
 		musicsManager.setPlayer(this);
 		emotesManager.setPlayer(this);
 		friendsIgnores.setPlayer(this);
-		dominionTower.setPlayer(this);
 		auraManager.setPlayer(this);
 		charges.setPlayer(this);
-		questManager.setPlayer(this);
 		petManager.setPlayer(this);
 		setDirection(Utils.getFaceDirection(0, -1));
 		temporaryMovementType = -1;
@@ -528,15 +511,14 @@ public class Player extends Entity {
 
 	@Override
 	public void processEntity() {
-		processLogicPackets();
 		if (!isRunning())
 			return;
-		cutscenesManager.process();
+		super.processEntity();
+		processLogicPackets();
 		if (coordsEvent != null && coordsEvent.processEvent(this))
 			coordsEvent = null;
 		if (routeEvent != null && routeEvent.processEvent(this))
 			routeEvent = null;
-		super.processEntity();
 		if (musicsManager.musicEnded())
 			musicsManager.replayMusic();
 		if (hasSkull()) {
@@ -589,7 +571,6 @@ public class Player extends Entity {
 		actionManager.process();
 		prayer.processPrayer();
 		controlerManager.process();
-
 	}
 
 	@Override
@@ -668,7 +649,6 @@ public class Player extends Entity {
 			setRights(2);
 		sendRunButtonConfig();
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
-		getPackets().sendGameMessage("Please go to www.matrixftw.com to keep up with updates.");
 		getPackets().sendGameMessage(Settings.LASTEST_UPDATE);
 
 		sendDefaultPlayersOptions();
@@ -690,7 +670,6 @@ public class Player extends Entity {
 		getPackets().sendGameBarStages();
 		musicsManager.init();
 		emotesManager.refreshListConfigs();
-		questManager.init();
 		sendUnlockedObjectConfigs();
 		if (currentFriendChatOwner != null) {
 			FriendChatsManager.joinChat(currentFriendChatOwner, this);
@@ -845,21 +824,20 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-//		long currentTime = Utils.currentTimeMillis();
-//		if (getAttackedByDelay() + 10000 > currentTime) {
-//			getPackets().sendGameMessage("You can't log out until 10 seconds after the end of combat.");
-//			return;
-//		}
-//		if (getEmotesManager().getNextEmoteEnd() >= currentTime) {
-//			getPackets().sendGameMessage("You can't log out while performing an emote.");
-//			return;
-//		}
-//		if (lockDelay >= currentTime) {
-//			getPackets().sendGameMessage("You can't log out while performing an action.");
-//			return;
-//		}
+		long currentTime = Utils.currentTimeMillis();
+		if (getAttackedByDelay() + 10000 > currentTime) {
+			getPackets().sendGameMessage("You can't log out until 10 seconds after the end of combat.");
+			return;
+		}
+		if (getEmotesManager().getNextEmoteEnd() >= currentTime) {
+			getPackets().sendGameMessage("You can't log out while performing an emote.");
+			return;
+		}
+		if (lockDelay >= currentTime) {
+			getPackets().sendGameMessage("You can't log out while performing an action.");
+			return;
+		}
 		lobby = false;
-		System.out.println("is sending logout");
 		getPackets().sendLogout(lobby && Settings.MANAGMENT_SERVER_ENABLED);
 		running = false;
 	}
@@ -909,7 +887,6 @@ public class Player extends Entity {
 		if (hasFinished())
 			return;
 		stopAll();
-		cutscenesManager.logout();
 		controlerManager.logout(); // checks what to do on before logout for
 		// login
 		running = false;
@@ -922,7 +899,6 @@ public class Player extends Entity {
 			pet.finish();
 		setFinished(true);
 		session.setDecoder(-1);
-//		SerializableFilesManager.savePlayer(this);
 		AccountCreation.savePlayer(this);
 		World.updateEntityRegion(this);
 		World.removePlayer(this);
@@ -1722,7 +1698,7 @@ public class Player extends Entity {
 						killer.setAttackedByDelay(4);
 					}
 				} else if (loop == 3) {
-					controlerManager.startControler("DeathEvent");
+					setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
 				} else if (loop == 4) {
 					getPackets().sendMusicEffect(90);
 					stop();
@@ -1751,8 +1727,7 @@ public class Player extends Entity {
 		if (containedItems.isEmpty())
 			return;
 		int keptAmount = 0;
-		if (!(controlerManager.getControler() instanceof CorpBeastControler)
-				&& !(controlerManager.getControler() instanceof CrucibleControler)) {
+		if (!(controlerManager.getControler() instanceof CorpBeastControler)) {
 			keptAmount = hasSkull() ? 0 : 3;
 			if (prayer.usingPrayer(0, 10) || prayer.usingPrayer(1, 0))
 				keptAmount++;
@@ -2246,10 +2221,6 @@ public class Player extends Entity {
 		this.lastPublicMessage = lastPublicMessage;
 	}
 
-	public CutscenesManager getCutscenesManager() {
-		return cutscenesManager;
-	}
-
 	public void kickPlayerFromFriendsChannel(String name) {
 		if (currentFriendChat == null)
 			return;
@@ -2262,11 +2233,11 @@ public class Player extends Entity {
 		currentFriendChat.sendMessage(this, message);
 	}
 
-	public void sendFriendsChannelQuickMessage(QuickChatMessage message) {
-		if (currentFriendChat == null)
-			return;
-		currentFriendChat.sendQuickMessage(this, message);
-	}
+//	public void sendFriendsChannelQuickMessage(QuickChatMessage message) {
+//		if (currentFriendChat == null)
+//			return;
+//		currentFriendChat.sendQuickMessage(this, message);
+//	}
 
 	public void sendPublicChatMessage(PublicChatMessage message) {
 		for (int regionId : getMapRegionsIds()) {
@@ -2323,10 +2294,6 @@ public class Player extends Entity {
 			}
 		}
 		logicPackets.add(packet);
-	}
-
-	public DominionTower getDominionTower() {
-		return dominionTower;
 	}
 	
 	public void setRouteEvent(RouteEvent routeEvent) {
@@ -2405,26 +2372,17 @@ public class Player extends Entity {
 	}
 
 	public boolean canSpawn() {
-		if (Wilderness.isAtWild(this) || getControlerManager().getControler() instanceof FightPitsArena
+		if (Wilderness.isAtWild(this)
 				|| getControlerManager().getControler() instanceof CorpBeastControler
 				|| getControlerManager().getControler() instanceof PestControlLobby
 				|| getControlerManager().getControler() instanceof PestControlGame
 				|| getControlerManager().getControler() instanceof ZGDControler
 				|| getControlerManager().getControler() instanceof GodWars
-				|| getControlerManager().getControler() instanceof DTControler
-				|| getControlerManager().getControler() instanceof DuelArena
-				|| getControlerManager().getControler() instanceof CastleWarsPlaying
-				|| getControlerManager().getControler() instanceof CastleWarsWaiting
-				|| getControlerManager().getControler() instanceof FightCaves
-				|| getControlerManager().getControler() instanceof FightKiln || FfaZone.inPvpArea(this)
-				|| getControlerManager().getControler() instanceof NomadsRequiem
+				|| getControlerManager().getControler() instanceof DuelArena 
+				|| FfaZone.inPvpArea(this)
 				|| getControlerManager().getControler() instanceof QueenBlackDragonController
 				|| getControlerManager().getControler() instanceof WarControler) {
 			return false;
-		}
-		if (getControlerManager().getControler() instanceof CrucibleControler) {
-			CrucibleControler controler = (CrucibleControler) getControlerManager().getControler();
-			return !controler.isInside();
 		}
 		return true;
 	}
@@ -2625,10 +2583,6 @@ public class Player extends Entity {
 
 	public IsaacKeyPair getIsaacKeyPair() {
 		return isaacKeyPair;
-	}
-
-	public QuestManager getQuestManager() {
-		return questManager;
 	}
 
 	public boolean isCompletedFightCaves() {
@@ -2874,12 +2828,6 @@ public class Player extends Entity {
 
 	public void sm(String string) {
 		getPackets().sendGameMessage(string);
-	}
-
-	public ActionQueue queue = new ActionQueue();
-	
-	public ActionQueue getActionQueue() {
-		return queue;
 	}
 	
 	public Queue<RequestModel> requestResults = new LinkedList<RequestModel>();

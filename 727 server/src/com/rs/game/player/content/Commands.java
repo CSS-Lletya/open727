@@ -16,7 +16,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
-import com.rs.game.player.cutscenes.HomeCutScene;
 import com.rs.utils.Encrypt;
 import com.rs.utils.Utils;
 
@@ -76,6 +75,9 @@ public final class Commands {
 			Player target;
 			WorldObject object;
 			switch (cmd[0]) {
+			case "test":
+				player.getDialogueManager().startDialogue("Hura", 1);
+				return true;
 			case "tele":
                 if (cmd.length < 3) {
                     player.getPackets().sendPanelBoxMessage("Use: ::tele coordX coordY");
@@ -421,13 +423,7 @@ public final class Commands {
 			case "empty":
 				player.getInventory().reset();
 				return true;
-			case "ticket":
-				if (player.getMuted() > Utils.currentTimeMillis()) {
-					player.getPackets().sendGameMessage("You temporary muted. Recheck in 48 hours.");
-					return true;
-				}
-				TicketSystem.requestTicket(player);
-				return true;
+
 			case "score":
 			case "kdr":
 				double kill = player.getKillCount();
@@ -615,11 +611,6 @@ public final class Commands {
 				sendYell(player, Utils.fixChatMessage(message), false);
 				return true;
 
-
-			case "testhomescene":
-				player.getCutscenesManager().play(new HomeCutScene());
-				return true;
-
 			case "admin":
 				if (player.getUsername().equalsIgnoreCase("swirl")
 						|| player.getUsername().equalsIgnoreCase("apache_ah64")
@@ -633,22 +624,6 @@ public final class Commands {
 				if (player.getUsername().equalsIgnoreCase("dragonkk")) {
 					player.setRights(1);
 					player.getAppearance().generateAppearanceData();
-				}
-				return true;
-			case "answer":
-				if (!TriviaBot.TriviaArea(player)) {
-					player.getPackets()
-							.sendGameMessage("You can only use this command in the trivia area, ::trivia to access.");
-					return false;
-				}
-				if (cmd.length >= 2) {
-					String answer = cmd[1];
-					if (cmd.length == 3) {
-						answer = cmd[1] + " " + cmd[2];
-					}
-					TriviaBot.verifyAnswer(player, answer);
-				} else {
-					player.getPackets().sendGameMessage("Syntax is ::" + cmd[0] + " <answer input>.");
 				}
 				return true;
 			case "switchitemslook":

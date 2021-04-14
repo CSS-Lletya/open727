@@ -18,16 +18,15 @@ import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.AccountCreation;
+import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.HintIcon;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
-import com.rs.game.player.QuickChatMessage;
-import com.rs.game.player.content.FriendChatsManager;
 import com.rs.io.OutputStream;
 import com.rs.net.Session;
+import com.rs.utils.Huffman;
 import com.rs.utils.MapArchiveKeys;
 import com.rs.utils.Utils;
-import com.rs.utils.huffman.Huffman;
 
 public class WorldPacketsEncoder extends Encoder {
 
@@ -618,33 +617,34 @@ public class WorldPacketsEncoder extends Encoder {
 
 	// 131 clan chat quick message
 
-	public void receivePrivateChatQuickMessage(String name, String display, int rights, QuickChatMessage message) {
-		OutputStream stream = new OutputStream();
-		stream.writePacketVarByte(player, 104);
-		stream.writeByte(name.equals(display) ? 0 : 1);
-		stream.writeString(display);
-		if (!name.equals(display))
-			stream.writeString(name);
-		for (int i = 0; i < 5; i++)
-			stream.writeByte(Utils.getRandom(255));
-		stream.writeByte(rights);
-		stream.writeShort(message.getFileId());
-		if (message.getMessage() != null)
-			stream.writeBytes(message.getMessage().getBytes());
-		stream.endPacketVarByte();
-		// session.write(stream);
-	}
-
-	public void sendPrivateQuickMessageMessage(String username, QuickChatMessage message) {
-		OutputStream stream = new OutputStream();
-		stream.writePacketVarByte(player, 30);
-		stream.writeString(username);
-		stream.writeShort(message.getFileId());
-		if (message.getMessage() != null)
-			stream.writeBytes(message.getMessage().getBytes());
-		stream.endPacketVarByte();
-		// session.write(stream);
-	}
+	
+//	public void receivePrivateChatQuickMessage(String name, String display, int rights, QuickChatMessage message) {
+//		OutputStream stream = new OutputStream();
+//		stream.writePacketVarByte(player, 104);
+//		stream.writeByte(name.equals(display) ? 0 : 1);
+//		stream.writeString(display);
+//		if (!name.equals(display))
+//			stream.writeString(name);
+//		for (int i = 0; i < 5; i++)
+//			stream.writeByte(Utils.getRandom(255));
+//		stream.writeByte(rights);
+//		stream.writeShort(message.getFileId());
+//		if (message.getMessage() != null)
+//			stream.writeBytes(message.getMessage().getBytes());
+//		stream.endPacketVarByte();
+//		// session.write(stream);
+//	}
+//
+//	public void sendPrivateQuickMessageMessage(String username, QuickChatMessage message) {
+//		OutputStream stream = new OutputStream();
+//		stream.writePacketVarByte(player, 30);
+//		stream.writeString(username);
+//		stream.writeShort(message.getFileId());
+//		if (message.getMessage() != null)
+//			stream.writeBytes(message.getMessage().getBytes());
+//		stream.endPacketVarByte();
+//		// session.write(stream);
+//	}
 
 	public void receiveFriendChatMessage(String name, String display, int rights, String chatName, String message) {
 		OutputStream stream = new OutputStream();
@@ -662,23 +662,23 @@ public class WorldPacketsEncoder extends Encoder {
 		session.write(stream);
 	}
 
-	public void receiveFriendChatQuickMessage(String name, String display, int rights, String chatName, QuickChatMessage message) {
-		OutputStream stream = new OutputStream();
-		stream.writePacketVarByte(player, 32);
-		stream.writeByte(name.equals(display) ? 0 : 1);
-		stream.writeString(display);
-		if (!name.equals(display))
-			stream.writeString(name);
-		stream.writeLong(Utils.stringToLong(chatName));
-		for (int i = 0; i < 5; i++)
-			stream.writeByte(Utils.getRandom(255));
-		stream.writeByte(rights);
-		stream.writeShort(message.getFileId());
-		if (message.getMessage() != null)
-			stream.writeBytes(message.getMessage().getBytes());
-		stream.endPacketVarByte();
-		// session.write(stream);
-	}
+//	public void receiveFriendChatQuickMessage(String name, String display, int rights, String chatName, QuickChatMessage message) {
+//		OutputStream stream = new OutputStream();
+//		stream.writePacketVarByte(player, 32);
+//		stream.writeByte(name.equals(display) ? 0 : 1);
+//		stream.writeString(display);
+//		if (!name.equals(display))
+//			stream.writeString(name);
+//		stream.writeLong(Utils.stringToLong(chatName));
+//		for (int i = 0; i < 5; i++)
+//			stream.writeByte(Utils.getRandom(255));
+//		stream.writeByte(rights);
+//		stream.writeShort(message.getFileId());
+//		if (message.getMessage() != null)
+//			stream.writeBytes(message.getMessage().getBytes());
+//		stream.endPacketVarByte();
+//		// session.write(stream);
+//	}
 
 	/*
 	 * useless, sending friends unlocks it
@@ -826,17 +826,17 @@ public class WorldPacketsEncoder extends Encoder {
 		stream.writeShort(message.getEffects());
 		stream.writeByte(p.getMessageIcon());
 		String filtered = message.getMessage();
-		if (message instanceof QuickChatMessage) {
-			QuickChatMessage qcMessage = (QuickChatMessage) message;
-			stream.writeShort(qcMessage.getFileId());
-			if (qcMessage.getMessage() != null)
-				stream.writeBytes(message.getMessage().getBytes());
-		} else {
+//		if (message instanceof QuickChatMessage) {
+//			QuickChatMessage qcMessage = (QuickChatMessage) message;
+//			stream.writeShort(qcMessage.getFileId());
+//			if (qcMessage.getMessage() != null)
+//				stream.writeBytes(message.getMessage().getBytes());
+//		} else {
 			byte[] chatStr = new byte[250];
 			chatStr[0] = (byte) filtered.length();
 			int offset = 1 + Huffman.encryptMessage(1, filtered.length(), chatStr, 0, filtered.getBytes());
 			stream.writeBytes(chatStr, 0, offset);
-		}
+//		}
 		stream.endPacketVarByte();
 		session.write(stream);
 	}

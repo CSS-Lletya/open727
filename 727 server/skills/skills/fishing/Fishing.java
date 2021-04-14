@@ -9,7 +9,6 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
-import com.rs.game.player.content.FishingSpotsHandler;
 import com.rs.utils.Utils;
 
 import skills.Skills;

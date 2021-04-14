@@ -19,7 +19,6 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.player.Player;
-import com.rs.game.player.cutscenes.NexCutScene;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
@@ -86,7 +85,7 @@ public class NexCombat extends CombatScript {
 							for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2)) {
 								if (entity instanceof Player) {
 									Player player = (Player) entity;
-									player.getCutscenesManager().play(new NexCutScene(dir, idx));
+//									player.getCutscenesManager().play(new NexCutScene(dir, idx));
 									player.applyHit(new Hit(npc, Utils.getRandom(nex.getStage() == 4 ? 800 : 650),
 											HitLook.REGULAR_DAMAGE));
 									player.setNextAnimation(new Animation(10070));

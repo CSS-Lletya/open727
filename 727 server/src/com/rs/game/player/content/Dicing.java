@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
+import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;

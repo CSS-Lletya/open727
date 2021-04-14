@@ -297,9 +297,7 @@ public class InterfaceManager {
 	public boolean addInterface(int windowId, int tabId, int childId) {
 		if (openedinterfaces.containsKey(tabId))
 			player.getPackets().closeInterface(tabId);
-		System.out.println(childId);
 		openedinterfaces.put(tabId, new int[] { childId, windowId });
-		System.out.println(openedinterfaces.get(tabId)[0] + ", " + childId);
 		return openedinterfaces.get(tabId)[0] == childId;
 	}
 

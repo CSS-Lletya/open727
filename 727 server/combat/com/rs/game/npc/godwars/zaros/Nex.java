@@ -10,7 +10,6 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.minigames.ZarosGodwars;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.tasks.WorldTask;

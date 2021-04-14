@@ -3,8 +3,9 @@ package com.rs.game.npc.others;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.controlers.RunespanControler;
 import com.rs.utils.Utils;
+
+import skills.runecrafting.RunespanControler;
 
 @SuppressWarnings("serial")
 public class YellowWizard extends NPC {

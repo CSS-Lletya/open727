@@ -2,7 +2,6 @@ package com.rs.game.npc.godwars.zaros;
 
 import com.rs.game.Entity;
 import com.rs.game.WorldTile;
-import com.rs.game.minigames.ZarosGodwars;
 import com.rs.game.npc.NPC;
 
 @SuppressWarnings("serial")

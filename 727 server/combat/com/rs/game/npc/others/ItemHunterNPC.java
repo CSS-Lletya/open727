@@ -9,11 +9,11 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.OwnedObjectManager.ConvertEvent;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Hunter;
-import com.rs.game.player.content.Hunter.DynamicFormula;
 import com.rs.utils.Utils;
 
+import skills.hunter.Hunter;
 import skills.hunter.BoxAction.HunterNPC;
+import skills.hunter.Hunter.DynamicFormula;
 
 @SuppressWarnings("serial")
 public class ItemHunterNPC extends NPC {

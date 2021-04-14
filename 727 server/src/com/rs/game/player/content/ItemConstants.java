@@ -4,7 +4,6 @@ package com.rs.game.player.content;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
-import com.rs.game.player.QuestManager.Quests;
 
 public class ItemConstants {
 
@@ -86,11 +85,6 @@ public class ItemConstants {
 		if (player.getRights() == 2)
 			return true;
 		if ((item.getId() == 20769 || item.getId() == 20771)) {
-			if (item.getId() == 20771 && player.getDominionTower().getKilledBossesCount() < 100) {
-				player.getPackets().sendGameMessage(
-						"You need to have kill atleast 100 bosses in the Dominion tower to use this cape.");
-				return false;
-			}
 			if (!player.isCompletedFightKiln()) {
 				player.getPackets()
 						.sendGameMessage("You need to complete at least once fight kiln minigame to use this cape.");
@@ -106,11 +100,6 @@ public class ItemConstants {
 						"You need to have killed the Queen Black Dragon atleast once to use this cape.");
 				return false;
 			}
-			if (!player.getQuestManager().completedQuest(Quests.NOMADS_REQUIEM)) {
-				player.getPackets()
-						.sendGameMessage("You need to have completed Nomad's Requiem miniquest to use this cape.");
-				return false;
-			}
 		} else if (item.getId() == 6570 || item.getId() == 10566 || item.getId() == 10637) { // temporary
 			if (!player.isCompletedFightCaves()) {
 				player.getPackets()
@@ -122,22 +111,6 @@ public class ItemConstants {
 				player.getPackets()
 						.sendGameMessage("You need to complete at least once fight kiln minigame to use this cape.");
 				return false;
-			}
-		} else if (item.getId() == 14642 || item.getId() == 14645 || item.getId() == 15433 || item.getId() == 15435
-				|| item.getId() == 14641 || item.getId() == 15432 || item.getId() == 15434) {
-			if (!player.getQuestManager().completedQuest(Quests.NOMADS_REQUIEM)) {
-				player.getPackets()
-						.sendGameMessage("You need to have completed Nomad's Requiem miniquest to use this cape.");
-				return false;
-			}
-		}
-		String itemName = item.getName();
-		if (itemName.contains("goliath gloves") || itemName.contains("spellcaster glove")
-				|| itemName.contains("swift glove")) {
-			if (player.getDominionTower().getKilledBossesCount() < 50) {
-				player.getPackets().sendGameMessage(
-						"You need to have kill atleast 50 bosses in the Dominion tower to wear these gloves.");
-				return true;
 			}
 		}
 		return true;

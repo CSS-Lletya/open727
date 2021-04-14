@@ -55,10 +55,10 @@ public final class RegionBuilder {
 						// System.out.println("nocliping: "+xn+", "+yn);
 						Thread.sleep(1);
 					}
-					System.out.println("nocliping: " + xn + ", " + yn + ", " + baseLocalX + ", " + baseLocalY);
-					System.out.println(region.forceGetRegionMap().getMasks()[plane][baseLocalX][baseLocalY]);
+//					System.out.println("nocliping: " + xn + ", " + yn + ", " + baseLocalX + ", " + baseLocalY);
+//					System.out.println(region.forceGetRegionMap().getMasks()[plane][baseLocalX][baseLocalY]);
 					region.forceGetRegionMap().setMask(plane, baseLocalX, baseLocalY, 0);
-					System.out.println(region.forceGetRegionMap().getMasks()[plane][baseLocalX][baseLocalY]);
+//					System.out.println(region.forceGetRegionMap().getMasks()[plane][baseLocalX][baseLocalY]);
 
 					region.forceGetRegionMapClipedOnly().setMask(plane, baseLocalX, baseLocalY, 0);
 				}

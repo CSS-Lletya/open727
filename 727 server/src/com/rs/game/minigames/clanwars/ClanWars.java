@@ -10,8 +10,8 @@ import com.rs.cores.CoresManager;
 import com.rs.game.RegionBuilder;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
+import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.FriendChatsManager;
 
 /**
  * Handles the clan wars activity.

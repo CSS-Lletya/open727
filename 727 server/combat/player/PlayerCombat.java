@@ -17,21 +17,18 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Steeltitan;
-import com.rs.game.npc.fightkiln.HarAken;
-import com.rs.game.npc.fightkiln.HarAkenTentacle;
 import com.rs.game.npc.godwars.zaros.NexMinion;
 import com.rs.game.npc.qbd.QueenBlackDragon;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
-import com.rs.game.player.content.Combat;
-import com.rs.game.player.content.Magic;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.MapAreas;
 import com.rs.utils.Utils;
 
 import skills.Skills;
+import skills.magic.Magic;
 
 public class PlayerCombat extends Action {
 
@@ -67,7 +64,7 @@ public class PlayerCombat extends Action {
 	}
 
 	private boolean forceCheckClipAsRange(Entity target) {
-		return target instanceof NexMinion || target instanceof HarAken || target instanceof HarAkenTentacle
+		return target instanceof NexMinion/* || target instanceof HarAken || target instanceof HarAkenTentacle */
 				|| target instanceof QueenBlackDragon;
 	}
 

@@ -8,7 +8,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.Crucible;
 import com.rs.game.minigames.duel.DuelControler;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Familiar.SpecialAttack;
@@ -16,20 +15,15 @@ import com.rs.game.player.EmotesManager;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
-import com.rs.game.player.action.impl.Woodcutting;
-import com.rs.game.player.actions.FightPitsViewingOrb;
 import com.rs.game.player.actions.HomeTeleport;
 import com.rs.game.player.actions.Rest;
-import com.rs.game.player.content.AdventurersLog;
 import com.rs.game.player.content.ItemConstants;
-import com.rs.game.player.content.Magic;
 import com.rs.game.player.content.PlayerLook;
-import com.rs.game.player.content.Runecrafting;
 import com.rs.game.player.content.Shop;
 import com.rs.game.player.content.SkillCapeCustomizer;
 import com.rs.game.player.content.SkillsDialogue;
-import com.rs.game.player.dialogues.LevelUp;
-import com.rs.game.player.dialogues.Transportation;
+import com.rs.game.player.dialogues.impl.LevelUp;
+import com.rs.game.player.dialogues.impl.Transportation;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.io.InputStream;
@@ -40,6 +34,8 @@ import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import skills.Skills;
+import skills.magic.Magic;
+import skills.runecrafting.Runecrafting;
 import skills.smithing.Smithing.ForgingInterface;
 import skills.summoning.Summoning;
 
@@ -111,9 +107,6 @@ public class ButtonHandler {
 					player.getPriceCheckManager().openPriceCheck();
 				}
 			}
-		}
-		if (interfaceId == 751 || interfaceId == 1110) {
-			player.getActionQueue().addAction(new Woodcutting(player));
 		}
 		else if (interfaceId == 387 && componentId == 46 &&packetId == 27){
 			player.getAuraManager().activate();
@@ -426,8 +419,6 @@ public class ButtonHandler {
 				player.switchMouseButtons();
 			else if (componentId == 24) // audio options
 				player.getInterfaceManager().sendSettings(429);
-			else if (componentId == 26)
-				AdventurersLog.open(player);
 		} else if (interfaceId == 429) {
 			if (componentId == 18)
 				player.getInterfaceManager().sendSettings();
@@ -1176,9 +1167,7 @@ public class ButtonHandler {
 					// ASSIST XP Earned/Time
 				}
 			}
-		} else if (interfaceId == 1163 || interfaceId == 1164 || interfaceId == 1168 || interfaceId == 1170
-				|| interfaceId == 1173)
-			player.getDominionTower().handleButtons(interfaceId, componentId);
+		}
 		else if (interfaceId == 900)
 			PlayerLook.handleMageMakeOverButtons(player, componentId);
 		else if (interfaceId == 1028)
@@ -1187,12 +1176,7 @@ public class ButtonHandler {
 			player.getFriendsIgnores().handleFriendChatButtons(interfaceId, componentId, packetId);
 		else if (interfaceId == 1079)
 			player.closeInterfaces();
-		else if (interfaceId == 374) {
-			if (componentId >= 5 && componentId <= 9)
-				player.setNextWorldTile(new WorldTile(FightPitsViewingOrb.ORB_TELEPORTS[componentId - 5]));
-			else if (componentId == 15)
-				player.stopAll();
-		} else if (interfaceId == 1092) {
+		else if (interfaceId == 1092) {
 			player.stopAll();
 			WorldTile destTile = null;
 			switch (componentId) {
@@ -1246,15 +1230,8 @@ public class ButtonHandler {
 				player.getActionManager().setAction(new HomeTeleport(destTile));
 		} else if (interfaceId == 1214)
 			player.getSkills().handleSetupXPCounter(componentId);
-		else if (interfaceId == 1292) {
-			if (componentId == 12)
-				Crucible.enterArena(player);
-			else if (componentId == 13)
-				player.closeInterfaces();
-		}
 		if (Settings.DEBUG)
-			Logger.log("ButtonHandler", "InterfaceId " + interfaceId + ", componentId " + componentId + ", slotId "
-					+ slotId + ", slotId2 " + slotId2 + ", PacketId: " + packetId);
+			Logger.log("ButtonHandler", "Interface ID: " + interfaceId + " - Comonent: " + componentId + " - PacketId: " + packetId);
 	}
 
 	public static void sendRemove(Player player, int slotId) {

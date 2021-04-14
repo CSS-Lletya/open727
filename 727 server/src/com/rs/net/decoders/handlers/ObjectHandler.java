@@ -8,24 +8,11 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.CastleWars;
-import com.rs.game.minigames.Crucible;
-import com.rs.game.minigames.FightPits;
 import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.Player;
-import com.rs.game.player.QuestManager.Quests;
-import com.rs.game.player.RouteEvent;
-import com.rs.game.player.actions.CowMilkingAction;
-import com.rs.game.player.content.Hunter;
-import com.rs.game.player.content.Magic;
-import com.rs.game.player.content.PartyRoom;
-import com.rs.game.player.content.Runecrafting;
-import com.rs.game.player.controlers.Falconry;
-import com.rs.game.player.controlers.FightCaves;
-import com.rs.game.player.controlers.FightKiln;
-import com.rs.game.player.controlers.NomadsRequiem;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.player.dialogues.MiningGuildDwarf;
+import com.rs.game.player.dialogues.impl.MiningGuildDwarf;
+import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.io.InputStream;
@@ -41,11 +28,15 @@ import skills.cooking.Cooking.Cookables;
 import skills.firemaking.Bonfire;
 import skills.hunter.BoxAction.HunterEquipment;
 import skills.hunter.BoxAction.HunterNPC;
+import skills.hunter.Falconry;
+import skills.hunter.Hunter;
+import skills.magic.Magic;
 import skills.mining.EssenceMining;
 import skills.mining.EssenceMining.EssenceDefinitions;
 import skills.mining.Mining;
 import skills.mining.Mining.RockDefinitions;
 import skills.mining.MiningBase;
+import skills.runecrafting.Runecrafting;
 import skills.runecrafting.SihponActionNodes;
 import skills.smithing.Smithing.ForgingBar;
 import skills.smithing.Smithing.ForgingInterface;
@@ -150,8 +141,6 @@ public final class ObjectHandler {
 				player.stopAll();
 				player.faceObject(object);
 				if (!player.getControlerManager().processObjectClick1(object))
-					return;
-				if (CastleWars.handleObjects(player, id))
 					return;
 				if (object.getId() == 19205)
 					Hunter.createLoggedObject(player, object, true);
@@ -273,12 +262,7 @@ public final class ObjectHandler {
 							"And you find yourself into a digsite.");
 					player.addWalkSteps(3222, 3223, -1, false);
 					player.getPackets().sendGameMessage("You examine portal and it aborves you...");
-				} else if (id == 9356)
-					FightCaves.enterFightCaves(player);
-				else if (id == 68107)
-					FightKiln.enterFightKiln(player, false);
-				else if (id == 68223)
-					FightPits.enterLobby(player, false);
+				}
 				else if (id == 46500 && object.getX() == 3351 && object.getY() == 3415) { // zaros portal
 					player.useStairs(-1, new WorldTile(Settings.RESPAWN_PLAYER_LOCATION.getX(),
 							Settings.RESPAWN_PLAYER_LOCATION.getY(), Settings.RESPAWN_PLAYER_LOCATION.getPlane()), 2, 3,
@@ -341,15 +325,6 @@ public final class ObjectHandler {
 					player.useStairs(-1, new WorldTile(3071, 3649, 0), 0, 1);
 				else if (id == 20600 && object.getX() == 3072 && object.getY() == 3648)
 					player.useStairs(-1, new WorldTile(3077, 10058, 0), 0, 1);
-				// nomads requiem
-				else if (id == 18425 && !player.getQuestManager().completedQuest(Quests.NOMADS_REQUIEM))
-					NomadsRequiem.enterNomadsRequiem(player);
-				else if (id == 42219) {
-					player.useStairs(-1, new WorldTile(1886, 3178, 0), 0, 1);
-					if (player.getQuestManager().getQuestStage(Quests.NOMADS_REQUIEM) == -2) // for now, on future talk with npc + quest reqs
-						player.getQuestManager().setQuestStageAndRefresh(Quests.NOMADS_REQUIEM, 0);
-				} else if (id == 8689)
-					player.getActionManager().setAction(new CowMilkingAction());
 				else if (id == 42220)
 					player.useStairs(-1, new WorldTile(3082, 3475, 0), 0, 1);
 				// start falador mininig
@@ -357,10 +332,7 @@ public final class ObjectHandler {
 					player.useStairs(828, new WorldTile(3020, 9850, 0), 1, 2);
 				else if (id == 6226 && object.getX() == 3019 && object.getY() == 9850)
 					player.useStairs(833, new WorldTile(3018, 3450, 0), 1, 2);
-				else if (id == 31002 && player.getQuestManager().completedQuest(Quests.PERIL_OF_ICE_MONTAINS))
-					player.useStairs(833, new WorldTile(2998, 3452, 0), 1, 2);
-				else if (id == 31012 && player.getQuestManager().completedQuest(Quests.PERIL_OF_ICE_MONTAINS))
-					player.useStairs(828, new WorldTile(2996, 9845, 0), 1, 2);
+				
 				else if (id == 30943 && object.getX() == 3059 && object.getY() == 9776)
 					player.useStairs(-1, new WorldTile(3061, 3376, 0), 0, 1);
 				else if (id == 30944 && object.getX() == 3059 && object.getY() == 3376)
@@ -685,18 +657,7 @@ public final class ObjectHandler {
 					Magic.pushLeverTeleport(player, new WorldTile(3155, 3923, 0));
 				} else if (id == 1815) {
 					Magic.pushLeverTeleport(player, new WorldTile(2561, 3311, 0));
-				} else if (id == 62675)
-					player.getCutscenesManager().play("DTPreview");
-				else if (id == 62681)
-					player.getDominionTower().viewScoreBoard();
-				else if (id == 62678 || id == 62679)
-					player.getDominionTower().openModes();
-				else if (id == 62688)
-					player.getDialogueManager().startDialogue("DTClaimRewards");
-				else if (id == 62677)
-					player.getDominionTower().talkToFace();
-				else if (id == 62680)
-					player.getDominionTower().openBankChest();
+				}
 				else if (id == 48797)
 					player.useStairs(-1, new WorldTile(3877, 5526, 1), 0, 1);
 				else if (id == 48798)
@@ -741,8 +702,6 @@ public final class ObjectHandler {
 					player.useStairs(-1, new WorldTile(3120, 3519, 0), 0, 1);
 				else if (id == 67051)
 					player.getDialogueManager().startDialogue("Marv", false);
-				else if (id == 67052)
-					Crucible.enterCrucibleEntrance(player);
 				else {
 					switch (objectDef.name.toLowerCase()) {
 					case "trapdoor":
@@ -969,18 +928,10 @@ public final class ObjectHandler {
 					player.getDialogueManager().startDialogue("SmeltingD", object);
 				else if (id == 17010)
 					player.getDialogueManager().startDialogue("LunarAltar");
-				else if (id == 62677)
-					player.getDominionTower().openRewards();
-				else if (id == 62688)
-					player.getDialogueManager().startDialogue("SimpleMessage",
-							"You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
-				else if (id == 68107)
-					FightKiln.enterFightKiln(player, true);
+				
 				else if (id == 34384 || id == 34383 || id == 14011 || id == 7053 || id == 34387 || id == 34386
 						|| id == 34385)
 					Thieving.handleStalls(player, object);
-				else if (id == 2418)
-					PartyRoom.openPartyChest(player);
 				else if (id == 2646) {
 					World.removeTemporaryObject(object, 50000, true);
 					player.getInventory().addItem(1779, 1);

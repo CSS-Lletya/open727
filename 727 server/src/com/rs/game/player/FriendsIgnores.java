@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.player.content.FriendChatsManager;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Utils;
 
@@ -132,12 +131,12 @@ public class FriendsIgnores implements Serializable {
 				player.getDisplayName(), player.getMessageIcon(), message);
 	}
 
-	public void sendQuickChatMessage(Player p2, QuickChatMessage quickChatMessage) {
-		player.getPackets().sendPrivateQuickMessageMessage(p2.getDisplayName(), quickChatMessage);
-		p2.getPackets().receivePrivateChatQuickMessage(Utils.formatPlayerNameForDisplay(player.getUsername()),
-				player.getDisplayName(), player.getMessageIcon(), quickChatMessage);
-
-	}
+//	public void sendQuickChatMessage(Player p2, QuickChatMessage quickChatMessage) {
+//		player.getPackets().sendPrivateQuickMessageMessage(p2.getDisplayName(), quickChatMessage);
+//		p2.getPackets().receivePrivateChatQuickMessage(Utils.formatPlayerNameForDisplay(player.getUsername()),
+//				player.getDisplayName(), player.getMessageIcon(), quickChatMessage);
+//
+//	}
 
 	public void changeRank(String username, int rank) {
 		if (rank < 0 || rank > 6)

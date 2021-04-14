@@ -5,8 +5,9 @@ import com.rs.game.ForceMovement;
 import com.rs.game.Graphics;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Magic;
 import com.rs.utils.Utils;
+
+import skills.magic.Magic;
 
 public class HomeTeleport extends Action {
 
