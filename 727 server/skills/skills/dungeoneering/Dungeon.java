@@ -32,7 +32,7 @@ public final class Dungeon {
 		if (creationCount > creationReferences.length)
 			throw new RuntimeException("failed generating " + creationCount + " INVALID");
 		// requestLoadMapsOnDemand();
-		System.out.println("Dungeon roomCount: " + creationCount);
+//		System.out.println("Dungeon roomCount: " + creationCount);
 	}
 
 	public void requestLoadMapsOnDemand() {

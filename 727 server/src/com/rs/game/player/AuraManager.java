@@ -60,7 +60,6 @@ public class AuraManager implements Serializable {
 	}
 
 	public void activate() {
-		System.out.println("got to activation part");
 		Item item = player.getEquipment().getItem(Equipment.SLOT_AURA);
 		if (item == null)
 			return;

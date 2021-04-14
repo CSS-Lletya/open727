@@ -12,8 +12,6 @@ import com.rs.Settings;
 import com.rs.cores.CoresManager;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.GodWarsBosses;
-import com.rs.game.minigames.ZarosGodwars;
 import com.rs.game.minigames.clanwars.FfaZone;
 import com.rs.game.minigames.clanwars.RequestController;
 import com.rs.game.minigames.duel.DuelControler;
@@ -21,6 +19,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.corp.CorporealBeast;
 import com.rs.game.npc.dragons.KingBlackDragon;
 import com.rs.game.npc.godwars.GodWarMinion;
+import com.rs.game.npc.godwars.GodWarsBosses;
 import com.rs.game.npc.godwars.armadyl.GodwarsArmadylFaction;
 import com.rs.game.npc.godwars.armadyl.KreeArra;
 import com.rs.game.npc.godwars.bandos.GeneralGraardor;
@@ -31,9 +30,8 @@ import com.rs.game.npc.godwars.zammorak.GodwarsZammorakFaction;
 import com.rs.game.npc.godwars.zammorak.KrilTstsaroth;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.godwars.zaros.NexMinion;
+import com.rs.game.npc.godwars.zaros.ZarosGodwars;
 import com.rs.game.npc.kalph.KalphiteQueen;
-import com.rs.game.npc.nomad.FlameVortex;
-import com.rs.game.npc.nomad.Nomad;
 import com.rs.game.npc.others.Bork;
 import com.rs.game.npc.others.ItemHunterNPC;
 import com.rs.game.npc.others.LivingRock;
@@ -44,12 +42,9 @@ import com.rs.game.npc.others.PestMonsters;
 import com.rs.game.npc.others.Revenant;
 import com.rs.game.npc.others.TormentedDemon;
 import com.rs.game.npc.slayer.Strykewyrm;
-import com.rs.game.npc.sorgar.Elemental;
 import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.ItemConstants;
-import com.rs.game.player.content.LivingRockCavern;
-import com.rs.game.player.content.TriviaBot;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
 import com.rs.utils.AntiFlood;
@@ -58,6 +53,7 @@ import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
 
 import skills.Skills;
+import skills.fishing.LivingRockCavern;
 import skills.hunter.BoxAction.HunterNPC;
 
 public final class World {
@@ -70,11 +66,7 @@ public final class World {
 	private static final EntityList<NPC> npcs = new EntityList<NPC>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> regions = Collections.synchronizedMap(new HashMap<Integer, Region>());
 
-	// private static final Object lock = new Object();
-
 	public static final void init() {
-		// addLogicPacketsTask();
-		addTriviaBotTask();
 		addRestoreRunEnergyTask();
 		addDrainPrayerTask();
 		addRestoreHitPointsTask();
@@ -160,19 +152,6 @@ public final class World {
 	}
 
 	private static boolean checkAgility;
-
-	private static final void addTriviaBotTask() {
-		CoresManager.fastExecutor.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					TriviaBot.Run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, 40000);
-	}
 
 	private static final void addRestoreRunEnergyTask() {
 		CoresManager.fastExecutor.schedule(new TimerTask() {
@@ -319,20 +298,14 @@ public final class World {
 				n = new ItemHunterNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		} else if (id == 6142 || id == 6144 || id == 6145 || id == 6143)
 			n = new PestMonsters(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id >= 5533 && id <= 5558)
-			n = new Elemental(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 7134)
 			n = new Bork(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 9441)
-			n = new FlameVortex(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id >= 8832 && id <= 8834)
 			n = new LivingRock(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id >= 13465 && id <= 13481)
 			n = new Revenant(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 1158 || id == 1160)
 			n = new KalphiteQueen(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id >= 8528 && id <= 8532)
-			n = new Nomad(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 6215 || id == 6211 || id == 3406 || id == 6216 || id == 6214 || id == 6215 || id == 6212 || id == 6219 || id == 6221 || id == 6218)
 			n = new GodwarsZammorakFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 6254 && id == 6259)

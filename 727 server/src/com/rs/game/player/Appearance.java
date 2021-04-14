@@ -27,6 +27,14 @@ public class Appearance implements Serializable {
 	private transient byte[] md5AppeareanceDataHash;
 	private transient short transformedNpcId;
 	private transient boolean hidePlayer;
+	public transient static final int[] MALE_HAIR_STYLES = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 185, 187, 189, 191, 193, 195,
+			197, 261, 262, 263, 264, 265, 257, 256, 259, 309, 314, 313, 310, 315, 312, 311, 316 },
+
+			BEARD_STYLES = { 14, 13, 98, 308, 305, 307, 10, 15, 16, 100, 12, 11, 102, 306, 99, 101, 104, 17, 103 },
+
+			FEMALE_HAIR_STYLES = { 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 135, 136, 137, 138, 139, 140, 141, 142, 143,
+					144, 145, 146, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 317, 320, 326, 318, 319,
+					323, 321, 322, 324, 325 };
 
 	private transient Player player;
 
@@ -329,8 +337,8 @@ public class Appearance implements Serializable {
 	}
 	
 	public void switchGender(){
-		lookI[HAIR] = male ? new Random().nextInt(HairdressersSalon.FEMALE_HAIR_STYLES.length) : new Random().nextInt(HairdressersSalon.MALE_HAIR_STYLES.length);
-		lookI[BEARD] = male ? 0 : new Random().nextInt(HairdressersSalon.BEARD_STYLES.length);
+		lookI[HAIR] = male ? new Random().nextInt(FEMALE_HAIR_STYLES.length) : new Random().nextInt(MALE_HAIR_STYLES.length);
+		lookI[BEARD] = male ? 0 : new Random().nextInt(BEARD_STYLES.length);
 		male = !male;
 	}
 	
@@ -678,11 +686,11 @@ public class Appearance implements Serializable {
 	public static final int HAIR = 0, TOP = 1, LEGS = 2, SHOES = 3, SKIN = 4, BEARD = 5, ARMS = 6, WRISTS = 7;
 
 	public int getHair(){
-		return male ? HairdressersSalon.MALE_HAIR_STYLES[lookI[HAIR]] : HairdressersSalon.FEMALE_HAIR_STYLES[lookI[HAIR]];
+		return male ? MALE_HAIR_STYLES[lookI[HAIR]] : FEMALE_HAIR_STYLES[lookI[HAIR]];
 	}
 	
 	public int getBeard(){
-		return HairdressersSalon.BEARD_STYLES[lookI[BEARD]];
+		return BEARD_STYLES[lookI[BEARD]];
 	}
 	
 	public int getTop(){

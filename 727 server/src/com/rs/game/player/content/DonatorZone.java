@@ -11,6 +11,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
 
+import skills.magic.Magic;
+
 public class DonatorZone {
 
 	public static void enterDonatorzone(final Player player) {

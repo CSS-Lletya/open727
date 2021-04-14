@@ -5,10 +5,11 @@ import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Combat;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
+
+import player.Combat;
 
 /**
  * Represents a default fire breath attack.

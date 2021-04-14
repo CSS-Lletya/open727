@@ -6,7 +6,6 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
-import com.rs.game.player.content.Runecrafting;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;

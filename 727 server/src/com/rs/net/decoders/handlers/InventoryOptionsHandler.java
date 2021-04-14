@@ -8,6 +8,7 @@ import com.rs.game.Animation;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
+import com.rs.game.minigames.Barrows;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar.SpecialAttack;
 import com.rs.game.npc.pet.Pet;
@@ -18,15 +19,10 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.AncientEffigies;
 import com.rs.game.player.content.ArmourSets;
 import com.rs.game.player.content.ArmourSets.Sets;
-import com.rs.game.player.content.Burying.Bone;
 import com.rs.game.player.content.Dicing;
 import com.rs.game.player.content.Foods;
-import com.rs.game.player.content.Magic;
 import com.rs.game.player.content.Pots;
-import com.rs.game.player.content.Runecrafting;
 import com.rs.game.player.content.SkillCapeCustomizer;
-import com.rs.game.player.controlers.Barrows;
-import com.rs.game.player.controlers.FightKiln;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.io.InputStream;
@@ -34,8 +30,8 @@ import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
 import skills.crafting.GemCutting;
-import skills.crafting.LeatherCrafting;
 import skills.crafting.GemCutting.Gem;
+import skills.crafting.LeatherCrafting;
 import skills.firemaking.Firemaking;
 import skills.fletching.Fletching;
 import skills.fletching.Fletching.Fletch;
@@ -43,6 +39,9 @@ import skills.herblore.HerbCleaning;
 import skills.herblore.Herblore;
 import skills.hunter.BoxAction;
 import skills.hunter.BoxAction.HunterEquipment;
+import skills.magic.Magic;
+import skills.prayer.Burying.Bone;
+import skills.runecrafting.Runecrafting;
 import skills.summoning.Summoning;
 import skills.summoning.Summoning.Pouches;
 
@@ -165,8 +164,6 @@ public class InventoryOptionsHandler {
 			player.getDialogueManager().startDialogue("AncientEffigiesD", itemId);
 		else if (itemId == 4155)
 			player.getDialogueManager().startDialogue("EnchantedGemDialouge");
-		else if (itemId >= 23653 && itemId <= 23658)
-			FightKiln.useCrystal(player, itemId);
 		else if (itemId == 1856) {// Information Book
 			player.getInterfaceManager().sendInterface(275);
 			player.getPackets().sendIComponentText(275, 2, Settings.SERVER_NAME);

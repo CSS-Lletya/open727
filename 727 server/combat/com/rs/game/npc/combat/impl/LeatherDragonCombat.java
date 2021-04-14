@@ -7,8 +7,9 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Combat;
 import com.rs.utils.Utils;
+
+import player.Combat;
 
 public class LeatherDragonCombat extends CombatScript {
 

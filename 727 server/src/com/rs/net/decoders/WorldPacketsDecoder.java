@@ -10,37 +10,33 @@ import com.rs.game.dialogue.container.Test_D;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.minigames.clanwars.ClanWars;
-import com.rs.game.minigames.creations.StealingCreation;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Familiar.SpecialAttack;
+import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Inventory;
-import com.rs.game.player.LogicPacket;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
-import com.rs.game.player.QuickChatMessage;
-import com.rs.game.player.RouteEvent;
 import com.rs.game.player.actions.PlayerFollow;
 import com.rs.game.player.content.Commands;
-import com.rs.game.player.content.FriendChatsManager;
-import com.rs.game.player.content.Magic;
 import com.rs.game.player.content.Notes.Note;
 import com.rs.game.player.content.SkillCapeCustomizer;
-import com.rs.game.player.content.Vote;
 import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
+import com.rs.game.route.strategy.RouteEvent;
 import com.rs.io.InputStream;
 import com.rs.net.Session;
 import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.net.decoders.handlers.NPCHandler;
 import com.rs.net.decoders.handlers.ObjectHandler;
+import com.rs.utils.Huffman;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
-import com.rs.utils.huffman.Huffman;
 
 import player.PlayerCombat;
 import skills.Skills;
+import skills.magic.Magic;
 import skills.summoning.Summoning;
 
 public final class WorldPacketsDecoder extends Decoder {
@@ -125,9 +121,11 @@ public final class WorldPacketsDecoder extends Decoder {
 	
 	//CHAT TYPES
 	private final static int CHAT_PACKET = 86;
+	@SuppressWarnings("unused")
 	private final static int PUBLIC_QUICK_CHAT_PACKET = 64;
 	
 	private final static int SEND_FRIEND_MESSAGE_PACKET = 15;
+	@SuppressWarnings("unused")
 	private final static int SEND_FRIEND_QUICK_CHAT_PACKET = 14;
 	
 	private final static int ITEM_TAKE_PACKET = 54;
@@ -149,22 +147,9 @@ public final class WorldPacketsDecoder extends Decoder {
 	private final static int MOVE_MOUSE_PACKET = -1;
 	private final static int IN_OUT_SCREEN_PACKET = -1;
 	private final static int PING_PACKET = -1;
-	
-	/*
-	 if (!player.clientHasLoadedMapRegion())
-				player.setClientHasLoadedMapRegion();
-			player.refreshSpawnedObjects();
-			player.refreshSpawnedItems();
-	 */
-
-	
-	
-	
 
 	private final static int MAGIC_ON_ITEM_PACKET = -1; //ignore this one - shitty configuration
 	
-	
-
 	static {
 		loadPacketSizes();
 	}
@@ -1230,8 +1215,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				}
 				player.getTemporaryAttributtes().put("view_clan", clan);
 				ClanWars.enter(player);
-			} else if (player.getTemporaryAttributtes().remove("checkvoteinput") != null)
-				Vote.checkVote(player, value);
+			}
 		} else if (packetId == ENTER_INTEGER_PACKET) {
 			if (!player.isRunning() || player.isDead())
 				return;
@@ -1297,13 +1281,6 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.getSkills().setXp(skillId, Skills.getXPForLevel(value));
 				player.getAppearance().generateAppearanceData();
 				player.getDialogueManager().finishDialogue();
-			} else if (player.getTemporaryAttributtes().get("kilnX") != null) {
-				int index = (Integer) player.getTemporaryAttributtes().get("scIndex");
-				int componentId = (Integer) player.getTemporaryAttributtes().get("scComponentId");
-				int itemId = (Integer) player.getTemporaryAttributtes().get("scItemId");
-				player.getTemporaryAttributtes().remove("kilnX");
-				if (StealingCreation.proccessKilnItems(player, componentId, index, itemId, value))
-					return;
 			}
 		} else if (packetId == SWITCH_INTERFACE_ITEM_PACKET) {
 			
@@ -1446,44 +1423,44 @@ public final class WorldPacketsDecoder extends Decoder {
 				return;
 
 			player.getFriendsIgnores().sendMessage(p2, Utils.fixChatMessage(Huffman.readEncryptedMessage(150, stream)));
-		} else if (packetId == SEND_FRIEND_QUICK_CHAT_PACKET) {
-			if (!player.hasStarted())
-				return;
-			String username = stream.readString();
-			int fileId = stream.readUnsignedShort();
-			byte[] data = null;
-			if (length > 3 + username.length()) {
-				data = new byte[length - (3 + username.length())];
-				stream.readBytes(data);
-			}
-			data = Utils.completeQuickMessage(player, fileId, data);
-			Player p2 = World.getPlayerByDisplayName(username);
-			if (p2 == null)
-				return;
-			player.getFriendsIgnores().sendQuickChatMessage(p2, new QuickChatMessage(fileId, data));
-		} else if (packetId == PUBLIC_QUICK_CHAT_PACKET) {
-			if (!player.hasStarted())
-				return;
-			if (player.getLastPublicMessage() > Utils.currentTimeMillis())
-				return;
-			player.setLastPublicMessage(Utils.currentTimeMillis() + 300);
-			// just tells you which client script created packet
-			@SuppressWarnings("unused")
-			boolean secondClientScript = stream.readByte() == 1;// script 5059
-			// or 5061
-			int fileId = stream.readUnsignedShort();
-			byte[] data = null;
-			if (length > 3) {
-				data = new byte[length - 3];
-				stream.readBytes(data);
-			}
-			data = Utils.completeQuickMessage(player, fileId, data);
-			if (chatType == 0)
-				player.sendPublicChatMessage(new QuickChatMessage(fileId, data));
-			else if (chatType == 1)
-				player.sendFriendsChannelQuickMessage(new QuickChatMessage(fileId, data));
-			else if (Settings.DEBUG)
-				Logger.log(this, "Unknown chat type: " + chatType);
+//		} else if (packetId == SEND_FRIEND_QUICK_CHAT_PACKET) {
+//			if (!player.hasStarted())
+//				return;
+//			String username = stream.readString();
+//			int fileId = stream.readUnsignedShort();
+//			byte[] data = null;
+//			if (length > 3 + username.length()) {
+//				data = new byte[length - (3 + username.length())];
+//				stream.readBytes(data);
+//			}
+//			data = Utils.completeQuickMessage(player, fileId, data);
+//			Player p2 = World.getPlayerByDisplayName(username);
+//			if (p2 == null)
+//				return;
+//			player.getFriendsIgnores().sendQuickChatMessage(p2, new QuickChatMessage(fileId, data));
+//		} else if (packetId == PUBLIC_QUICK_CHAT_PACKET) {
+//			if (!player.hasStarted())
+//				return;
+//			if (player.getLastPublicMessage() > Utils.currentTimeMillis())
+//				return;
+//			player.setLastPublicMessage(Utils.currentTimeMillis() + 300);
+//			// just tells you which client script created packet
+//			@SuppressWarnings("unused")
+//			boolean secondClientScript = stream.readByte() == 1;// script 5059
+//			// or 5061
+//			int fileId = stream.readUnsignedShort();
+//			byte[] data = null;
+//			if (length > 3) {
+//				data = new byte[length - 3];
+//				stream.readBytes(data);
+//			}
+//			data = Utils.completeQuickMessage(player, fileId, data);
+//			if (chatType == 0)
+//				player.sendPublicChatMessage(new QuickChatMessage(fileId, data));
+//			else if (chatType == 1)
+//				player.sendFriendsChannelQuickMessage(new QuickChatMessage(fileId, data));
+//			else if (Settings.DEBUG)
+//				Logger.log(this, "Unknown chat type: " + chatType);
 		} else if (packetId == CHAT_TYPE_PACKET) {
 			chatType = stream.readUnsignedByte();
 		} else if (packetId == CHAT_PACKET) {
@@ -1580,10 +1557,10 @@ public final class WorldPacketsDecoder extends Decoder {
 		} 
 		
 		else if (packetId == KEY_PRESSED_PACKET){
+			@SuppressWarnings("unused")
 			int short0 = stream.readUnsignedShort();
-//			@SuppressWarnings("unchecked") List<Integer> list = (List<Integer>) player.getTemporaryAttributtes().get("keystroke_test");
-//			list.add(pressed);
-			player.getPackets().sendGameMessage("pressed: "+Utils.getKeyPressedFromListenerByte(short0));
+			// Can utilize this packet to Close interfaces, open URLS based on key press, such.
+//			player.getPackets().sendGameMessage("pressed: "+Utils.getKeyPressedFromListenerByte(short0));
 		}
 		else if (packetId ==  INACTIVITY_PACKET){
 			//player.getPackets().sendGameMessage("sent inactivity packet!");

@@ -390,7 +390,6 @@ public final class Skills implements Serializable {
 				else if (skill == PRAYER)
 					player.getPrayer().restorePrayer(levelDiff * 10);
 			}
-			player.getQuestManager().checkCompleted();
 		}
 		refresh(skill);
 	}

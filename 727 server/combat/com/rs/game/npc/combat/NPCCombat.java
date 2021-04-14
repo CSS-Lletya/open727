@@ -8,9 +8,10 @@ import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.godwars.zaros.Nex;
-import com.rs.game.player.content.Combat;
 import com.rs.utils.MapAreas;
 import com.rs.utils.Utils;
+
+import player.Combat;
 
 public final class NPCCombat {
 
