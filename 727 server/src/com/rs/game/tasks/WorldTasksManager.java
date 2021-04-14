@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * TODO: Convert all all Tasks from this class to the new Task handler
+ * (com.rs.game.task)
+ * @author Dennis
+ *
+ */
 public class WorldTasksManager {
 
 	private static final List<WorldTaskInformation> tasks = Collections

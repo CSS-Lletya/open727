@@ -4,7 +4,6 @@ import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
@@ -21,7 +20,7 @@ public final class WorldThread extends Thread {
 			long currentTime = Utils.currentTimeMillis();
 			try {
 				// long debug = Utils.currentTimeMillis();
-				WorldTasksManager.processTasks();
+				World.get().taskManager.sequence();
 				// System.out.print("TASKS: "+(Utils.currentTimeMillis()-debug));
 				// debug = Utils.currentTimeMillis();
 				for (Player player : World.getPlayers()) {

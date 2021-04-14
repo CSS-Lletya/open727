@@ -54,7 +54,7 @@ public class GameLoader {
 			Cache.init();
 			CoresManager.init();
 			ServerChannelHandler.init();
-			World.init();
+			World.get().init();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
