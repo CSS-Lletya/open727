@@ -3,6 +3,7 @@ package com.rs.game.item;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
+import com.rs.game.player.Rights;
 
 public class ItemConstants {
 
@@ -81,7 +82,7 @@ public class ItemConstants {
 	}
 
 	public static boolean canWear(Item item, Player player) {
-		if (player.getRights() == 2)
+		if (player.getRights() == Rights.ADMINISTRATOR)
 			return true;
 		if ((item.getId() == 20769 || item.getId() == 20771)) {
 			if (!player.isCompletedFightKiln()) {

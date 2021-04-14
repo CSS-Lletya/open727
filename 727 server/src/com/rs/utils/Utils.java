@@ -19,6 +19,8 @@ import com.rs.cache.Cache;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import skills.Skills;
 
 public final class Utils {
@@ -41,6 +43,37 @@ public final class Utils {
 		return new BigInteger(data).modPow(exponent, modulus).toByteArray();
 	}
 
+	/**
+	 * Gets all of the classes in a directory
+	 * @param directory The directory to iterate through
+	 * @return The list of classes
+	 */
+	public static ObjectList<Object> getClassesInDirectory(String directory) {
+		ObjectList<Object> classes = new ObjectArrayList<>();
+		for(File file : new File("./bin/" + directory.replace(".", "/")).listFiles()) {
+			if(file.getName().contains("$")) {
+				continue;
+			}
+			try {
+				Object objectEvent = (Class.forName(directory + "." + file.getName().replace(".class", "")).newInstance());
+				classes.add(objectEvent);
+			} catch(InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				//e.printStackTrace();
+			}
+		}
+		return classes;
+	}
+	
+	/**
+	 * Gets all of the sub directories of a folder
+	 */
+	public static ObjectList<String> getSubDirectories(Class<?> clazz) {
+		String directory = "./bin/" + clazz.getPackage().getName().replace(".", "/");
+		File file = new File(directory);
+		String[] directories = file.list((current, name) -> new File(current, name).isDirectory());
+		return new ObjectArrayList<>(directories);
+	}
+	
 	public static final byte[] encryptUsingMD5(byte[] buffer) {
 		// prevents concurrency problems with the algorithm
 		synchronized (ALGORITHM_LOCK) {

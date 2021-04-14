@@ -5,6 +5,8 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
+import com.rs.game.event.EventListener.ClickOption;
+import com.rs.game.event.EventManager;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.game.route.strategy.RouteEvent;
@@ -100,6 +102,7 @@ public final class ObjectHandler {
 		final int id = object.getId();
 		final int x = object.getX();
 		final int y = object.getY();
+		final WorldTile tile = object;
 		if (SihponActionNodes.siphon(player, object))
 			return;
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
@@ -109,7 +112,9 @@ public final class ObjectHandler {
 				player.faceObject(object);
 				if (!player.getControlerManager().processObjectClick1(object))
 					return;
-		
+				if (EventManager.get().handleObjectClick(player, object.getId(), object, tile, ClickOption.FIRST)) {
+					return;
+				}
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler",
 							"clicked 1 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", "
@@ -123,6 +128,7 @@ public final class ObjectHandler {
 		@SuppressWarnings("unused")
 		final ObjectDefinitions objectDef = object.getDefinitions();
 		final int id = object.getId();
+		final WorldTile tile = object;
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
@@ -130,7 +136,9 @@ public final class ObjectHandler {
 				player.faceObject(object);
 				if (!player.getControlerManager().processObjectClick2(object))
 					return;
-				
+				if (EventManager.get().handleObjectClick(player, object.getId(), object, tile, ClickOption.SECOND)) {
+					return;
+				}
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler", "clicked 2 at object id : " + id + ", " + object.getX() + ", "
 							+ object.getY() + ", " + object.getPlane());
@@ -142,6 +150,7 @@ public final class ObjectHandler {
 	private static void handleOption3(final Player player, final WorldObject object) {
 		final ObjectDefinitions objectDef = object.getDefinitions();
 		final int id = object.getId();
+		final WorldTile tile = object;
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
@@ -149,7 +158,9 @@ public final class ObjectHandler {
 				player.faceObject(object);
 				if (!player.getControlerManager().processObjectClick3(object))
 					return;
-				
+				if (EventManager.get().handleObjectClick(player, object.getId(), object, tile, ClickOption.THIRD)) {
+					return;
+				}
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler", "cliked 3 at object id : " + id + ", " + object.getX() + ", "
 							+ object.getY() + ", " + object.getPlane() + ", ");
@@ -161,12 +172,17 @@ public final class ObjectHandler {
 	private static void handleOption4(final Player player, final WorldObject object) {
 		final ObjectDefinitions objectDef = object.getDefinitions();
 		final int id = object.getId();
+		final WorldTile tile = object;
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
 				player.stopAll();
 				player.faceObject(object);
 
+				if (EventManager.get().handleObjectClick(player, object.getId(), object, tile, ClickOption.FOURTH)) {
+					return;
+				}
+				
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler", "cliked 4 at object id : " + id + ", " + object.getX() + ", "
 							+ object.getY() + ", " + object.getPlane() + ", ");
@@ -178,12 +194,17 @@ public final class ObjectHandler {
 	private static void handleOption5(final Player player, final WorldObject object) {
 		final ObjectDefinitions objectDef = object.getDefinitions();
 		final int id = object.getId();
+		final WorldTile tile = object;
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
 				player.stopAll();
 				player.faceObject(object);
 
+				if (EventManager.get().handleObjectClick(player, object.getId(), object, tile, ClickOption.FIFTH)) {
+					return;
+				}
+				
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler", "cliked 5 at object id : " + id + ", " + object.getX() + ", "
 							+ object.getY() + ", " + object.getPlane() + ", ");

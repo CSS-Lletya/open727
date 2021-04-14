@@ -136,8 +136,29 @@ public class Player extends Entity {
 
 	// saving stuff
 	private String password;
-	private int rights = 2;
 	private String displayName;
+	
+	/**
+	 * The amount of authority this player has over others.
+	 */
+	public Rights rights = Rights.PLAYER;
+	
+	/**
+	 * Gets the amount of authority this player has over others.
+	 * @return the authority this player has.
+	 */
+	public Rights getRights() {
+		return rights;
+	}
+	
+	/**
+	 * Sets the value for {@link Player#rights}.
+	 * @param rights the new value to set.
+	 */
+	public void setRights(Rights rights) {
+		this.rights = rights;
+	}
+	
 	private String lastIP;
 	@SuppressWarnings("unused")
 	private long creationDate;
@@ -671,8 +692,9 @@ public class Player extends Entity {
 		refreshMouseButtons();
 		refreshPrivateChatSetup();
 		refreshOtherChatsSetup();
-		if (getUsername().equals("Zed"))
-			setRights(2);
+		if (getUsername().equals("Zed")) {
+			setRights(Rights.ADMINISTRATOR);
+		}
 		sendRunButtonConfig();
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
 		getPackets().sendGameMessage(Settings.LASTEST_UPDATE);
@@ -833,6 +855,7 @@ public class Player extends Entity {
 		}
 		lobby = false;
 		running = false;
+		getPackets().sendLogout(false);
 	}
 
 	public void forceLogout() {
@@ -942,17 +965,9 @@ public class Player extends Entity {
 	public ArrayList<String> getIPList() {
 		return ipList;
 	}
-
-	public void setRights(int rights) {
-		this.rights = rights;
-	}
-
-	public int getRights() {
-		return rights;
-	}
-
+	
 	public int getMessageIcon() {
-		return getRights() == 2 || getRights() == 1 ? getRights() : getRights();
+		return getRights() == Rights.ADMINISTRATOR ? 2 : getRights() == Rights.MODERATOR ? 1 : 0;
 	}
 
 	public WorldPacketsEncoder getPackets() {
@@ -1700,7 +1715,7 @@ public class Player extends Entity {
 	}
 
 	public void sendItemsOnDeath(Player killer) {
-		if (rights == 2)
+		if (getRights().isStaff())
 			return;
 		charges.die();
 		auraManager.removeAura();

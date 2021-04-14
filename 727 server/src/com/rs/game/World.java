@@ -45,6 +45,7 @@ import com.rs.game.npc.others.TormentedDemon;
 import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.Player;
+import com.rs.game.player.Rights;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
 import com.rs.utils.AntiFlood;
@@ -1110,7 +1111,7 @@ public final class World {
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
 		for (Player p : World.getPlayers()) {
-			if (p == null || !p.isRunning() || p.isYellOff() || (forStaff && p.getRights() == 0))
+			if (p == null || !p.isRunning() || p.isYellOff() || (forStaff && p.getRights() == Rights.PLAYER))
 				continue;
 			p.getPackets().sendGameMessage(message);
 		}

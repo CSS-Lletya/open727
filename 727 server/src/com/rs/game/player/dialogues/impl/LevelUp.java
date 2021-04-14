@@ -39,7 +39,7 @@ public final class LevelUp extends Dialogue {
 		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
 		if (musicEffect != -1)
 			player.getPackets().sendMusicEffect(musicEffect);
-		if (player.getRights() < 2 && (level == 99 || level == 120) && skill > 6 && skill != 23) {
+		if (player.getRights().isStaff() && (level == 99 || level == 120) && skill > 6 && skill != 23) {
 			sendNews(player, skill, level);
 		}
 	}

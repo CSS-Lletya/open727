@@ -3,6 +3,8 @@ package com.rs.net.decoders.handlers;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.dialogue.container.Test_D;
+import com.rs.game.event.EventListener.ClickOption;
+import com.rs.game.event.EventManager;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.route.strategy.RouteEvent;
@@ -19,7 +21,7 @@ public class NPCHandler {
 		final NPC npc = World.getNPCs().get(npcIndex);
 		if (npc == null || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()))
 			return;
-		if (player.getRights() > 1) {
+		if (player.getRights().isStaff()) {
 			player.getPackets().sendGameMessage("NPC - [id=" + npc.getId() + ", loc=[" + npc.getX() + ", " + npc.getY()
 					+ ", " + npc.getPlane() + "]].");
 		}
@@ -49,6 +51,9 @@ public class NPCHandler {
 					player.dialog(new Test_D(player, npc));
 					return;
 				}
+				if (EventManager.get().handleNPCClick(player, npc, ClickOption.FIRST)) {
+					return;
+				}
 				// Anything we dont want to rotate towards us goes above
 				player.faceEntity(npc);
 				if (Settings.DEBUG)
@@ -76,6 +81,9 @@ public class NPCHandler {
 				npc.resetWalkSteps();
 				// Anything we dont want to rotate towards us goes above
 				player.faceEntity(npc);
+				if (EventManager.get().handleNPCClick(player, npc, ClickOption.SECOND)) {
+					return;
+				}
 			}
 		}, npc.getDefinitions().name.contains("Banker") || npc.getDefinitions().name.contains("banker")));
 	}
@@ -94,6 +102,9 @@ public class NPCHandler {
 			@Override
 			public void run() {
 				npc.resetWalkSteps();
+				if (EventManager.get().handleNPCClick(player, npc, ClickOption.THIRD)) {
+					return;
+				}
 				// Anything we dont want to rotate towards us goes above
 				player.faceEntity(npc);
 

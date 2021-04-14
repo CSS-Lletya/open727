@@ -22,6 +22,7 @@ import com.rs.game.player.AccountCreation;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
+import com.rs.game.player.Rights;
 import com.rs.io.OutputStream;
 import com.rs.net.Session;
 import com.rs.utils.Huffman;
@@ -1061,7 +1062,7 @@ public class WorldPacketsEncoder extends Encoder {
 	}
 
 	public void sendPanelBoxMessage(String text) {
-		sendMessage(player.getRights() == 2 ? 99 : 0, text, null);
+		sendMessage(player.getRights() == Rights.ADMINISTRATOR ? 99 : 0, text, null);
 	}
 
 	public void sendTradeRequestMessage(Player p) {

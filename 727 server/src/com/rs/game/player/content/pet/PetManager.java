@@ -125,7 +125,7 @@ public final class PetManager implements Serializable {
 			return true;
 		case FERRET:
 		case GIANT_WOLPERTINGER:
-			return player.getRights() > 1;
+			return player.getRights().isStaff();
 		}
 		return true;
 	}

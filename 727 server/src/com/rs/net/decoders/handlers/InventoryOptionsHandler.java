@@ -6,6 +6,8 @@ import com.rs.Settings;
 import com.rs.cores.WorldThread;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
+import com.rs.game.event.EventListener.ClickOption;
+import com.rs.game.event.EventManager;
 import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar.SpecialAttack;
@@ -41,6 +43,9 @@ public class InventoryOptionsHandler {
 		if (player.getSwitchItemCache().contains(slotId))
 			return;
 		player.getSwitchItemCache().add(slotId);
+		if (EventManager.get().handleItemClick(player, item, ClickOption.SECOND)) {
+			return;
+		}
 	}
 
 	public static void handleItemOption1(Player player, final int slotId, final int itemId, Item item) {
@@ -48,6 +53,10 @@ public class InventoryOptionsHandler {
 		if (player.getLockDelay() >= time || player.getEmotesManager().getNextEmoteEnd() >= time)
 			return;
 		player.stopAll(false);
+		
+		if (EventManager.get().handleItemClick(player, item, ClickOption.FIRST)) {
+			return;
+		}
 		
 		if (Settings.DEBUG)
 			Logger.log("ItemHandler", "Item Select:" + itemId + ", Slot Id:" + slotId);
@@ -128,6 +137,10 @@ public class InventoryOptionsHandler {
 		if (player.getLockDelay() >= time || player.getEmotesManager().getNextEmoteEnd() >= time)
 			return;
 		player.stopAll(false);
+		
+		if (EventManager.get().handleItemClick(player, item, ClickOption.THIRD)) {
+			return;
+		}
 		
 	}
 
