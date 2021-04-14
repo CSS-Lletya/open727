@@ -18,7 +18,7 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.actions.PlayerFollow;
-import com.rs.game.player.content.Commands;
+import com.rs.game.player.commands.CommandDispatcher;
 import com.rs.game.player.content.Notes.Note;
 import com.rs.game.player.content.SkillCapeCustomizer;
 import com.rs.game.route.RouteFinder;
@@ -1477,7 +1477,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (message.startsWith("::") || message.startsWith(";;")) {
 				// if command exists and processed wont send message as public
 				// message
-				Commands.processCommand(player, message.replace("::", "").replace(";;", ""), false, false);
+				CommandDispatcher.processCommand(player, message.replace("::", "").replace(";;", ""), false, false);
 				return;
 			}
 			if (player.getMuted() > Utils.currentTimeMillis()) {
@@ -1498,7 +1498,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			@SuppressWarnings("unused")
 			boolean unknown = stream.readUnsignedByte() == 1;
 			String command = stream.readString();
-			if (!Commands.processCommand(player, command, true, clientCommand) && Settings.DEBUG)
+			if (!CommandDispatcher.processCommand(player, command, true, clientCommand) && Settings.DEBUG)
 				Logger.log(this, "Command: " + command);
 		} else if (packetId == COLOR_ID_PACKET) {
 			if (!player.hasStarted())

@@ -5,10 +5,12 @@ import java.util.TimerTask;
 
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
+import com.rs.game.event.EventManager;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
+import com.rs.game.player.Rights;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.io.InputStream;
@@ -44,6 +46,11 @@ public class ButtonHandler {
 		}
 		final int slotId2 = stream.readUnsignedShort();
 		final int slotId = stream.readUnsignedShort128();
+		final int itemId = stream.readUnsignedShortLE128();
+		
+		if (EventManager.get().handleButtonClick(player, interfaceId, componentId, packetId, slotId, itemId)) {
+			return;
+		}
 		
 		if (Settings.DEBUG)
 			Logger.log("ButtonHandler", "Interface ID: " + interfaceId + " - Comonent: " + componentId + " - PacketId: " + packetId);
@@ -176,7 +183,7 @@ public class ButtonHandler {
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null || item.getId() != itemId)
 			return false;
-		if ((itemId == 4565 || itemId == 4084) && player.getRights() != 2) {
+		if ((itemId == 4565 || itemId == 4084) && !player.getRights().equal(Rights.ADMINISTRATOR)) {
 			player.getPackets().sendGameMessage("You've to be a administrator to wear this item.");
 			return true;
 		}

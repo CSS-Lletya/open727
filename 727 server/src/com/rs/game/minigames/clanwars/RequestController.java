@@ -308,9 +308,9 @@ public final class RequestController extends Controler {
 			text = "You need to be in a friends chat to start a war.";
 		} else if (target.getCurrentFriendChat() == null) {
 			text = "This player is not in a friends chat.";
-		} else if (player.getCurrentFriendChat().getRank(player.getRights(), player.getUsername()) < 3) {
+		} else if (player.getCurrentFriendChat().getRank(player.getRights().getValue(), player.getUsername()) < 3) {
 			text = "You need to be a higher rank to start a war.";
-		} else if (target.getCurrentFriendChat().getRank(target.getRights(), target.getUsername()) < 3) {
+		} else if (target.getCurrentFriendChat().getRank(target.getRights().getValue(), target.getUsername()) < 3) {
 			text = "This player does not have a high enough rank to accept your challenge.";
 		} else if (player.getCurrentFriendChat() == target.getCurrentFriendChat()) {
 			text = "You can't challenge players in the same friends chat as you are in.";

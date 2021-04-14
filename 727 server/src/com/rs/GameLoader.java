@@ -11,6 +11,7 @@ import com.rs.game.RegionBuilder;
 import com.rs.game.World;
 import com.rs.game.npc.combat.CombatScriptsHandler;
 import com.rs.game.player.FriendChatsManager;
+import com.rs.game.player.commands.CommandDispatcher;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.game.player.dialogues.DialogueHandler;
 import com.rs.json.GsonHandler;
@@ -92,6 +93,8 @@ public class GameLoader {
 		});
 		getBackgroundLoader().submit(() -> {
 			GsonHandler.initialize();
+//			EventManager.get().load();
+			CommandDispatcher.load();
 		});
 	}
 	

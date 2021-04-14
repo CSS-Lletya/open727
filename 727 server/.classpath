@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="data/libs/mysql-connector-java-8.0.23.jar"/>
 	<classpathentry kind="lib" path="data/libs/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Dennis/Downloads/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="data/libs/fastutil-8.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
