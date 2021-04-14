@@ -9,6 +9,7 @@ import com.rs.game.Animation;
 import com.rs.game.DynamicRegion;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
+import com.rs.game.HintIcon;
 import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
@@ -19,7 +20,6 @@ import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.AccountCreation;
 import com.rs.game.player.FriendChatsManager;
-import com.rs.game.player.HintIcon;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.io.OutputStream;
@@ -1053,7 +1053,7 @@ public class WorldPacketsEncoder extends Encoder {
 	}
 
 	public void sendGameMessage(String text) {
-		sendGameMessage(text, false);
+		sendGameMessage(text, true);
 	}
 
 	public void sendGameMessage(String text, boolean filter) {

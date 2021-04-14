@@ -17,32 +17,13 @@ public final class Settings {
 	public static final int PACKET_SIZE_LIMIT = 7500;
 	public static final int CLIENT_BUILD = 727;
 	public static final int CUSTOM_CLIENT_BUILD = 1;
-
-	/**
-	 * Link settings
-	 */
-	public static final String WEBSITE_LINK = "http://matrixftw.com";
-	public static final String ITEMLIST_LINK = "http://www.mediafire.com/?znasre8sm11r2m9";
-	public static final String ITEMDB_LINK = "http://matrixftw.com/index.php?app=cp&do=show&pageId=3";
-	public static final String VOTE_LINK = "http://www.matrixftw.com/vote.php";
-
+	
 	/**
 	 * Launching settings
 	 */
 	public static boolean DEBUG;
 	public static boolean HOSTED;
 	public static boolean ECONOMY;
-
-	/**
-	 * If the use of the managment server is enabled.
-	 */
-	public static boolean MANAGMENT_SERVER_ENABLED = true;
-
-	/**
-	 * Graphical User Interface settings
-	 */
-	public static final String GUI_SIGN = "Matrix GUI";
-	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	/**
 	 * Player settings
@@ -56,27 +37,17 @@ public final class Settings {
 	public static final int DROP_RATE = 10;
 
 	/**
-	 * World settings
+	 * World settings (Tick rate)
 	 */
 	public static final int WORLD_CYCLE_TIME = 600; // the speed of world in ms
 
 	/**
-	 * Music & Emote settings
-	 */
-	public static final int AIR_GUITAR_MUSICS_COUNT = 50;
-
-	/**
-	 * Quest settings
-	 */
-	public static final int QUESTS = 183;
-
-	/**
 	 * Memory settings
 	 */
-	public static final int PLAYERS_LIMIT = 2000;
 	public static final int LOCAL_PLAYERS_LIMIT = 250;
+	public static final int PLAYERS_LIMIT = 2048;
 	public static final int NPCS_LIMIT = Short.MAX_VALUE;
-	public static final int LOCAL_NPCS_LIMIT = 250;
+	public static final int LOCAL_NPCS_LIMIT = 127;
 	public static final int MIN_FREE_MEM_ALLOWED = 30000000; // 30mb
 
 	/**
@@ -101,31 +72,4 @@ public final class Settings {
 			"102876637271116124732338500663639643113504464789339249490399312659674772039314875904176809267475033772367707882873773291786014475222178654932442254125731622781524413208523465520758537060408541610254619166907142593731337618490879831401461945679478046811438574041131738117063340726565226753787565780501845348613");
 	
 	public static final boolean mysqlEnabled = true;
-
-	/**
-	 * Donator settings
-	 */
-	public static String[] DONATOR_ITEMS = { "primal", /* "virtus", "pernix", */
-			"promethium", "(i)", "thok's", "trident" };
-
-	public static String[] EXTREME_DONATOR_ITEMS = { "donator", "corruption", "salvation", "harmony" };
-
-	/**
-	 * Item settings
-	 */
-	public static String[] EARNED_ITEMS = { "tokkul", "castle wars ticket", "(class", "sacred clay", "dominion", "sled",
-			"magic carpet" };
-
-	public static String[] REMOVING_ITEMS = { "(class", "sacred clay", "dominion", "sled" };
-
-	public static String[] VOTE_REQUIRED_ITEMS = { "torva", "virtus", "pernix", "ganodermic", "flaming skull",
-			"polypore", "spirit shield", "chaotic", "celestial", "light saber", "fallen cape" };
-
-	public static boolean inApacheEmperorZone(WorldTile tile) {
-		return (tile.getX() >= 2830 && tile.getX() <= 2862 && tile.getY() >= 10042 && tile.getY() <= 10062);
-	}
-
-	private Settings() {
-
-	}
 }

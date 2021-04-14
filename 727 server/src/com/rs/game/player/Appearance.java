@@ -19,15 +19,21 @@ public class Appearance implements Serializable {
 
 	private transient int renderEmote;
 	private int title;
-	private int[] lookI;
+	private int[] appearance;
 	private byte[] colour;
-	private boolean male;
+	private boolean isMale;
+	
+	/*
+	 * This is used in the Nex combat. 
+	 */
 	private transient boolean glowRed;
-	private transient byte[] appeareanceData;
+	
+	private transient byte[] appearanceData;
 	private transient byte[] md5AppeareanceDataHash;
 	private transient short transformedNpcId;
 	private transient boolean hidePlayer;
-	public transient static final int[] MALE_HAIR_STYLES = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 185, 187, 189, 191, 193, 195,
+	
+	private transient static final int[] MALE_HAIR_STYLES = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 185, 187, 189, 191, 193, 195,
 			197, 261, 262, 263, 264, 265, 257, 256, 259, 309, 314, 313, 310, 315, 312, 311, 316 },
 
 			BEARD_STYLES = { 14, 13, 98, 308, 305, 307, 10, 15, 16, 100, 12, 11, 102, 306, 99, 101, 104, 17, 103 },
@@ -39,7 +45,7 @@ public class Appearance implements Serializable {
 	private transient Player player;
 
 	public Appearance() {
-		male = true;
+		isMale = true;
 		renderEmote = -1;
 		title = -1;
 		resetAppearence();
@@ -54,7 +60,7 @@ public class Appearance implements Serializable {
 		this.player = player;
 		transformedNpcId = -1;
 		renderEmote = -1;
-		if (lookI == null)
+		if (appearance == null)
 			randomiseClothes(true);
 			//resetAppearence();
 	}
@@ -83,13 +89,13 @@ public class Appearance implements Serializable {
 		
 		int flag = 0;
 		
-		if (!male)
+		if (!isMale)
 			flag |= 0x1;
 		
 		if (transformedNpcId >= 0 && NPCDefinitions.getNPCDefinitions(transformedNpcId).aBoolean3190)
 			flag |= 0x2;
 		
-		String title = male || !male ? null : "";
+		String title = isMale || !isMale ? null : "";
 		
 		boolean titleGoesBeforeName = false;
 		
@@ -147,7 +153,7 @@ public class Appearance implements Serializable {
 			stream.writeShort(model == -1 ? 0x100 + getShoes() : 16384 + model);
 			
 			model = player.getEquipment().getHatId();
-			stream.writeShort(0x100 + (male ? getBeard() : -1));//(beardBit == 4 ? (male ? 14 : -1) : (male ? getBeard() : -1)));
+			stream.writeShort(0x100 + (isMale ? getBeard() : -1));//(beardBit == 4 ? (male ? 14 : -1) : (male ? getBeard() : -1)));
 			
 			model = player.getEquipment().getAuraId();
 			if (model == -1)
@@ -331,21 +337,21 @@ public class Appearance implements Serializable {
 		byte[] appeareanceData = new byte[stream.getOffset()];
 		System.arraycopy(stream.getBuffer(), 0, appeareanceData, 0, appeareanceData.length);
 		byte[] md5Hash = Utils.encryptUsingMD5(appeareanceData);
-		this.appeareanceData = appeareanceData;
+		this.appearanceData = appeareanceData;
 		md5AppeareanceDataHash = md5Hash;
 		
 	}
 	
 	public void switchGender(){
-		lookI[HAIR] = male ? new Random().nextInt(FEMALE_HAIR_STYLES.length) : new Random().nextInt(MALE_HAIR_STYLES.length);
-		lookI[BEARD] = male ? 0 : new Random().nextInt(BEARD_STYLES.length);
-		male = !male;
+		appearance[HAIR] = isMale ? new Random().nextInt(FEMALE_HAIR_STYLES.length) : new Random().nextInt(MALE_HAIR_STYLES.length);
+		appearance[BEARD] = isMale ? 0 : new Random().nextInt(BEARD_STYLES.length);
+		isMale = !isMale;
 	}
 	
 	public void generateAppearenceDataOLD() {
 		OutputStream stream = new OutputStream();
 		int flag = 0;
-		if (!male)
+		if (!isMale)
 			flag |= 0x1;
 		if (transformedNpcId >= 0 && NPCDefinitions.getNPCDefinitions(transformedNpcId).aBoolean3190)
 			flag |= 0x2;
@@ -354,7 +360,7 @@ public class Appearance implements Serializable {
 		stream.writeByte(flag);
 		if (title != 0) {
 			String titleName = title == 666 ? "<col=C12006>Phantom </col>"
-					: ClientScriptMap.getMap(male ? 1093 : 3872).getStringValue(title);
+					: ClientScriptMap.getMap(isMale ? 1093 : 3872).getStringValue(title);
 			stream.writeGJString(titleName);
 		}
 		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1); // pk// icon
@@ -419,8 +425,8 @@ public class Appearance implements Serializable {
 			// tits for female, bear for male
 			
 			
-			item = player.getEquipment().getItems().get(male ? Equipment.SLOT_HAT : Equipment.SLOT_HAT);
-			if (male && (item == null || (male && Equipment.showBear(item))))
+			item = player.getEquipment().getItems().get(isMale ? Equipment.SLOT_HAT : Equipment.SLOT_HAT);
+			if (isMale && (item == null || (isMale && Equipment.showBear(item))))
 				stream.writeShort(0x100 + getBeard());
 			else
 				stream.writeByte(0);
@@ -523,7 +529,7 @@ public class Appearance implements Serializable {
 		byte[] appeareanceData = new byte[stream.getOffset()];
 		System.arraycopy(stream.getBuffer(), 0, appeareanceData, 0, appeareanceData.length);
 		byte[] md5Hash = Utils.encryptUsingMD5(appeareanceData);
-		this.appeareanceData = appeareanceData;
+		this.appearanceData = appeareanceData;
 		md5AppeareanceDataHash = md5Hash;
 	}
 
@@ -547,43 +553,43 @@ public class Appearance implements Serializable {
 	}
 
 	public void resetAppearence() {
-		lookI = new int[12];
+		appearance = new int[12];
 		colour = new byte[10];
 		randomiseClothes(true);
 	}
 
 	public void male() {
-		lookI[0] = 3; // Hair
-		lookI[1] = 14; // Beard
-		lookI[2] = 18; // Torso
-		lookI[3] = 26; // Arms
-		lookI[4] = 34; // Bracelets
-		lookI[5] = 38; // Legs
-		lookI[6] = 42; // Shoes~
+		appearance[0] = 3; // Hair
+		appearance[1] = 14; // Beard
+		appearance[2] = 18; // Torso
+		appearance[3] = 26; // Arms
+		appearance[4] = 34; // Bracelets
+		appearance[5] = 38; // Legs
+		appearance[6] = 42; // Shoes~
 
 		colour[2] = 16;
 		colour[1] = 16;
 		colour[0] = 3;
-		male = true;
+		isMale = true;
 	}
 
 	public void female() {
-		lookI[0] = 48; // Hair
-		lookI[1] = 57; // Beard
-		lookI[2] = 57; // Torso
-		lookI[3] = 65; // Arms
-		lookI[4] = 68; // Bracelets
-		lookI[5] = 77; // Legs
-		lookI[6] = 80; // Shoes
+		appearance[0] = 48; // Hair
+		appearance[1] = 57; // Beard
+		appearance[2] = 57; // Torso
+		appearance[3] = 65; // Arms
+		appearance[4] = 68; // Bracelets
+		appearance[5] = 77; // Legs
+		appearance[6] = 80; // Shoes
 
 		colour[2] = 16;
 		colour[1] = 16;
 		colour[0] = 3;
-		male = false;
+		isMale = false;
 	}
 
 	public byte[] getAppeareanceData() {
-		return appeareanceData;
+		return appearanceData;
 	}
 
 	public byte[] getMD5AppeareanceDataHash() {
@@ -591,11 +597,11 @@ public class Appearance implements Serializable {
 	}
 
 	public boolean isMale() {
-		return male;
+		return isMale;
 	}
 
 	public void setLook(int i, int i2) {
-		lookI[i] = i2;
+		appearance[i] = i2;
 	}
 
 	public void setColor(int i, int i2) {
@@ -603,51 +609,51 @@ public class Appearance implements Serializable {
 	}
 
 	public void setMale(boolean male) {
-		this.male = male;
+		this.isMale = male;
 	}
 
 	public void setHairStyle(int i) {
-		lookI[0] = i;
+		appearance[0] = i;
 	}
 
 	public void setTopStyle(int i) {
-		lookI[2] = i;
+		appearance[2] = i;
 	}
 
 	public int getTopStyle() {
-		return lookI[2];
+		return appearance[2];
 	}
 
 	public void setArmsStyle(int i) {
-		lookI[3] = i;
+		appearance[3] = i;
 	}
 
 	public void setWristsStyle(int i) {
-		lookI[4] = i;
+		appearance[4] = i;
 	}
 
 	public void setLegsStyle(int i) {
-		lookI[5] = i;
+		appearance[5] = i;
 	}
 
 	public int getHairStyle() {
-		return lookI[0];
+		return appearance[0];
 	}
 
 	public void setBeardStyle(int i) {
-		lookI[1] = i;
+		appearance[1] = i;
 	}
 
 	public int getBeardStyle() {
-		return lookI[1];
+		return appearance[1];
 	}
 
 	public void setFacialHair(int i) {
-		lookI[1] = i;
+		appearance[1] = i;
 	}
 
 	public int getFacialHair() {
-		return lookI[1];
+		return appearance[1];
 	}
 
 	public void setSkinColor(int color) {
@@ -679,61 +685,53 @@ public class Appearance implements Serializable {
 		generateAppearanceData();
 	}
 	
-///	private int[] clothes = new int[12];
-	
-//	private byte[] colors = new byte[10];
-	
 	public static final int HAIR = 0, TOP = 1, LEGS = 2, SHOES = 3, SKIN = 4, BEARD = 5, ARMS = 6, WRISTS = 7;
 
 	public int getHair(){
-		return male ? MALE_HAIR_STYLES[lookI[HAIR]] : FEMALE_HAIR_STYLES[lookI[HAIR]];
+		return isMale ? MALE_HAIR_STYLES[appearance[HAIR]] : FEMALE_HAIR_STYLES[appearance[HAIR]];
 	}
 	
 	public int getBeard(){
-		return BEARD_STYLES[lookI[BEARD]];
+		return BEARD_STYLES[appearance[BEARD]];
 	}
 	
 	public int getTop(){
-		return male ? Clothes.ORDINAL_TOPS_1[lookI[TOP]] : Clothes.ORDINAL_TOPS_2[lookI[TOP]];
+		return isMale ? Clothes.ORDINAL_TOPS_1[appearance[TOP]] : Clothes.ORDINAL_TOPS_2[appearance[TOP]];
 	}
 	
 	public int getSleeves(){
-		return lookI[TOP] < 32 ? male ? Clothes.ORDINAL_VARIENT_ARMS_1[lookI[ARMS]] : Clothes.ORDINAL_VARIENT_ARMS_2[lookI[ARMS]] : male? Clothes.ORDINAL_ARMS_1[lookI[ARMS]] : Clothes.ORDINAL_ARMS_2[lookI[ARMS]];
+		return appearance[TOP] < 32 ? isMale ? Clothes.ORDINAL_VARIENT_ARMS_1[appearance[ARMS]] : Clothes.ORDINAL_VARIENT_ARMS_2[appearance[ARMS]] : isMale? Clothes.ORDINAL_ARMS_1[appearance[ARMS]] : Clothes.ORDINAL_ARMS_2[appearance[ARMS]];
 	}
 	
 	public int getWrists(){
-		return lookI[TOP] < 32 ? male ? Clothes.ORDINAL_VARIENT_WRISTS_1[lookI[WRISTS]] : Clothes.ORDINAL_VARIENT_WRISTS_2[lookI[WRISTS]]  : male ? Clothes.ORDINAL_WRISTS_1[lookI[WRISTS]] : Clothes.ORDINAL_WRISTS_2[lookI[WRISTS]];
+		return appearance[TOP] < 32 ? isMale ? Clothes.ORDINAL_VARIENT_WRISTS_1[appearance[WRISTS]] : Clothes.ORDINAL_VARIENT_WRISTS_2[appearance[WRISTS]]  : isMale ? Clothes.ORDINAL_WRISTS_1[appearance[WRISTS]] : Clothes.ORDINAL_WRISTS_2[appearance[WRISTS]];
 	}
 	
 	public int getLegs(){
-		return male ? Clothes.ORDINAL_LEGGINGS_1[lookI[LEGS]] : Clothes.ORDINAL_LEGGINGS_2[lookI[LEGS]]; 
+		return isMale ? Clothes.ORDINAL_LEGGINGS_1[appearance[LEGS]] : Clothes.ORDINAL_LEGGINGS_2[appearance[LEGS]]; 
 	}
 	
 	public int getShoes(){
-		return male? Clothes.ORDINAL_SHOES_1[lookI[SHOES]] : Clothes.ORDINAL_SHOES_2[lookI[SHOES]];
+		return isMale? Clothes.ORDINAL_SHOES_1[appearance[SHOES]] : Clothes.ORDINAL_SHOES_2[appearance[SHOES]];
 	}
 	
-	public void randomiseClothes(boolean male){
+	public void randomiseClothes(boolean ismale){
+		this.isMale = ismale;
 		
-		this.male = male;
-		
-
-
-		lookI[HAIR] = new Random().nextInt(male ? 32 : 44);//random
-		lookI[BEARD] = new Random().nextInt(19);
+		appearance[HAIR] = new Random().nextInt(ismale ? 32 : 44);//random
+		appearance[BEARD] = new Random().nextInt(19);
 		colour[HAIR] = 25;
 		colour[SKIN] = 3;
 		
 		int temp = Utils.random(31);
-		lookI[TOP] = temp;
-		lookI[ARMS] = temp;
-		lookI[WRISTS] = temp;
-		lookI[LEGS] = Utils.random(31);
-		lookI[SHOES] = Utils.random(male ? 15 : 16);
+		appearance[TOP] = temp;
+		appearance[ARMS] = temp;
+		appearance[WRISTS] = temp;
+		appearance[LEGS] = Utils.random(31);
+		appearance[SHOES] = Utils.random(ismale ? 15 : 16);
 		
 		colour[TOP] = (byte) ClientScriptMap.getMap(3282).getIntValue(Utils.random(227));
 		colour[LEGS] = (byte) ClientScriptMap.getMap(3284).getIntValue(Utils.random(227));
 		colour[SHOES] = (byte) ClientScriptMap.getMap(3297).getIntValue(Utils.random(204));
-		
 	}
 }

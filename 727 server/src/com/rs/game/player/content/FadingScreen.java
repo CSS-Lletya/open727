@@ -1,6 +1,7 @@
 package com.rs.game.player.content;
 
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import com.rs.cores.CoresManager;
 import com.rs.game.player.Player;
@@ -11,18 +12,25 @@ import com.rs.utils.Utils;
 
 public final class FadingScreen {
 
-	private FadingScreen() {
-
+	@Deprecated
+	public static void fade(final Player player, long fadeTime, final Runnable event) {
+		unfade(player, fade(player, fadeTime), event);
 	}
 
 	public static void fade(final Player player, final Runnable event) {
+		player.lock();
 		unfade(player, fade(player), event);
 	}
 
 	public static void unfade(final Player player, long startTime, final Runnable event) {
-		long leftTime = 2500 - (Utils.currentTimeMillis() - startTime);
+		player.lock();
+		unfade(player, 2500, startTime, event);
+	}
+
+	public static void unfade(final Player player, long endTime, long startTime, final Runnable event) {
+		long leftTime = endTime - (Utils.currentTimeMillis() - startTime);
 		if (leftTime > 0) {
-			CoresManager.fastExecutor.schedule(new TimerTask() {
+			CoresManager.slowExecutor.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					try {
@@ -32,7 +40,7 @@ public final class FadingScreen {
 					}
 				}
 
-			}, leftTime);
+			}, leftTime, TimeUnit.MILLISECONDS);
 		} else
 			unfade(player, event);
 	}
@@ -44,24 +52,28 @@ public final class FadingScreen {
 			@Override
 			public void run() {
 				player.getInterfaceManager().sendFadingInterface(170);
-				CoresManager.fastExecutor.schedule(new TimerTask() {
+				CoresManager.slowExecutor.schedule(new TimerTask() {
 					@Override
 					public void run() {
 						try {
 							player.getInterfaceManager().closeFadingInterface();
+							player.unlock();
 						} catch (Throwable e) {
 							Logger.handle(e);
 						}
 					}
-				}, 2000);
+				}, 2, TimeUnit.SECONDS);
 			}
 
 		});
 	}
 
-	public static long fade(Player player) {
+	public static long fade(Player player, long fadeTime) {
 		player.getInterfaceManager().sendFadingInterface(115);
-		return Utils.currentTimeMillis();
+		return Utils.currentTimeMillis() + fadeTime;
 	}
 
+	public static long fade(Player player) {
+		return fade(player, 0);
+	}
 }

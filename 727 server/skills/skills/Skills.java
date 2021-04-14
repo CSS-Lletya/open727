@@ -356,8 +356,7 @@ public final class Skills implements Serializable {
 			return;
 		if (skill != ATTACK && skill != DEFENCE && skill != STRENGTH && skill != MAGIC && skill != RANGE
 				&& skill != HITPOINTS)
-			exp *= player.isExtremeDonator() ? Settings.XP_RATE + 2
-					: player.isDonator() ? Settings.XP_RATE + 1 : Settings.XP_RATE;
+			exp *= Settings.XP_RATE;
 		if (player.getAuraManager().usingWisdom())
 			exp *= 1.025;
 		int oldLevel = getLevelForXp(skill);

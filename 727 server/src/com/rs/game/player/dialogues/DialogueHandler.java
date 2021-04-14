@@ -36,7 +36,6 @@ import com.rs.game.player.dialogues.impl.LunarAltar;
 import com.rs.game.player.dialogues.impl.MagicPortal;
 import com.rs.game.player.dialogues.impl.MakeOverMage;
 import com.rs.game.player.dialogues.impl.Man;
-import com.rs.game.player.dialogues.impl.Marv;
 import com.rs.game.player.dialogues.impl.MasterOfFear;
 import com.rs.game.player.dialogues.impl.MiningGuildDwarf;
 import com.rs.game.player.dialogues.impl.NexEntrance;
@@ -156,7 +155,6 @@ public final class DialogueHandler {
 					(Class<Dialogue>) Class.forName(RunespanPortalD.class.getCanonicalName()));
 			handledDialogues.put("SorceressGardenNPCs",
 					(Class<Dialogue>) Class.forName(SorceressGardenNPCs.class.getCanonicalName()));
-			handledDialogues.put("Marv", (Class<Dialogue>) Class.forName(Marv.class.getCanonicalName()));
 			handledDialogues.put("FlamingSkull",
 					(Class<Dialogue>) Class.forName(FlamingSkull.class.getCanonicalName()));
 			handledDialogues.put("Hairdresser", (Class<Dialogue>) Class.forName(Hairdresser.class.getCanonicalName()));

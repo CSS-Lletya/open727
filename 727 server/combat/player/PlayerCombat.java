@@ -1398,10 +1398,6 @@ public class PlayerCombat extends Action {
 					delayHit(2, weaponId, attackStyle, getRangeHit(player, hit));
 					checkSwiftGlovesEffect(player, 2, attackStyle, weaponId, hit, 249, 41, 36, 41, 35, 0, 0);
 				} else if (weaponId == 21365) { // Bolas
-					if (!player.isDonator() && !player.isExtremeDonator()) {
-						player.getPackets().sendGameMessage("You have to be donator to be using Bolas.");
-						return combatDelay;
-					}
 					dropAmmo(player, -3);
 					player.setNextAnimation(new Animation(3128));
 					World.sendProjectile(player, target, 468, 41, 41, 41, 35, 0, 0);

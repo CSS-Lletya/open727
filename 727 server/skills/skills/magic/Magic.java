@@ -129,11 +129,8 @@ public class Magic {
 					return false;
 				}
 				int weaponId = player.getEquipment().getWeaponId();
-				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943
-						&& !player.isExtremeDonator()) {
+				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943) {
 					player.getPackets().sendGameMessage("You need a Zuriel's staff to cast this spell.");
-					player.getPackets()
-							.sendGameMessage("Extreme donators can cast Miasmic spells without Zuriel's staff.");
 					return false;
 				}
 				break;
@@ -142,11 +139,8 @@ public class Magic {
 					return false;
 				}
 				weaponId = player.getEquipment().getWeaponId();
-				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943
-						&& !player.isExtremeDonator()) {
+				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943) {
 					player.getPackets().sendGameMessage("You need a Zuriel's staff to cast this spell.");
-					player.getPackets()
-							.sendGameMessage("Extreme donators can cast Miasmic spells without Zuriel's staff.");
 					return false;
 				}
 				break;
@@ -155,11 +149,8 @@ public class Magic {
 					return false;
 				}
 				weaponId = player.getEquipment().getWeaponId();
-				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943
-						&& !player.isExtremeDonator()) {
+				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943) {
 					player.getPackets().sendGameMessage("You need a Zuriel's staff to cast this spell.");
-					player.getPackets()
-							.sendGameMessage("Extreme donators can cast Miasmic spells without Zuriel's staff.");
 					return false;
 				}
 				break;
@@ -168,11 +159,8 @@ public class Magic {
 					return false;
 				}
 				weaponId = player.getEquipment().getWeaponId();
-				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943
-						&& !player.isExtremeDonator()) {
+				if (weaponId != 13867 && weaponId != 13869 && weaponId != 13941 && weaponId != 13943) {
 					player.getPackets().sendGameMessage("You need a Zuriel's staff to cast this spell.");
-					player.getPackets()
-							.sendGameMessage("Extreme donators can cast Miasmic spells without Zuriel's staff.");
 					return false;
 				}
 				break;

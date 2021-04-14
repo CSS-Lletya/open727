@@ -769,4 +769,24 @@ public class Prayer implements Serializable {
 		refreshPrayerPoints();
 	}
 
+	public static boolean usingBerserker(Player player) {
+		return player.getPrayer().usingPrayer(1, 15);
+	}
+
+	public static boolean usingRapidRenewal(Player player) {
+		return player.getPrayer().usingPrayer(0, 26);
+	}
+
+	public static boolean usingRapidRestore(Player player) {
+		return player.getPrayer().usingPrayer(0, 8);
+	}
+
+	public static boolean usingRapidHeal(Player player) {
+		return player.getPrayer().usingPrayer(0, 9);
+	}
+
+	public boolean isProtectingItem() {
+		return ancientcurses ? usingPrayer(1, 0) : usingPrayer(0, 10);
+	}
+	
 }

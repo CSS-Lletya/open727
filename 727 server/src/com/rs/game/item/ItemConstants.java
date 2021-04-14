@@ -1,8 +1,7 @@
 
-package com.rs.game.player.content;
+package com.rs.game.item;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 
 public class ItemConstants {

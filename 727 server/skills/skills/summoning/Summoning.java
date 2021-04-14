@@ -323,10 +323,6 @@ public class Summoning {
 		}
 		if (!hasRequiriments || player.getSkills().getLevel(Skills.SUMMONING) < pouch.getSpawnCost())
 			return;
-		if (!player.isDonator() && (pouch == Pouches.PACK_YAK || pouch == Pouches.UNICORN_STALLION)) {
-			player.getPackets().sendGameMessage("You are not a donator.");
-			return;
-		}
 		if (player.getCurrentFriendChat() != null) {
 			ClanWars war = player.getCurrentFriendChat().getClanWars();
 			if (war != null) {

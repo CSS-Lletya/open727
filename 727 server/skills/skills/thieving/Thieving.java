@@ -11,7 +11,6 @@ import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
-import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -187,7 +186,7 @@ public class Thieving {
 			return false;
 		}
 		player.getPackets().sendGameMessage("You successfully unlock the door.");
-		ObjectHandler.handleDoor(player, object, 1500 + Utils.getRandom(1000));
+//		ObjectHandler.handleDoor(player, object, 1500 + Utils.getRandom(1000));
 		return true;
 	}
 
