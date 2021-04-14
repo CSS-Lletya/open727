@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
-import com.rs.game.player.content.ItemConstants;
+import com.rs.game.item.ItemConstants;
 import com.rs.utils.Utils;
 
 public class ChargesManager implements Serializable {

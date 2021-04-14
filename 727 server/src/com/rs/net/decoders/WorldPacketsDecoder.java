@@ -1489,7 +1489,6 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.sendFriendsChannelMessage(Utils.fixChatMessage(message));
 			else
 				player.sendPublicChatMessage(new PublicChatMessage(Utils.fixChatMessage(message), effects));
-			player.setLastMsg(message);
 			if (Settings.DEBUG)
 				Logger.log(this, "Chat type: " + chatType);
 		} else if (packetId == COMMANDS_PACKET) {

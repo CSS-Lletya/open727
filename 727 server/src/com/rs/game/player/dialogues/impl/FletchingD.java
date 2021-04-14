@@ -1,8 +1,8 @@
 package com.rs.game.player.dialogues.impl;
 
-import com.rs.game.player.content.SkillsDialogue;
-import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
 import com.rs.game.player.dialogues.Dialogue;
+import com.rs.game.player.dialogues.SkillsDialogue;
+import com.rs.game.player.dialogues.SkillsDialogue.ItemNameFilter;
 
 import skills.fletching.Fletching;
 import skills.fletching.Fletching.Fletch;

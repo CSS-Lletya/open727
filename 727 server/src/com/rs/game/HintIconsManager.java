@@ -1,6 +1,6 @@
-package com.rs.game.player;
+package com.rs.game;
 
-import com.rs.game.Entity;
+import com.rs.game.player.Player;
 
 public class HintIconsManager {
 

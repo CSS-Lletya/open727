@@ -4,9 +4,9 @@ import com.rs.game.Entity;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.minigames.clanwars.ClanWars.Rules;
-import com.rs.game.player.CoordsEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Controler;
+import com.rs.game.route.CoordsEvent;
 
 /**
  * A controller subclass handling the clan wars requesting.

@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -18,6 +17,7 @@ import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.Graphics;
+import com.rs.game.HintIconsManager;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
@@ -40,6 +40,8 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.godwars.zaros.ZGDControler;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.qbd.QueenBlackDragonController;
+import com.rs.game.player.content.EmotesManager;
+import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.Notes;
 import com.rs.game.player.content.Pots;
 import com.rs.game.player.content.PriceCheckManager;
@@ -47,6 +49,7 @@ import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.player.dialogues.DialogueManager;
+import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -183,17 +186,6 @@ public class Player extends Entity {
 	private int tradeStatus;
 	private int assistStatus;
 
-	private boolean donator;
-	private boolean extremeDonator;
-	private long donatorTill;
-	private long extremeDonatorTill;
-
-	// Recovery ques. & ans.
-	private String recovQuestion;
-	private String recovAnswer;
-
-	private String lastMsg;
-
 	// Used for storing recent ips and password
 	private transient ArrayList<String> passwordList = new ArrayList<String>();
 	private transient ArrayList<String> ipList = new ArrayList<String>();
@@ -216,10 +208,6 @@ public class Player extends Entity {
 	private boolean completedFightKiln;
 	private boolean wonFightPits;
 
-	// crucible
-	private boolean talkedWithMarv;
-	private int crucibleHighScore;
-
 	private int overloadDelay;
 	private int prayerRenewalDelay;
 
@@ -227,25 +215,9 @@ public class Player extends Entity {
 	private int summoningLeftClickOption;
 	private List<String> ownedObjectsManagerKeys;
 
-	// objects
-	private boolean khalphiteLairEntranceSetted;
-	private boolean khalphiteLairSetted;
-
-	// supportteam
-	private boolean isSupporter;
-
-	// voting
-	private int votes;
 	private boolean oldItemsLook;
 
 	private String yellColor = "ff0000";
-
-	@SuppressWarnings("unused")
-	private long voted;
-
-	private boolean isGraphicDesigner;
-
-	private boolean isForumModerator;
 
 	// creates Player and saved classes
 	public Player(String password) {
@@ -708,8 +680,6 @@ public class Player extends Entity {
 	}
 
 	private void sendUnlockedObjectConfigs() {
-		refreshKalphiteLairEntrance();
-		refreshKalphiteLair();
 		refreshLodestoneNetwork();
 		refreshFightKilnEntrance();
 	}
@@ -747,37 +717,9 @@ public class Player extends Entity {
 		getPackets().sendConfigByFile(10912, 1);
 	}
 
-	private void refreshKalphiteLair() {
-		if (khalphiteLairSetted)
-			getPackets().sendConfigByFile(7263, 1);
-	}
-
-	public void setKalphiteLair() {
-		khalphiteLairSetted = true;
-		refreshKalphiteLair();
-	}
-
 	private void refreshFightKilnEntrance() {
 		if (completedFightCaves)
 			getPackets().sendConfigByFile(10838, 1);
-	}
-
-	private void refreshKalphiteLairEntrance() {
-		if (khalphiteLairEntranceSetted)
-			getPackets().sendConfigByFile(7262, 1);
-	}
-
-	public void setKalphiteLairEntrance() {
-		khalphiteLairEntranceSetted = true;
-		refreshKalphiteLairEntrance();
-	}
-
-	public boolean isKalphiteLairEntranceSetted() {
-		return khalphiteLairEntranceSetted;
-	}
-
-	public boolean isKalphiteLairSetted() {
-		return khalphiteLairSetted;
 	}
 
 	public void updateIPnPass() {
@@ -793,14 +735,12 @@ public class Player extends Entity {
 	}
 
 	public void sendDefaultPlayersOptions() {
-		for (int i = 1; i < 10; i++)
-		getPackets().sendPlayerOption("Option-"+i, i, i == 1);
-
-		
-		
-//		getPackets().sendPlayerOption("Follow", 2, false);
-//		getPackets().sendPlayerOption("Trade with", 4, false);
-//		getPackets().sendPlayerOption("Req Assist", 5, false);
+		// To Debug full list of options possible
+//		for (int i = 1; i < 10; i++)
+//		getPackets().sendPlayerOption("Option-"+i, i, i == 1);
+		getPackets().sendPlayerOption("Follow", 2, false);
+		getPackets().sendPlayerOption("Trade with", 4, false);
+		getPackets().sendPlayerOption("Req Assist", 5, false);
 	}
 
 	@Override
@@ -838,7 +778,6 @@ public class Player extends Entity {
 			return;
 		}
 		lobby = false;
-		getPackets().sendLogout(lobby && Settings.MANAGMENT_SERVER_ENABLED);
 		running = false;
 	}
 
@@ -959,9 +898,7 @@ public class Player extends Entity {
 	}
 
 	public int getMessageIcon() {
-		return getRights() == 2 || getRights() == 1 ? getRights()
-				: isForumModerator() ? 10
-						: isGraphicDesigner() ? 9 : isExtremeDonator() ? 11 : isDonator() ? 8 : getRights();
+		return getRights() == 2 || getRights() == 1 ? getRights() : getRights();
 	}
 
 	public WorldPacketsEncoder getPackets() {
@@ -1732,8 +1669,6 @@ public class Player extends Entity {
 			if (prayer.usingPrayer(0, 10) || prayer.usingPrayer(1, 0))
 				keptAmount++;
 		}
-		if (donator && Utils.random(2) == 0)
-			keptAmount += 1;
 		CopyOnWriteArrayList<Item> keptItems = new CopyOnWriteArrayList<Item>();
 		Item lastItem = new Item(1, 1);
 		for (int i = 0; i < keptAmount; i++) {
@@ -2066,111 +2001,6 @@ public class Player extends Entity {
 		hiddenBrother = -1;
 		killedBarrowBrothers = new boolean[7]; // includes new bro for future use
 		barrowsKillCount = 0;
-	}
-
-	public int getVotes() {
-		return votes;
-	}
-
-	public void setVotes(int votes) {
-		this.votes = votes;
-	}
-
-	public boolean isDonator() {
-		return isExtremeDonator() || donator || donatorTill > Utils.currentTimeMillis();
-	}
-
-	public boolean isExtremeDonator() {
-		return extremeDonator || extremeDonatorTill > Utils.currentTimeMillis();
-	}
-
-	public boolean isExtremePermDonator() {
-		return extremeDonator;
-	}
-
-	public void setExtremeDonator(boolean extremeDonator) {
-		this.extremeDonator = extremeDonator;
-	}
-
-	public boolean isGraphicDesigner() {
-		return isGraphicDesigner;
-	}
-
-	public boolean isForumModerator() {
-		return isForumModerator;
-	}
-
-	public void setGraphicDesigner(boolean isGraphicDesigner) {
-		this.isGraphicDesigner = isGraphicDesigner;
-	}
-
-	public void setForumModerator(boolean isForumModerator) {
-		this.isForumModerator = isForumModerator;
-	}
-
-	@SuppressWarnings("deprecation")
-	public void makeDonator(int months) {
-		if (donatorTill < Utils.currentTimeMillis())
-			donatorTill = Utils.currentTimeMillis();
-		Date date = new Date(donatorTill);
-		date.setMonth(date.getMonth() + months);
-		donatorTill = date.getTime();
-	}
-
-	@SuppressWarnings("deprecation")
-	public void makeDonatorDays(int days) {
-		if (donatorTill < Utils.currentTimeMillis())
-			donatorTill = Utils.currentTimeMillis();
-		Date date = new Date(donatorTill);
-		date.setDate(date.getDate() + days);
-		donatorTill = date.getTime();
-	}
-
-	@SuppressWarnings("deprecation")
-	public void makeExtremeDonatorDays(int days) {
-		if (extremeDonatorTill < Utils.currentTimeMillis())
-			extremeDonatorTill = Utils.currentTimeMillis();
-		Date date = new Date(extremeDonatorTill);
-		date.setDate(date.getDate() + days);
-		extremeDonatorTill = date.getTime();
-	}
-
-	@SuppressWarnings("deprecation")
-	public String getDonatorTill() {
-		return (donator ? "never" : new Date(donatorTill).toGMTString()) + ".";
-	}
-
-	@SuppressWarnings("deprecation")
-	public String getExtremeDonatorTill() {
-		return (extremeDonator ? "never" : new Date(extremeDonatorTill).toGMTString()) + ".";
-	}
-
-	public void setDonator(boolean donator) {
-		this.donator = donator;
-	}
-
-	public String getRecovQuestion() {
-		return recovQuestion;
-	}
-
-	public void setRecovQuestion(String recovQuestion) {
-		this.recovQuestion = recovQuestion;
-	}
-
-	public String getRecovAnswer() {
-		return recovAnswer;
-	}
-
-	public void setRecovAnswer(String recovAnswer) {
-		this.recovAnswer = recovAnswer;
-	}
-
-	public String getLastMsg() {
-		return lastMsg;
-	}
-
-	public void setLastMsg(String lastMsg) {
-		this.lastMsg = lastMsg;
 	}
 
 	public int[] getPouches() {
@@ -2643,15 +2473,7 @@ public class Player extends Entity {
 	public void setPet(Pet pet) {
 		this.pet = pet;
 	}
-
-	public boolean isSupporter() {
-		return isSupporter;
-	}
-
-	public void setSupporter(boolean isSupporter) {
-		this.isSupporter = isSupporter;
-	}
-
+	
 	public Master getSlayerMaster() {
 		return master;
 	}
@@ -2782,31 +2604,6 @@ public class Player extends Entity {
 	public void setLastDuelRules(DuelRules duelRules) {
 		this.lastDuelRules = duelRules;
 	}
-
-	public boolean isTalkedWithMarv() {
-		return talkedWithMarv;
-	}
-
-	public void setTalkedWithMarv() {
-		talkedWithMarv = true;
-	}
-
-	public int getCrucibleHighScore() {
-		return crucibleHighScore;
-	}
-
-	public void increaseCrucibleHighScore() {
-		crucibleHighScore++;
-	}
-
-	public void setVoted(long ms) {
-		voted = ms + Utils.currentTimeMillis();
-	}
-
-	public boolean hasVoted() {
-		// disabled so that donators vote for the first 2 days of list reset ^^
-		return true;//return isDonator() || voted > Utils.currentTimeMillis();
-	}
 	
 	public void dialog(DialogueEventListener listener){ //temp
 		getTemporaryAttributtes().put("dialogue_event", listener.begin());
@@ -2826,10 +2623,6 @@ public class Player extends Entity {
 		return listener;
 	}
 
-	public void sm(String string) {
-		getPackets().sendGameMessage(string);
-	}
-	
 	public Queue<RequestModel> requestResults = new LinkedList<RequestModel>();
 
 	public Queue<RequestModel> getRequestResults() {

@@ -8,9 +8,9 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.ForceTalk;
 import com.rs.game.item.Item;
+import com.rs.game.item.ItemConstants;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.ItemConstants;
 
 /**
  * The pet manager.
@@ -112,10 +112,6 @@ public final class PetManager implements Serializable {
 	private boolean hasRequirements(Pets pet) {
 		switch (pet) {
 		case TZREK_JAD:
-			if (!player.isExtremeDonator()) {
-				player.getPackets().sendGameMessage("You need to be Extreme donator to use this pet.");
-				return false;
-			}
 			if (!player.isCompletedFightCaves()) {
 				player.getPackets()
 						.sendGameMessage("You need to complete at least one fight cave minigame to use this pet.");
@@ -124,32 +120,6 @@ public final class PetManager implements Serializable {
 			if (!player.isWonFightPits()) {
 				player.getPackets()
 						.sendGameMessage("You need to win at least one fight pits minigame to use this pet.");
-				return false;
-			}
-			return true;
-		case SARADOMIN_OWL:
-		case GUTHIX_RAPTOR:
-		case ZAMORAK_HAWK:
-		case VULTURE_1:
-		case VULTURE_2:
-		case VULTURE_3:
-		case VULTURE_4:
-		case VULTURE_5:
-		case CHAMELEON:
-			if (!player.isDonator()) {
-				player.getPackets().sendGameMessage("You need to be donator to use this pet.");
-				return false;
-			}
-			return true;
-		case BABY_DRAGON_1:
-		case BABY_DRAGON_2:
-		case BABY_DRAGON_3:
-		case SEARING_FLAME:
-		case GLOWING_EMBER:
-		case TWISTED_FIRESTARTER:
-		case WARMING_FLAME:
-			if (!player.isExtremeDonator()) {
-				player.getPackets().sendGameMessage("You need to be Extreme donator to use this pet.");
 				return false;
 			}
 			return true;

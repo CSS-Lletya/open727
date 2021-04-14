@@ -1,12 +1,12 @@
-package com.rs.game.player;
+package com.rs.game.player.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.rs.Settings;
 import com.rs.cache.loaders.ClientScriptMap;
 import com.rs.game.Region;
 import com.rs.game.World;
+import com.rs.game.player.Player;
 import com.rs.utils.MusicHints;
 import com.rs.utils.Utils;
 
@@ -163,8 +163,6 @@ public final class MusicsManager implements Serializable {
 	public void addMusic(int musicId) {
 		unlockedMusics.add(musicId);
 		refreshListConfigs();
-		if (unlockedMusics.size() >= Settings.AIR_GUITAR_MUSICS_COUNT)
-			player.getEmotesManager().unlockEmote(41);
 	}
 
 	public int getConfigIndex(int musicId) {

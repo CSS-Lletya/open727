@@ -5,9 +5,9 @@ import java.io.Serializable;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
+import com.rs.game.item.ItemConstants;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.ItemConstants;
 
 public class BeastOfBurden implements Serializable {
 

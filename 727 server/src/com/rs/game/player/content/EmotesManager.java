@@ -1,15 +1,15 @@
-package com.rs.game.player;
+package com.rs.game.player.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
+import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.decoders.WorldPacketsDecoder;
@@ -162,14 +162,6 @@ public final class EmotesManager implements Serializable {
 			return;
 		}
 		player.stopAll(false);
-		if (!unlockedEmotes.contains(id) && player.getRights() < 2) {
-			if (id == 41)
-				player.getDialogueManager().startDialogue("SimpleMessage", "This emote can be acessed by unlocking "
-						+ Settings.AIR_GUITAR_MUSICS_COUNT + " pieces of music.");
-			else
-				player.getDialogueManager().startDialogue("SimpleMessage",
-						"You need to unlock this emote by yourself.");
-		} else {
 			if (Utils.currentTimeMillis() < nextEmoteEnd) {
 				player.getPackets().sendGameMessage("You're already doing an emote!");
 				return;
@@ -676,7 +668,7 @@ public final class EmotesManager implements Serializable {
 				player.setNextGraphics(new Graphics(1391));
 			}
 			setNextEmoteEnd();
-		}
+		
 	}
 
 	public void setNextEmoteEnd() {

@@ -1,6 +1,7 @@
-package com.rs.game.player;
+package com.rs.game.route;
 
 import com.rs.game.WorldTile;
+import com.rs.game.player.Player;
 
 public final class CoordsEvent {
 

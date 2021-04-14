@@ -1,8 +1,8 @@
 package com.rs.game.player;
 
 import com.rs.game.item.Item;
+import com.rs.game.item.ItemConstants;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.player.content.ItemConstants;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemExamines;
 
