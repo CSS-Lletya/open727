@@ -26,7 +26,6 @@ import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.io.InputStream;
 import com.rs.net.Session;
-import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.net.decoders.handlers.NPCHandler;
 import com.rs.net.decoders.handlers.ObjectHandler;
@@ -34,6 +33,7 @@ import com.rs.utils.Huffman;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
+import main.RSInterfaceDispatcher;
 import player.PlayerCombat;
 import skills.Skills;
 import skills.magic.Magic;
@@ -1155,7 +1155,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.getPackets().sendConfig(1159, coordinateHash);
 			}
 		} else if (packetId == ACTION_BUTTON1_PACKET || packetId == ACTION_BUTTON2_PACKET || packetId == ACTION_BUTTON4_PACKET || packetId == ACTION_BUTTON5_PACKET || packetId == ACTION_BUTTON6_PACKET || packetId == ACTION_BUTTON7_PACKET || packetId == ACTION_BUTTON8_PACKET || packetId == ACTION_BUTTON3_PACKET || packetId == ACTION_BUTTON9_PACKET || packetId == ACTION_BUTTON10_PACKET) {
-			ButtonHandler.handleButtons(player, stream, packetId);
+			RSInterfaceDispatcher.handleButtons(player, stream, packetId);
 		} 
 		else if (packetId ==  ENTER_LONGSTRING_PACKET){
 			if (!player.isRunning() || player.isDead())

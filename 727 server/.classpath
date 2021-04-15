@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="skills"/>
 	<classpathentry kind="src" path="combat"/>
 	<classpathentry kind="src" path="mysql"/>
+	<classpathentry kind="src" path="plugins"/>
 	<classpathentry kind="lib" path="data/libs/FileStore.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="data/libs/netty-3.5.2.Final.jar"/>
@@ -12,5 +13,6 @@
 	<classpathentry kind="lib" path="C:/Users/Dennis/Downloads/jackson-mapper-asl-1.9.13.jar"/>
 	<classpathentry kind="lib" path="data/libs/fastutil-8.2.1.jar"/>
 	<classpathentry kind="lib" path="data/libs/guava-22.0.jar"/>
+	<classpathentry kind="lib" path="data/libs/javacord-3.1.2-shaded.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

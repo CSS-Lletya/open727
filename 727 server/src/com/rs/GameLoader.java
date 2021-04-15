@@ -28,6 +28,7 @@ import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
 import com.rs.utils.ShopsHandler;
 
+import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
 import skills.fishing.FishingSpotsHandler;
@@ -93,8 +94,8 @@ public class GameLoader {
 		});
 		getBackgroundLoader().submit(() -> {
 			GsonHandler.initialize();
-//			EventManager.get().load();
 			CommandDispatcher.load();
+			RSInterfaceDispatcher.load();
 		});
 	}
 	
