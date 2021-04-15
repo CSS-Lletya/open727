@@ -10,6 +10,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.Region;
 import com.rs.game.World;
+import com.rs.game.discord.DiscordBot;
 import com.rs.game.player.AccountCreation;
 import com.rs.game.player.Player;
 import com.rs.net.ServerChannelHandler;
@@ -26,6 +27,9 @@ public final class Launcher {
 		Settings.HOSTED = Boolean.parseBoolean(args[2]);
 		Settings.DEBUG = Boolean.parseBoolean(args[1]);
 		long currentTime = Utils.currentTimeMillis();
+		if (Settings.discordRelay) {
+			bot = new DiscordBot();
+		}
 		GameLoader.get().getBackgroundLoader().waitForPendingTasks().shutdown();
 
 		Logger.log("Launcher",
@@ -109,7 +113,10 @@ public final class Launcher {
 
 	}
 
-	private Launcher() {
-
+	public static DiscordBot bot;
+	
+	public static DiscordBot getDiscordBot() {
+		return bot;
 	}
+	
 }
