@@ -10,7 +10,7 @@ import com.rs.utils.Utils;
 public class CombatScriptsHandler {
 
 	private static final HashMap<Object, CombatScript> cachedCombatScripts = new HashMap<Object, CombatScript>();
-	private static final CombatScript DEFAULT_SCRIPT = new Default();
+	private static final CombatScript DEFAULT_SCRIPT = new DefaultCombatScript();
 
 	@SuppressWarnings("rawtypes")
 	public static final void init() {

@@ -5,8 +5,8 @@ import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 
+import com.rs.cache.io.OutputStream;
 import com.rs.game.player.Player;
-import com.rs.io.OutputStream;
 import com.rs.net.decoders.ClientPacketsDecoder;
 import com.rs.net.decoders.Decoder;
 import com.rs.net.decoders.GrabPacketsDecoder;

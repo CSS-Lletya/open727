@@ -1,4 +1,4 @@
-package com.rs.game.player.commands;
+package main.wrapper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

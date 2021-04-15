@@ -1,11 +1,12 @@
-package com.rs.game.player.commands.impl;
+package main.impl.commands;
 
 import com.rs.game.ForceTalk;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.game.player.commands.Command;
-import com.rs.game.player.commands.CommandSignature;
 import com.rs.game.task.LinkedTaskSequence;
+
+import main.listener.Command;
+import main.wrapper.CommandSignature;
 
 @CommandSignature(alias = {"task"}, rights = {Rights.PLAYER}, syntax = "Task testing.")
 public final class TestTaskCommand implements Command {

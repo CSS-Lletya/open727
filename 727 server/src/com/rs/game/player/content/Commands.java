@@ -1,7 +1,8 @@
 package com.rs.game.player.content;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.commands.CommandDispatcher;
+
+import main.CommandDispatcher;
 
 public final class Commands {
 

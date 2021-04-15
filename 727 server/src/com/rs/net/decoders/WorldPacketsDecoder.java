@@ -1,6 +1,7 @@
 package com.rs.net.decoders;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
@@ -18,13 +19,11 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.actions.PlayerFollow;
-import com.rs.game.player.commands.CommandDispatcher;
 import com.rs.game.player.content.Notes.Note;
 import com.rs.game.player.content.SkillCapeCustomizer;
 import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.route.strategy.RouteEvent;
-import com.rs.io.InputStream;
 import com.rs.net.Session;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.net.decoders.handlers.NPCHandler;
@@ -33,6 +32,7 @@ import com.rs.utils.Huffman;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
+import main.CommandDispatcher;
 import main.RSInterfaceDispatcher;
 import player.PlayerCombat;
 import skills.Skills;

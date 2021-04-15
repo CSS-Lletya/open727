@@ -4,6 +4,7 @@ import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 
 import com.rs.Settings;
+import com.rs.cache.io.OutputStream;
 import com.rs.game.Animation;
 import com.rs.game.DynamicRegion;
 import com.rs.game.Entity;
@@ -22,7 +23,6 @@ import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.Rights;
-import com.rs.io.OutputStream;
 import com.rs.net.Session;
 import com.rs.utils.Huffman;
 import com.rs.utils.MapArchiveKeys;

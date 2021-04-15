@@ -40,6 +40,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.godwars.zaros.ZGDControler;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.qbd.QueenBlackDragonController;
+import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.Notes;

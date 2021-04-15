@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.game.player.Player;
-import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 

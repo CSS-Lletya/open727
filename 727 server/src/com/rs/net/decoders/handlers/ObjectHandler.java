@@ -1,6 +1,7 @@
 package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
@@ -8,7 +9,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.game.route.strategy.RouteEvent;
-import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 

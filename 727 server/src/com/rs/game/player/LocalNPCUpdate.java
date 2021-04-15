@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.rs.Settings;
+import com.rs.cache.io.OutputStream;
 import com.rs.game.Bar;
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
-import com.rs.io.OutputStream;
 import com.rs.json.GsonHandler;
 import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.utils.Utils;

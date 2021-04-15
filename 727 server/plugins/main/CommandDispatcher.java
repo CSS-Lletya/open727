@@ -1,4 +1,4 @@
-package com.rs.game.player.commands;
+package main;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.IncompleteAnnotationException;
@@ -12,6 +12,8 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import main.listener.Command;
+import main.wrapper.CommandSignature;
 
 /**
  * The manager class of commands which will dispatch executable commands.

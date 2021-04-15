@@ -11,7 +11,6 @@ import com.rs.game.RegionBuilder;
 import com.rs.game.World;
 import com.rs.game.npc.combat.CombatScriptsHandler;
 import com.rs.game.player.FriendChatsManager;
-import com.rs.game.player.commands.CommandDispatcher;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.game.player.dialogues.DialogueHandler;
 import com.rs.json.GsonHandler;
@@ -28,6 +27,7 @@ import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
 import com.rs.utils.ShopsHandler;
 
+import main.CommandDispatcher;
 import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;

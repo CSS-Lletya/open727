@@ -7,7 +7,7 @@ import org.jboss.netty.channel.ChannelFutureListener;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.io.OutputStream;
+import com.rs.cache.io.OutputStream;
 import com.rs.net.Session;
 
 public final class GrabPacketsEncoder extends Encoder {

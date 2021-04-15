@@ -1,10 +1,10 @@
 package com.rs.net.decoders;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.game.World;
 import com.rs.game.player.AccountCreation;
 import com.rs.game.player.Player;
-import com.rs.io.InputStream;
 import com.rs.net.Session;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Encrypt;

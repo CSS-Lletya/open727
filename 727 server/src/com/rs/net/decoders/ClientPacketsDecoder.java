@@ -1,7 +1,7 @@
 package com.rs.net.decoders;
 
 import com.rs.Settings;
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 import com.rs.net.Session;
 import com.rs.utils.Logger;
 

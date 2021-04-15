@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.cache.Cache;
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 
 import skills.dungeoneering.DungeonUtils;
 
