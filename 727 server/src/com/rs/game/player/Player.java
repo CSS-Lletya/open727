@@ -51,12 +51,12 @@ import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
+import com.rs.game.task.Task;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
-import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.net.encoders.WorldPacketsEncoder;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
@@ -2347,7 +2347,13 @@ public class Player extends Entity {
 			return;
 		}
 		if (this.getSwitchItemCache().size() > 0) {
-			ButtonHandler.submitSpecialRequest(this);
+			World.get().submit(new Task(0) {
+				@Override
+				protected void execute() {
+					getCombatDefinitions().switchUsingSpecialAttack();
+					this.cancel();
+				}
+			});
 			return;
 		}
 		switch (weaponId) {

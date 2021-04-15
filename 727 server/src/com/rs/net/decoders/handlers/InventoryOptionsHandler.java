@@ -13,11 +13,12 @@ import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.route.CoordsEvent;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
+
+import main.impl.rsinterface.InventoryInterfaceTypePlugin;
 
 public class InventoryOptionsHandler {
 
@@ -25,19 +26,20 @@ public class InventoryOptionsHandler {
 		if (player.isEquipDisabled())
 			return;
 		long passedTime = Utils.currentTimeMillis() - WorldThread.LAST_CYCLE_CTM;
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(passedTime >= 600 ? 0 : passedTime > 330 ? 1 : 0) {
+			
 			@Override
-			public void run() {
+			protected void execute() {
 				List<Integer> slots = player.getSwitchItemCache();
 				int[] slot = new int[slots.size()];
 				for (int i = 0; i < slot.length; i++)
 					slot[i] = slots.get(i);
 				player.getSwitchItemCache().clear();
-				ButtonHandler.sendWear(player, slot);
+				InventoryInterfaceTypePlugin.sendWear(player, slot);
 				player.stopAll(false, true, false);
+				this.cancel();
 			}
-		}, passedTime >= 600 ? 0 : passedTime > 330 ? 1 : 0);
+		});
 		if (player.getSwitchItemCache().contains(slotId))
 			return;
 		player.getSwitchItemCache().add(slotId);

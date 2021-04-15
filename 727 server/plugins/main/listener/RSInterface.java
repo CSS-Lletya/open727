@@ -4,5 +4,5 @@ import com.rs.game.player.Player;
 
 public interface RSInterface {
 	
-	void execute(Player player, int interfaceId, int componentId, int packetId) throws Exception;
+	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception;
 }

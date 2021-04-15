@@ -1,44 +1,38 @@
-package com.rs.net.decoders.handlers;
+package main.impl.rsinterface;
 
 import java.util.HashMap;
 
-import com.rs.game.World;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.game.task.Task;
+import com.rs.net.decoders.WorldPacketsDecoder;
 
-import player.CombatDefinitions;
+import main.listener.RSInterface;
+import main.wrapper.RSInterfaceSignature;
 import skills.Skills;
-import skills.runecrafting.Runecrafting;
 
-/**
- * This class is to be removed once the supported 
- * interfaces are added. Use RSInterfaceDispatcher
- * for creating new or editing current interfaces.
- * @author Dennis
- *
- */
-public class ButtonHandler {
+@RSInterfaceSignature(interfaceId = {670})
+public class InventoryInterfaceTypePlugin implements RSInterface {
 
-	public static void sendRemove(Player player, int slotId) {
-		if (slotId >= 15)
-			return;
-		player.stopAll(false, false);
-		Item item = player.getEquipment().getItem(slotId);
-		if (item == null || !player.getInventory().addItem(item.getId(), item.getAmount()))
-			return;
-		player.getEquipment().getItems().set(slotId, null);
-		player.getEquipment().refresh(slotId);
-		player.getAppearance().generateAppearanceData();
-		if (Runecrafting.isTiara(item.getId()))
-			player.getPackets().sendConfig(491, 0);
-		if (slotId == 3)
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+	@Override
+	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+		System.out.println(packetId);
+		if (componentId == 0) {
+			if (slotId >= player.getInventory().getItemsContainerSize())
+				return;
+			Item item = player.getInventory().getItem(slotId);
+			if (item == null)
+				return;
+			if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET) {
+				if (sendWear(player, slotId, item.getId()))
+					EquipmentInterfacePlugin.refreshEquipBonuses(player);
+			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
+				player.getInventory().sendExamine(slotId);
+		}
 	}
-
+	
 	@SuppressWarnings("unused")
 	public static boolean sendWear(Player player, int slotId, int itemId) {
 		if (player.hasFinished() || player.isDead())
@@ -243,16 +237,6 @@ public class ButtonHandler {
 		return true;
 	}
 
-	public static void submitSpecialRequest(final Player player) {
-		World.get().submit(new Task(0) {
-			@Override
-			protected void execute() {
-				player.getCombatDefinitions().switchUsingSpecialAttack();
-				this.cancel();
-			}
-		});
-	}
-
 	public static void sendWear(Player player, int[] slotIds) {
 		if (player.hasFinished() || player.isDead())
 			return;
@@ -265,59 +249,11 @@ public class ButtonHandler {
 			if (sendWear2(player, slotId, item.getId()))
 				worn = true;
 		}
+		System.out.println("?");
 		player.getInventory().refreshItems(copy);
 		if (worn) {
 			player.getAppearance().generateAppearanceData();
 			player.getPackets().sendSound(2240, 0, 1);
 		}
-	}
-
-	public static void openEquipmentBonuses(final Player player, boolean banking) {
-		player.stopAll();
-		player.getInterfaceManager().sendInventoryInterface(670);
-		player.getInterfaceManager().sendInterface(667);
-		player.getPackets().sendConfigByFile(4894, banking ? 1 : 0);
-		player.getPackets().sendItems(93, player.getInventory().getItems());
-		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93, 4, 7, "Equip", "Compare", "Stats", "Examine");
-		player.getPackets().sendAccessMask(670, 0, 0, 27, 0, 1, 2, 3);
-		player.getPackets().sendAccessMask(667, 14, 0, 13, 1030);
-		refreshEquipBonuses(player);
-		if (banking) {
-			player.getTemporaryAttributtes().put("Banking", Boolean.TRUE);
-			player.setCloseInterfacesEvent(new Runnable() {
-				@Override
-				public void run() {
-					player.getTemporaryAttributtes().remove("Banking");
-				}
-
-			});
-		}
-	}
-
-	public static void refreshEquipBonuses(Player player) {
-		player.getPackets().sendIComponentText(667, 28, "Stab: +" + player.getCombatDefinitions().getBonuses()[0]);
-		player.getPackets().sendIComponentText(667, 29, "Slash: +" + player.getCombatDefinitions().getBonuses()[1]);
-		player.getPackets().sendIComponentText(667, 30, "Crush: +" + player.getCombatDefinitions().getBonuses()[2]);
-		player.getPackets().sendIComponentText(667, 31, "Magic: +" + player.getCombatDefinitions().getBonuses()[3]);
-		player.getPackets().sendIComponentText(667, 32, "Range: +" + player.getCombatDefinitions().getBonuses()[4]);
-		player.getPackets().sendIComponentText(667, 33, "Stab: +" + player.getCombatDefinitions().getBonuses()[5]);
-		player.getPackets().sendIComponentText(667, 34, "Slash: +" + player.getCombatDefinitions().getBonuses()[6]);
-		player.getPackets().sendIComponentText(667, 35, "Crush: +" + player.getCombatDefinitions().getBonuses()[7]);
-		player.getPackets().sendIComponentText(667, 36, "Magic: +" + player.getCombatDefinitions().getBonuses()[8]);
-		player.getPackets().sendIComponentText(667, 37, "Range: +" + player.getCombatDefinitions().getBonuses()[9]);
-		player.getPackets().sendIComponentText(667, 38,
-				"Summoning: +" + player.getCombatDefinitions().getBonuses()[10]);
-		player.getPackets().sendIComponentText(667, 39, "Absorb Melee: +"
-				+ player.getCombatDefinitions().getBonuses()[CombatDefinitions.ABSORVE_MELEE_BONUS] + "%");
-		player.getPackets().sendIComponentText(667, 40, "Absorb Magic: +"
-				+ player.getCombatDefinitions().getBonuses()[CombatDefinitions.ABSORVE_MAGE_BONUS] + "%");
-		player.getPackets().sendIComponentText(667, 41, "Absorb Ranged: +"
-				+ player.getCombatDefinitions().getBonuses()[CombatDefinitions.ABSORVE_RANGE_BONUS] + "%");
-		player.getPackets().sendIComponentText(667, 42, "Strength: " + player.getCombatDefinitions().getBonuses()[14]);
-		player.getPackets().sendIComponentText(667, 43,
-				"Ranged Str: " + player.getCombatDefinitions().getBonuses()[15]);
-		player.getPackets().sendIComponentText(667, 44, "Prayer: +" + player.getCombatDefinitions().getBonuses()[16]);
-		player.getPackets().sendIComponentText(667, 45,
-				"Magic Damage: +" + player.getCombatDefinitions().getBonuses()[17] + "%");
 	}
 }

@@ -11,7 +11,7 @@ import com.rs.game.player.Player;
 
 public class DiscordBot {
 	
-	private final String token = "YOUR_TOKEN_GOES_HERE";
+	private final String token = "ODMyMjQ0NDU2NDM0MTcxOTU0.YHg-DA.EKQ_S4eepTzFOMg2SQs2yNSSU1E";
 	private final DiscordApi api = new DiscordApiBuilder().setToken(token).login().join();
 	Player player;
 	
