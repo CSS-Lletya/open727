@@ -16,9 +16,9 @@ import com.rs.game.player.controlers.Controler;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.decoders.WorldPacketsDecoder;
-import com.rs.net.decoders.handlers.ButtonHandler;
 import com.rs.utils.Utils;
 
+import main.impl.rsinterface.EquipmentInterfacePlugin;
 import player.PlayerCombat;
 
 public class DuelArena extends Controler {
@@ -313,11 +313,11 @@ public class DuelArena extends Controler {
 		for (int i = 10; i < 23; i++) {
 			if (i == 14) {
 				if (player.getEquipment().hasTwoHandedWeapon())
-					ButtonHandler.sendRemove(target, 3);
+					EquipmentInterfacePlugin.sendRemove(target, 3);
 			}
 			if (player.getLastDuelRules().getRule(i)) {
 				slot = i - 10;
-				ButtonHandler.sendRemove(player, slot);
+				EquipmentInterfacePlugin.sendRemove(player, slot);
 			}
 		}
 	}

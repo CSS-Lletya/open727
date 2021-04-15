@@ -136,6 +136,9 @@ public final class Skills implements Serializable {
 			player.getInterfaceManager().closeXPDisplay();
 	}
 
+	/**
+	 * Resize alginment is off. 
+	 */
 	public void switchXPPopup() {
 		xpPopup = !xpPopup;
 		player.getPackets().sendGameMessage("XP pop-ups are now " + (xpPopup ? "en" : "dis") + "abled.");

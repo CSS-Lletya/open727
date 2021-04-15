@@ -33,7 +33,7 @@ public final class RSInterfaceDispatcher {
 	 * @param player the player executing the interface.
 	 * @param parts the string which represents a interface.
 	 */
-	public static void execute(Player player, int interfaceId, int componentId, int packetId) {
+	public static void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) {
 		Optional<RSInterface> rsInterface = getRSInterface(interfaceId);
 		
 		if(!rsInterface.isPresent()) {
@@ -42,7 +42,7 @@ public final class RSInterfaceDispatcher {
 		}
 	
 		try {
-			rsInterface.get().execute(player, interfaceId, componentId, packetId);
+			rsInterface.get().execute(player, interfaceId, componentId, packetId, slotId, slotId2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,8 +119,7 @@ public final class RSInterfaceDispatcher {
 		final int slotId2 = stream.readUnsignedShort();
 		final int slotId = stream.readUnsignedShort128();
 		final int itemId = stream.readUnsignedShortLE128();
-		
-		RSInterfaceDispatcher.execute(player, interfaceId, componentId, packetId);
+		RSInterfaceDispatcher.execute(player, interfaceId, componentId, packetId, slotId, slotId2);
 		
 		if (Settings.DEBUG)
 			Logger.log("ButtonHandler", "Interface ID: " + interfaceId + " - Comonent: " + componentId + " - PacketId: " + packetId);
