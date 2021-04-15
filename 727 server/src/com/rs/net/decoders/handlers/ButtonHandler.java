@@ -2,72 +2,26 @@ package com.rs.net.decoders.handlers;
 
 import java.util.HashMap;
 
-import com.rs.Settings;
 import com.rs.game.World;
-import com.rs.game.event.EventManager;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.game.task.Task;
-import com.rs.io.InputStream;
-import com.rs.utils.Logger;
-import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import skills.Skills;
 import skills.runecrafting.Runecrafting;
 
+/**
+ * This class is to be removed once the supported 
+ * interfaces are added. Use RSInterfaceDispatcher
+ * for creating new or editing current interfaces.
+ * @author Dennis
+ *
+ */
 public class ButtonHandler {
-
-	@SuppressWarnings("unused")
-	public static void handleButtons(final Player player, InputStream stream, int packetId) {
-		int interfaceHash = stream.readIntLE();
-		int interfaceId = interfaceHash >> 16;
-		if (Utils.getInterfaceDefinitionsSize() <= interfaceId) {
-			// hack, or server error or client error
-			// player.getSession().getChannel().close();
-			return;
-		}
-		if (player.isDead() || player.isLocked()) {
-			return;
-		}
-		if (!player.getInterfaceManager().containsInterface(interfaceId)) {
-			return;
-		}
-		final int componentId = interfaceHash - (interfaceId << 16);
-		if (componentId != 65535 && Utils.getInterfaceDefinitionsComponentsSize(interfaceId) <= componentId) {
-			// hack, or server error or client error
-			// player.getSession().getChannel().close();
-			return;
-		}
-		final int slotId2 = stream.readUnsignedShort();
-		final int slotId = stream.readUnsignedShort128();
-		final int itemId = stream.readUnsignedShortLE128();
-		
-		if (EventManager.get().handleButtonClick(player, interfaceId, componentId, packetId, slotId, itemId)) {
-			return;
-		}
-		
-		if (interfaceId == 884) {
-			if (componentId == 4) {
-				int weaponId = player.getEquipment().getWeaponId();
-				if (player.hasInstantSpecial(weaponId)) {
-					player.performInstantSpecial(weaponId);
-					return;
-				}
-
-				submitSpecialRequest(player);
-			} else if (componentId >= 7 && componentId <= 10)
-				player.getCombatDefinitions().setAttackStyle(componentId - 7);
-			else if (componentId == 11)
-				player.getCombatDefinitions().switchAutoRelatie();
-		}
-		
-		if (Settings.DEBUG)
-			Logger.log("ButtonHandler", "Interface ID: " + interfaceId + " - Comonent: " + componentId + " - PacketId: " + packetId);
-	}
 
 	public static void sendRemove(Player player, int slotId) {
 		if (slotId >= 15)
