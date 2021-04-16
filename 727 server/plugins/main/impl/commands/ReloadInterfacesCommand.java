@@ -1,11 +1,11 @@
-package com.rs.game.player.commands.impl;
+package main.impl.commands;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.game.player.commands.Command;
-import com.rs.game.player.commands.CommandSignature;
 
 import main.RSInterfaceDispatcher;
+import main.listener.Command;
+import main.wrapper.CommandSignature;
 
 @CommandSignature(alias = {"reloadint"}, rights = {Rights.ADMINISTRATOR}, syntax = "Reloads the RS Interface system")
 public final class ReloadInterfacesCommand implements Command {

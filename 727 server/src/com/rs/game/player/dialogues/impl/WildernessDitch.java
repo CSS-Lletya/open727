@@ -2,11 +2,11 @@ package com.rs.game.player.dialogues.impl;
 
 import com.rs.game.Animation;
 import com.rs.game.ForceMovement;
+import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.player.dialogues.Dialogue;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 
 public class WildernessDitch extends Dialogue {
 
@@ -30,15 +30,15 @@ public class WildernessDitch extends Dialogue {
 					ditch.getPlane());
 			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2,
 					ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ForceMovement.NORTH : ForceMovement.WEST));
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(2) {
 				@Override
-				public void run() {
+				protected void execute() {
 					player.setNextWorldTile(toTile);
 					player.faceObject(ditch);
 					player.getControlerManager().startControler("Wilderness");
 					player.resetReceivedDamage();
 				}
-			}, 2);
+			});
 		} else
 			player.closeInterfaces();
 		end();

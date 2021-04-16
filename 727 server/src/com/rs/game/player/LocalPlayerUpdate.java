@@ -3,10 +3,10 @@ package com.rs.game.player;
 import java.security.MessageDigest;
 
 import com.rs.Settings;
+import com.rs.cache.io.OutputStream;
 import com.rs.game.Bar;
 import com.rs.game.Hit;
 import com.rs.game.World;
-import com.rs.io.OutputStream;
 import com.rs.utils.Utils;
 
 public final class LocalPlayerUpdate {

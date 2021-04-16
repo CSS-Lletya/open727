@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.alex.utils.Constants;
 import com.rs.cache.Cache;
+import com.rs.cache.io.InputStream;
 import com.rs.game.item.Item;
 import com.rs.game.player.Equipment;
-import com.rs.io.InputStream;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.Utils;
 

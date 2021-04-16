@@ -1,6 +1,6 @@
 package com.rs.net.decoders;
 
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 import com.rs.net.Session;
 
 public abstract class Decoder {

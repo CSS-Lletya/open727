@@ -3,7 +3,7 @@ package com.rs.cache.loaders;
 import java.util.Hashtable;
 
 import com.rs.cache.Cache;
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 import com.rs.utils.Utils;
 
 @SuppressWarnings("unused")

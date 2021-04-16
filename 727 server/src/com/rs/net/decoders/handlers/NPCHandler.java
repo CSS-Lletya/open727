@@ -1,12 +1,12 @@
 package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.game.World;
 import com.rs.game.dialogue.container.Test_D;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.route.strategy.RouteEvent;
-import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 
 public class NPCHandler {

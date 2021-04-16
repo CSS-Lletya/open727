@@ -4,13 +4,13 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.item.Item;
 import com.rs.game.minigames.clanwars.FfaZone;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -298,13 +298,11 @@ public final class Pots {
 				player.addFireImmune(360000);
 				final long current = player.getFireImmune();
 				player.getPackets().sendGameMessage("You are now immune to dragonfire.");
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					boolean stop = false;
-
 					@Override
-					public void run() {
+					protected void execute() {
 						if (current != player.getFireImmune()) {
-							stop();
 							return;
 						}
 						if (!stop) {
@@ -312,12 +310,12 @@ public final class Pots {
 									.sendGameMessage("<col=480000>Your antifire potion is about to run out...</col>");
 							stop = true;
 						} else {
-							stop();
 							player.getPackets()
 									.sendGameMessage("<col=480000>Your antifire potion has ran out...</col>");
 						}
+						this.cancel();
 					}
-				}, 500, 100);
+				});
 			}
 		},
 		STRENGTH_POTION(Skills.STRENGTH) {
@@ -540,19 +538,19 @@ public final class Pots {
 			@Override
 			public void extra(final Player player) {
 				player.setOverloadDelay(501);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(2) {
 					int count = 4;
-
 					@Override
-					public void run() {
+					protected void execute() {
 						if (count == 0)
-							stop();
+							return;
 						player.setNextAnimation(new Animation(3170));
 						player.setNextGraphics(new Graphics(560));
 						player.applyHit(new Hit(player, 100, HitLook.REGULAR_DAMAGE, 0));
 						count--;
+						this.cancel();
 					}
-				}, 0, 2);
+				});
 			}
 		},
 		SUPER_PRAYER() {

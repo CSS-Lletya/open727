@@ -1,4 +1,4 @@
-package com.rs.game.player.commands;
+package main.listener;
 
 import com.rs.game.player.Player;
 

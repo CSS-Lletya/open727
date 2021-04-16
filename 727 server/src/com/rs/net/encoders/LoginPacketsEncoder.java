@@ -3,8 +3,8 @@ package com.rs.net.encoders;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 
+import com.rs.cache.io.OutputStream;
 import com.rs.game.player.Player;
-import com.rs.io.OutputStream;
 import com.rs.net.Session;
 
 public final class LoginPacketsEncoder extends Encoder {

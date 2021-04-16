@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.rs.cache.Cache;
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.MapArchiveKeys;
 

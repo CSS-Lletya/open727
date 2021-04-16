@@ -6,7 +6,7 @@ import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 
-public class Default extends CombatScript {
+public class DefaultCombatScript extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {

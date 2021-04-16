@@ -1,7 +1,7 @@
 package com.rs.net.decoders;
 
 import com.rs.cache.Cache;
-import com.rs.io.InputStream;
+import com.rs.cache.io.InputStream;
 import com.rs.net.Session;
 
 public final class GrabPacketsDecoder extends Decoder {

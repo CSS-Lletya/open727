@@ -40,6 +40,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.godwars.zaros.ZGDControler;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.qbd.QueenBlackDragonController;
+import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.Notes;
@@ -51,9 +52,8 @@ import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
+import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
@@ -1131,14 +1131,15 @@ public class Player extends Entity {
 			World.sendProjectile(user, this, 2263, 11, 11, 20, 5, 0, 0);
 		user.heal(hit.getDamage() / 5);
 		prayer.drainPrayer(hit.getDamage() / 5);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(0) {
 			@Override
-			public void run() {
+			protected void execute() {
 				setNextGraphics(new Graphics(2264));
 				if (hit.getDamage() > 0)
 					World.sendProjectile(target, user, 2263, 11, 11, 20, 5, 0, 0);
+				this.cancel();
 			}
-		}, 0);
+		});
 	}
 
 	@Override
@@ -1272,12 +1273,13 @@ public class Player extends Entity {
 									p2.setNextGraphics(new Graphics(2214));
 									p2.prayer.setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2215, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2216));
+											this.cancel();
 										}
-									}, 1);
+									});
 									return;
 								}
 							} else {
@@ -1296,12 +1298,12 @@ public class Player extends Entity {
 										p2.setNextAnimation(new Animation(12575));
 										p2.prayer.setBoostedLeech(true);
 										World.sendProjectile(p2, this, 2231, 35, 35, 20, 5, 0, 0);
-										WorldTasksManager.schedule(new WorldTask() {
+										World.get().submit(new Task(1) {
 											@Override
-											public void run() {
+											protected void execute() {
 												setNextGraphics(new Graphics(2232));
 											}
-										}, 1);
+										});
 										return;
 									}
 								}
@@ -1320,12 +1322,12 @@ public class Player extends Entity {
 										p2.setNextAnimation(new Animation(12575));
 										p2.prayer.setBoostedLeech(true);
 										World.sendProjectile(p2, this, 2248, 35, 35, 20, 5, 0, 0);
-										WorldTasksManager.schedule(new WorldTask() {
+										World.get().submit(new Task(1) {
 											@Override
-											public void run() {
+											protected void execute() {
 												setNextGraphics(new Graphics(2250));
 											}
-										}, 1);
+										});
 										return;
 									}
 								}
@@ -1348,12 +1350,12 @@ public class Player extends Entity {
 									p2.setNextGraphics(new Graphics(2217));
 									p2.prayer.setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2218, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2219));
 										}
-									}, 1);
+									});
 									return;
 								}
 							} else if (p2.prayer.usingPrayer(1, 11)) {
@@ -1370,9 +1372,9 @@ public class Player extends Entity {
 									p2.setNextAnimation(new Animation(12575));
 									p2.prayer.setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2236, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2238));
 										}
 									});
@@ -1396,12 +1398,12 @@ public class Player extends Entity {
 									p2.setNextGraphics(new Graphics(2220));
 									p2.prayer.setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2221, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2222));
 										}
-									}, 1);
+									});
 									return;
 								}
 							} else if (p2.prayer.usingPrayer(1, 12)) {
@@ -1418,12 +1420,12 @@ public class Player extends Entity {
 									p2.setNextAnimation(new Animation(12575));
 									p2.prayer.setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2240, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2242));
 										}
-									}, 1);
+									});
 									return;
 								}
 							}
@@ -1445,12 +1447,12 @@ public class Player extends Entity {
 								p2.setNextAnimation(new Animation(12575));
 								p2.prayer.setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2244, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2246));
 									}
-								}, 1);
+								});
 								return;
 							}
 						}
@@ -1468,12 +1470,12 @@ public class Player extends Entity {
 								p2.setNextAnimation(new Animation(12575));
 								p2.prayer.setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2256, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2258));
 									}
-								}, 1);
+								});
 								return;
 							}
 						}
@@ -1491,12 +1493,12 @@ public class Player extends Entity {
 								p2.setNextAnimation(new Animation(12575));
 								p2.prayer.setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2252, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2254));
 									}
-								}, 1);
+								});
 								return;
 							}
 						}
@@ -1514,12 +1516,12 @@ public class Player extends Entity {
 									combatDefinitions.desecreaseSpecialAttack(10);
 								}
 								World.sendProjectile(p2, this, 2224, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2225));
 									}
-								}, 1);
+								});
 								return;
 							}
 						}
@@ -1575,9 +1577,9 @@ public class Player extends Entity {
 								new Hit(target, Utils.getRandom((int) (skills.getLevelForXp(Skills.PRAYER) * 2.5)),
 										HitLook.REGULAR_DAMAGE));
 				}
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(0) {
 					@Override
-					public void run() {
+					protected void execute() {
 						World.sendGraphics(target, new Graphics(438),
 								new WorldTile(target.getX() - 1, target.getY(), target.getPlane()));
 						World.sendGraphics(target, new Graphics(438),
@@ -1594,6 +1596,7 @@ public class Player extends Entity {
 								new WorldTile(target.getX() + 1, target.getY() - 1, target.getPlane()));
 						World.sendGraphics(target, new Graphics(438),
 								new WorldTile(target.getX() + 1, target.getY() + 1, target.getPlane()));
+						this.cancel();
 					}
 				});
 			} else if (prayer.usingPrayer(1, 17)) {
@@ -1612,9 +1615,9 @@ public class Player extends Entity {
 				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 				final Player target = this;
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(0) {
 					@Override
-					public void run() {
+					protected void execute() {
 						setNextGraphics(new Graphics(2259));
 
 						if (isAtMultiArea()) {
@@ -1679,8 +1682,10 @@ public class Player extends Entity {
 								new WorldTile(getX() - 1, getY() + 1, getPlane()));
 						World.sendGraphics(target, new Graphics(2260),
 								new WorldTile(getX() - 1, getY() - 1, getPlane()));
+
 					}
 				});
+
 			}
 		}
 		setNextAnimation(new Animation(-1));
@@ -1690,28 +1695,20 @@ public class Player extends Entity {
 		stopAll();
 		if (familiar != null)
 			familiar.sendDeath(this);
-		WorldTasksManager.schedule(new WorldTask() {
-			int loop;
 
-			@Override
-			public void run() {
-				if (loop == 0) {
-					setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
-					getPackets().sendGameMessage("Oh dear, you have died.");
-					if (source instanceof Player) {
-						Player killer = (Player) source;
-						killer.setAttackedByDelay(4);
-					}
-				} else if (loop == 3) {
-					setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
-				} else if (loop == 4) {
-					getPackets().sendMusicEffect(90);
-					stop();
-				}
-				loop++;
+		LinkedTaskSequence seq = new LinkedTaskSequence();
+		seq.connect(1, () -> setNextAnimation(new Animation(836)));
+		seq.connect(4, () -> {
+			getPackets().sendMusicEffect(90);
+			if (source instanceof Player) {
+				Player killer = (Player) source;
+				killer.setAttackedByDelay(4);
 			}
-		}, 0, 1);
+			getPackets().sendGameMessage("Oh dear, you have died.");
+			setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
+			setNextAnimation(new Animation(-1));
+		});
+		seq.start();
 	}
 
 	public void sendItemsOnDeath(Player killer) {
@@ -1840,16 +1837,17 @@ public class Player extends Entity {
 		if (useDelay == 0)
 			setNextWorldTile(dest);
 		else {
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(useDelay - 1) {
 				@Override
-				public void run() {
+				protected void execute() {
 					if (isDead())
 						return;
 					setNextWorldTile(dest);
 					if (message != null)
 						getPackets().sendGameMessage(message);
+					this.cancel();
 				}
-			}, useDelay - 1);
+			});
 		}
 	}
 
@@ -2394,22 +2392,19 @@ public class Player extends Entity {
 			final boolean enhanced = weaponId == 14632;
 			skills.set(Skills.DEFENCE, enhanced ? (int) (skills.getLevelForXp(Skills.DEFENCE) * 1.15D)
 					: (skills.getLevel(Skills.DEFENCE) + 8));
-			WorldTasksManager.schedule(new WorldTask() {
-				int count = 5;
-
+			World.get().submit(new Task(4) {
+				int count;
 				@Override
-				public void run() {
+				protected void execute() {
 					if (isDead() || hasFinished() || getHitpoints() >= getMaxHitpoints()) {
-						stop();
 						return;
 					}
 					heal(enhanced ? 80 : 40);
 					if (count-- == 0) {
-						stop();
 						return;
 					}
 				}
-			}, 4, 2);
+			});
 			combatDefinitions.desecreaseSpecialAttack(specAmt);
 			break;
 		case 15486:

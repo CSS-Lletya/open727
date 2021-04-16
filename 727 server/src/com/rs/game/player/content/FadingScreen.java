@@ -4,9 +4,9 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import com.rs.cores.CoresManager;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
@@ -47,10 +47,9 @@ public final class FadingScreen {
 
 	public static void unfade(final Player player, Runnable event) {
 		event.run();
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(0) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.getInterfaceManager().sendFadingInterface(170);
 				CoresManager.slowExecutor.schedule(new TimerTask() {
 					@Override
@@ -63,8 +62,8 @@ public final class FadingScreen {
 						}
 					}
 				}, 2, TimeUnit.SECONDS);
+				this.cancel();
 			}
-
 		});
 	}
 

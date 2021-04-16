@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.Settings;
+import com.rs.cache.io.OutputStream;
 import com.rs.game.World;
 import com.rs.game.minigames.clanwars.ClanWars;
-import com.rs.io.OutputStream;
 import com.rs.utils.Utils;
 
 public class FriendChatsManager {

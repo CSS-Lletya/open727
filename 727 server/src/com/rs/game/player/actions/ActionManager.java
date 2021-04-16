@@ -1,6 +1,6 @@
-package com.rs.game.player;
+package com.rs.game.player.actions;
 
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.Player;
 
 public final class ActionManager {
 

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
+import com.rs.cache.io.OutputStream;
 import com.rs.cache.loaders.ClientScriptMap;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ItemsEquipIds;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.item.Item;
-import com.rs.io.OutputStream;
 import com.rs.utils.Utils;
 
 public class Appearance implements Serializable {

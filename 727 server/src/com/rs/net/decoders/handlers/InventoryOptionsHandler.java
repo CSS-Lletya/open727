@@ -3,6 +3,7 @@ package com.rs.net.decoders.handlers;
 import java.util.List;
 
 import com.rs.Settings;
+import com.rs.cache.io.InputStream;
 import com.rs.cores.WorldThread;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
@@ -14,7 +15,6 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.task.Task;
-import com.rs.io.InputStream;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 

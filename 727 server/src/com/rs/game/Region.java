@@ -6,12 +6,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.cache.io.InputStream;
 import com.rs.cache.loaders.ClientScriptMap;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.item.FloorItem;
 import com.rs.game.player.Player;
-import com.rs.io.InputStream;
 import com.rs.json.GsonHandler;
 import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.json.impl.ObjectSpawnLoader;
