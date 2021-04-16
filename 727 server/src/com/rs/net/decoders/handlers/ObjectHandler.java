@@ -109,6 +109,7 @@ public final class ObjectHandler {
 				player.faceObject(object);
 				if (!player.getControlerManager().processObjectClick1(object))
 					return;
+				
 				if (Settings.DEBUG)
 					Logger.log("ObjectHandler",
 							"clicked 1 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", "

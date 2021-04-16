@@ -102,15 +102,13 @@ public final class CommandDispatcher {
 	 */
 	public static void load() {
 		
-		for(String directory : Utils.getSubDirectories(CommandDispatcher.class)) {
-			List<Command> commands = Utils.getClassesInDirectory(CommandDispatcher.class.getPackage().getName() + "." + directory).stream().map(clazz -> (Command) clazz).collect(Collectors.toList());
-			
-			for(Command command : commands) {
-				if(command.getClass().getAnnotation(CommandSignature.class) == null) {
-					throw new IncompleteAnnotationException(CommandSignature.class, command.getClass().getName() + " has no annotation.");
-				}
-				COMMANDS.put(command.getClass().getAnnotation(CommandSignature.class), command);
+		List<Command> commands = Utils.getClassesInDirectory("main.impl.commands").stream().map(clazz -> (Command) clazz).collect(Collectors.toList());
+		
+		for(Command command : commands) {
+			if(command.getClass().getAnnotation(CommandSignature.class) == null) {
+				throw new IncompleteAnnotationException(CommandSignature.class, command.getClass().getName() + " has no annotation.");
 			}
+			COMMANDS.put(command.getClass().getAnnotation(CommandSignature.class), command);
 		}
 	}
 	

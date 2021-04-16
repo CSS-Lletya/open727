@@ -6,6 +6,8 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
+import com.rs.game.task.LinkedTaskSequence;
+import com.rs.game.task.Task;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 
@@ -21,15 +23,14 @@ public class BarbarianOutpostAgility {
 		final WorldTile toTile = new WorldTile(object.getX(), player.getY() >= 3561 ? 3558 : 3561, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2,
 				player.getY() >= 3561 ? ForceMovement.SOUTH : ForceMovement.NORTH));
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.setNextWorldTile(toTile);
 				player.getSkills().addXp(Skills.AGILITY, 1 / 20);
+				this.cancel();
 			}
-
-		}, 1);
+		});
 	}
 
 	public static void runUpWall(final Player player, WorldObject object) {
@@ -37,27 +38,20 @@ public class BarbarianOutpostAgility {
 			return;
 		player.lock(10);
 		final WorldTile toTile = new WorldTile(2538, 3545, 2);
-		WorldTasksManager.schedule(new WorldTask() {
 
-			boolean secondLoop;
+		LinkedTaskSequence seq = new LinkedTaskSequence();
 
-			@Override
-			public void run() {
+		seq.connect(1, () -> {
+			player.setNextForceMovement(new ForceMovement(player, 7, toTile, 8, ForceMovement.NORTH));
+			player.setNextAnimation(new Animation(10492));
+		});
+		seq.connect(7, () -> {
+			player.setNextAnimation(new Animation(10493));
+			player.setNextWorldTile(toTile);
+			player.getSkills().addXp(Skills.AGILITY, 15);
+		});
 
-				if (!secondLoop) {
-					player.setNextForceMovement(new ForceMovement(player, 7, toTile, 8, ForceMovement.NORTH));
-					player.setNextAnimation(new Animation(10492));
-					secondLoop = true;
-				} else {
-					player.setNextAnimation(new Animation(10493));
-					player.setNextWorldTile(toTile);
-					player.getSkills().addXp(Skills.AGILITY, 15);
-					stop();
-				}
-
-			}
-
-		}, 1, 6);
+		seq.start();
 	}
 
 	public static void climbUpWall(final Player player, WorldObject object) {

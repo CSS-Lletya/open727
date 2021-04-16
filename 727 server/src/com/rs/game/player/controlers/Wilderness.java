@@ -4,13 +4,14 @@ import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
+import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.LinkedTaskSequence;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -164,17 +165,18 @@ public class Wilderness extends Controler {
 
 			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2,
 					object.getRotation() == 0 || object.getRotation() == 2 ? ForceMovement.SOUTH : ForceMovement.EAST));
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(0) {
 				@Override
-				public void run() {
+				protected void execute() {
 					player.setNextWorldTile(toTile);
 					player.faceObject(object);
 					removeIcon();
 					removeControler();
 					player.resetReceivedDamage();
 					player.unlock();
+					this.cancel();
 				}
-			}, 2);
+			});
 			return false;
 		} else if (object.getId() == 2557 || object.getId() == 65717) {
 			player.getPackets().sendGameMessage("It seems it is locked, maybe you should try something else.");
@@ -200,36 +202,27 @@ public class Wilderness extends Controler {
 
 	@Override
 	public boolean sendDeath() {
-
-		WorldTasksManager.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0) {
-					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
-					player.getPackets().sendGameMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
-					Player killer = player.getMostDamageReceivedSourcePlayer();
-					if (killer != null) {
-						killer.removeDamage(player);
-					}
-					player.sendItemsOnDeath(killer);
-					player.getEquipment().init();
-					player.getInventory().init();
-					player.reset();
-					player.setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
-					player.setNextAnimation(new Animation(-1));
-				} else if (loop == 4) {
-					removeIcon();
-					removeControler();
-					player.getPackets().sendMusicEffect(90);
-					stop();
-				}
-				loop++;
+		LinkedTaskSequence seq = new LinkedTaskSequence();
+		seq.connect(1, () -> player.setNextAnimation(new Animation(836)));
+		seq.connect(3, () -> {
+			Player killer = player.getMostDamageReceivedSourcePlayer();
+			if (killer != null) {
+				killer.removeDamage(player);
 			}
-		}, 0, 1);
+			player.getPackets().sendGameMessage("Oh dear, you have died.");
+			player.sendItemsOnDeath(killer);
+			player.getEquipment().init();
+			player.getInventory().init();
+			player.reset();
+			player.setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
+			player.setNextAnimation(new Animation(-1));
+		});
+		seq.connect(4, () -> {
+			removeIcon();
+			removeControler();
+			player.getPackets().sendMusicEffect(90);
+		});
+		seq.start();
 		return false;
 	}
 

@@ -10,11 +10,15 @@ import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.LinkedTaskSequence;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Utils;
 
+/**
+ * TODO: Redo all this.
+ * @author Dennis
+ *
+ */
 public final class EmotesManager implements Serializable {
 
 	private static final long serialVersionUID = 8489480378717534336L;
@@ -22,10 +26,11 @@ public final class EmotesManager implements Serializable {
 	private ArrayList<Integer> unlockedEmotes;
 	private transient Player player;
 	private transient long nextEmoteEnd;
+	private NPC npc;
 
 	public EmotesManager() {
 		unlockedEmotes = new ArrayList<Integer>();
-		for (int emoteId = 2; emoteId < 24; emoteId++)
+		for (int emoteId = 2; emoteId < 50; emoteId++)
 			unlockedEmotes.add(emoteId);
 		unlockedEmotes.add(39); // skillcape
 	}
@@ -400,24 +405,16 @@ public final class EmotesManager implements Serializable {
 					final int rand = (int) (Math.random() * (2 + 1));
 					player.setNextAnimation(new Animation(13190));
 					player.setNextGraphics(new Graphics(2442));
-					WorldTasksManager.schedule(new WorldTask() {
-						int step;
-
-						@Override
-						public void run() {
-							if (step == 1) {
-								player.getAppearance()
-										.transformIntoNPC((rand == 0 ? 11227 : (rand == 1 ? 11228 : 11229)));
-								player.setNextAnimation(
-										new Animation(((rand > 0 ? 13192 : (rand == 1 ? 13193 : 13194)))));
-							}
-							if (step == 3) {
-								player.getAppearance().transformIntoNPC(-1);
-								stop();
-							}
-							step++;
-						}
-					}, 0, 1);
+					
+					LinkedTaskSequence seq = new LinkedTaskSequence();
+					seq.connect(1, () -> {
+						player.getAppearance().transformIntoNPC((rand == 0 ? 11227 : (rand == 1 ? 11228 : 11229)));
+						player.setNextAnimation(new Animation(((rand > 0 ? 13192 : (rand == 1 ? 13193 : 13194)))));
+					});
+					seq.connect(3, () -> {
+						player.getAppearance().transformIntoNPC(-1);
+					});
+					seq.start();
 					break;
 				case 19709:
 				case 19710: // Master dungeoneering cape
@@ -470,50 +467,47 @@ public final class EmotesManager implements Serializable {
 					}
 					nextEmoteEnd = Utils.currentTimeMillis() + (25 * 600);
 					final WorldTile npcTile = spawnTile;
-					WorldTasksManager.schedule(new WorldTask() {
-						private int step;
-						private NPC npc;
-
-						@Override
-						public void run() {
-							if (step == 0) {
-								npc = new NPC(1224, npcTile, -1, true);
-								npc.setNextAnimation(new Animation(1434));
-								npc.setNextGraphics(new Graphics(1482));
-								player.setNextAnimation(new Animation(1179));
-								npc.setNextFaceEntity(player);
-								player.setNextFaceEntity(npc);
-							} else if (step == 2) {
-								npc.setNextAnimation(new Animation(1436));
-								npc.setNextGraphics(new Graphics(1486));
-								player.setNextAnimation(new Animation(1180));
-							} else if (step == 3) {
-								npc.setNextGraphics(new Graphics(1498));
-								player.setNextAnimation(new Animation(1181));
-							} else if (step == 4) {
-								player.setNextAnimation(new Animation(1182));
-							} else if (step == 5) {
-								npc.setNextAnimation(new Animation(1448));
-								player.setNextAnimation(new Animation(1250));
-							} else if (step == 6) {
-								player.setNextAnimation(new Animation(1251));
-								player.setNextGraphics(new Graphics(1499));
-								npc.setNextAnimation(new Animation(1454));
-								npc.setNextGraphics(new Graphics(1504));
-							} else if (step == 11) {
-								player.setNextAnimation(new Animation(1291));
-								player.setNextGraphics(new Graphics(1686));
-								player.setNextGraphics(new Graphics(1598));
-								npc.setNextAnimation(new Animation(1440));
-							} else if (step == 16) {
-								player.setNextFaceEntity(null);
-								npc.finish();
-								stop();
-							}
-							step++;
-						}
-
-					}, 0, 1);
+					
+					LinkedTaskSequence maxCapeSeq = new LinkedTaskSequence();
+					maxCapeSeq.connect(1, () -> {
+						npc = new NPC(1224, npcTile, -1, true);
+						npc.setNextAnimation(new Animation(1434));
+						npc.setNextGraphics(new Graphics(1482));
+						player.setNextAnimation(new Animation(1179));
+						npc.setNextFaceEntity(player);
+						player.setNextFaceEntity(npc);
+					});
+					maxCapeSeq.connect(2, () -> {
+						npc.setNextAnimation(new Animation(1436));
+						npc.setNextGraphics(new Graphics(1486));
+						player.setNextAnimation(new Animation(1180));
+					});
+					maxCapeSeq.connect(3, () -> {
+						npc.setNextGraphics(new Graphics(1498));
+						player.setNextAnimation(new Animation(1181));
+					});
+					maxCapeSeq.connect(4, () -> player.setNextAnimation(new Animation(1182)));
+					maxCapeSeq.connect(5, () -> {
+						npc.setNextAnimation(new Animation(1448));
+						player.setNextAnimation(new Animation(1250));
+					});
+					maxCapeSeq.connect(6, () -> {
+						player.setNextAnimation(new Animation(1251));
+						player.setNextGraphics(new Graphics(1499));
+						npc.setNextAnimation(new Animation(1454));
+						npc.setNextGraphics(new Graphics(1504));
+					});
+					maxCapeSeq.connect(11, () -> {
+						player.setNextAnimation(new Animation(1291));
+						player.setNextGraphics(new Graphics(1686));
+						player.setNextGraphics(new Graphics(1598));
+						npc.setNextAnimation(new Animation(1440));
+					});
+					maxCapeSeq.connect(16, () -> {
+						player.setNextFaceEntity(null);
+						npc.finish();
+					});
+					maxCapeSeq.start();
 					break;
 				case 20769:
 				case 20771: // Compl cape
@@ -525,31 +519,25 @@ public final class EmotesManager implements Serializable {
 						return;
 					}
 					nextEmoteEnd = Utils.currentTimeMillis() + (20 * 600);
-					WorldTasksManager.schedule(new WorldTask() {
-						private int step;
-
-						@Override
-						public void run() {
-							if (step == 0) {
-								player.setNextAnimation(new Animation(356));
-								player.setNextGraphics(new Graphics(307));
-							} else if (step == 2) {
-								player.getAppearance().transformIntoNPC(capeId == 20769 ? 1830 : 3372);
-								player.setNextAnimation(new Animation(1174));
-								player.setNextGraphics(new Graphics(1443));
-							} else if (step == 4) {
-								player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
-							} else if (step == 5) {
-								player.getPackets().sendStopCameraShake();
-							} else if (step == 8) {
-								player.getAppearance().transformIntoNPC(-1);
-								player.setNextAnimation(new Animation(1175));
-								stop();
-							}
-							step++;
-						}
-
-					}, 0, 1);
+					
+					LinkedTaskSequence compCapeSeq = new LinkedTaskSequence();
+					
+					compCapeSeq.connect(1, () -> {
+						player.setNextAnimation(new Animation(356));
+						player.setNextGraphics(new Graphics(307));
+					});
+					compCapeSeq.connect(2, () -> {
+						player.getAppearance().transformIntoNPC(capeId == 20769 ? 1830 : 3372);
+						player.setNextAnimation(new Animation(1174));
+						player.setNextGraphics(new Graphics(1443));
+					});
+					compCapeSeq.connect(4, () -> player.getPackets().sendCameraShake(3, 25, 50, 25, 50));
+					compCapeSeq.connect(5, () -> player.getPackets().sendStopCameraShake());
+					compCapeSeq.connect(6, () -> {
+						player.getAppearance().transformIntoNPC(-1);
+						player.setNextAnimation(new Animation(1175));
+					});
+					compCapeSeq.start();
 					break;
 				default:
 					player.getPackets()
@@ -576,58 +564,42 @@ public final class EmotesManager implements Serializable {
 				player.setNextAnimation(new Animation(11044));
 				player.setNextGraphics(new Graphics(1973));
 			} else if (id == 46) {// Turkey
-
-				WorldTasksManager.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						if (step == 0) {
-							player.setNextAnimation(new Animation(10994));
-							player.setNextGraphics(new Graphics(86));
-						} else if (step == 1) {
-							player.setNextAnimation(new Animation(10996));
-							player.getAppearance().transformIntoNPC(8499);
-						} else if (step == 6) {
-							player.setNextAnimation(new Animation(10995));
-							player.setNextGraphics(new Graphics(86));
-							player.getAppearance().transformIntoNPC(-1);
-							stop();
-						}
-						step++;
-					}
-
-					private int step;
-
-				}, 0, 1);
+				LinkedTaskSequence turkeySeq = new LinkedTaskSequence();
+				turkeySeq.connect(1, () -> {
+					player.setNextAnimation(new Animation(10994));
+					player.setNextGraphics(new Graphics(86));
+				});
+				turkeySeq.connect(2, () -> {
+					player.setNextAnimation(new Animation(10996));
+					player.getAppearance().transformIntoNPC(8499);
+				});
+				turkeySeq.connect(6, () -> {
+					player.setNextAnimation(new Animation(10995));
+					player.setNextGraphics(new Graphics(86));
+					player.getAppearance().transformIntoNPC(-1);
+				});
+				turkeySeq.start();
 			}
 			if (id == 52) {// Seal Of Approval
-
-				WorldTasksManager.schedule(new WorldTask() {
+				//Seems inacurate overall.
+				LinkedTaskSequence soaSeq = new LinkedTaskSequence();
+				soaSeq.connect(1, () -> {
+					player.setNextAnimation(new Animation(15104));
+					player.setNextGraphics(new Graphics(1287));
+				});
+				soaSeq.connect(2, () -> {
 					int random = (int) (Math.random() * (2 + 1));
-
-					@Override
-					public void run() {
-						if (step == 0) {
-							player.setNextAnimation(new Animation(15104));
-							player.setNextGraphics(new Graphics(1287));
-						} else if (step == 1) {
-							player.setNextAnimation(new Animation(15106));
-							player.getAppearance()
-									.transformIntoNPC(random == 0 ? 13255 : (random == 1 ? 13256 : 13257));
-						} else if (step == 2) {
-							player.setNextAnimation(new Animation(15108));
-						} else if (step == 3) {
-							player.setNextAnimation(new Animation(15105));
-							player.setNextGraphics(new Graphics(1287));
-							player.getAppearance().transformIntoNPC(-1);
-							stop();
-						}
-						step++;
-					}
-
-					private int step;
-
-				}, 0, 1);
+					player.setNextAnimation(new Animation(15106));
+					player.getAppearance()
+							.transformIntoNPC(random == 0 ? 13255 : (random == 1 ? 13256 : 13257));
+				});
+				soaSeq.connect(3, () -> player.setNextAnimation(new Animation(15108)));
+				soaSeq.connect(4, () -> {
+					player.setNextAnimation(new Animation(15105));
+					player.setNextGraphics(new Graphics(1287));
+					player.getAppearance().transformIntoNPC(-1);
+				});
+				soaSeq.start();
 			} else if (id == 47) {
 				player.setNextAnimation(new Animation(11542));
 				player.setNextGraphics(new Graphics(2037));

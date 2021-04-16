@@ -4,10 +4,10 @@ import java.util.Random;
 
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
+import com.rs.game.World;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 
 public class Dicing {
 
@@ -75,14 +75,15 @@ public class Dicing {
 		player.getInventory().deleteItem(itemId, 1);
 		player.setNextAnimation(new Animation(11900));
 		player.setNextGraphics(new Graphics(graphic));
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.getInventory().addItem(itemId, 1);
 				player.getPackets().sendGameMessage("You rolled <col=db3535>" + getRandom(lowest, highest)
 						+ "</col> on " + diceText(itemId) + " die.", true);
+				this.cancel();
 			}
-		}, 1);
+		});
 	}
 
 	public static void friendsRoll(final Player player, final int itemId, int graphic, final int lowest,
@@ -97,16 +98,17 @@ public class Dicing {
 		player.getInventory().deleteItem(itemId, 1);
 		player.setNextAnimation(new Animation(11900));
 		player.setNextGraphics(new Graphics(graphic));
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.getInventory().addItem(itemId, 1);
 				chat.sendDiceMessage(player,
 						"Friends Chat channel-mate <col=db3535>" + player.getDisplayName()
 								+ "</col> rolled <col=db3535>" + getRandom(lowest, highest) + "</col> on "
 								+ diceText(itemId) + " die.");
+				this.cancel();
 			}
-		}, 1);
+		});
 	}
 
 	public static int getRandom(int lowest, int highest) {
