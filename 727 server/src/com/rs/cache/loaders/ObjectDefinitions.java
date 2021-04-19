@@ -720,4 +720,11 @@ public class ObjectDefinitions {
 		return accessBlock;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public boolean getNameContaining(String value) {
+		return getName().contains(value);
+	}
 }

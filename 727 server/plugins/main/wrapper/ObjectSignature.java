@@ -7,11 +7,18 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface RSInterfaceSignature {
-
+public @interface ObjectSignature {
+	
 	/**
-	 * This Interface id we're interacting with
+	 * The Object ID we're interacting with
 	 * @return
 	 */
-	int[] interfaceId();
+	int[] objectId();
+	
+	/**
+	 * The Object Name we're interacting with
+	 * @return
+	 */
+	String[] name();
+	
 }

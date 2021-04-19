@@ -28,6 +28,7 @@ import com.rs.utils.NPCDrops;
 import com.rs.utils.ShopsHandler;
 
 import main.CommandDispatcher;
+import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
@@ -96,6 +97,7 @@ public class GameLoader {
 			GsonHandler.initialize();
 			CommandDispatcher.load();
 			RSInterfaceDispatcher.load();
+			ObjectDispatcher.load();
 		});
 	}
 	
