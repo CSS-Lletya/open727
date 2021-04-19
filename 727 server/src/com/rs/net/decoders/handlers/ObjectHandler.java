@@ -12,7 +12,7 @@ import com.rs.game.route.strategy.RouteEvent;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
-import skills.runecrafting.SihponActionNodes;
+import main.ObjectDispatcher;
 
 public final class ObjectHandler {
 
@@ -72,123 +72,19 @@ public final class ObjectHandler {
 		player.stopAll(false);
 		if (forceRun)
 			player.setRun(forceRun);
-		switch (option) {
-		case 1:
-			handleOption1(player, object);
-			break;
-		case 2:
-			handleOption2(player, object);
-			break;
-		case 3:
-			handleOption3(player, object);
-			break;
-		case 4:
-			handleOption4(player, object);
-			break;
-		case 5:
-			handleOption5(player, object);
-			break;
-		case -1:
+		
+		if (option == -1) {
 			handleOptionExamine(player, object);
-			break;
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private static void handleOption1(final Player player, final WorldObject object) {
-		final ObjectDefinitions objectDef = object.getDefinitions();
-		final int id = object.getId();
-		final int x = object.getX();
-		final int y = object.getY();
-		if (SihponActionNodes.siphon(player, object))
 			return;
+		}
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
 				player.stopAll();
 				player.faceObject(object);
-				if (!player.getControlerManager().processObjectClick1(object))
-					return;
-				
-				if (Settings.DEBUG)
-					Logger.log("ObjectHandler",
-							"clicked 1 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", "
-									+ object.getPlane() + ", " + object.getType() + ", " + object.getRotation() + ", "
-									+ object.getDefinitions().name);
+				ObjectDispatcher.execute(player, object, option);
 			}
 		}, false));
-	}
-
-	private static void handleOption2(final Player player, final WorldObject object) {
-		@SuppressWarnings("unused")
-		final ObjectDefinitions objectDef = object.getDefinitions();
-		final int id = object.getId();
-		player.setRouteEvent(new RouteEvent(object, new Runnable() {
-			@Override
-			public void run() {
-				player.stopAll();
-				player.faceObject(object);
-				if (!player.getControlerManager().processObjectClick2(object))
-					return;
-				if (Settings.DEBUG)
-					Logger.log("ObjectHandler", "clicked 2 at object id : " + id + ", " + object.getX() + ", "
-							+ object.getY() + ", " + object.getPlane());
-			}
-		}, false));
-	}
-
-	private static void handleOption3(final Player player, final WorldObject object) {
-		@SuppressWarnings("unused")
-		final ObjectDefinitions objectDef = object.getDefinitions();
-		final int id = object.getId();
-		player.setRouteEvent(new RouteEvent(object, new Runnable() {
-			@Override
-			public void run() {
-				player.stopAll();
-				player.faceObject(object);
-				if (!player.getControlerManager().processObjectClick3(object))
-					return;
-				if (Settings.DEBUG)
-					Logger.log("ObjectHandler", "cliked 3 at object id : " + id + ", " + object.getX() + ", "
-							+ object.getY() + ", " + object.getPlane() + ", ");
-			}
-		}, false));
-	}
-
-	@SuppressWarnings("unused")
-	private static void handleOption4(final Player player, final WorldObject object) {
-		final ObjectDefinitions objectDef = object.getDefinitions();
-		final int id = object.getId();
-		final WorldTile tile = object;
-		player.setRouteEvent(new RouteEvent(object, new Runnable() {
-			@Override
-			public void run() {
-				player.stopAll();
-				player.faceObject(object);
-
-				if (Settings.DEBUG)
-					Logger.log("ObjectHandler", "cliked 4 at object id : " + id + ", " + object.getX() + ", "
-							+ object.getY() + ", " + object.getPlane() + ", ");
-			}
-		}, false));
-	}
-
-	@SuppressWarnings("unused")
-	private static void handleOption5(final Player player, final WorldObject object) {
-		final ObjectDefinitions objectDef = object.getDefinitions();
-		final int id = object.getId();
-		final WorldTile tile = object;
-		player.setRouteEvent(new RouteEvent(object, new Runnable() {
-			@Override
-			public void run() {
-				player.stopAll();
-				player.faceObject(object);
-
-				if (Settings.DEBUG)
-					Logger.log("ObjectHandler", "cliked 5 at object id : " + id + ", " + object.getX() + ", "
-							+ object.getY() + ", " + object.getPlane() + ", ");
-			}
-		}, false));//objectDef.getSizeX(), objectDef.getSizeY(), object.getRotation()));
 	}
 
 	private static void handleOptionExamine(final Player player, final WorldObject object) {
