@@ -692,7 +692,7 @@ public class Player extends Entity {
 		refreshMouseButtons();
 		refreshPrivateChatSetup();
 		refreshOtherChatsSetup();
-		if (getUsername().equals("Zed")) {
+		if (getUsername().equalsIgnoreCase("Zed") || getUsername().equalsIgnoreCase("Jawarrior1")) {
 			setRights(Rights.ADMINISTRATOR);
 		}
 		sendRunButtonConfig();
