@@ -47,5 +47,8 @@ public class FloorItem extends Item {
 	public void setInvisible(boolean invisible) {
 		this.invisible = invisible;
 	}
-
+	
+	public boolean hasOwner() {
+		return owner != null;
+	}
 }

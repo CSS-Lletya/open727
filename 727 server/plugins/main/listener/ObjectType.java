@@ -4,9 +4,9 @@ import com.rs.game.WorldObject;
 import com.rs.game.player.Player;
 
 /**
- * Represents a command which holds functionality for the execution of
- * it.
- * @author <a href="http://www.rune-server.org/members/stand+up/">Stand Up</a>
+ * 
+ * @author Dennis
+ *
  */
 public interface ObjectType {
 	
