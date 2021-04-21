@@ -67,4 +67,8 @@ public class Item implements Serializable {
 		return getDefinitions().getName();
 	}
 
+	public long getFixedUniqueId() {
+		return id * 234111 +  amount * 23911;
+	}
+	
 }

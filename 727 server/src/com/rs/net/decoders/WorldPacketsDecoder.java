@@ -8,6 +8,7 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.dialogue.container.Test_D;
+import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.minigames.clanwars.ClanWars;
@@ -27,12 +28,12 @@ import com.rs.game.route.strategy.RouteEvent;
 import com.rs.net.Session;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.net.decoders.handlers.NPCHandler;
-import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.utils.Huffman;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
 import main.CommandDispatcher;
+import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import player.PlayerCombat;
 import skills.Skills;
@@ -450,7 +451,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.setRun(forceRun);
 			switch (interfaceId) {
 			case Inventory.INVENTORY_INTERFACE: // inventory
-				ObjectHandler.handleItemOnObject(player, object, interfaceId, item);
+				ObjectDispatcher.handleItemOnObject(player, object, interfaceId, item);
 				break;
 			}
 		} else if (packetId == PLAYER_OPTION_2_PACKET) {
@@ -957,15 +958,15 @@ public final class WorldPacketsDecoder extends Decoder {
 		else if (packetId == NPC_CLICK3_PACKET)
 			NPCHandler.handleOption3(player, stream);
 		else if (packetId == OBJECT_CLICK1_PACKET)
-			ObjectHandler.handleOption(player, stream, 1);
+			ObjectDispatcher.handleOption(player, stream, 1);
 		else if (packetId == OBJECT_CLICK2_PACKET)
-			ObjectHandler.handleOption(player, stream, 2);
+			ObjectDispatcher.handleOption(player, stream, 2);
 		else if (packetId == OBJECT_CLICK3_PACKET)
-			ObjectHandler.handleOption(player, stream, 3);
+			ObjectDispatcher.handleOption(player, stream, 3);
 		else if (packetId == OBJECT_CLICK4_PACKET)
-			ObjectHandler.handleOption(player, stream, 4);
+			ObjectDispatcher.handleOption(player, stream, 4);
 		else if (packetId == OBJECT_CLICK5_PACKET)
-			ObjectHandler.handleOption(player, stream, 5);
+			ObjectDispatcher.handleOption(player, stream, 5);
 		else if (packetId == ITEM_TAKE_PACKET) {
 			if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 				return;
@@ -1012,6 +1013,7 @@ public final class WorldPacketsDecoder extends Decoder {
 					 * " [DiplayName] "+item.getOwner().getDisplayName());
 					 */ player.setNextFaceWorldTile(tile);
 					player.addWalkSteps(tile.getX(), tile.getY(), 1);
+					AutomaticGroundItem.pickup(tile, item);
 					World.removeGroundItem(player, item);
 				}
 			}, false));
@@ -1352,7 +1354,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				|| packetId == INTERFACE_ON_OBJECT)
 			player.addLogicPacketToQueue(new LogicPacket(packetId, length, stream));
 		else if (packetId == OBJECT_EXAMINE_PACKET) {
-			ObjectHandler.handleOption(player, stream, -1);
+			ObjectDispatcher.handleOption(player, stream, -1);
 		} else if (packetId == NPC_EXAMINE_PACKET) {
 			NPCHandler.handleExamine(player, stream);
 		} else if (packetId == JOIN_FRIEND_CHAT_PACKET) {

@@ -132,4 +132,38 @@ public class ItemConstants {
 			return true;
 		}
 	}
+	
+	public static boolean turnCoins(Item item) {
+		if (item.getDefinitions().getName().toLowerCase().contains("(deg)"))
+			return true;
+		if (item.getDefinitions().getName().toLowerCase().contains("strength cape"))
+			return true;
+		if (item.getDefinitions().getName().toLowerCase().contains("max cape"))
+			return true;
+		if (item.getDefinitions().getName().toLowerCase().contains("max hood"))
+			return true;
+		if (item.getDefinitions().getName().toLowerCase().contains("completionist cape"))
+			return true;
+		if (item.getDefinitions().getName().toLowerCase().contains("completionist hood"))
+			return true;
+		switch (item.getId()) {
+		case 10887:
+		case 7462:
+		case 7461:
+		case 18349:
+		case 18351:
+		case 18353:
+		case 18355:
+		case 18357:
+		case 18359:
+		case 18361:
+		case 18363:
+		case 18335:
+		case 18334:
+		case 18333:
+			return true;
+		default:
+			return false;
+		}
+	}
 }

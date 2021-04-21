@@ -2,6 +2,7 @@ package com.rs.cores;
 
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.utils.Logger;
@@ -19,10 +20,8 @@ public final class WorldThread extends Thread {
 		while (!CoresManager.shutdown) {
 			long currentTime = Utils.currentTimeMillis();
 			try {
-				// long debug = Utils.currentTimeMillis();
 				World.get().taskManager.sequence();
-				// System.out.print("TASKS: "+(Utils.currentTimeMillis()-debug));
-				// debug = Utils.currentTimeMillis();
+				AutomaticGroundItem.processGameTick();
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted() || player.hasFinished())
 						continue;
@@ -31,8 +30,6 @@ public final class WorldThread extends Thread {
 						player.getSession().getChannel().close();
 					player.processEntity();
 				}
-				// System.out.print(" ,PLAYERS PROCESS: "+(Utils.currentTimeMillis()-debug));
-				// debug = Utils.currentTimeMillis();
 				for (NPC npc : World.getNPCs()) {
 					if (npc == null || npc.hasFinished())
 						continue;
@@ -42,17 +39,12 @@ public final class WorldThread extends Thread {
 				Logger.handle(e);
 			}
 			try {
-				// System.out.print(" ,NPCS PROCESS: "+(Utils.currentTimeMillis()-debug));
-				// debug = Utils.currentTimeMillis();
-
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted() || player.hasFinished())
 						continue;
 					player.getPackets().sendLocalPlayersUpdate();
 					player.getPackets().sendLocalNPCsUpdate();
 				}
-				// System.out.print(" ,PLAYER UPDATE: "+(Utils.currentTimeMillis()-debug)+", "+World.getPlayers().size()+", "+World.getNPCs().size());
-				// debug = Utils.currentTimeMillis();
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted() || player.hasFinished())
 						continue;
@@ -66,7 +58,6 @@ public final class WorldThread extends Thread {
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
-			// System.out.println(" ,TOTAL: "+(Utils.currentTimeMillis()-currentTime));
 			LAST_CYCLE_CTM = Utils.currentTimeMillis();
 			long sleepTime = Settings.WORLD_CYCLE_TIME + currentTime - LAST_CYCLE_CTM;
 			if (sleepTime <= 0)
@@ -78,7 +69,6 @@ public final class WorldThread extends Thread {
 			}
 		}
 	}
-
+	
 	public static long LAST_CYCLE_CTM;
-
 }
