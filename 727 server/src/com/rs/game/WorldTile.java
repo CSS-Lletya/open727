@@ -188,4 +188,8 @@ public class WorldTile implements Serializable {
 	public boolean matches(WorldTile other) {
 		return x == other.x && y == other.y && plane == other.plane;
 	}
+
+	public long getFixedUniqueId() {
+		return x * 2311 + x * 277 + plane * 2371;
+	}
 }

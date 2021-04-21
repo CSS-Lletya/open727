@@ -9,6 +9,7 @@ import com.rs.cores.BlockingExecutorService;
 import com.rs.cores.CoresManager;
 import com.rs.game.RegionBuilder;
 import com.rs.game.World;
+import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.npc.combat.CombatScriptsHandler;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
@@ -82,6 +83,7 @@ public class GameLoader {
 			NPCDrops.init();
 			ItemExamines.init();
 			ItemBonuses.init();
+			AutomaticGroundItem.initialize();
 			MusicHints.init();
 			ShopsHandler.init();
 		});
