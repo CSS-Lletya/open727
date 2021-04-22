@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.rs.Settings;
 import com.rs.game.player.Player;
 
-public final class Skills implements Serializable {
+public class Skills implements Serializable {
 
 	private static final long serialVersionUID = -7086829989489745985L;
 

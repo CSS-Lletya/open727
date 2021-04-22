@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
@@ -47,6 +49,7 @@ import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
+import com.rs.game.task.impl.SkillActionTask;
 import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
@@ -62,8 +65,6 @@ import server.database.model.RequestModel;
 import server.database.model.impl.NewPlayerDBPlugin;
 import server.database.passive.PassiveDatabaseWorker;
 import skills.Skills;
-import skills.slayer.Slayer.Master;
-import skills.slayer.Slayer.SlayerTask;
 
 public class Player extends Entity {
 
@@ -160,8 +161,6 @@ public class Player extends Entity {
 	private Skills skills;
 	private CombatDefinitions combatDefinitions;
 	private Prayer prayer;
-	private Master master;
-	private SlayerTask slayerTask;
 	private Bank bank;
 	private ControlerManager controlerManager;
 	private MusicsManager musicsManager;
@@ -181,7 +180,6 @@ public class Player extends Entity {
 	private long poisonImmune;
 	private long fireImmune;
 	private boolean killedQueenBlackDragon;
-	private int runeSpanPoints;
 
 	private int lastBonfire;
 	private int[] pouches;
@@ -206,20 +204,10 @@ public class Player extends Entity {
 	// honor
 	private int killCount, deathCount;
 	private ChargesManager charges;
-	// barrows
-	private boolean[] killedBarrowBrothers;
-	private int hiddenBrother;
-	private int barrowsKillCount;
-	private int pestPoints;
 
 	// skill capes customizing
 	private int[] maxedCapeCustomized;
 	private int[] completionistCapeCustomized;
-
-	// completionistcape reqs
-	private boolean completedFightCaves;
-	private boolean completedFightKiln;
-	private boolean wonFightPits;
 
 	private int overloadDelay;
 	private int prayerRenewalDelay;
@@ -255,8 +243,6 @@ public class Player extends Entity {
 		allowChatEffects = true;
 		mouseButtons = true;
 		pouches = new int[4];
-		resetBarrows();
-		//SkillCapeCustomizer.resetSkillCapes(this);
 		ownedObjectsManagerKeys = new LinkedList<String>();
 		passwordList = new ArrayList<String>();
 		ipList = new ArrayList<String>();
@@ -301,7 +287,6 @@ public class Player extends Entity {
 		auraManager.setPlayer(this);
 		charges.setPlayer(this);
 		petManager.setPlayer(this);
-		setDirection(Utils.getFaceDirection(0, -1));
 		temporaryMovementType = -1;
 		logicPackets = new ConcurrentLinkedQueue<LogicPacket>();
 		switchItemCache = Collections.synchronizedList(new ArrayList<Integer>());
@@ -747,7 +732,6 @@ public class Player extends Entity {
 
 	private void sendUnlockedObjectConfigs() {
 		refreshLodestoneNetwork();
-		refreshFightKilnEntrance();
 	}
 
 	private void refreshLodestoneNetwork() {
@@ -781,11 +765,6 @@ public class Player extends Entity {
 		getPackets().sendConfigByFile(10911, 1);
 		// unlocks yanille lodestone
 		getPackets().sendConfigByFile(10912, 1);
-	}
-
-	private void refreshFightKilnEntrance() {
-		if (completedFightCaves)
-			getPackets().sendConfigByFile(10838, 1);
 	}
 
 	public void updateIPnPass() {
@@ -901,6 +880,8 @@ public class Player extends Entity {
 			familiar.dissmissFamiliar(true);
 		else if (pet != null)
 			pet.finish();
+		World.get().getTask().cancel(this);
+		setSkillAction(Optional.empty());
 		setFinished(true);
 		session.setDecoder(-1);
 		AccountCreation.savePlayer(this);
@@ -1976,14 +1957,6 @@ public class Player extends Entity {
 		return killCount;
 	}
 
-	public int getBarrowsKillCount() {
-		return barrowsKillCount;
-	}
-
-	public int setBarrowsKillCount(int barrowsKillCount) {
-		return this.barrowsKillCount = barrowsKillCount;
-	}
-
 	public int setKillCount(int killCount) {
 		return this.killCount = killCount;
 	}
@@ -2040,24 +2013,6 @@ public class Player extends Entity {
 		this.password = password;
 	}
 
-	public boolean[] getKilledBarrowBrothers() {
-		return killedBarrowBrothers;
-	}
-
-	public void setHiddenBrother(int hiddenBrother) {
-		this.hiddenBrother = hiddenBrother;
-	}
-
-	public int getHiddenBrother() {
-		return hiddenBrother;
-	}
-
-	public void resetBarrows() {
-		hiddenBrother = -1;
-		killedBarrowBrothers = new boolean[7]; // includes new bro for future use
-		barrowsKillCount = 0;
-	}
-
 	public int[] getPouches() {
 		return pouches;
 	}
@@ -2086,14 +2041,6 @@ public class Player extends Entity {
 		return priceCheckManager;
 	}
 
-	public void setPestPoints(int pestPoints) {
-		this.pestPoints = pestPoints;
-	}
-
-	public int getPestPoints() {
-		return pestPoints;
-	}
-
 	public boolean isUpdateMovementType() {
 		return updateMovementType;
 	}
@@ -2117,12 +2064,6 @@ public class Player extends Entity {
 			return;
 		currentFriendChat.sendMessage(this, message);
 	}
-
-//	public void sendFriendsChannelQuickMessage(QuickChatMessage message) {
-//		if (currentFriendChat == null)
-//			return;
-//		currentFriendChat.sendQuickMessage(this, message);
-//	}
 
 	public void sendPublicChatMessage(PublicChatMessage message) {
 		for (int regionId : getMapRegionsIds()) {
@@ -2464,33 +2405,6 @@ public class Player extends Entity {
 		return isaacKeyPair;
 	}
 
-	public boolean isCompletedFightCaves() {
-		return completedFightCaves;
-	}
-
-	public void setCompletedFightCaves() {
-		if (!completedFightCaves) {
-			completedFightCaves = true;
-			refreshFightKilnEntrance();
-		}
-	}
-
-	public boolean isCompletedFightKiln() {
-		return completedFightKiln;
-	}
-
-	public void setCompletedFightKiln() {
-		completedFightKiln = true;
-	}
-
-	public boolean isWonFightPits() {
-		return wonFightPits;
-	}
-
-	public void setWonFightPits() {
-		wonFightPits = true;
-	}
-
 	public boolean isCantTrade() {
 		return cantTrade;
 	}
@@ -2523,22 +2437,6 @@ public class Player extends Entity {
 		this.pet = pet;
 	}
 	
-	public Master getSlayerMaster() {
-		return master;
-	}
-
-	public void setSlayerMaster(Master master) {
-		this.master = master;
-	}
-
-	public SlayerTask getSlayerTask() {
-		return slayerTask;
-	}
-
-	public void setSlayerTask(SlayerTask slayerTask) {
-		this.slayerTask = slayerTask;
-	}
-
 	/**
 	 * Gets the petManager.
 	 * @return The petManager.
@@ -2623,28 +2521,6 @@ public class Player extends Entity {
 		oldItemsLook = !oldItemsLook;
 		getPackets().sendItemsLook();
 	}
-
-	/**
-	 * @return the runeSpanPoint
-	 */
-	public int getRuneSpanPoints() {
-		return runeSpanPoints;
-	}
-
-	/**
-	 * @param runeSpanPoint the runeSpanPoint to set
-	 */
-	public void setRuneSpanPoint(int runeSpanPoints) {
-		this.runeSpanPoints = runeSpanPoints;
-	}
-
-	/**
-	 * Adds points
-	 * @param points
-	 */
-	public void addRunespanPoints(int points) {
-		this.runeSpanPoints += points;
-	}
 	
 	public void dialog(DialogueEventListener listener){ //temp
 		getTemporaryAttributtes().put("dialogue_event", listener.begin());
@@ -2675,4 +2551,47 @@ public class Player extends Entity {
 	}
 	
 	public boolean recievedStarter = false;
+	
+	/**
+	 * The current skill action that is going on for this player.
+	 */
+	private Optional<SkillActionTask> action = Optional.empty();
+	
+	/**
+	 * The current skill this player is training.
+	 * @return {@link #action}.
+	 */
+	public Optional<SkillActionTask> getSkillActionTask() {
+		return action;
+	}
+	
+	/**
+	 * Sets the skill action.
+	 * @param action the action to set this skill action to.
+	 */
+	public void setSkillAction(SkillActionTask action) {
+		this.action = Optional.of(action);
+	}
+	
+	/**
+	 * Sets the skill action.
+	 * @param action the action to set this skill action to.
+	 */
+	public void setSkillAction(Optional<SkillActionTask> action) {
+		this.action = action;
+	}
+	
+	/**
+	 * Sends a delayed task for this player.
+	 */
+	public void task(int delay, Consumer<Player> action) {
+		Player p = this;
+		new Task(delay, false) {
+			@Override
+			protected void execute() {
+				action.accept(p);
+				cancel();
+			}
+		}.submit();
+	}
 }

@@ -171,6 +171,29 @@ public final class Inventory implements Serializable {
 				return false;
 		return true;
 	}
+	
+	public boolean contains(Item... items) {
+		for (Item item : items) {
+			if (item != null && !containsItem(item.getId(), item.getAmount())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void replaceItem(Item item, Item item2) {
+		deleteItem(item);
+		addItem(item2);
+	}
+	
+	public boolean addItems(Item... list) {
+		for (Item item : list) {
+			if (item == null)
+				continue;
+			addItem(item);
+		}
+		return true;
+	}
 
 	public boolean containsItem(int itemId, int ammount) {
 		return items.contains(new Item(itemId, ammount));

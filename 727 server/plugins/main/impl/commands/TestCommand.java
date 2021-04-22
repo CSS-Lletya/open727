@@ -5,6 +5,8 @@ import com.rs.game.player.Rights;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
+import skills.fishing.Fishing;
+import skills.fishing.Tool;
 
 /**
  * This is just a dummy command to re-use
@@ -12,11 +14,12 @@ import main.wrapper.CommandSignature;
  * @author Dennis
  *
  */
-@CommandSignature(alias = {"test"}, rights = {Rights.ADMINISTRATOR}, syntax = "Test a Command")
+@CommandSignature(alias = {"test"}, rights = {Rights.PLAYER}, syntax = "Test a Command")
 public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		
+		Fishing fly_fishing = new Fishing(player, Tool.FLY_FISHING_ROD, player);
+		fly_fishing.start();
 	}
 }

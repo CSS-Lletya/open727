@@ -35,9 +35,6 @@ import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
 import com.rs.utils.Utils;
 
-import skills.slayer.Slayer;
-import skills.slayer.Slayer.SlayerTask;
-
 public class NPC extends Entity implements Serializable {
 
 	private static final long serialVersionUID = -4794678936277614443L;
@@ -528,6 +525,7 @@ public class NPC extends Entity implements Serializable {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		combat.removeTarget();
+		World.get().getTask().cancel(this);
 		setNextAnimation(null);
 		WorldTasksManager.schedule(new WorldTask() {
 			int loop;
@@ -558,12 +556,6 @@ public class NPC extends Entity implements Serializable {
 			Player killer = getMostDamageReceivedSourcePlayer();
 			if (killer == null)
 				return;
-			SlayerTask task = killer.getSlayerTask();
-			if (task != null) {
-				if (task.getName().contains(getDefinitions().name)) {
-					Slayer.killedTask(killer, this);
-				}
-			}
 			Drop[] possibleDrops = new Drop[drops.length];
 			int possibleDropsCount = 0;
 			for (Drop drop : drops) {

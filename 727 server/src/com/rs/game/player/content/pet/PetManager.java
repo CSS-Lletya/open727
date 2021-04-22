@@ -111,18 +111,6 @@ public final class PetManager implements Serializable {
 	@SuppressWarnings("incomplete-switch")
 	private boolean hasRequirements(Pets pet) {
 		switch (pet) {
-		case TZREK_JAD:
-			if (!player.isCompletedFightCaves()) {
-				player.getPackets()
-						.sendGameMessage("You need to complete at least one fight cave minigame to use this pet.");
-				return false;
-			}
-			if (!player.isWonFightPits()) {
-				player.getPackets()
-						.sendGameMessage("You need to win at least one fight pits minigame to use this pet.");
-				return false;
-			}
-			return true;
 		case FERRET:
 		case GIANT_WOLPERTINGER:
 			return player.getRights().isStaff();

@@ -339,6 +339,8 @@ public final class WorldPacketsDecoder extends Decoder {
 	        player.stopAll();
 
 	        player.setNextFaceEntity(null);
+	        
+	        player.getSkillActionTask().ifPresent(skill -> skill.cancel());
 
 	        if (steps > 0) {
 
@@ -1008,6 +1010,7 @@ public final class WorldPacketsDecoder extends Decoder {
 					 * player.getPackets().sendGameMessage("This item was dropped by [Username] "+item.getOwner().getUsername()+
 					 * " [DiplayName] "+item.getOwner().getDisplayName());
 					 */ player.setNextFaceWorldTile(tile);
+					
 					player.addWalkSteps(tile.getX(), tile.getY(), 1);
 					AutomaticGroundItem.pickup(tile, item);
 					World.removeGroundItem(player, item);

@@ -6,8 +6,10 @@ import com.rs.game.ForceMovement;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.combat.rework.NPCCombatDispatcher;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.godwars.zaros.Nex;
+import com.rs.game.player.Player;
 import com.rs.utils.MapAreas;
 import com.rs.utils.Utils;
 
@@ -71,7 +73,8 @@ public final class NPCCombat {
 			return 0;
 		}
 		addAttackedByDelay(target);
-		return CombatScriptsHandler.specialAttack(npc, target);
+		//old system was returned, now to convert to new system.
+		return NPCCombatDispatcher.execute((Player) target, npc);
 	}
 
 	protected void doDefenceEmote(Entity target) {
