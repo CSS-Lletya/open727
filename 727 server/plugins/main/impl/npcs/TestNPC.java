@@ -1,6 +1,6 @@
 package main.impl.npcs;
 
-import com.rs.game.dialogue.container.TestD;
+import com.rs.game.dialogue.impl.TestD;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 

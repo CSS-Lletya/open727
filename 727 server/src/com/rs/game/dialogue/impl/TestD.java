@@ -1,12 +1,12 @@
-package com.rs.game.dialogue.container;
+package com.rs.game.dialogue.impl;
 
 import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
-public class Test_D extends DialogueEventListener {
+public class TestD extends DialogueEventListener {
 
-	public Test_D(Player player, NPC npc){
+	public TestD(Player player, NPC npc){
 		super(player, npc);
 	}
 	
@@ -72,14 +72,4 @@ public class Test_D extends DialogueEventListener {
 		player.getInventory().addItem(4153, 1);
 		item(4153, 1, "here you go!");
 	}
-	
-	public static boolean main(Player player, int i){
-		System.out.println("dialogue compId: "+i);
-		DialogueEventListener dialogue = (DialogueEventListener) player.getTemporaryAttributtes().get("dialogue_event");
-		if (dialogue == null)
-			return false;
-		dialogue.listenToDialogueEvent(i);
-		return true;
-	}
-
 }

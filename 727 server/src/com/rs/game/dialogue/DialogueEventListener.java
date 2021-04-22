@@ -223,4 +223,12 @@ public abstract class DialogueEventListener implements DialogueFaceExpression {
 		}
 	}
 	
+	public static boolean main(Player player, int i){
+		System.out.println("dialogue compId: "+i);
+		DialogueEventListener dialogue = (DialogueEventListener) player.getTemporaryAttributtes().get("dialogue_event");
+		if (dialogue == null)
+			return false;
+		dialogue.listenToDialogueEvent(i);
+		return true;
+	}
 }

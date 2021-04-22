@@ -7,11 +7,10 @@ import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
-import com.rs.game.dialogue.container.Test_D;
+import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.clanwars.ClanWars;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Familiar.SpecialAttack;
@@ -20,7 +19,6 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.actions.PlayerFollow;
-import com.rs.game.player.content.Notes.Note;
 import com.rs.game.player.content.SkillCapeCustomizer;
 import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
@@ -1138,7 +1136,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
 			int componentId = interfaceHash - (interfaceId << 16);
-			if (Test_D.main(player, componentId))
+			if (DialogueEventListener.main(player, componentId))
 				return;
 			player.getDialogueManager().continueDialogue(interfaceId, componentId);
 		} else if (packetId == WORLD_MAP_CLICK) {
@@ -1188,33 +1186,6 @@ public final class WorldPacketsDecoder extends Decoder {
 					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getYellColor() + ">" + player.getYellColor() + "</col>.");
 				}
 				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
-			} else if (player.getTemporaryAttributtes().get("entering_note") == Boolean.TRUE) {
-				player.getNotes().add(new Note(value, 1));
-				player.getNotes().refresh();
-				player.getTemporaryAttributtes().put("entering_note", Boolean.FALSE);
-				return;
-			} else if (player.getTemporaryAttributtes().get("editing_note") == Boolean.TRUE) {
-				Note note = (Note) player.getTemporaryAttributtes().get("curNote");
-				player.getNotes().getNotes().get(player.getNotes().getNotes().indexOf(note));
-				player.getNotes().refresh();
-				player.getTemporaryAttributtes().put("editing_note", Boolean.FALSE);
-			} else if (player.getTemporaryAttributtes().get("view_name") == Boolean.TRUE) {
-				player.getTemporaryAttributtes().remove("view_name");
-				Player other = World.getPlayerByDisplayName(value);
-				if (other == null) {
-					player.getPackets().sendGameMessage("Couldn't find player.");
-					return;
-				}
-				ClanWars clan = other.getCurrentFriendChat() != null ? other.getCurrentFriendChat().getClanWars() : null;
-				if (clan == null) {
-					player.getPackets().sendGameMessage("This player's clan is not in war.");
-					return;
-				}
-				if (clan.getSecondTeam().getOwnerDisplayName() != other.getCurrentFriendChat().getOwnerDisplayName()) {
-					player.getTemporaryAttributtes().put("view_prefix", 1);
-				}
-				player.getTemporaryAttributtes().put("view_clan", clan);
-				ClanWars.enter(player);
 			}
 		} else if (packetId == ENTER_INTEGER_PACKET) {
 			if (!player.isRunning() || player.isDead())
