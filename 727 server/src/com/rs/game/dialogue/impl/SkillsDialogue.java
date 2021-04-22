@@ -1,4 +1,4 @@
-package com.rs.game.player.dialogues;
+package com.rs.game.dialogue.impl;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;

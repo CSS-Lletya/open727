@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 import com.rs.cores.CoresManager;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+import com.rs.game.task.Task;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 
@@ -41,20 +43,18 @@ public class Bork extends NPC {
 		}
 		getCombat().removeTarget();
 		setNextAnimation(new Animation(getCombatDefinitions().getDeathEmote()));
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(4) {
 			@Override
-			public void run() {
+			protected void execute() {
 				drop();
 				reset();
 				setLocation(getRespawnTile());
 				finish();
 				if (!isSpawned())
 					setRespawnTask();
-				stop();
+				this.cancel();
 			}
-
-		}, 4);
+		});
 	}
 
 	@Override

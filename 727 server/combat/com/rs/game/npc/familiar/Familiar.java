@@ -12,8 +12,7 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.summoning.Summoning.Pouches;
@@ -311,9 +310,9 @@ public abstract class Familiar extends NPC implements Serializable {
 			}
 		}
 		if (login || teleTile != null)
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(0) {
 				@Override
-				public void run() {
+				protected void execute() {
 					setNextGraphics(new Graphics(getDefinitions().size > 1 ? 1315 : 1314));
 				}
 			});
@@ -357,21 +356,20 @@ public abstract class Familiar extends NPC implements Serializable {
 		setCantInteract(true);
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(0) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 					owner.getPackets().sendGameMessage("Your familiar slowly begins to fade away..");
 				} else if (loop >= defs.getDeathDelay()) {
 					dissmissFamiliar(false);
-					stop();
+					this.cancel();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 	}
 
 	public void respawnFamiliar(Player owner) {
