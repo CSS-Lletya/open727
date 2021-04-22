@@ -26,12 +26,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.clanwars.FfaZone;
-import com.rs.game.minigames.clanwars.WarControler;
-import com.rs.game.minigames.duel.DuelArena;
-import com.rs.game.minigames.duel.DuelRules;
-import com.rs.game.minigames.pest.PestControlGame;
-import com.rs.game.minigames.pest.PestControlLobby;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.corp.CorpBeastControler;
 import com.rs.game.npc.familiar.Familiar;
@@ -43,7 +37,6 @@ import com.rs.game.npc.qbd.QueenBlackDragonController;
 import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
-import com.rs.game.player.content.Notes;
 import com.rs.game.player.content.Pots;
 import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
@@ -93,7 +86,6 @@ public class Player extends Entity {
 	private transient CoordsEvent coordsEvent;
 	private transient FriendChatsManager currentFriendChat;
 	private transient Trade trade;
-	private transient DuelRules lastDuelRules;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
 
@@ -286,7 +278,6 @@ public class Player extends Entity {
 		this.screenHeight = screenHeight;
 		this.machineInformation = machineInformation;
 		this.isaacKeyPair = isaacKeyPair;
-		notes = new Notes(this);
 		interfaceManager = new InterfaceManager(this);
 		dialogueManager = new DialogueManager(this);
 		hintIconsManager = new HintIconsManager(this);
@@ -737,7 +728,6 @@ public class Player extends Entity {
 		// screen
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);
-		Notes.unlock(this);
 		
 		if (!recievedStarter) {
 			getDialogueManager().startDialogue("SimpleMessage", "Welcome new player " + getDisplayName() + "! We're open source right now!");
@@ -865,8 +855,6 @@ public class Player extends Entity {
 	}
 
 	private transient boolean finishing;
-
-	private transient Notes notes;
 
 	@Override
 	public void finish() {
@@ -2271,14 +2259,9 @@ public class Player extends Entity {
 	public boolean canSpawn() {
 		if (Wilderness.isAtWild(this)
 				|| getControlerManager().getControler() instanceof CorpBeastControler
-				|| getControlerManager().getControler() instanceof PestControlLobby
-				|| getControlerManager().getControler() instanceof PestControlGame
 				|| getControlerManager().getControler() instanceof ZGDControler
 				|| getControlerManager().getControler() instanceof GodWars
-				|| getControlerManager().getControler() instanceof DuelArena 
-				|| FfaZone.inPvpArea(this)
-				|| getControlerManager().getControler() instanceof QueenBlackDragonController
-				|| getControlerManager().getControler() instanceof WarControler) {
+				|| getControlerManager().getControler() instanceof QueenBlackDragonController) {
 			return false;
 		}
 		return true;
@@ -2476,11 +2459,7 @@ public class Player extends Entity {
 	public void setSpawnsMode(boolean spawnsMode) {
 		this.spawnsMode = spawnsMode;
 	}
-
-	public Notes getNotes() {
-		return notes;
-	}
-
+	
 	public IsaacKeyPair getIsaacKeyPair() {
 		return isaacKeyPair;
 	}
@@ -2665,14 +2644,6 @@ public class Player extends Entity {
 	 */
 	public void addRunespanPoints(int points) {
 		this.runeSpanPoints += points;
-	}
-
-	public DuelRules getLastDuelRules() {
-		return lastDuelRules;
-	}
-
-	public void setLastDuelRules(DuelRules duelRules) {
-		this.lastDuelRules = duelRules;
 	}
 	
 	public void dialog(DialogueEventListener listener){ //temp

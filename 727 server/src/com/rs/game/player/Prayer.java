@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
-import com.rs.game.minigames.clanwars.ClanWars;
-import com.rs.game.minigames.clanwars.ClanWars.Rules;
 import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
@@ -357,13 +355,6 @@ public class Prayer implements Serializable {
 		if (hasPrayersOn())
 			closeAllPrayers();
 		else {
-			if (player.getCurrentFriendChat() != null) {
-				ClanWars war = player.getCurrentFriendChat().getClanWars();
-				if (war != null && war.get(Rules.NO_PRAYER) && (war.getFirstPlayers().contains(player) || war.getSecondPlayers().contains(player))) {
-					player.getPackets().sendGameMessage("Prayer has been disabled during this war.");
-					return;
-				}
-			}
 			boolean hasOn = false;
 			int index = 0;
 			for (boolean prayer : quickPrayers[getPrayerBook()]) {
@@ -426,13 +417,6 @@ public class Prayer implements Serializable {
 				return false;
 			else if (prayerId >= 16 && prayerId <= 19)
 				return false;
-		}
-		if (player.getCurrentFriendChat() != null) {
-			ClanWars war = player.getCurrentFriendChat().getClanWars();
-			if (war != null && war.get(Rules.NO_PRAYER) && (war.getFirstPlayers().contains(player) || war.getSecondPlayers().contains(player))) {
-				player.getPackets().sendGameMessage("Prayer has been disabled during this war.");
-				return false;
-			}
 		}
 		if (!usingQuickPrayer) {
 			if (onPrayers[getPrayerBook()][prayerId]) {

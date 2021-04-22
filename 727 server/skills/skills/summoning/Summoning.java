@@ -8,8 +8,6 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.minigames.clanwars.ClanWars;
-import com.rs.game.minigames.clanwars.ClanWars.Rules;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.others.DreadNip;
@@ -323,16 +321,6 @@ public class Summoning {
 		}
 		if (!hasRequiriments || player.getSkills().getLevel(Skills.SUMMONING) < pouch.getSpawnCost())
 			return;
-		if (player.getCurrentFriendChat() != null) {
-			ClanWars war = player.getCurrentFriendChat().getClanWars();
-			if (war != null) {
-				if (war.get(Rules.NO_FAMILIARS)
-						&& (war.getFirstPlayers().contains(player) || war.getSecondPlayers().contains(player))) {
-					player.getPackets().sendGameMessage("You can't summon familiars during this war.");
-					return;
-				}
-			}
-		}
 		final Familiar npc = createFamiliar(player, pouch);
 		if (npc == null) {
 			player.getPackets().sendGameMessage("This familiar is not added yet.");

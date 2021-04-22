@@ -1,17 +1,14 @@
 package main.impl.rsinterface;
 
-import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.SkillCapeCustomizer;
-import com.rs.game.player.dialogues.impl.Transportation;
 import com.rs.net.decoders.WorldPacketsDecoder;
 
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 import player.CombatDefinitions;
-import skills.magic.Magic;
 import skills.runecrafting.Runecrafting;
 
 @RSInterfaceSignature(interfaceId = {387})
@@ -46,58 +43,43 @@ public class EquipmentInterfacePlugin implements RSInterface {
 				sendRemove(player, Equipment.SLOT_CAPE);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
 				player.getEquipment().sendExamine(Equipment.SLOT_CAPE);
-		} else if (componentId == 12) {
-			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET) {
-				int amuletId = player.getEquipment().getAmuletId();
-				if (amuletId <= 1712 && amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) {
-					if (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE, Transportation.GFX, 4,
-							new WorldTile(3087, 3496, 0))) {
-						Item amulet = player.getEquipment().getItem(Equipment.SLOT_AMULET);
-						if (amulet != null) {
-							amulet.setId(amulet.getId() - 2);
-							player.getEquipment().refresh(Equipment.SLOT_AMULET);
-						}
-					}
-				} else if (amuletId == 1704 || amuletId == 10352)
-					player.getPackets().sendGameMessage(
-							"The amulet has ran out of charges. You need to recharge it if you wish it use it once more.");
-			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET) {
-				int amuletId = player.getEquipment().getAmuletId();
-				if (amuletId <= 1712 && amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) {
-					if (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE, Transportation.GFX, 4,
-							new WorldTile(2918, 3176, 0))) {
-						Item amulet = player.getEquipment().getItem(Equipment.SLOT_AMULET);
-						if (amulet != null) {
-							amulet.setId(amulet.getId() - 2);
-							player.getEquipment().refresh(Equipment.SLOT_AMULET);
-						}
-					}
-				}
-			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET) {
-				int amuletId = player.getEquipment().getAmuletId();
-				if (amuletId <= 1712 && amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) {
-					if (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE, Transportation.GFX, 4,
-							new WorldTile(3105, 3251, 0))) {
-						Item amulet = player.getEquipment().getItem(Equipment.SLOT_AMULET);
-						if (amulet != null) {
-							amulet.setId(amulet.getId() - 2);
-							player.getEquipment().refresh(Equipment.SLOT_AMULET);
-						}
-					}
-				}
-			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON5_PACKET) {
-				int amuletId = player.getEquipment().getAmuletId();
-				if (amuletId <= 1712 && amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) {
-					if (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE, Transportation.GFX, 4,
-							new WorldTile(3293, 3163, 0))) {
-						Item amulet = player.getEquipment().getItem(Equipment.SLOT_AMULET);
-						if (amulet != null) {
-							amulet.setId(amulet.getId() - 2);
-							player.getEquipment().refresh(Equipment.SLOT_AMULET);
-						}
-					}
-				}
-			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)
+		 /*
+			 * else if (componentId == 12) { if (packetId ==
+			 * WorldPacketsDecoder.ACTION_BUTTON2_PACKET) { int amuletId =
+			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
+			 * || amuletId >= 10354 && amuletId <= 10361) { if
+			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
+			 * Transportation.GFX, 4, new WorldTile(3087, 3496, 0))) { Item amulet =
+			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
+			 * amulet.setId(amulet.getId() - 2);
+			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } else if (amuletId
+			 * == 1704 || amuletId == 10352) player.getPackets().sendGameMessage(
+			 * "The amulet has ran out of charges. You need to recharge it if you wish it use it once more."
+			 * ); } else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET) { int
+			 * amuletId = player.getEquipment().getAmuletId(); if (amuletId <= 1712 &&
+			 * amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) { if
+			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
+			 * Transportation.GFX, 4, new WorldTile(2918, 3176, 0))) { Item amulet =
+			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
+			 * amulet.setId(amulet.getId() - 2);
+			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } } else if
+			 * (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET) { int amuletId =
+			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
+			 * || amuletId >= 10354 && amuletId <= 10361) { if
+			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
+			 * Transportation.GFX, 4, new WorldTile(3105, 3251, 0))) { Item amulet =
+			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
+			 * amulet.setId(amulet.getId() - 2);
+			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } } else if
+			 * (packetId == WorldPacketsDecoder.ACTION_BUTTON5_PACKET) { int amuletId =
+			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
+			 * || amuletId >= 10354 && amuletId <= 10361) { if
+			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
+			 * Transportation.GFX, 4, new WorldTile(3293, 3163, 0))) { Item amulet =
+			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
+			 * amulet.setId(amulet.getId() - 2);
+			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } }
+			 */ else if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)
 				sendRemove(player, Equipment.SLOT_AMULET);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
 				player.getEquipment().sendExamine(Equipment.SLOT_AMULET);

@@ -13,9 +13,6 @@ import com.rs.cores.CoresManager;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
-import com.rs.game.minigames.clanwars.FfaZone;
-import com.rs.game.minigames.clanwars.RequestController;
-import com.rs.game.minigames.duel.DuelControler;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.corp.CorporealBeast;
 import com.rs.game.npc.dragons.KingBlackDragon;
@@ -278,8 +275,9 @@ public final class World {
 				if (musicId != -1)
 					player.getMusicsManager().checkMusic(musicId);
 				player.getControlerManager().moved();
-				if (player.hasStarted())
-					checkControlersAtMove(player);
+				if (player.hasStarted()) {
+//					checkControlersAtMove(player);
+				}
 			} else {
 				if (entity.getLastRegionId() > 0)
 					getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
@@ -291,22 +289,14 @@ public final class World {
 			if (entity instanceof Player) {
 				Player player = (Player) entity;
 				player.getControlerManager().moved();
-				if (player.hasStarted())
-					checkControlersAtMove(player);
+				if (player.hasStarted()) {
+//					checkControlersAtMove(player);					
+				}
 			}
 			entity.checkMultiArea();
 		}
 	}
-
-	private static void checkControlersAtMove(Player player) {
-		if (!(player.getControlerManager().getControler() instanceof RequestController) && RequestController.inWarRequest(player))
-			player.getControlerManager().startControler("clan_wars_request");
-		else if (DuelControler.isAtDuelArena(player))
-			player.getControlerManager().startControler("DuelControler");
-		else if (FfaZone.inArea(player))
-			player.getControlerManager().startControler("clan_wars_ffa");
-	}
-
+	
 	/*
 	 * checks clip
 	 */

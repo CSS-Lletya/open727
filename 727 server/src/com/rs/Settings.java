@@ -79,5 +79,5 @@ public final class Settings {
 	/**
 	 * Do we want to run our Discord bot on startup?
 	 */
-	public static final boolean discordRelay = true;
+	public static final boolean discordRelay = false;
 }

@@ -2,15 +2,6 @@ package com.rs.game.player.controlers;
 
 import java.util.HashMap;
 
-import com.rs.game.minigames.Barrows;
-import com.rs.game.minigames.BorkControler;
-import com.rs.game.minigames.clanwars.FfaZone;
-import com.rs.game.minigames.clanwars.RequestController;
-import com.rs.game.minigames.clanwars.WarControler;
-import com.rs.game.minigames.duel.DuelArena;
-import com.rs.game.minigames.duel.DuelControler;
-import com.rs.game.minigames.pest.PestControlGame;
-import com.rs.game.minigames.pest.PestControlLobby;
 import com.rs.game.npc.corp.CorpBeastControler;
 import com.rs.game.npc.godwars.GodWars;
 import com.rs.game.npc.godwars.zaros.ZGDControler;
@@ -37,25 +28,10 @@ public class ControlerHandler {
 			handledControlers.put("GodWars", value4);
 			Class<Controler> value5 = (Class<Controler>) Class.forName(ZGDControler.class.getCanonicalName());
 			handledControlers.put("ZGDControler", value5);
-			Class<Controler> value9 = (Class<Controler>) Class.forName(DuelArena.class.getCanonicalName());
-			handledControlers.put("DuelArena", value9);
-			Class<Controler> value10 = (Class<Controler>) Class.forName(DuelControler.class.getCanonicalName());
-			handledControlers.put("DuelControler", value10);
 			Class<Controler> value11 = (Class<Controler>) Class.forName(CorpBeastControler.class.getCanonicalName());
 			handledControlers.put("CorpBeastControler", value11);
 			Class<Controler> value15 = (Class<Controler>) Class.forName(JailControler.class.getCanonicalName());
 			handledControlers.put("JailControler", value15);
-			handledControlers.put("clan_wars_request",
-					(Class<Controler>) Class.forName(RequestController.class.getCanonicalName()));
-			handledControlers.put("clan_war", (Class<Controler>) Class.forName(WarControler.class.getCanonicalName()));
-			handledControlers.put("clan_wars_ffa", (Class<Controler>) Class.forName(FfaZone.class.getCanonicalName()));
-			handledControlers.put("BorkControler",
-					(Class<Controler>) Class.forName(BorkControler.class.getCanonicalName()));
-			handledControlers.put("PestControlGame",
-					(Class<Controler>) Class.forName(PestControlGame.class.getCanonicalName()));
-			handledControlers.put("PestControlLobby",
-					(Class<Controler>) Class.forName(PestControlLobby.class.getCanonicalName()));
-			handledControlers.put("Barrows", (Class<Controler>) Class.forName(Barrows.class.getCanonicalName()));
 			handledControlers.put("Falconry", (Class<Controler>) Class.forName(Falconry.class.getCanonicalName()));
 			handledControlers.put("QueenBlackDragonControler",
 					(Class<Controler>) Class.forName(QueenBlackDragonController.class.getCanonicalName()));
