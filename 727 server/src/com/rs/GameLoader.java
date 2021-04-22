@@ -29,6 +29,7 @@ import com.rs.utils.NPCDrops;
 import com.rs.utils.ShopsHandler;
 
 import main.CommandDispatcher;
+import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
@@ -100,6 +101,7 @@ public class GameLoader {
 			CommandDispatcher.load();
 			RSInterfaceDispatcher.load();
 			ObjectDispatcher.load();
+			NPCDispatcher.load();
 		});
 	}
 	

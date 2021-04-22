@@ -27,12 +27,12 @@ import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.net.Session;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
-import com.rs.net.decoders.handlers.NPCHandler;
 import com.rs.utils.Huffman;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
 import main.CommandDispatcher;
+import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import player.PlayerCombat;
@@ -951,13 +951,11 @@ public final class WorldPacketsDecoder extends Decoder {
 			}
 			if (Settings.DEBUG)
 				System.out.println("Spell:" + componentId);
-		} else if (packetId == NPC_CLICK1_PACKET)
-			NPCHandler.handleOption1(player, stream);
-		else if (packetId == NPC_CLICK2_PACKET)
-			NPCHandler.handleOption2(player, stream);
-		else if (packetId == NPC_CLICK3_PACKET)
-			NPCHandler.handleOption3(player, stream);
-		else if (packetId == OBJECT_CLICK1_PACKET)
+		}
+	 
+	 	NPCDispatcher.executeMobInteraction(player, stream, packetId == NPC_CLICK1_PACKET ? 1 :packetId ==  NPC_CLICK2_PACKET ? 2 :packetId ==  NPC_CLICK3_PACKET ? 3 : packetId == NPC_CLICK4_PACKET ? 4 : 5);
+		
+	 	if (packetId == OBJECT_CLICK1_PACKET)
 			ObjectDispatcher.handleOption(player, stream, 1);
 		else if (packetId == OBJECT_CLICK2_PACKET)
 			ObjectDispatcher.handleOption(player, stream, 2);
@@ -1356,7 +1354,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		else if (packetId == OBJECT_EXAMINE_PACKET) {
 			ObjectDispatcher.handleOption(player, stream, -1);
 		} else if (packetId == NPC_EXAMINE_PACKET) {
-			NPCHandler.handleExamine(player, stream);
+			NPCDispatcher.handleExamine(player, stream);
 		} else if (packetId == JOIN_FRIEND_CHAT_PACKET) {
 			if (!player.hasStarted())
 				return;
