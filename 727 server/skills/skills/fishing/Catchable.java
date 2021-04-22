@@ -1,4 +1,4 @@
-package skills.newskill.fishing;
+package skills.fishing;
 
 import java.util.EnumSet;
 import java.util.Optional;

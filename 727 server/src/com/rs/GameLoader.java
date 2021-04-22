@@ -34,7 +34,6 @@ import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
-import skills.fishing.FishingSpotsHandler;
 
 public class GameLoader {
 
@@ -89,7 +88,6 @@ public class GameLoader {
 			ShopsHandler.init();
 		});
 		getBackgroundLoader().submit(() -> {
-			FishingSpotsHandler.init();
 			CombatScriptsHandler.init();
 			ControlerHandler.init();
 			FriendChatsManager.init();

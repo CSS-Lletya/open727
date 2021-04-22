@@ -1,4 +1,4 @@
-package skills.newskill.fishing;
+package skills.fishing;
 
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;

@@ -1,12 +1,9 @@
 package com.rs.game.npc.familiar;
 
-import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 
 import skills.summoning.Summoning.Pouches;
-import skills.woodcutting.Woodcutting;
-import skills.woodcutting.Woodcutting.TreeDefinitions;
 
 public class Beaver extends Familiar {
 
@@ -46,8 +43,8 @@ public class Beaver extends Familiar {
 
 	@Override
 	public boolean submitSpecial(Object context) {
-		WorldObject object = (WorldObject) context;
-		getOwner().getActionManager().setAction(new Woodcutting(object, TreeDefinitions.NORMAL));
+//		WorldObject object = (WorldObject) context;
+//		getOwner().getActionManager().setAction(new Woodcutting(object, TreeDefinitions.NORMAL));
 		return true;
 	}
 }

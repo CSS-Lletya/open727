@@ -5,8 +5,8 @@ import com.rs.game.player.Rights;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
-import skills.newskill.fishing.Fishing;
-import skills.newskill.fishing.Tool;
+import skills.fishing.Fishing;
+import skills.fishing.Tool;
 
 /**
  * This is just a dummy command to re-use

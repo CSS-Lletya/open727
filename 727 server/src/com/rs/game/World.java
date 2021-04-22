@@ -31,7 +31,6 @@ import com.rs.game.npc.godwars.zaros.NexMinion;
 import com.rs.game.npc.godwars.zaros.ZarosGodwars;
 import com.rs.game.npc.kalph.KalphiteQueen;
 import com.rs.game.npc.others.Bork;
-import com.rs.game.npc.others.ItemHunterNPC;
 import com.rs.game.npc.others.LivingRock;
 import com.rs.game.npc.others.Lucien;
 import com.rs.game.npc.others.MasterOfFear;
@@ -52,9 +51,6 @@ import com.rs.utils.Logger;
 import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
 
-import skills.fishing.LivingRockCavern;
-import skills.hunter.BoxAction.HunterNPC;
-
 public final class World {
 
 	public static int exiting_delay;
@@ -70,7 +66,6 @@ public final class World {
 		addRestoreShopItemsTask();
 		addSummoningEffectTask();
 		addOwnedObjectsTask();
-		LivingRockCavern.init();
 	}
 
 	private static void addOwnedObjectsTask() {
@@ -180,11 +175,7 @@ public final class World {
 
 	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {
 		NPC n = null;
-		HunterNPC hunterNPCs = HunterNPC.forId(id);
-		if (hunterNPCs != null) {
-			if (id == hunterNPCs.getNpcId())
-				n = new ItemHunterNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		} else if (id == 6142 || id == 6144 || id == 6145 || id == 6143)
+		if (id == 6142 || id == 6144 || id == 6145 || id == 6143)
 			n = new PestMonsters(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 7134)
 			n = new Bork(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);

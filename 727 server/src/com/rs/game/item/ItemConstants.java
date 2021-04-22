@@ -84,35 +84,9 @@ public class ItemConstants {
 	public static boolean canWear(Item item, Player player) {
 		if (player.getRights() == Rights.ADMINISTRATOR)
 			return true;
-		if ((item.getId() == 20769 || item.getId() == 20771)) {
-			if (!player.isCompletedFightKiln()) {
-				player.getPackets()
-						.sendGameMessage("You need to complete at least once fight kiln minigame to use this cape.");
-				return false;
-			}
-			if (!player.isWonFightPits()) {
-				player.getPackets()
-						.sendGameMessage("You need to win at least once fight pits minigame to use this cape.");
-				return false;
-			}
-			if (!player.isKilledQueenBlackDragon()) {
-				player.getPackets().sendGameMessage(
-						"You need to have killed the Queen Black Dragon atleast once to use this cape.");
-				return false;
-			}
-		} else if (item.getId() == 6570 || item.getId() == 10566 || item.getId() == 10637) { // temporary
-			if (!player.isCompletedFightCaves()) {
-				player.getPackets()
-						.sendGameMessage("You need to complete at least once fight cave minigame to use this cape.");
-				return false;
-			}
-		} else if (item.getId() == 23659) {
-			if (!player.isCompletedFightKiln()) {
-				player.getPackets()
-						.sendGameMessage("You need to complete at least once fight kiln minigame to use this cape.");
-				return false;
-			}
-		}
+		/**
+		 * Specific condition checks can be execute here.
+		 */
 		return true;
 	}
 
