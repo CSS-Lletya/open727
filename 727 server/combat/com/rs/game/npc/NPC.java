@@ -24,8 +24,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.json.GsonHandler;
 import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.utils.Logger;
@@ -256,14 +255,14 @@ public class NPC extends Entity implements Serializable {
 		if (hit.getDamage() > 0)
 			World.sendProjectile(user, this, 2263, 11, 11, 20, 5, 0, 0);
 		user.heal(hit.getDamage() / 5);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				setNextGraphics(new Graphics(2264));
 				if (hit.getDamage() > 0)
 					World.sendProjectile(target, user, 2263, 11, 11, 20, 5, 0, 0);
 			}
-		}, 1);
+		});
 	}
 
 	@Override
@@ -300,12 +299,13 @@ public class NPC extends Entity implements Serializable {
 								p2.setNextGraphics(new Graphics(2214));
 								p2.getPrayer().setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2215, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2216));
+										this.cancel();
 									}
-								}, 1);
+								});
 								return;
 							}
 						} else {
@@ -320,12 +320,13 @@ public class NPC extends Entity implements Serializable {
 									p2.setNextAnimation(new Animation(12575));
 									p2.getPrayer().setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2231, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2232));
+											this.cancel();
 										}
-									}, 1);
+									});
 									return;
 								}
 							}
@@ -340,12 +341,13 @@ public class NPC extends Entity implements Serializable {
 									p2.setNextAnimation(new Animation(12575));
 									p2.getPrayer().setBoostedLeech(true);
 									World.sendProjectile(p2, this, 2248, 35, 35, 20, 5, 0, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											setNextGraphics(new Graphics(2250));
+											this.cancel();
 										}
-									}, 1);
+									});
 									return;
 								}
 							}
@@ -365,12 +367,13 @@ public class NPC extends Entity implements Serializable {
 								p2.setNextGraphics(new Graphics(2217));
 								p2.getPrayer().setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2218, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2219));
+										this.cancel();
 									}
-								}, 1);
+								});
 								return;
 							}
 						} else if (p2.getPrayer().usingPrayer(1, 11)) {
@@ -384,10 +387,11 @@ public class NPC extends Entity implements Serializable {
 								p2.setNextAnimation(new Animation(12575));
 								p2.getPrayer().setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2236, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2238));
+										this.cancel();
 									}
 								});
 								return;
@@ -407,12 +411,13 @@ public class NPC extends Entity implements Serializable {
 								p2.setNextGraphics(new Graphics(2220));
 								p2.getPrayer().setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2221, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2222));
+										this.cancel();
 									}
-								}, 1);
+								});
 								return;
 							}
 						} else if (p2.getPrayer().usingPrayer(1, 12)) {
@@ -426,12 +431,13 @@ public class NPC extends Entity implements Serializable {
 								p2.setNextAnimation(new Animation(12575));
 								p2.getPrayer().setBoostedLeech(true);
 								World.sendProjectile(p2, this, 2240, 35, 35, 20, 5, 0, 0);
-								WorldTasksManager.schedule(new WorldTask() {
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										setNextGraphics(new Graphics(2242));
+										this.cancel();
 									}
-								}, 1);
+								});
 								return;
 							}
 						}
@@ -450,12 +456,13 @@ public class NPC extends Entity implements Serializable {
 							p2.setNextAnimation(new Animation(12575));
 							p2.getPrayer().setBoostedLeech(true);
 							World.sendProjectile(p2, this, 2244, 35, 35, 20, 5, 0, 0);
-							WorldTasksManager.schedule(new WorldTask() {
+							World.get().submit(new Task(1) {
 								@Override
-								public void run() {
+								protected void execute() {
 									setNextGraphics(new Graphics(2246));
+									this.cancel();
 								}
-							}, 1);
+							});
 							return;
 						}
 					}
@@ -527,11 +534,11 @@ public class NPC extends Entity implements Serializable {
 		combat.removeTarget();
 		World.get().getTask().cancel(this);
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		
+		World.get().submit(new Task(0) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
@@ -541,11 +548,11 @@ public class NPC extends Entity implements Serializable {
 					finish();
 					if (!isSpawned())
 						setRespawnTask();
-					stop();
+					this.cancel();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 	}
 
 	public void drop() {
