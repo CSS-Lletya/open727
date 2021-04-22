@@ -1148,4 +1148,12 @@ public final class World {
 	public void submit(Task t) {
 		taskManager.submit(t);
 	}
+
+	/**
+	 * Gets the manager for the queue of game tasks.
+	 * @return the queue of tasks.
+	 */
+	public TaskManager getTask() {
+		return taskManager;
+	}
 }

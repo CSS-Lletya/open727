@@ -951,4 +951,35 @@ public final class Utils {
 	public static <T> T random(List<T> list) {
 		return list.get((int) (ThreadLocalRandom.current().nextDouble() * list.size()));
 	}
+
+	/**
+	 * Appends the determined plural check to {@code thing}.
+	 * @param thing the thing to append.
+	 * @return the {@code thing} after the plural check has been appended.
+	 */
+	public static String appendPluralCheck(String thing) {
+		return thing.concat(determinePluralCheck(thing));
+	}
+	
+	/**
+	 * Determines the plural check of {@code thing}.
+	 * @param thing the thing to determine for.
+	 * @return the plural check.
+	 */
+	public static String determinePluralCheck(String thing) {
+		boolean needsPlural = !thing.endsWith("s") && !thing.endsWith(")");
+		return needsPlural ? "s" : "";
+	}
+
+	/**
+	 * Determines if a pseudorandomly generated double rounded to two decimal
+	 * places is below or equal to {@code value}.
+	 * @param value the value to determine this for.
+	 * @return {@code true} if successful, {@code false} otherwise.
+	 */
+	public static boolean success(double value) {
+		if(value >= 1)
+			return true;
+		return ThreadLocalRandom.current().nextDouble() <= value;
+	}
 }

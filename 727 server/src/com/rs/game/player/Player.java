@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
@@ -47,6 +49,7 @@ import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
+import com.rs.game.task.impl.SkillActionTask;
 import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
@@ -901,6 +904,8 @@ public class Player extends Entity {
 			familiar.dissmissFamiliar(true);
 		else if (pet != null)
 			pet.finish();
+		World.get().getTask().cancel(this);
+		setSkillAction(Optional.empty());
 		setFinished(true);
 		session.setDecoder(-1);
 		AccountCreation.savePlayer(this);
@@ -2675,4 +2680,47 @@ public class Player extends Entity {
 	}
 	
 	public boolean recievedStarter = false;
+	
+	/**
+	 * The current skill action that is going on for this player.
+	 */
+	private Optional<SkillActionTask> action = Optional.empty();
+	
+	/**
+	 * The current skill this player is training.
+	 * @return {@link #action}.
+	 */
+	public Optional<SkillActionTask> getSkillActionTask() {
+		return action;
+	}
+	
+	/**
+	 * Sets the skill action.
+	 * @param action the action to set this skill action to.
+	 */
+	public void setSkillAction(SkillActionTask action) {
+		this.action = Optional.of(action);
+	}
+	
+	/**
+	 * Sets the skill action.
+	 * @param action the action to set this skill action to.
+	 */
+	public void setSkillAction(Optional<SkillActionTask> action) {
+		this.action = action;
+	}
+	
+	/**
+	 * Sends a delayed task for this player.
+	 */
+	public void task(int delay, Consumer<Player> action) {
+		Player p = this;
+		new Task(delay, false) {
+			@Override
+			protected void execute() {
+				action.accept(p);
+				cancel();
+			}
+		}.submit();
+	}
 }

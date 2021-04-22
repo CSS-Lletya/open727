@@ -528,6 +528,7 @@ public class NPC extends Entity implements Serializable {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		combat.removeTarget();
+		World.get().getTask().cancel(this);
 		setNextAnimation(null);
 		WorldTasksManager.schedule(new WorldTask() {
 			int loop;
