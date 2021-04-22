@@ -1562,6 +1562,10 @@ public final class WorldPacketsDecoder extends Decoder {
 			int short0 = stream.readUnsignedShort();
 			// Can utilize this packet to Close interfaces, open URLS based on key press, such.
 //			player.getPackets().sendGameMessage("pressed: "+Utils.getKeyPressedFromListenerByte(short0));
+			switch (short0) {
+				case 3328:
+					player.closeInterfaces();
+			}
 		}
 		else if (packetId ==  INACTIVITY_PACKET){
 			//player.getPackets().sendGameMessage("sent inactivity packet!");
