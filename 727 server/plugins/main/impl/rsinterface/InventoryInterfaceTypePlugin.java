@@ -249,7 +249,6 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 			if (sendWear2(player, slotId, item.getId()))
 				worn = true;
 		}
-		System.out.println("?");
 		player.getInventory().refreshItems(copy);
 		if (worn) {
 			player.getAppearance().generateAppearanceData();

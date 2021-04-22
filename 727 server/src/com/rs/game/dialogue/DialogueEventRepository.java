@@ -6,6 +6,7 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 public class DialogueEventRepository {
+	
 	public static final Class<? extends DialogueEventListener> getListener(String key, Player player, Object... args){
 		return handledDialogues.get(key);
 	}
