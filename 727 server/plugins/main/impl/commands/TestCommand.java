@@ -1,12 +1,11 @@
 package main.impl.commands;
 
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
-import skills.fishing.Fishing;
-import skills.fishing.Tool;
 
 /**
  * This is just a dummy command to re-use
@@ -19,7 +18,9 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		Fishing fly_fishing = new Fishing(player, Tool.FLY_FISHING_ROD, player);
-		fly_fishing.start();
+		/**
+		 * Comp cape shouldn't be exchangable so it'll say no.
+		 */
+		System.out.println(ItemDefinitions.forId(20769).exchangableItem);
 	}
 }

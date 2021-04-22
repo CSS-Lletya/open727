@@ -94,6 +94,10 @@ public class ItemConstants {
 		if (item.getDefinitions().isDestroyItem() || item.getDefinitions().isLended()
 				|| ItemConstants.getItemDefaultCharges(item.getId()) != -1)
 			return false;
+		
+		if (!item.getDefinitions().exchangableItem) {
+			return false;
+		}
 		if (item.getDefinitions().getName().toLowerCase().contains("flaming skull"))
 			return false;
 		switch (item.getId()) {
