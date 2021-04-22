@@ -7,31 +7,23 @@ import com.rs.utils.Utils;
 
 public class DialogueEventRepository {
 	
-	private static HashMap<String, DialogueEventListener> repository = initialize();
+	public static final Class<? extends DialogueEventListener> getListener(String key, Player player, Object... args){
+		return handledDialogues.get(key);
+	}
+
+	private static final HashMap<Object, Class<? extends DialogueEventListener>> handledDialogues = new HashMap<Object, Class<? extends DialogueEventListener>>();
 	
-	public static final DialogueEventListener getListener(String key, Player player, Object... args){
-		return repository.get(key);
-	}
-
-	private static HashMap<String, DialogueEventListener> initialize(){
-		HashMap<String, DialogueEventListener> initialize = new HashMap<>();
+	@SuppressWarnings("unchecked")
+	public static final void init() {
 		try {
-
-			for (Class<?> c : Utils.getClasses("com.rs.game.dialogue.container")) {
-
-				if (c.isAnonymousClass())
+			Class<DialogueEventListener>[] regular = Utils.getClasses("com.rs.game.dialogue.impl");
+			for (Class<DialogueEventListener> c : regular) {
+				if (c.isAnonymousClass()) // next
 					continue;
-
-				DialogueEventListener listener = (DialogueEventListener) c.newInstance();
-				
-				initialize.put(c.getName().toLowerCase().replace("_d", ""), listener);
-				
+				handledDialogues.put(c.getSimpleName(), c);
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
-		return initialize;
 	}
-
 }

@@ -5,8 +5,6 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.minigames.clanwars.FfaZone;
-import com.rs.game.minigames.clanwars.RequestController;
 import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
@@ -711,10 +709,6 @@ public class Magic {
 			player.getControlerManager().startControler("Kalaboss");
 		else if (Wilderness.isAtWild(teleTile))
 			player.getControlerManager().startControler("Wilderness");
-		else if (RequestController.inWarRequest(player))
-			player.getControlerManager().startControler("clan_wars_request");
-		else if (FfaZone.inArea(player))
-			player.getControlerManager().startControler("clan_wars_ffa");
 	}
 
 	private Magic() {

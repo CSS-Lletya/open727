@@ -1,5 +1,6 @@
 package main.impl.npcs;
 
+import com.rs.game.dialogue.impl.TestD;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
@@ -9,9 +10,23 @@ import main.wrapper.NPCSignature;
 @NPCSignature(name = {"Ozan"}, npcId = {})
 public class TestNPC implements NPCType {
 
+	
 	@Override
 	public void execute(Player player, NPC npc, int option) throws Exception {
-		System.out.println("HI");
-		System.out.println(option);
+		/*
+		 * For a full dialogue script use this.
+		 */
+		player.dialog(new TestD(player, npc));
+		
+		/*
+		 * For a quick access dialogue entry use this
+		 * (example)
+		 */
+//		player.dialog(new DialogueEventListener(player) {
+//			@Override
+//			public void start() {
+//				mes("lol");
+//			}
+//		}.begin());
 	}
 }

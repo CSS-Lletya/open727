@@ -7,7 +7,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.Settings;
 import com.rs.cache.io.OutputStream;
 import com.rs.game.World;
-import com.rs.game.minigames.clanwars.ClanWars;
 import com.rs.utils.Utils;
 
 public class FriendChatsManager {
@@ -18,11 +17,6 @@ public class FriendChatsManager {
 	private CopyOnWriteArrayList<Player> players;
 	private ConcurrentHashMap<String, Long> bannedPlayers;
 	private byte[] dataBlock;
-
-	/**
-	 * The clan wars instance (if the clan is in a war).
-	 */
-	private ClanWars clanWars;
 
 	private static HashMap<String, FriendChatsManager> cachedFriendChats;
 
@@ -95,9 +89,6 @@ public class FriendChatsManager {
 				player.setCurrentFriendChatOwner(null);
 				player.getPackets().sendGameMessage("You have left the channel.");
 				player.getPackets().sendFriendsChatChannel();
-			}
-			if (clanWars != null) {
-				clanWars.leave(player, false);
 			}
 		}
 	}
@@ -324,21 +315,5 @@ public class FriendChatsManager {
 				chat.joinChat(player);
 		}
 
-	}
-
-	/**
-	 * Gets the clanWars.
-	 * @return The clanWars.
-	 */
-	public ClanWars getClanWars() {
-		return clanWars;
-	}
-
-	/**
-	 * Sets the clanWars.
-	 * @param clanWars The clanWars to set.
-	 */
-	public void setClanWars(ClanWars clanWars) {
-		this.clanWars = clanWars;
 	}
 }

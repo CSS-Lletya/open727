@@ -11,7 +11,7 @@ import com.rs.game.player.Player;
 
 public class DiscordBot {
 	
-	private final String token = "ODMyMjQ0NDU2NDM0MTcxOTU0.YHg-DA.uIPicvamBWfgdIAVrVbYxwH76zg";
+	private final String token = "YOUR_TOKEN_HERE";
 	private final DiscordApi api = new DiscordApiBuilder().setToken(token).login().join();
 	Player player;
 	
@@ -52,6 +52,17 @@ public class DiscordBot {
 
         		Launcher.getDiscordBot().getAPI().getTextChannelById(DiscordBot.SERVER_RELAY).ifPresent(channel -> {
 					  channel.sendMessage(sqlSetupStringBuilder.toString()).exceptionally(ExceptionLogger.get());
+				});
+        		break;
+        	case "dialoguesetup":
+        		StringBuilder dialogueStringBuilder = new StringBuilder();
+        		dialogueStringBuilder.append("To get started with using the new Dialogue system visit:\n")
+        		.append("```")
+        		.append("https://github.com/CSS-Lletya/open727/blob/37fcc8264715980d67e9a9a7a832a75479ba518d/727%20server/plugins/main/impl/npcs/TestNPC.java")
+        		.append("\n```");
+        		
+        		Launcher.getDiscordBot().getAPI().getTextChannelById(DiscordBot.SERVER_RELAY).ifPresent(channel -> {
+					  channel.sendMessage(dialogueStringBuilder.toString()).exceptionally(ExceptionLogger.get());
 				});
         		break;
         	case "tasksetup":

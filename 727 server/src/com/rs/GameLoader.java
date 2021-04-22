@@ -9,11 +9,11 @@ import com.rs.cores.BlockingExecutorService;
 import com.rs.cores.CoresManager;
 import com.rs.game.RegionBuilder;
 import com.rs.game.World;
+import com.rs.game.dialogue.DialogueEventRepository;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.npc.combat.CombatScriptsHandler;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
-import com.rs.game.player.dialogues.DialogueHandler;
 import com.rs.json.GsonHandler;
 import com.rs.net.ServerChannelHandler;
 import com.rs.utils.Huffman;
@@ -91,10 +91,12 @@ public class GameLoader {
 		getBackgroundLoader().submit(() -> {
 			FishingSpotsHandler.init();
 			CombatScriptsHandler.init();
-			DialogueHandler.init();
 			ControlerHandler.init();
 			FriendChatsManager.init();
 			RegionBuilder.init();
+		});
+		getBackgroundLoader().submit(() -> {
+			DialogueEventRepository.init();
 		});
 		getBackgroundLoader().submit(() -> {
 			GsonHandler.initialize();
@@ -102,6 +104,7 @@ public class GameLoader {
 			RSInterfaceDispatcher.load();
 			ObjectDispatcher.load();
 			NPCDispatcher.load();
+			
 		});
 	}
 	
