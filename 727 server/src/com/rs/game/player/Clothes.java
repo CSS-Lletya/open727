@@ -111,37 +111,37 @@ public class Clothes {
 		return map;
 	}
 	
-	public static int getMatch(int type, int clothing, boolean male){
-		switch (type){
-		case Appearance.TOP:
-			if (!male)
-				return clothing;
-			switch (clothing){
-			case 42://male shirt = female plain top
-				return 38;
-			case 43://male stitching = female plain
-				return 38;
-			case 44://male tagged = female torn
-				return 42;
-			case 45://male two toned = female plain
-				return 38;
-			}
-			return clothing;
-		case Appearance.LEGS:
-			if (male){
-				switch (clothing){
-				
-				}
-			}else{
-				switch (clothing){
-				case 46://female skirt = male shorts
-					return 34;
-				}
-			}
-			return clothing;
-		}
-		return 1;
-	}
+//	public static int getMatch(int type, int clothing, boolean male){
+//		switch (type){
+//		case Appearence:
+//			if (!male)
+//				return clothing;
+//			switch (clothing){
+//			case 42://male shirt = female plain top
+//				return 38;
+//			case 43://male stitching = female plain
+//				return 38;
+//			case 44://male tagged = female torn
+//				return 42;
+//			case 45://male two toned = female plain
+//				return 38;
+//			}
+//			return clothing;
+//		case Appearance.LEGS:
+//			if (male){
+//				switch (clothing){
+//
+//				}
+//			}else{
+//				switch (clothing){
+//				case 46://female skirt = male shorts
+//					return 34;
+//				}
+//			}
+//			return clothing;
+//		}
+//		return 1;
+//	}
 	/*
 	 * 
 	 

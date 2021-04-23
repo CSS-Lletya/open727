@@ -386,7 +386,7 @@ public final class Skills implements Serializable {
 			level[skill] += levelDiff;
 			player.getDialogueManager().startDialogue("LevelUp", skill);
 			if (skill == SUMMONING || (skill >= ATTACK && skill <= MAGIC)) {
-				player.getAppearance().generateAppearanceData();
+				player.getAppearance().generateAppearenceData();
 				if (skill == HITPOINTS)
 					player.heal(levelDiff * 10);
 				else if (skill == PRAYER)

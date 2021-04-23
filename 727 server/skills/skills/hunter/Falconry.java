@@ -44,7 +44,7 @@ public class Falconry extends Controler {
 		});
 		player.getEquipment().getItems().set(3, new Item(10024, 1));
 		player.getEquipment().refresh(3);
-		player.getAppearance().generateAppearanceData();
+		player.getAppearance().generateAppearenceData();
 		player.getDialogueManager().startDialogue("SimpleMessage", "Simply click on the target and try your luck.");
 	}
 
@@ -64,7 +64,7 @@ public class Falconry extends Controler {
 	public void forceClose() {
 		player.getEquipment().getItems().set(3, new Item(-1, 1));
 		player.getEquipment().refresh(3);
-		player.getAppearance().generateAppearanceData();
+		player.getAppearance().generateAppearenceData();
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class Falconry extends Controler {
 				})) {
 					player.getEquipment().getItems().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
-					player.getAppearance().generateAppearanceData();
+					player.getAppearance().generateAppearenceData();
 					player.getTemporaryAttributtes().put("falconReleased", true);
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
@@ -114,7 +114,7 @@ public class Falconry extends Controler {
 				} else {
 					player.getEquipment().getItems().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
-					player.getAppearance().generateAppearanceData();
+					player.getAppearance().generateAppearenceData();
 					player.getTemporaryAttributtes().put("falconReleased", true);
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
@@ -129,7 +129,7 @@ public class Falconry extends Controler {
 										public void run() {
 											player.getEquipment().getItems().set(3, new Item(10024, 1));
 											player.getEquipment().refresh(3);
-											player.getAppearance().generateAppearanceData();
+											player.getAppearance().generateAppearenceData();
 											player.getTemporaryAttributtes().remove("falconReleased");
 											player.getPackets().sendGameMessage(
 													"The falcon swoops down on the kebbit, but just barely misses catching it.");
@@ -157,7 +157,7 @@ public class Falconry extends Controler {
 			player.getHintIconsManager().removeUnsavedHintIcon();
 			player.getEquipment().getItems().set(3, new Item(10024, 1));
 			player.getEquipment().refresh(3);
-			player.getAppearance().generateAppearanceData();
+			player.getAppearance().generateAppearenceData();
 			player.getTemporaryAttributtes().remove("ownedFalcon");
 			player.getTemporaryAttributtes().remove("falconReleased");
 			return true;

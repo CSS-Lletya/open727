@@ -69,7 +69,7 @@ public class Player extends Entity {
 
 	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
-	private static final long serialVersionUID = 2011932556974180375L;
+	private static final long serialVersionUID = 2011932556974180376L;
 
 	// transient stuff
 	private transient String username;
@@ -88,7 +88,6 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
-
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
 
@@ -323,24 +322,24 @@ public class Player extends Entity {
 	public void setWildernessSkull() {
 		skullDelay = 3000; // 30minutes
 		skullId = 0;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void setFightPitsSkull() {
 		skullDelay = Integer.MAX_VALUE; // infinite
 		skullId = 1;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void setSkullInfiniteDelay(int skullId) {
 		skullDelay = Integer.MAX_VALUE; // infinite
 		this.skullId = skullId;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void removeSkull() {
 		skullDelay = -1;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public boolean hasSkull() {
@@ -446,7 +445,7 @@ public class Player extends Entity {
 		fireImmune = 0;
 		castedVeng = false;
 		setRunEnergy(100);
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	@Override
@@ -512,7 +511,7 @@ public class Player extends Entity {
 		if (hasSkull()) {
 			skullDelay--;
 			if (!hasSkull())
-				appearence.generateAppearanceData();
+				appearence.getAppeareanceBlocks();
 		}
 		if (polDelay != 0 && polDelay <= Utils.currentTimeMillis()) {
 			getPackets().sendGameMessage(
@@ -722,7 +721,7 @@ public class Player extends Entity {
 		}
 		running = true;
 		updateMovementType = true;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 		controlerManager.login(); // checks what to do on login after welcome
 		OwnedObjectManager.linkKeys(this);
 		// screen
@@ -1784,7 +1783,7 @@ public class Player extends Entity {
 
 	public void setCanPvp(boolean canPvp) {
 		this.canPvp = canPvp;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 		getPackets().sendPlayerOption(canPvp ? "Attack" : "null", 1, true);
 		getPackets().sendPlayerUnderNPCPriority(canPvp);
 	}

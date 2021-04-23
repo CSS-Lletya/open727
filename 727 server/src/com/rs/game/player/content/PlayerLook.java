@@ -69,7 +69,7 @@ public final class PlayerLook {
 						player.getAppearance().female();
 				}
 				player.getAppearance().setSkinColor(skin);
-				player.getAppearance().generateAppearanceData();
+				player.getAppearance().generateAppearenceData();
 			}
 		}
 	}
@@ -167,7 +167,7 @@ public final class PlayerLook {
 				player.getDialogueManager().startDialogue("SimpleNPCMessage", 548,
 						"A marvellous choise. You look splendid!");
 				player.setNextAnimation(new Animation(-1));
-				player.getAppearance().getAppeareanceData();
+				player.getAppearance().getAppeareanceBlocks();
 				player.getTemporaryAttributtes().remove("ThessaliasMakeOver");
 			}
 
@@ -199,7 +199,7 @@ public final class PlayerLook {
 				player.getDialogueManager().startDialogue("SimpleNPCMessage", 598,
 						"An excellent choise, " + (player.getAppearance().isMale() ? "sir" : "lady") + ".");
 				player.setNextAnimation(new Animation(-1));
-				player.getAppearance().getAppeareanceData();
+				player.getAppearance().getAppeareanceBlocks();
 				player.getTemporaryAttributtes().remove("hairSaloon");
 			}
 
