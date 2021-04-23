@@ -2,7 +2,6 @@ package com.rs.game.player;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Random;
 
 import com.rs.cache.io.OutputStream;
 import com.rs.cache.loaders.ClientScriptMap;
@@ -12,6 +11,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.item.Item;
 import com.rs.utils.Utils;
+
 public class Appearance implements Serializable {
 
 	private static final long serialVersionUID = 7655608569741626591L;

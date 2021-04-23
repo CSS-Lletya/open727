@@ -66,9 +66,9 @@ public final class FireBreathAttack implements QueenAttack {
 		if (Combat.hasAntiDragProtection(player)) {
 			return "Your shield absorbs most of the dragon's breath!";
 		}
-		if (player.getFireImmune() > Utils.currentTimeMillis()) {
-			return "Your potion absorbs most of the dragon's breath!";
-		}
+//		if (player.getFireImmune() > Utils.currentTimeMillis()) {
+//			return "Your potion absorbs most of the dragon's breath!";
+//		}
 		if (player.getPrayer().usingPrayer(0, 17) || player.getPrayer().usingPrayer(1, 7)) {
 			return "Your prayer absorbs most of the dragon's breath!";
 		}

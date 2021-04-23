@@ -1,8 +1,8 @@
 package main.impl.commands;
 
-import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
+import com.rs.game.task.impl.DiggingHandler;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
@@ -18,9 +18,8 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		/**
-		 * Comp cape shouldn't be exchangable so it'll say no.
-		 */
-		System.out.println(ItemDefinitions.forId(20769).exchangableItem);
+		new DiggingHandler(player, p -> {
+			p.getPackets().sendGameMessage("You dug man, noice");
+		}).submit();
 	}
 }
