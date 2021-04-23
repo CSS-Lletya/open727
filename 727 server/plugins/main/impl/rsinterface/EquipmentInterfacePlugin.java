@@ -9,7 +9,6 @@ import com.rs.net.decoders.WorldPacketsDecoder;
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 import player.CombatDefinitions;
-import skills.runecrafting.Runecrafting;
 
 @RSInterfaceSignature(interfaceId = {387})
 public class EquipmentInterfacePlugin implements RSInterface {
@@ -191,8 +190,8 @@ public class EquipmentInterfacePlugin implements RSInterface {
 		player.getEquipment().getItems().set(slotId, null);
 		player.getEquipment().refresh(slotId);
 		player.getAppearance().generateAppearenceData();
-		if (Runecrafting.isTiara(item.getId()))
-			player.getPackets().sendConfig(491, 0);
+//		if (Runecrafting.isTiara(item.getId()))
+//			player.getPackets().sendConfig(491, 0);
 		if (slotId == 3)
 			player.getCombatDefinitions().desecreaseSpecialAttack(0);
 	}
