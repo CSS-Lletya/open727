@@ -1021,6 +1021,7 @@ public final class WorldPacketsDecoder extends Decoder {
 
 	public void processPackets(final int packetId, InputStream stream, int length) {
 		player.setPacketsDecoderPing(Utils.currentTimeMillis());
+		System.out.println(packetId);
 		if (packetId == PING_PACKET) {
 			// kk we ping :)
 		} else if (packetId == MOVE_MOUSE_PACKET) {

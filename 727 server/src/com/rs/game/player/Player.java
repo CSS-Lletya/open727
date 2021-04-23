@@ -70,7 +70,7 @@ public class Player extends Entity {
 
 	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
-	private static final long serialVersionUID = 2011932556974180376L;
+	private static final long serialVersionUID = 2011932556974180381L;
 
 	// transient stuff
 	private transient String username;
