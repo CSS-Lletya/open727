@@ -294,27 +294,27 @@ public final class Pots {
 		ANTI_FIRE() {
 			@Override
 			public void extra(final Player player) {
-				player.addFireImmune(360000);
-				final long current = player.getFireImmune();
-				player.getPackets().sendGameMessage("You are now immune to dragonfire.");
-				World.get().submit(new Task(1) {
-					boolean stop = false;
-					@Override
-					protected void execute() {
-						if (current != player.getFireImmune()) {
-							return;
-						}
-						if (!stop) {
-							player.getPackets()
-									.sendGameMessage("<col=480000>Your antifire potion is about to run out...</col>");
-							stop = true;
-						} else {
-							player.getPackets()
-									.sendGameMessage("<col=480000>Your antifire potion has ran out...</col>");
-						}
-						this.cancel();
-					}
-				});
+//				player.addFireImmune(360000);
+//				final long current = player.getFireImmune();
+//				player.getPackets().sendGameMessage("You are now immune to dragonfire.");
+//				World.get().submit(new Task(1) {
+//					boolean stop = false;
+//					@Override
+//					protected void execute() {
+//						if (current != player.getFireImmune()) {
+//							return;
+//						}
+//						if (!stop) {
+//							player.getPackets()
+//									.sendGameMessage("<col=480000>Your antifire potion is about to run out...</col>");
+//							stop = true;
+//						} else {
+//							player.getPackets()
+//									.sendGameMessage("<col=480000>Your antifire potion has ran out...</col>");
+//						}
+//						this.cancel();
+//					}
+//				});
 			}
 		},
 		STRENGTH_POTION(Skills.STRENGTH) {
@@ -519,7 +519,7 @@ public final class Pots {
 				/*
 				 * if (player.getOverloadDelay() > 0) { player.getPackets().sendGameMessage( "You may only use this potion every five minutes."); return false; }
 				 */
-				if (player.getHitpoints() <= 500 || player.getOverloadDelay() > 480) {
+				if (player.getHitpoints() <= 500) {
 					player.getPackets()
 							.sendGameMessage("You need more than 500 life points to survive the power of overload.");
 					return false;
@@ -529,7 +529,6 @@ public final class Pots {
 
 			@Override
 			public void extra(final Player player) {
-				player.setOverloadDelay(501);
 				World.get().submit(new Task(2) {
 					int count = 4;
 					@Override
@@ -556,7 +555,6 @@ public final class Pots {
 		PRAYER_RENEWAL() {
 			@Override
 			public void extra(Player player) {
-				player.setPrayerRenewalDelay(501);
 			}
 		},
 		SUPER_RESTORE(Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.MAGIC, Skills.RANGE, Skills.AGILITY,
@@ -703,7 +701,6 @@ public final class Pots {
 				player.getSkills().set(Skills.RANGE, realLevel);
 			player.heal(500);
 		}
-		player.setOverloadDelay(0);
 		player.getPackets()
 				.sendGameMessage("<col=480000>The effects of overload have worn off and you feel normal again.");
 	}

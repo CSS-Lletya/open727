@@ -1253,7 +1253,7 @@ public final class WorldPacketsDecoder extends Decoder {
 					value = 99;
 				player.getSkills().set(skillId, value);
 				player.getSkills().setXp(skillId, Skills.getXPForLevel(value));
-				player.getAppearance().generateAppearanceData();
+				player.getAppearance().generateAppearenceData();
 				player.getDialogueManager().finishDialogue();
 			}
 		} else if (packetId == SWITCH_INTERFACE_ITEM_PACKET) {

@@ -63,7 +63,7 @@ public class RouteEvent {
 		else if (this.instanceOfFloorItem())
 			player.setNextFaceWorldTile(((FloorItem) object).getTile());
 		player.setNextFaceEntity(null);
-		player.getAppearance().generateAppearanceData();
+		player.getAppearance().generateAppearenceData();
 	}
 
 	public boolean processEvent(final Player player) {

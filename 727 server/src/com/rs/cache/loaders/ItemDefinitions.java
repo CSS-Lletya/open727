@@ -66,7 +66,13 @@ public final class ItemDefinitions {
 	public byte[] unknownArray3;
 	public int[] unknownArray2;
 	// extra information, not used for newer items
-	public boolean unnoted;
+	
+	/**
+	 * This boolean lets us know if 
+	 * the item can be sold in GE / Traded
+	 * VERY USEFUL
+	 */
+	public boolean exchangableItem;
 
 	public int maleEquipModelId3;
 	public int femaleEquipModelId3;
@@ -813,7 +819,7 @@ public final class ItemDefinitions {
 					unknownArray6[i_101_] = (byte) -1;
 			}
 		} else if (opcode == 65)
-			unnoted = true;
+			exchangableItem = true;
 		else if (opcode == 78)
 			maleEquipModelId3 = stream.readBigSmart();
 		else if (opcode == 79)

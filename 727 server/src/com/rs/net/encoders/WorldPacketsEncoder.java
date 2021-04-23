@@ -694,7 +694,7 @@ public class WorldPacketsEncoder extends Encoder {
 		for (int count = 0; count < 20; count++)
 			for (int i = 0; i < 4; i++)
 				stream.writeInt(0);
-		byte[] appearence = player.getAppearance().getAppeareanceData();
+		byte[] appearence = player.getAppearance().getAppeareanceBlocks();
 		stream.writeByte(appearence.length);
 		stream.writeBytes(appearence);
 		stream.endPacketVarShort();

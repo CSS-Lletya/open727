@@ -39,7 +39,6 @@ import com.rs.game.npc.qbd.QueenBlackDragonController;
 import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
-import com.rs.game.player.content.Pots;
 import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
@@ -70,7 +69,7 @@ public class Player extends Entity {
 
 	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
-	private static final long serialVersionUID = 2011932556974180375L;
+	private static final long serialVersionUID = 2011932556974180376L;
 
 	// transient stuff
 	private transient String username;
@@ -89,7 +88,6 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
-
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
 
@@ -201,16 +199,11 @@ public class Player extends Entity {
 	private transient ArrayList<String> passwordList = new ArrayList<String>();
 	private transient ArrayList<String> ipList = new ArrayList<String>();
 
-	// honor
-	private int killCount, deathCount;
 	private ChargesManager charges;
 
 	// skill capes customizing
 	private int[] maxedCapeCustomized;
 	private int[] completionistCapeCustomized;
-
-	private int overloadDelay;
-	private int prayerRenewalDelay;
 
 	private String currentFriendChatOwner;
 	private int summoningLeftClickOption;
@@ -308,24 +301,24 @@ public class Player extends Entity {
 	public void setWildernessSkull() {
 		skullDelay = 3000; // 30minutes
 		skullId = 0;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void setFightPitsSkull() {
 		skullDelay = Integer.MAX_VALUE; // infinite
 		skullId = 1;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void setSkullInfiniteDelay(int skullId) {
 		skullDelay = Integer.MAX_VALUE; // infinite
 		this.skullId = skullId;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public void removeSkull() {
 		skullDelay = -1;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	public boolean hasSkull() {
@@ -431,7 +424,7 @@ public class Player extends Entity {
 		fireImmune = 0;
 		castedVeng = false;
 		setRunEnergy(100);
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 	}
 
 	@Override
@@ -497,36 +490,12 @@ public class Player extends Entity {
 		if (hasSkull()) {
 			skullDelay--;
 			if (!hasSkull())
-				appearence.generateAppearanceData();
+				appearence.getAppeareanceBlocks();
 		}
 		if (polDelay != 0 && polDelay <= Utils.currentTimeMillis()) {
 			getPackets().sendGameMessage(
 					"The power of the light fades. Your resistance to melee attacks return to normal.");
 			polDelay = 0;
-		}
-		if (overloadDelay > 0) {
-			if (overloadDelay == 1 || isDead()) {
-				Pots.resetOverLoadEffect(this);
-				return;
-			} else if ((overloadDelay - 1) % 25 == 0)
-				Pots.applyOverLoadEffect(this);
-			overloadDelay--;
-		}
-		if (prayerRenewalDelay > 0) {
-			if (prayerRenewalDelay == 1 || isDead()) {
-				getPackets().sendGameMessage("<col=0000FF>Your prayer renewal has ended.");
-				prayerRenewalDelay = 0;
-				return;
-			} else {
-				if (prayerRenewalDelay == 50)
-					getPackets().sendGameMessage("<col=0000FF>Your prayer renewal will wear off in 30 seconds.");
-				if (!prayer.hasFullPrayerpoints()) {
-					getPrayer().restorePrayer(1);
-					if ((prayerRenewalDelay - 1) % 25 == 0)
-						setNextGraphics(new Graphics(1295));
-				}
-			}
-			prayerRenewalDelay--;
 		}
 		
 		miscTick++;
@@ -707,7 +676,7 @@ public class Player extends Entity {
 		}
 		running = true;
 		updateMovementType = true;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 		controlerManager.login(); // checks what to do on login after welcome
 		OwnedObjectManager.linkKeys(this);
 		// screen
@@ -1765,7 +1734,7 @@ public class Player extends Entity {
 
 	public void setCanPvp(boolean canPvp) {
 		this.canPvp = canPvp;
-		appearence.generateAppearanceData();
+		appearence.getAppeareanceBlocks();
 		getPackets().sendPlayerOption(canPvp ? "Attack" : "null", 1, true);
 		getPackets().sendPlayerUnderNPCPriority(canPvp);
 	}
@@ -1953,22 +1922,6 @@ public class Player extends Entity {
 		this.castedVeng = castVeng;
 	}
 
-	public int getKillCount() {
-		return killCount;
-	}
-
-	public int setKillCount(int killCount) {
-		return this.killCount = killCount;
-	}
-
-	public int getDeathCount() {
-		return deathCount;
-	}
-
-	public int setDeathCount(int deathCount) {
-		return this.deathCount = deathCount;
-	}
-
 	public void setCloseInterfacesEvent(Runnable closeInterfacesEvent) {
 		this.closeInterfacesEvent = closeInterfacesEvent;
 	}
@@ -2125,19 +2078,7 @@ public class Player extends Entity {
 	public void setRouteEvent(RouteEvent routeEvent) {
 		this.routeEvent = routeEvent;
 	}
-
-	public void setPrayerRenewalDelay(int delay) {
-		this.prayerRenewalDelay = delay;
-	}
-
-	public int getOverloadDelay() {
-		return overloadDelay;
-	}
-
-	public void setOverloadDelay(int overloadDelay) {
-		this.overloadDelay = overloadDelay;
-	}
-
+	
 	public Trade getTrade() {
 		return trade;
 	}

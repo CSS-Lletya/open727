@@ -125,7 +125,7 @@ public class Bank implements Serializable {
 			for (int i = 0; i < space; i++)
 				player.getEquipment().getItems().set(i, null);
 			player.getEquipment().init();
-			player.getAppearance().generateAppearanceData();
+			player.getAppearance().generateAppearenceData();
 		}
 		if (space < player.getEquipment().getItems().getSize()) {
 			player.getPackets().sendGameMessage("Not enough space in your bank.");
