@@ -463,7 +463,6 @@ public final class QueenBlackDragon extends NPC {
 			}
 			ticks = -22;
 			prepareRewards();
-			attacker.setKilledQueenBlackDragon(true);
 			attacker.getPackets().sendSpawnedObject(new WorldObject(70837, 10, 0, base.transform(22, 24, -1)));
 			attacker.getPackets().sendSpawnedObject(new WorldObject(70840, 10, 0, base.transform(34, 24, -1)));
 			attacker.getPackets().sendGameMessage(
