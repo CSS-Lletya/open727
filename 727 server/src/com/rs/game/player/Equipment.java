@@ -8,7 +8,6 @@ import com.rs.game.item.ItemsContainer;
 import com.rs.utils.ItemExamines;
 
 import skills.Skills;
-import skills.firemaking.Bonfire;
 
 public final class Equipment implements Serializable {
 
@@ -93,10 +92,10 @@ public final class Equipment implements Serializable {
 			}
 
 		}
-		if (player.getLastBonfire() > 0) {
-			int maxhp = player.getSkills().getLevel(Skills.HITPOINTS) * 10;
-			hpIncrease += (maxhp * Bonfire.getBonfireBoostMultiplier(player)) - maxhp;
-		}
+//		if (player.getLastBonfire() > 0) {
+//			int maxhp = player.getSkills().getLevel(Skills.HITPOINTS) * 10;
+//			hpIncrease += (maxhp * Bonfire.getBonfireBoostMultiplier(player)) - maxhp;
+//		}
 		if (player.getHpBoostMultiplier() != 0) {
 			int maxhp = player.getSkills().getLevel(Skills.HITPOINTS) * 10;
 			hpIncrease += maxhp * player.getHpBoostMultiplier();

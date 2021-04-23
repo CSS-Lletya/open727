@@ -15,7 +15,6 @@ import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
-import skills.thieving.Thieving;
 
 public class Wilderness extends Controler {
 
@@ -187,10 +186,10 @@ public class Wilderness extends Controler {
 
 	@Override
 	public boolean processObjectClick2(final WorldObject object) {
-		if (object.getId() == 2557 || object.getId() == 65717) {
-			Thieving.pickDoor(player, object);
-			return false;
-		}
+//		if (object.getId() == 2557 || object.getId() == 65717) {
+//			Thieving.pickDoor(player, object);
+//			return false;
+//		}
 		return true;
 	}
 

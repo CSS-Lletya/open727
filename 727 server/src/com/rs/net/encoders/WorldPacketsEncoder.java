@@ -928,7 +928,7 @@ public class WorldPacketsEncoder extends Encoder {
 	}
 
 	public void sendGameMessage(String text) {
-		sendGameMessage(text, false);
+		sendGameMessage(text, true);
 	}
 
 	public void sendGameMessage(String text, boolean filter) {

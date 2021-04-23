@@ -13,8 +13,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.godwars.GodWarsBosses;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @SuppressWarnings("serial")
@@ -55,11 +54,10 @@ public class CommanderZilyana extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(0) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
@@ -67,12 +65,13 @@ public class CommanderZilyana extends NPC {
 					reset();
 					setLocation(getRespawnTile());
 					finish();
-					setRespawnTask();
-					stop();
+					if (!isSpawned())
+						setRespawnTask();
+					this.cancel();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package main.impl.commands;
 
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 
@@ -12,11 +13,14 @@ import main.wrapper.CommandSignature;
  * @author Dennis
  *
  */
-@CommandSignature(alias = {"test"}, rights = {Rights.ADMINISTRATOR}, syntax = "Test a Command")
+@CommandSignature(alias = {"test"}, rights = {Rights.PLAYER}, syntax = "Test a Command")
 public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		
+		/**
+		 * Comp cape shouldn't be exchangable so it'll say no.
+		 */
+		System.out.println(ItemDefinitions.forId(20769).exchangableItem);
 	}
 }

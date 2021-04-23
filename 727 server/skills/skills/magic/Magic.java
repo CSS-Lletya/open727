@@ -8,8 +8,8 @@ import com.rs.game.WorldTile;
 import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.LinkedTaskSequence;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -558,13 +558,13 @@ public class Magic {
 			return;
 		player.setNextAnimation(new Animation(2140));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.unlock();
 				Magic.sendObjectTeleportSpell(player, false, tile);
 			}
-		}, 1);
+		});
 	}
 
 	public static final void sendObjectTeleportSpell(Player player, boolean randomize, WorldTile tile) {
@@ -607,12 +607,11 @@ public class Magic {
 		if (teleType == MAGIC_TELEPORT)
 			player.getPackets().sendSound(5527, 0, 2);
 		player.lock(3 + delay);
-		WorldTasksManager.schedule(new WorldTask() {
-
+		
+		World.get().submit(new Task(delay) {
 			boolean removeDamage;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (!removeDamage) {
 					WorldTile teleTile = tile;
 					if (randomize) {
@@ -643,10 +642,10 @@ public class Magic {
 					removeDamage = true;
 				} else {
 					player.resetReceivedDamage();
-					stop();
+					this.cancel();
 				}
 			}
-		}, delay, 0);
+		});
 		return true;
 	}
 
@@ -667,40 +666,30 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextGraphics(new Graphics(1680));
-		WorldTasksManager.schedule(new WorldTask() {
-			int stage;
 
-			@Override
-			public void run() {
-				if (stage == 0) {
-					player.setNextAnimation(new Animation(4731));
-					stage = 1;
-				} else if (stage == 1) {
-					WorldTile teleTile = tile;
-					// attemps to randomize tile by 4x4 area
-					for (int trycount = 0; trycount < 10; trycount++) {
-						teleTile = new WorldTile(tile, 2);
-						if (World.canMoveNPC(tile.getPlane(), teleTile.getX(), teleTile.getY(), player.getSize()))
-							break;
-						teleTile = tile;
-					}
-					player.setNextWorldTile(teleTile);
-					player.getControlerManager().magicTeleported(ITEM_TELEPORT);
-					if (player.getControlerManager().getControler() == null)
-						teleControlersCheck(player, teleTile);
-					player.setNextFaceWorldTile(
-							new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
-					player.setDirection(6);
-					player.setNextAnimation(new Animation(-1));
-					stage = 2;
-				} else if (stage == 2) {
-					player.resetReceivedDamage();
-					player.unlock();
-					stop();
-				}
-
+		LinkedTaskSequence seq = new LinkedTaskSequence();
+		seq.connect(1, () ->  player.setNextAnimation(new Animation(4731)));
+		seq.connect(4, () -> {
+			WorldTile teleTile = tile;
+			// attemps to randomize tile by 4x4 area
+			for (int trycount = 0; trycount < 10; trycount++) {
+				teleTile = new WorldTile(tile, 2);
+				if (World.canMoveNPC(tile.getPlane(), teleTile.getX(), teleTile.getY(), player.getSize()))
+					break;
+				teleTile = tile;
 			}
-		}, 2, 1);
+			player.setNextWorldTile(teleTile);
+			player.getControlerManager().magicTeleported(ITEM_TELEPORT);
+			if (player.getControlerManager().getControler() == null)
+				teleControlersCheck(player, teleTile);
+			player.setNextFaceWorldTile(
+					new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
+			player.setDirection(6);
+			player.setNextAnimation(new Animation(-1));
+			player.resetReceivedDamage();
+			player.unlock();
+		});
+		seq.start();
 		return true;
 	}
 

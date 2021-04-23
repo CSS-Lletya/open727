@@ -12,6 +12,7 @@ import com.rs.game.World;
 import com.rs.game.dialogue.DialogueEventRepository;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.npc.combat.CombatScriptsHandler;
+import com.rs.game.npc.combat.rework.NPCCombatDispatcher;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.json.GsonHandler;
@@ -34,7 +35,6 @@ import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
-import skills.fishing.FishingSpotsHandler;
 
 public class GameLoader {
 
@@ -89,7 +89,6 @@ public class GameLoader {
 			ShopsHandler.init();
 		});
 		getBackgroundLoader().submit(() -> {
-			FishingSpotsHandler.init();
 			CombatScriptsHandler.init();
 			ControlerHandler.init();
 			FriendChatsManager.init();
@@ -104,7 +103,7 @@ public class GameLoader {
 			RSInterfaceDispatcher.load();
 			ObjectDispatcher.load();
 			NPCDispatcher.load();
-			
+			NPCCombatDispatcher.load();
 		});
 	}
 	

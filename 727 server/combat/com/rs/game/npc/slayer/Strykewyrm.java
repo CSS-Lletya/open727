@@ -1,11 +1,11 @@
 package com.rs.game.npc.slayer;
 
 import com.rs.game.Animation;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @SuppressWarnings("serial")
@@ -26,9 +26,9 @@ public class Strykewyrm extends NPC {
 		if (getId() != stompId && !isCantInteract() && !isUnderCombat()) {
 			setNextAnimation(new Animation(12796));
 			setCantInteract(true);
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(0) {
 				@Override
-				public void run() {
+				protected void execute() {
 					transformIntoNPC(9462);
 					setCantInteract(false);
 				}
@@ -72,17 +72,16 @@ public class Strykewyrm extends NPC {
 			return;
 		}
 		player.setNextAnimation(new Animation(4278));
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(2) {
 			@Override
-			public void run() {
+			protected void execute() {
 				npc.setNextAnimation(new Animation(12795));
 				npc.transformIntoNPC(npc.getId() + 1);
 				npc.setTarget(player);
 				npc.setAttackedBy(player);
-				stop();
+				this.cancel();
 			}
-
-		}, 1, 2);
+		});
 	}
 
 }
