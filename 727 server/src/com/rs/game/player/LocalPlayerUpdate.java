@@ -218,7 +218,7 @@ public final class LocalPlayerUpdate {
 					stream.writeBits(2, 3);
 					int xOffset = p.getX() - p.getLastWorldTile().getX();
 					int yOffset = p.getY() - p.getLastWorldTile().getY();
-					int planeOffset = p.getPlane() - p.getLastWorldTile().getPlane();
+					int planeOffset = p.getHeight() - p.getLastWorldTile().getHeight();
 					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 // 14 for safe
 							&& Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) { // 14 for safe
 						stream.writeBits(1, 0);

@@ -106,7 +106,7 @@ public class NPCAutoSpawn extends GsonLoader<NPCSpawning> {
 			return Direction.NORTH;
 		}
 		for (NPCSpawning npcSpawning : spawns) {
-			if (npcSpawning.getId() == npc.getId() && npcSpawning.getX() == npc.getStartTile().getX() && npcSpawning.getY() == npc.getStartTile().getY() && npcSpawning.getZ() == npc.getStartTile().getPlane()) {
+			if (npcSpawning.getId() == npc.getId() && npcSpawning.getX() == npc.getStartTile().getX() && npcSpawning.getY() == npc.getStartTile().getY() && npcSpawning.getZ() == npc.getStartTile().getHeight()) {
 				return npcSpawning.getDirection();
 			}
 		}

@@ -1,18 +1,9 @@
 package main.impl.rsinterface;
 
-import com.rs.Settings;
-import com.rs.game.item.Item;
-import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Player;
-import com.rs.utils.Utils;
+
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 @RSInterfaceSignature(interfaceId = {1252, 1253})
 public class SquealOfFortuneInterfacePlugin implements RSInterface {

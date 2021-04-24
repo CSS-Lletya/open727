@@ -497,7 +497,7 @@ public class Region {
 			map = new RegionMap(regionId, false);
 		if (clipedOnlyMap == null)
 			clipedOnlyMap = new RegionMap(regionId, true);
-		int plane = object.getPlane();
+		int plane = object.getHeight();
 		int type = object.getType();
 		int rotation = object.getRotation();
 		if (x < 0 || y < 0 || x >= map.getMasks()[plane].length || y >= map.getMasks()[plane][x].length)
@@ -533,7 +533,7 @@ public class Region {
 			map = new RegionMap(regionId, false);
 		if (clipedOnlyMap == null)
 			clipedOnlyMap = new RegionMap(regionId, true);
-		int plane = object.getPlane();
+		int plane = object.getHeight();
 		int type = object.getType();
 		int rotation = object.getRotation();
 		if (x < 0 || y < 0 || x >= map.getMasks()[plane].length || y >= map.getMasks()[plane][x].length)
@@ -661,8 +661,8 @@ public class Region {
 					int localY = (location & 0x3f);
 					int plane = location >> 12;
 					int objectData = landStream.readUnsignedByte();
-					int type = objectData >> 2;
-					int rotation = objectData & 0x3;
+					byte type = (byte) (objectData >> 2);
+					short rotation = (short) (objectData & 0x3);
 					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
 						continue;
 					int objectPlane = plane;
@@ -670,7 +670,7 @@ public class Region {
 						objectPlane--;
 					if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
 						continue;
-					addObject(new WorldObject(objectId, type, rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
+					addObject(new WorldObject(objectId, type, (byte) rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
 				}
 			}
 		}
@@ -822,7 +822,7 @@ public class Region {
 		WorldObject removedObject = getRemovedObject(tile);
 		if (removedObject != null && removedObject.getId() == id)
 			return null;
-		WorldObject[] mapObjects = getObjects(tile.getPlane(), localX, localY);
+		WorldObject[] mapObjects = getObjects(tile.getHeight(), localX, localY);
 		if (mapObjects == null)
 			return null;
 		for (WorldObject object : mapObjects)
@@ -835,7 +835,7 @@ public class Region {
 		if (spawnedObjects == null)
 			return null;
 		for (WorldObject object : spawnedObjects)
-			if (object.getX() == tile.getX() && object.getY() == tile.getY() && object.getPlane() == tile.getPlane())
+			if (object.getX() == tile.getX() && object.getY() == tile.getY() && object.getHeight() == tile.getHeight())
 				return object;
 		return null;
 	}
@@ -844,7 +844,7 @@ public class Region {
 		if (removedObjects == null)
 			return null;
 		for (WorldObject object : removedObjects)
-			if (object.getX() == tile.getX() && object.getY() == tile.getY() && object.getPlane() == tile.getPlane())
+			if (object.getX() == tile.getX() && object.getY() == tile.getY() && object.getHeight() == tile.getHeight())
 				return object;
 		return null;
 	}
@@ -886,7 +886,7 @@ public class Region {
 		int absY = (regionId & 0xff) * 64;
 		int localX = spawnObject.getX() - absX;
 		int localY = spawnObject.getY() - absY;
-		WorldObject[] mapObjects = getObjects(spawnObject.getPlane(), localX, localY);
+		WorldObject[] mapObjects = getObjects(spawnObject.getHeight(), localX, localY);
 		if (mapObjects == null)
 			return null;
 		for (WorldObject object : mapObjects)
@@ -908,7 +908,7 @@ public class Region {
 		WorldObject removedObject = getRemovedObject(tile);
 		if (removedObject != null && removedObject.getId() == id)
 			return false;
-		WorldObject[] mapObjects = getObjects(tile.getPlane(), localX, localY);
+		WorldObject[] mapObjects = getObjects(tile.getHeight(), localX, localY);
 		if (mapObjects == null)
 			return false;
 		for (WorldObject object : mapObjects)
@@ -978,7 +978,7 @@ public class Region {
 		for (FloorItem item : floorItems) {
 			if ((item.isInvisible() || item.isGrave()) && player != item.getOwner())
 				continue;
-			if (item.getId() == id && tile.getX() == item.getTile().getX() && tile.getY() == item.getTile().getY() && tile.getPlane() == item.getTile().getPlane())
+			if (item.getId() == id && tile.getX() == item.getTile().getX() && tile.getY() == item.getTile().getY() && tile.getHeight() == item.getTile().getHeight())
 				return item;
 		}
 		return null;

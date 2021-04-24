@@ -46,7 +46,7 @@ public class HomeTeleport extends Action {
 			player.getControlerManager().magicTeleported(Magic.MAGIC_TELEPORT);
 			if (player.getControlerManager().getControler() == null)
 				Magic.teleControlersCheck(player, tile);
-			player.setNextFaceWorldTile(new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+			player.setNextFaceWorldTile(new WorldTile(tile.getX(), tile.getY(), tile.getHeight()));
 			player.setDirection(6);
 		} else if (currentTime == 19) {
 			player.setNextGraphics(new Graphics(HOME_GRAPHIC + 1));

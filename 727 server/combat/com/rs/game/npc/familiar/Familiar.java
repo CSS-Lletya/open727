@@ -303,8 +303,8 @@ public abstract class Familiar extends NPC implements Serializable {
 		WorldTile teleTile = null;
 		for (int dir = 0; dir < checkNearDirs[0].length; dir++) {
 			final WorldTile tile = new WorldTile(new WorldTile(owner.getX() + checkNearDirs[0][dir],
-					owner.getY() + checkNearDirs[1][dir], owner.getPlane()));
-			if (World.canMoveNPC(tile.getPlane(), tile.getX(), tile.getY(), size)) { // if found done
+					owner.getY() + checkNearDirs[1][dir], owner.getHeight()));
+			if (World.canMoveNPC(tile.getHeight(), tile.getX(), tile.getY(), size)) { // if found done
 				teleTile = tile;
 				break;
 			}

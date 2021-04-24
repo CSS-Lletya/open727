@@ -27,7 +27,7 @@ public class PlayerFollow extends Action {
 		int distanceY = player.getY() - target.getY();
 		int size = target.getSize();
 		int maxDistance = 16;
-		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance
+		if (player.getHeight() != target.getHeight() || distanceX > size + maxDistance || distanceX < -1 - maxDistance
 				|| distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			return false;
 		if (player.getFreezeDelay() >= Utils.currentTimeMillis())

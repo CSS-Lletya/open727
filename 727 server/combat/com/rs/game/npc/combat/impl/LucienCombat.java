@@ -47,7 +47,7 @@ public class LucienCombat extends CombatScript {
 				String key = t.getX() + "_" + t.getY();
 				if (!tiles.containsKey(t.getX() + "_" + t.getY())) {
 					tiles.put(key, new int[] { t.getX(), t.getY() });
-					World.sendProjectile(npc, new WorldTile(t.getX(), t.getY(), npc.getPlane()), 1900, 34, 0, 30, 35,
+					World.sendProjectile(npc, new WorldTile(t.getX(), t.getY(), npc.getHeight()), 1900, 34, 0, 30, 35,
 							16, 0);
 				}
 			}
@@ -136,8 +136,8 @@ public class LucienCombat extends CombatScript {
 					int[][] dirs = Utils.getCoordOffsetsNear(size);
 					for (int dir = 0; dir < dirs[0].length; dir++) {
 						final WorldTile tile = new WorldTile(new WorldTile(target.getX() + dirs[0][dir],
-								target.getY() + dirs[1][dir], target.getPlane()));
-						if (World.canMoveNPC(tile.getPlane(), tile.getX(), tile.getY(), size)) { // if found done
+								target.getY() + dirs[1][dir], target.getHeight()));
+						if (World.canMoveNPC(tile.getHeight(), tile.getX(), tile.getY(), size)) { // if found done
 							npc.setNextWorldTile(tile);
 						}
 					}

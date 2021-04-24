@@ -42,7 +42,7 @@ public class BeastOfBurden implements Serializable {
 	public void dropBob() {
 		int size = familiar.getSize();
 		WorldTile WorldTile = new WorldTile(familiar.getCoordFaceX(size), familiar.getCoordFaceY(size),
-				familiar.getPlane());
+				familiar.getHeight());
 		for (int i = 0; i < beastItems.getSize(); i++) {
 			Item item = beastItems.get(i);
 			if (item != null)

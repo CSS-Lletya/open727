@@ -30,7 +30,7 @@ public final class DiggingHandler extends Task {
 	 * @param action {@link #action}.
 	 */
 	public DiggingHandler(Player player, Consumer<Player> action) {
-		super(1, false);
+		super(1, true);
 		this.player = player;
 		this.action = action;
 	}
@@ -42,13 +42,13 @@ public final class DiggingHandler extends Task {
 	
 	@Override
 	public void execute() {
-		cancel();
-		player.setNextAnimation(null);
+		action.accept(player);
 	}
 	
 	@Override
 	public void onCancel() {
-		action.accept(player);
+		player.setNextAnimation(null);
+		cancel();
 	}
 	
 }

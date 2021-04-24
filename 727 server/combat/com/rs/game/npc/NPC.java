@@ -199,7 +199,7 @@ public class NPC extends Entity implements Serializable {
 			if (getFreezeDelay() < Utils.currentTimeMillis()) {
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
+						int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getHeight(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
 						int[] bufferX = RouteFinder.getLastPathBufferX();
 						int[] bufferY = RouteFinder.getLastPathBufferY();
 						for (int i = steps - 1; i >= 0; i--) {
@@ -585,7 +585,7 @@ public class NPC extends Entity implements Serializable {
 	public void sendDrop(Player player, Drop drop) {
 		int size = getSize();
 		Item item = ItemDefinitions.getItemDefinitions(drop.getItemId()).isStackable() ? new Item(drop.getItemId(), (drop.getMinAmount() * Settings.DROP_RATE) + Utils.getRandom(drop.getExtraAmount() * Settings.DROP_RATE)) : new Item(drop.getItemId(), drop.getMinAmount() + Utils.getRandom(drop.getExtraAmount()));
-		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), player, false, 180, true);
+		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getHeight()), player, false, 180, true);
 	}
 
 	@Override
@@ -741,7 +741,7 @@ public class NPC extends Entity implements Serializable {
 
 	@Override
 	public String toString() {
-		return getDefinitions().name + " - " + id + " - " + getX() + " " + getY() + " " + getPlane();
+		return getDefinitions().name + " - " + id + " - " + getX() + " " + getY() + " " + getHeight();
 	}
 
 	public boolean isForceAgressive() {
@@ -824,7 +824,7 @@ public class NPC extends Entity implements Serializable {
 
 	public WorldTile getMiddleWorldTile() {
 		int size = getSize();
-		return new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
+		return new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getHeight());
 	}
 
 	public boolean isSpawned() {

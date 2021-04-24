@@ -145,7 +145,7 @@ public final class NPCDispatcher {
 			return;
 		if (player.getRights().isStaff()) {
 			player.getPackets().sendGameMessage("NPC - [id=" + npc.getId() + ", loc=[" + npc.getX() + ", " + npc.getY()
-					+ ", " + npc.getPlane() + "]].");
+					+ ", " + npc.getHeight() + "]].");
 		}
 		player.getPackets().sendNPCMessage(0, npc, "It's a " + npc.getDefinitions().name + ".");
 		

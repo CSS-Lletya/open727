@@ -34,7 +34,7 @@ public final class CoordsEvent {
 	 * returns if done
 	 */
 	public boolean processEvent(Player player) {
-		if (player.getPlane() != tile.getPlane())
+		if (player.getHeight() != tile.getHeight())
 			return true;
 		int distanceX = player.getX() - tile.getX();
 		int distanceY = player.getY() - tile.getY();

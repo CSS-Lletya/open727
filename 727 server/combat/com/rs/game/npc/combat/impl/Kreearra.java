@@ -35,7 +35,7 @@ public class Kreearra extends CombatScript {
 				WorldTile teleTile = t;
 				for (int trycount = 0; trycount < 10; trycount++) {
 					teleTile = new WorldTile(t, 2);
-					if (World.canMoveNPC(t.getPlane(), teleTile.getX(), teleTile.getY(), t.getSize()))
+					if (World.canMoveNPC(t.getHeight(), teleTile.getX(), teleTile.getY(), t.getSize()))
 						break;
 				}
 				t.setNextWorldTile(teleTile);

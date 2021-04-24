@@ -151,7 +151,7 @@ public final class TormentedDemon extends NPC {
 	}
 
 	private void sendRandomProjectile() {
-		WorldTile tile = new WorldTile(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
+		WorldTile tile = new WorldTile(getX() + Utils.random(7), getY() + Utils.random(7), getHeight());
 		setNextAnimation(new Animation(10918));
 		World.sendProjectile(this, tile, 1887, 34, 16, 40, 35, 16, 0);
 		for (int regionId : getMapRegionsIds()) {

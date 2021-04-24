@@ -1,6 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -9,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import com.rs.Settings;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 

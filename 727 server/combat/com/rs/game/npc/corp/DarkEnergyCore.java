@@ -50,7 +50,7 @@ public class DarkEnergyCore extends NPC {
 			changeTarget--;
 			return;
 		}
-		if (target == null || target.getX() != getX() || target.getY() != getY() || target.getPlane() != getPlane()) {
+		if (target == null || target.getX() != getX() || target.getY() != getY() || target.getHeight() != getHeight()) {
 			changeTarget = 5;
 			return;
 		}

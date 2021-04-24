@@ -332,7 +332,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			int baseX = stream.readUnsignedShort();
 			int baseY = stream.readUnsignedShortLE();
 	
-            int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getPlane(), player.getSize(), new FixedTileStrategy(baseX, baseY), true);
+            int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getHeight(), player.getSize(), new FixedTileStrategy(baseX, baseY), true);
 			if (steps > 25)
 	            steps = 25;
 
@@ -361,7 +361,7 @@ public final class WorldPacketsDecoder extends Decoder {
 	            }
 
 	            if (last != -1) {
-	                WorldTile tile = new WorldTile(bufferX[last], bufferY[last], player.getPlane());
+	                WorldTile tile = new WorldTile(bufferX[last], bufferY[last], player.getHeight());
 	                player.getPackets().sendMinimapFlag(tile.getLocalX(player.getLastLoadedMapRegionTile(), player.getMapSize()), tile.getLocalY(player.getLastLoadedMapRegionTile(), player.getMapSize()));
 	            } else {
 	                player.getPackets().sendResetMinimapFlag();
@@ -429,14 +429,14 @@ public final class WorldPacketsDecoder extends Decoder {
 			long currentTime = Utils.currentTimeMillis();
 			if (player.getLockDelay() >= currentTime || player.getEmotesManager().getNextEmoteEnd() >= currentTime)
 				return;
-			final WorldTile tile = new WorldTile(x, y, player.getPlane());
+			final WorldTile tile = new WorldTile(x, y, player.getHeight());
 			int regionId = tile.getRegionId();
 			if (!player.getMapRegionsIds().contains(regionId))
 				return;
 			WorldObject mapObject = World.getRegion(regionId).getObject(objectId, tile);
 			if (mapObject == null || mapObject.getId() != objectId)
 				return;
-			final WorldObject object = !player.isAtDynamicRegion() ? mapObject : new WorldObject(objectId, mapObject.getType(), mapObject.getRotation(), x, y, player.getPlane());
+			final WorldObject object = !player.isAtDynamicRegion() ? mapObject : new WorldObject(objectId, mapObject.getType(), mapObject.getRotation(), x, y, player.getHeight());
 			final Item item = player.getInventory().getItem(slot);
 			if (player.isDead() || Utils.getInterfaceDefinitionsSize() <= interfaceId)
 				return;
@@ -666,7 +666,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				case 27:
 				case 23:
 					if (Magic.checkCombatSpell(player, componentId, 1, false)) {
-						player.setNextFaceWorldTile(new WorldTile(p2.getCoordFaceX(p2.getSize()), p2.getCoordFaceY(p2.getSize()), p2.getPlane()));
+						player.setNextFaceWorldTile(new WorldTile(p2.getCoordFaceX(p2.getSize()), p2.getCoordFaceY(p2.getSize()), p2.getHeight()));
 						if (!player.getControlerManager().canAttack(p2))
 							return;
 						if (!player.isCanPvp() || !p2.isCanPvp()) {
@@ -727,7 +727,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				case 55: // snare
 				case 81: // entangle
 					if (Magic.checkCombatSpell(player, componentId, 1, false)) {
-						player.setNextFaceWorldTile(new WorldTile(p2.getCoordFaceX(p2.getSize()), p2.getCoordFaceY(p2.getSize()), p2.getPlane()));
+						player.setNextFaceWorldTile(new WorldTile(p2.getCoordFaceX(p2.getSize()), p2.getCoordFaceY(p2.getSize()), p2.getHeight()));
 						if (!player.getControlerManager().canAttack(p2))
 							return;
 						if (!player.isCanPvp() || !p2.isCanPvp()) {
@@ -858,7 +858,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				case 27:
 				case 23:
 					if (Magic.checkCombatSpell(player, componentId, 1, false)) {
-						player.setNextFaceWorldTile(new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()));
+						player.setNextFaceWorldTile(new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getHeight()));
 						if (!player.getControlerManager().canAttack(npc))
 							return;
 						if (npc instanceof Familiar) {
@@ -918,7 +918,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				case 55: // snare
 				case 81: // entangle
 					if (Magic.checkCombatSpell(player, componentId, 1, false)) {
-						player.setNextFaceWorldTile(new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()));
+						player.setNextFaceWorldTile(new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getHeight()));
 						if (!player.getControlerManager().canAttack(npc))
 							return;
 						if (npc instanceof Familiar) {
@@ -988,7 +988,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			//0, 4153, 3503, 3216
 			//3216, 3503, 0, 4153
 			
-			final WorldTile tile = new WorldTile(x, y, player.getPlane());
+			final WorldTile tile = new WorldTile(x, y, player.getHeight());
 			final int regionId = tile.getRegionId();
 			if (!player.getMapRegionsIds().contains(regionId)){
 				return;
@@ -1492,7 +1492,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			int x = stream.readUnsignedShort128();
 			if (forceRun)
 				player.setRun(true);
-			final WorldTile tile = new WorldTile(x, y, player.getPlane());
+			final WorldTile tile = new WorldTile(x, y, player.getHeight());
 			final int regionId = tile.getRegionId();
 			if (!player.getMapRegionsIds().contains(regionId))
 				return;

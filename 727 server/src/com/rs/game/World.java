@@ -318,7 +318,7 @@ public final class World {
 			return -1;
 		int baseLocalX = x - ((regionId >> 8) * 64);
 		int baseLocalY = y - ((regionId & 0xff) * 64);
-		return region.getMask(tile.getPlane(), baseLocalX, baseLocalY);
+		return region.getMask(tile.getHeight(), baseLocalX, baseLocalY);
 	}
 
 	public static void setMask(int plane, int x, int y, int mask) {
@@ -329,7 +329,7 @@ public final class World {
 			return;
 		int baseLocalX = x - ((regionId >> 8) * 64);
 		int baseLocalY = y - ((regionId & 0xff) * 64);
-		region.setMask(tile.getPlane(), baseLocalX, baseLocalY, mask);
+		region.setMask(tile.getHeight(), baseLocalX, baseLocalY, mask);
 	}
 
 	public static int getRotation(int plane, int x, int y) {
@@ -340,7 +340,7 @@ public final class World {
 			return 0;
 		int baseLocalX = x - ((regionId >> 8) * 64);
 		int baseLocalY = y - ((regionId & 0xff) * 64);
-		return region.getRotation(tile.getPlane(), baseLocalX, baseLocalY);
+		return region.getRotation(tile.getHeight(), baseLocalX, baseLocalY);
 	}
 
 	private static int getClipedOnlyMask(int plane, int x, int y) {
@@ -351,7 +351,7 @@ public final class World {
 			return -1;
 		int baseLocalX = x - ((regionId >> 8) * 64);
 		int baseLocalY = y - ((regionId & 0xff) * 64);
-		return region.getMaskClipedOnly(tile.getPlane(), baseLocalX, baseLocalY);
+		return region.getMaskClipedOnly(tile.getHeight(), baseLocalX, baseLocalY);
 	}
 
 	public static final boolean checkProjectileStep(int plane, int x, int y, int dir, int size) {
@@ -633,7 +633,7 @@ public final class World {
 		WorldObject realMapObject = getRegion(regionId).getRealObject(object);
 		// remakes object, has to be done because on static region coords arent
 		// same of real
-		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getPlane());
+		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getHeight());
 		spawnObject(object, clip);
 		final int baseLocalX = object.getX() - ((regionId >> 8) * 64);
 		final int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
@@ -680,7 +680,7 @@ public final class World {
 		final int regionId = object.getRegionId();
 		// remakes object, has to be done because on static region coords arent
 		// same of real
-		final WorldObject realObject = object == null ? null : new WorldObject(object.getId(), object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
+		final WorldObject realObject = object == null ? null : new WorldObject(object.getId(), object.getType(), object.getRotation(), object.getX(), object.getY(), object.getHeight());
 		removeObject(object, clip);
 		CoresManager.slowExecutor.schedule(new Runnable() {
 			@Override
@@ -728,14 +728,14 @@ public final class World {
 		int regionId = tile.getRegionId();
 		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
 		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getPlane(), baseLocalX, baseLocalY);
+		return getRegion(regionId).getObject(tile.getHeight(), baseLocalX, baseLocalY);
 	}
 
 	public static final WorldObject getObject(WorldTile tile, int type) {
 		int regionId = tile.getRegionId();
 		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
 		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getPlane(), baseLocalX, baseLocalY, type);
+		return getRegion(regionId).getObject(tile.getHeight(), baseLocalX, baseLocalY, type);
 	}
 
 	public static final void spawnObject(WorldObject object, boolean clip) {
@@ -761,7 +761,7 @@ public final class World {
 		region.forceGetFloorItems().add(floorItem);
 		int regionId = tile.getRegionId();
 		for (Player player : players) {
-			if (player == null || !player.hasStarted() || player.hasFinished() || player.getPlane() != tile.getPlane() || !player.getMapRegionsIds().contains(regionId))
+			if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
 				continue;
 			player.getPackets().sendGroundItem(floorItem);
 		}
@@ -801,7 +801,7 @@ public final class World {
 						if (underGrave || !ItemConstants.isTradeable(floorItem) || item.getName().contains("Dr nabanik")) {
 							region.forceGetFloorItems().remove(floorItem);
 							if (owner != null) {
-								if (owner.getMapRegionsIds().contains(regionId) && owner.getPlane() == tile.getPlane())
+								if (owner.getMapRegionsIds().contains(regionId) && owner.getHeight() == tile.getHeight())
 									owner.getPackets().sendRemoveGroundItem(floorItem);
 							}
 							return;
@@ -809,7 +809,7 @@ public final class World {
 
 						floorItem.setInvisible(false);
 						for (Player player : players) {
-							if (player == null || player == owner || !player.hasStarted() || player.hasFinished() || player.getPlane() != tile.getPlane() || !player.getMapRegionsIds().contains(regionId))
+							if (player == null || player == owner || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
 								continue;
 							player.getPackets().sendGroundItem(floorItem);
 						}
@@ -823,7 +823,7 @@ public final class World {
 		}
 		int regionId = tile.getRegionId();
 		for (Player player : players) {
-			if (player == null || !player.hasStarted() || player.hasFinished() || player.getPlane() != tile.getPlane() || !player.getMapRegionsIds().contains(regionId))
+			if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
 				continue;
 			player.getPackets().sendGroundItem(floorItem);
 		}
@@ -856,7 +856,7 @@ public final class World {
 						return;
 					region.forceGetFloorItems().remove(floorItem);
 					for (Player player : World.getPlayers()) {
-						if (player == null || !player.hasStarted() || player.hasFinished() || player.getPlane() != floorItem.getTile().getPlane() || !player.getMapRegionsIds().contains(regionId))
+						if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != floorItem.getTile().getHeight() || !player.getMapRegionsIds().contains(regionId))
 							continue;
 						player.getPackets().sendRemoveGroundItem(floorItem);
 					}
@@ -886,7 +886,7 @@ public final class World {
 			return true;
 		} else {
 			for (Player p2 : World.getPlayers()) {
-				if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getPlane() != floorItem.getTile().getPlane() || !p2.getMapRegionsIds().contains(regionId))
+				if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getHeight() != floorItem.getTile().getHeight() || !p2.getMapRegionsIds().contains(regionId))
 					continue;
 				p2.getPackets().sendRemoveGroundItem(floorItem);
 			}
@@ -994,7 +994,7 @@ public final class World {
 				if (player == null || !player.hasStarted() || player.hasFinished() || (!player.withinDistance(shooter) && !player.withinDistance(receiver)))
 					continue;
 				int size = shooter.getSize();
-				player.getPackets().sendProjectile(receiver, new WorldTile(shooter.getCoordFaceX(size), shooter.getCoordFaceY(size), shooter.getPlane()), receiver, gfxId, startHeight, endHeight, speed, delay, curve, startDistanceOffset, size);
+				player.getPackets().sendProjectile(receiver, new WorldTile(shooter.getCoordFaceX(size), shooter.getCoordFaceY(size), shooter.getHeight()), receiver, gfxId, startHeight, endHeight, speed, delay, curve, startDistanceOffset, size);
 			}
 		}
 	}
@@ -1002,8 +1002,8 @@ public final class World {
 	public static final boolean isMultiArea(WorldTile tile) {
 		int destX = tile.getX();
 		int destY = tile.getY();
-		return (destX >= 3462 && destX <= 3511 && destY >= 9481 && destY <= 9521 && tile.getPlane() == 0) // kalphite queen lair
-				|| (destX >= 4540 && destX <= 4799 && destY >= 5052 && destY <= 5183 && tile.getPlane() == 0) // thzaar city
+		return (destX >= 3462 && destX <= 3511 && destY >= 9481 && destY <= 9521 && tile.getHeight() == 0) // kalphite queen lair
+				|| (destX >= 4540 && destX <= 4799 && destY >= 5052 && destY <= 5183 && tile.getHeight() == 0) // thzaar city
 				|| (destX >= 1721 && destX <= 1791 && destY >= 5123 && destY <= 5249) // mole
 				|| (destX >= 3029 && destX <= 3374 && destY >= 3759 && destY <= 3903)// wild
 				|| (destX >= 2250 && destX <= 2280 && destY >= 4670 && destY <= 4720) || (destX >= 3198 && destX <= 3380 && destY >= 3904 && destY <= 3970) || (destX >= 3191 && destX <= 3326 && destY >= 3510 && destY <= 3759) || (destX >= 2987 && destX <= 3006 && destY >= 3912 && destY <= 3937) || (destX >= 2245 && destX <= 2295 && destY >= 4675 && destY <= 4720) || (destX >= 2450 && destX <= 3520 && destY >= 9450 && destY <= 9550) || (destX >= 3006 && destX <= 3071 && destY >= 3602 && destY <= 3710) || (destX >= 3134 && destX <= 3192 && destY >= 3519 && destY <= 3646) || (destX >= 2815 && destX <= 2966 && destY >= 5240 && destY <= 5375)// wild
@@ -1069,7 +1069,7 @@ public final class World {
 	public static final void spawnTempGroundObject(final WorldObject object, final int replaceId, long time) {
 		final int regionId = object.getRegionId();
 		WorldObject realMapObject = getRegion(regionId).getRealObject(object);
-		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getPlane());
+		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getHeight());
 		spawnObject(object, false);
 		CoresManager.slowExecutor.schedule(new Runnable() {
 			@Override
@@ -1078,7 +1078,7 @@ public final class World {
 					getRegion(regionId).removeObject(object);
 					addGroundItem(new Item(replaceId), object, null, false, 180, false);
 					for (Player p2 : players) {
-						if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getPlane() != object.getPlane() || !p2.getMapRegionsIds().contains(regionId))
+						if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getHeight() != object.getHeight() || !p2.getMapRegionsIds().contains(regionId))
 							continue;
 						if (realObject != null)
 							p2.getPackets().sendSpawnedObject(realObject);
@@ -1109,7 +1109,7 @@ public final class World {
 	}
 
 	public static final void spawnObject(WorldObject object) {
-		getRegion(object.getRegionId()).addObject(object, object.getPlane(), object.getXInRegion(),
+		getRegion(object.getRegionId()).addObject(object, object.getHeight(), object.getXInRegion(),
 				object.getYInRegion());
 	}
 	
