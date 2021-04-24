@@ -217,7 +217,7 @@ public class PlayerDesign {
     public static void handle(Player player, int buttonId, int slot) {
         System.out.println("button: " + buttonId + " slot: " + slot);
         if ((buttonId >= 116) && (buttonId <= 121)) {
-            System.out.println(Integer.valueOf(buttonId - 115));
+//            System.out.println(Integer.valueOf(buttonId - 115));
             player.getTemporaryAttributtes().put("player_design", Integer.valueOf(buttonId - 115));
             return;
         }

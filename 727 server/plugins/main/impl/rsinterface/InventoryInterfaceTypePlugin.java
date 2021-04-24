@@ -252,7 +252,6 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 		}
 		player.getInventory().refreshItems(copy);
 		if (worn) {
-			System.out.println("herere");
 			player.getAppearance().generateAppearenceData();
 			player.getPackets().sendSound(2240, 0, 1);
 		}

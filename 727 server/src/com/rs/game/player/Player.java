@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -88,6 +89,9 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
+
+	private SquealOfFortune sof;
+	private int spins;
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
 
@@ -233,6 +237,7 @@ public class Player extends Entity {
 		auraManager = new AuraManager();
 		petManager = new PetManager();
 		runEnergy = 100;
+		this.spins = 0;
 		allowChatEffects = true;
 		mouseButtons = true;
 		pouches = new int[4];
@@ -264,6 +269,7 @@ public class Player extends Entity {
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
 		actionManager = new ActionManager(this);
+		sof = new SquealOfFortune(this);
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -321,6 +327,18 @@ public class Player extends Entity {
 		appearence.getAppeareanceBlocks();
 	}
 
+	public SquealOfFortune getSquealOfFortune() {
+		return sof;
+	}
+
+	public void setSpins(int spins) {
+		this.spins = spins;
+	}
+
+	public int getSpins() {
+		return this.spins;
+	}
+
 	public boolean hasSkull() {
 		return skullDelay > 0;
 	}
@@ -376,8 +394,29 @@ public class Player extends Entity {
 		loadMapRegions();
 		started = true;
 		run();
+
+		startUpPlayerFurther();
+
 		if (isDead())
 			sendDeath(null);
+	}
+
+	/**
+	 * Update appearence so you dont start off blank
+	 * Create a spin count in extras interface.
+	 * Add other startup lines to this.
+	 */
+	public void startUpPlayerFurther() {
+		appearence.generateAppearenceData();
+
+		//Update spins number
+		final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(3);
+		executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				getPackets().sendIComponentText(1139, 6, Integer.toString(getSpins()));
+			}
+		}, 5, TimeUnit.SECONDS);
 	}
 
 	public void stopAll() {

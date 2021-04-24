@@ -31,6 +31,15 @@ public final class ItemsContainer<T extends Item> implements Serializable {
 		}
 	}
 
+	public int findAvailableSlot() {
+		for (int slot = 0; slot < data.length; slot++) {
+			if (data[slot] == null) {
+				return slot;
+			}
+		}
+		return -1;
+	}
+
 	@SuppressWarnings("unchecked")
 	public T get(int slot) {
 		if (slot < 0 || slot >= data.length) {
