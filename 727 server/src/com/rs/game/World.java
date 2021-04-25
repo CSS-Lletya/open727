@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import com.rs.Launcher;
@@ -62,7 +61,6 @@ public final class World {
 	private static final Map<Integer, Region> regions = Collections.synchronizedMap(new HashMap<Integer, Region>());
 
 	public final void init() {
-		addDrainPrayerTask();
 		addRestoreShopItemsTask();
 		addSummoningEffectTask();
 		addOwnedObjectsTask();
@@ -117,24 +115,6 @@ public final class World {
 			}
 		}, 0, 15, TimeUnit.SECONDS);
 	}
-
-	private static final void addDrainPrayerTask() {
-		CoresManager.fastExecutor.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					for (Player player : getPlayers()) {
-						if (player == null || player.isDead() || !player.isRunning())
-							continue;
-						player.getPrayer().processPrayerDrain();
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, 600);
-	}
-
 
 	public static final Map<Integer, Region> getRegions() {
 		return regions;
