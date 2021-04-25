@@ -2,11 +2,11 @@ package com.rs.game.npc.others;
 
 import com.rs.game.Animation;
 import com.rs.game.Entity;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 
 @SuppressWarnings("serial")
 public class PestMonsters extends NPC {
@@ -24,11 +24,10 @@ public class PestMonsters extends NPC {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		// deathEffects(npc);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					if (!(npc.getId() == 6142) || (npc.getId() == 6144) || (npc.getId() == 6145)
 							|| (npc.getId() == 6143)) // Portals
@@ -37,11 +36,11 @@ public class PestMonsters extends NPC {
 					drop();
 					reset();
 					finish();
-					stop();
+					this.cancel();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 	}
 	/*
 	 * /** Death effects of NPCs
@@ -49,7 +48,23 @@ public class PestMonsters extends NPC {
 	 * @param n The npc TODO other monsters
 	 */
 	/*
-	 * private void deathEffects(NPC n) { if (n.getId() == 6142) { for (Player players : PestControl.playersInGame) { players.getPackets().sendIComponentText(408, 13, "DEAD"); players.getPackets ().sendGameMessage("The west portal has been destroyed."); } PestControl.setPortals(0, true); } if (n.getId() == 6144) { for (Player players : PestControl.playersInGame) { players.getPackets().sendIComponentText(408, 15, "DEAD"); players.getPackets ().sendGameMessage("The south-east portal has been destroyed."); } PestControl.setPortals(1, true); } if (n.getId() == 6145) { for (Player players : PestControl.playersInGame) { players.getPackets().sendIComponentText(408, 16, "DEAD"); players.getPackets ().sendGameMessage("The south-west portal has been destroyed."); } PestControl.setPortals(2, true); } if (n.getId() == 6143) { for (Player players : PestControl.playersInGame) { players.getPackets().sendIComponentText(408, 14, "DEAD"); players.getPackets ().sendGameMessage("The east portal has been destroyed."); } PestControl.setPortals(3, true); } }
+	 * private void deathEffects(NPC n) { if (n.getId() == 6142) { for (Player
+	 * players : PestControl.playersInGame) {
+	 * players.getPackets().sendIComponentText(408, 13, "DEAD"); players.getPackets
+	 * ().sendGameMessage("The west portal has been destroyed."); }
+	 * PestControl.setPortals(0, true); } if (n.getId() == 6144) { for (Player
+	 * players : PestControl.playersInGame) {
+	 * players.getPackets().sendIComponentText(408, 15, "DEAD"); players.getPackets
+	 * ().sendGameMessage("The south-east portal has been destroyed."); }
+	 * PestControl.setPortals(1, true); } if (n.getId() == 6145) { for (Player
+	 * players : PestControl.playersInGame) {
+	 * players.getPackets().sendIComponentText(408, 16, "DEAD"); players.getPackets
+	 * ().sendGameMessage("The south-west portal has been destroyed."); }
+	 * PestControl.setPortals(2, true); } if (n.getId() == 6143) { for (Player
+	 * players : PestControl.playersInGame) {
+	 * players.getPackets().sendIComponentText(408, 14, "DEAD"); players.getPackets
+	 * ().sendGameMessage("The east portal has been destroyed."); }
+	 * PestControl.setPortals(3, true); } }
 	 */
 
 }

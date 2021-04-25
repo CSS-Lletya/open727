@@ -44,31 +44,31 @@ public final class TaskManager {
 	
 	/**
 	 * Schedules {@code t} to run in the underlying {@code TaskManager}.
-	 * @param t The {@link Task} to schedule.
+	 * @param task The {@link Task} to schedule.
 	 */
-	public void submit(Task t) {
-		if(!t.canExecute()) {
+	public void submit(Task task) {
+		if(!task.canExecute()) {
 			return;
 		}
-		t.onSubmit();
-		if(t.isInstant()) {
+		task.onSubmit();
+		if(task.isInstant()) {
 			try {
-				t.execute();
+				task.execute();
 			} catch(Exception e) {
 				e.printStackTrace();
-				t.onException(e);
+				task.onException(e);
 			}
 		}
-		tasks.add(t);
+		tasks.add(task);
 	}
 	
 	/**
 	 * Iterates through all active {@link Task}s and cancels all that have {@code attachment} as their attachment.
 	 */
 	public void cancel(Object attachment) {
-		for(Task t : tasks) {
-			if(Objects.equals(attachment, t.getAttachment()))
-				t.cancel();
+		for(Task tasks : tasks) {
+			if(Objects.equals(attachment, tasks.getAttachment()))
+				tasks.cancel();
 		}
 	}
 }

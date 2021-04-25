@@ -537,6 +537,10 @@ public class Player extends Entity {
 		}
 		
 		miscTick++;
+		if (miscTick % 1 == 0) {
+			//Just a random test
+			getPrayer().processPrayerDrain();
+		}
 		if (miscTick % 48 == 0)
             getCombatDefinitions().restoreSpecialAttack();
 		boolean usingBerserk = Prayer.usingBerserker(this);
@@ -2573,4 +2577,5 @@ public class Player extends Entity {
 			}
 		}.submit();
 	}
+
 }

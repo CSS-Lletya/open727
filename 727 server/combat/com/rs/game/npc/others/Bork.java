@@ -10,8 +10,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.task.Task;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
 
 @SuppressWarnings("serial")
 public class Bork extends NPC {
@@ -33,12 +31,13 @@ public class Bork extends NPC {
 				final Player player = (Player) e;
 				player.getInterfaceManager().sendInterface(693);
 				player.getDialogueManager().startDialogue("DagonHai", 7137, player, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(8) {
 					@Override
-					public void run() {
+					protected void execute() {
 						player.stopAll();
+						this.cancel();
 					}
-				}, 8);
+				});
 			}
 		}
 		getCombat().removeTarget();

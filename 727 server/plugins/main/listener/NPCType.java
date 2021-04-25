@@ -11,7 +11,7 @@ import com.rs.game.player.Player;
 public interface NPCType {
 	
 	/**
-	 * The functionality to be executed as soon as this command is called.
+	 * The functionality to be executed as soon as this execution is called.
 	 * @param player the player we are executing this command for.
 	 * @param cmd the command that we are executing for this player.
 	 */

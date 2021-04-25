@@ -15,9 +15,7 @@ import com.rs.utils.Utils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 
 /**
- * NOTE: The combat system is broken till
- * hp bars are fixed, etc.. This works though 
- * still after force debugging.
+ * TODO: Redo Drops
  * @author Dennis
  */
 public final class NPCCombatDispatcher {
@@ -37,9 +35,9 @@ public final class NPCCombatDispatcher {
 	 */
 	public static int execute(Player player, NPC npc) {
 		Optional<MobCombatInterface> mobCombat = getMobCombatant(npc.getId());
-		mobCombat.ifPresent(v -> {
+		mobCombat.ifPresent(value -> {
 			try {
-				mobValue = v.execute(player, npc);
+				mobValue = value.execute(player, npc);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -13,8 +13,7 @@ import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 public final class ZarosGodwars {
@@ -152,14 +151,12 @@ public final class ZarosGodwars {
 		if (getPlayersCount() >= 1) {
 			if (nex == null) {
 				World.spawnNPC(13447, new WorldTile(2924, 5202, 0), -1, true, true);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					private int count = 0;
-
 					@Override
-					public void run() {
-						// synchronized(LOCK) {
+					protected void execute() {
 						if (nex == null) {
-							stop();
+							this.cancel();
 							return;
 						}
 						if (count == 1) {
@@ -212,18 +209,13 @@ public final class ZarosGodwars {
 							nex.playSound(3310, 2);
 						} else if (count == 13) {
 							nex.setCantInteract(false);
-							stop();
+							this.cancel();
 							return;
 						}
 						count++;
 					}
-					// }
-				}, 0, 1);
+				});
 			}
 		}
-	}
-
-	private ZarosGodwars() {
-
 	}
 }

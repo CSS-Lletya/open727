@@ -77,7 +77,7 @@ public final class NPCCombat {
 		return NPCCombatDispatcher.execute((Player) target, npc);
 	}
 
-	protected void doDefenceEmote(Entity target) {
+	public void doDefenceEmote(Entity target) {
 		/*
 		 * if (target.getNextAnimation() != null) // if has att emote already return;
 		 */

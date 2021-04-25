@@ -1,11 +1,11 @@
 package com.rs.game.npc.dungeonnering;
 
 import com.rs.game.Animation;
+import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.player.controlers.Controler;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 
 import skills.dungeoneering.DungeonManager;
 import skills.dungeoneering.DungeonPartyPlayer;
@@ -38,11 +38,10 @@ public class DungeonControler extends Controler {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					player.setNextAnimation(new Animation(836));
 				} else if (loop == 1) {
@@ -51,14 +50,14 @@ public class DungeonControler extends Controler {
 					player.reset();
 					player.setNextWorldTile(dungeon.getHomeTile());
 					player.setNextAnimation(new Animation(-1));
-					stop();
-					DungeonPartyPlayer dp = dungeon.getDPlayer(player);
-					if (dp != null)
-						dp.increaseDeaths();
+					this.cancel();
+					DungeonPartyPlayer dungeonParty = dungeon.getDPlayer(player);
+					if (dungeonParty != null)
+						dungeonParty.increaseDeaths();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 		return false;
 	}
 

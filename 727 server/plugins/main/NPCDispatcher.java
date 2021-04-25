@@ -55,9 +55,9 @@ public final class NPCDispatcher {
 	 * @param identifier the identifier to check for matches.
 	 * @return an Optional with the found value, {@link Optional#empty} otherwise.
 	 */
-	private static Optional<NPCType> getMob(NPC object, int npcId) {
+	private static Optional<NPCType> getMob(NPC mob, int npcId) {
 		for(Entry<NPCSignature, NPCType> mobType : MOBS.entrySet()) {
-			if (isObjetId(mobType.getValue(), npcId) || isMobNamed(mobType.getValue(), object)) {
+			if (isNPCId(mobType.getValue(), npcId) || isMobNamed(mobType.getValue(), mob)) {
 				return Optional.of(mobType.getValue());
 			}
 		}
@@ -70,7 +70,7 @@ public final class NPCDispatcher {
 	 * @param npcId
 	 * @return
 	 */
-	private static boolean isObjetId(NPCType mob, int npcId) {
+	private static boolean isNPCId(NPCType mob, int npcId) {
 		Annotation annotation = mob.getClass().getAnnotation(NPCSignature.class);
 		NPCSignature signature = (NPCSignature) annotation;
 		return Arrays.stream(signature.npcId()).anyMatch(id -> npcId == id);
