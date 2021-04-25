@@ -123,12 +123,12 @@ public final class QueenBlackDragonController extends Controler {
 					RegionBuilder.copyAllPlanesMap(160, 760, regionBase[0], regionBase[1], 8, 8);
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
-					player.getPackets().sendDestroyObject(new WorldObject(70849, 10, 0, base.transform(24, 21, -1)));
-					player.getPackets().sendDestroyObject(new WorldObject(70837, 10, 0, base.transform(22, 24, -1)));
-					player.getPackets().sendDestroyObject(new WorldObject(70840, 10, 0, base.transform(34, 24, -1)));
-					World.removeObject(new WorldObject(70775, 10, 0, base.transform(31, 29, -1)), true);
-					player.getPackets().sendDestroyObject(new WorldObject(70822, 10, 0, base.transform(21, 35, -1)));
-					player.getPackets().sendDestroyObject(new WorldObject(70818, 10, 0, base.transform(39, 35, -1)));
+					player.getPackets().sendDestroyObject(new WorldObject(70849, (short) 10, (short) 0, base.transform(24, 21, -1)));
+					player.getPackets().sendDestroyObject(new WorldObject(70837, (short) 10,  (short) 0, base.transform(22, 24, -1)));
+					player.getPackets().sendDestroyObject(new WorldObject(70840, (short) 10, (short) 0, base.transform(34, 24, -1)));
+					World.removeObject(new WorldObject(70775, (short) 10, (short) 0, base.transform(31, 29, -1)), true);
+					player.getPackets().sendDestroyObject(new WorldObject(70822, (short) 10, (short) 0, base.transform(21, 35, -1)));
+					player.getPackets().sendDestroyObject(new WorldObject(70818, (short) 10, (short) 0, base.transform(39, 35, -1)));
 					player.setNextWorldTile(base.transform(31, 36, -1));
 					boolean resizable = player.getInterfaceManager().hasRezizableScreen();
 					player.getPackets().closeInterface(resizable ? 746 : 548, resizable ? 1 : 0);
@@ -157,7 +157,7 @@ public final class QueenBlackDragonController extends Controler {
 			player.getMusicsManager().playMusic(1118); // QUEEN BLACK DRAGON
 			npc.setSpawningWorms(false);
 			npc.setNextAttack(20);
-			npc.setActiveArtifact(new WorldObject(object.getId() + 1, 10, 0, object));
+			npc.setActiveArtifact(new WorldObject(object.getId() + 1, (short) 10, (short) 0, object));
 			npc.setHitpoints(npc.getMaxHitpoints());
 			npc.setCantInteract(false);
 			npc.setPhase(npc.getPhase() + 1);
@@ -165,19 +165,19 @@ public final class QueenBlackDragonController extends Controler {
 			switch (object.getId()) {
 			case 70777:
 				player.getPackets().sendGlobalConfig(1924, 2);
-				player.getPackets().sendSpawnedObject(new WorldObject(70843, 10, 0, base.transform(24, 21, -1)));
+				player.getPackets().sendSpawnedObject(new WorldObject(70843, (short) 10, (short) 0, base.transform(24, 21, -1)));
 				break;
 			case 70780:
 				player.getPackets().sendGlobalConfig(1924, 4);
-				player.getPackets().sendSpawnedObject(new WorldObject(70845, 10, 0, base.transform(24, 21, -1)));
+				player.getPackets().sendSpawnedObject(new WorldObject(70845, (short) 10, (short) 0, base.transform(24, 21, -1)));
 				break;
 			case 70783:
 				player.getPackets().sendGlobalConfig(1924, 6);
-				player.getPackets().sendSpawnedObject(new WorldObject(70847, 10, 0, base.transform(24, 21, -1)));
+				player.getPackets().sendSpawnedObject(new WorldObject(70847, (short) 10, (short) 0, base.transform(24, 21, -1)));
 				break;
 			case 70786:
 				player.getPackets().sendGlobalConfig(1924, 8);
-				player.getPackets().sendSpawnedObject(new WorldObject(70849, 10, 0, base.transform(24, 21, -1)));
+				player.getPackets().sendSpawnedObject(new WorldObject(70849, (short) 10, (short) 0, base.transform(24, 21, -1)));
 				break;
 			}
 			return false;

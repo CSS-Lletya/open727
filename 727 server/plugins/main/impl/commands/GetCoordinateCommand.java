@@ -12,6 +12,6 @@ public final class GetCoordinateCommand implements Command {
     @Override
     public void execute(Player player, String[] cmd, String command) throws Exception {
         player.getPackets().sendGameMessage("X: " + Integer.toString(player.getX()) + " Y: " + Integer.toString(player.getY())
-                + " Plane: " + Integer.toString(player.getPlane()));
+                + " Plane: " + Integer.toString(player.getHeight()));
     }
 }

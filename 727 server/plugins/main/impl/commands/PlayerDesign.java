@@ -217,6 +217,7 @@ public class PlayerDesign {
     public static void handle(Player player, int buttonId, int slot) {
         System.out.println("button: " + buttonId + " slot: " + slot);
         if ((buttonId >= 116) && (buttonId <= 121)) {
+//            System.out.println(Integer.valueOf(buttonId - 115));
             player.getTemporaryAttributtes().put("player_design", Integer.valueOf(buttonId - 115));
             return;
         }
@@ -229,15 +230,13 @@ public class PlayerDesign {
             return;
         }
         if (buttonId == 138) {
-            player.getTemporaryAttributtes().put("player_design", Integer.valueOf(0));
-            player.getTemporaryAttributtes().put("player_design", Integer.valueOf(1));
             player.getTemporaryAttributtes().remove("player_design");
             player.getAppearance().generateAppearenceData();
             player.getPackets().sendWindowsPane(player.getInterfaceManager().hasRezizableScreen() ? 746 : 548, 0);
             return;
         }
         Integer screen = (Integer) player.getTemporaryAttributtes().get("player_design");
-        System.out.println("238 screen: " + screen.intValue());
+        System.out.println("238 screen: " + screen);
         if (screen == null)
             return;
         if (screen.intValue() == 0) {

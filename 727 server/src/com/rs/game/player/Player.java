@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -69,8 +70,6 @@ public class Player extends Entity {
 
 	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
-	private static final long serialVersionUID = 2011932556974180376L;
-
 	// transient stuff
 	private transient String username;
 	private transient Session session;
@@ -88,6 +87,7 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
+	
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
 
@@ -212,6 +212,9 @@ public class Player extends Entity {
 	private boolean oldItemsLook;
 
 	private String yellColor = "ff0000";
+	
+	private SquealOfFortune sof;
+	private int spins;
 
 	// creates Player and saved classes
 	public Player(String password) {
@@ -233,6 +236,7 @@ public class Player extends Entity {
 		auraManager = new AuraManager();
 		petManager = new PetManager();
 		runEnergy = 100;
+		this.spins = 0;
 		allowChatEffects = true;
 		mouseButtons = true;
 		pouches = new int[4];
@@ -264,6 +268,7 @@ public class Player extends Entity {
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
 		actionManager = new ActionManager(this);
+		sof = new SquealOfFortune(this);
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -321,6 +326,18 @@ public class Player extends Entity {
 		appearence.getAppeareanceBlocks();
 	}
 
+	public SquealOfFortune getSquealOfFortune() {
+		return sof;
+	}
+
+	public void setSpins(int spins) {
+		this.spins = spins;
+	}
+
+	public int getSpins() {
+		return this.spins;
+	}
+
 	public boolean hasSkull() {
 		return skullDelay > 0;
 	}
@@ -336,7 +353,7 @@ public class Player extends Entity {
 				continue;
 			for (FloorItem item : floorItems) {
 				if ((item.isInvisible() || item.isGrave()) && this != item.getOwner()
-						|| item.getTile().getPlane() != getPlane())
+						|| item.getTile().getHeight() != getHeight())
 					continue;
 				getPackets().sendRemoveGroundItem(item);
 			}
@@ -347,7 +364,7 @@ public class Player extends Entity {
 				continue;
 			for (FloorItem item : floorItems) {
 				if ((item.isInvisible() || item.isGrave()) && this != item.getOwner()
-						|| item.getTile().getPlane() != getPlane())
+						|| item.getTile().getHeight() != getHeight())
 					continue;
 				getPackets().sendGroundItem(item);
 			}
@@ -359,13 +376,13 @@ public class Player extends Entity {
 			List<WorldObject> spawnedObjects = World.getRegion(regionId).getSpawnedObjects();
 			if (spawnedObjects != null) {
 				for (WorldObject object : spawnedObjects)
-					if (object.getPlane() == getPlane())
+					if (object.getHeight() == getHeight())
 						getPackets().sendSpawnedObject(object);
 			}
 			List<WorldObject> removedObjects = World.getRegion(regionId).getRemovedObjects();
 			if (removedObjects != null) {
 				for (WorldObject object : removedObjects)
-					if (object.getPlane() == getPlane())
+					if (object.getHeight() == getHeight())
 						getPackets().sendDestroyObject(object);
 			}
 		}
@@ -376,8 +393,29 @@ public class Player extends Entity {
 		loadMapRegions();
 		started = true;
 		run();
+
+		startUpPlayerFurther();
+
 		if (isDead())
 			sendDeath(null);
+	}
+
+	/**
+	 * Update appearence so you dont start off blank
+	 * Create a spin count in extras interface.
+	 * Add other startup lines to this.
+	 */
+	public void startUpPlayerFurther() {
+		appearence.generateAppearenceData();
+
+		//Update spins number
+		final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(3);
+		executor.schedule(new Runnable() {
+			@Override
+			public void run() {
+				getPackets().sendIComponentText(1139, 6, Integer.toString(getSpins()));
+			}
+		}, 5, TimeUnit.SECONDS);
 	}
 
 	public void stopAll() {
@@ -1519,39 +1557,39 @@ public class Player extends Entity {
 					@Override
 					protected void execute() {
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY(), target.getPlane()));
+								new WorldTile(target.getX() - 1, target.getY(), target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY(), target.getPlane()));
+								new WorldTile(target.getX() + 1, target.getY(), target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX(), target.getY() - 1, target.getPlane()));
+								new WorldTile(target.getX(), target.getY() - 1, target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX(), target.getY() + 1, target.getPlane()));
+								new WorldTile(target.getX(), target.getY() + 1, target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY() - 1, target.getPlane()));
+								new WorldTile(target.getX() - 1, target.getY() - 1, target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY() + 1, target.getPlane()));
+								new WorldTile(target.getX() - 1, target.getY() + 1, target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY() - 1, target.getPlane()));
+								new WorldTile(target.getX() + 1, target.getY() - 1, target.getHeight()));
 						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY() + 1, target.getPlane()));
+								new WorldTile(target.getX() + 1, target.getY() + 1, target.getHeight()));
 						this.cancel();
 					}
 				});
 			} else if (prayer.usingPrayer(1, 17)) {
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30,
+				World.sendProjectile(this, new WorldTile(getX() + 2, getY() + 2, getHeight()), 2260, 24, 0, 41, 35, 30,
 						0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30,
-						0);
-
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30,
-						0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30,
+				World.sendProjectile(this, new WorldTile(getX() + 2, getY(), getHeight()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, new WorldTile(getX() + 2, getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30,
 						0);
 
-				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, new WorldTile(getX() - 2, getY() + 2, getHeight()), 2260, 41, 0, 41, 35, 30,
+						0);
+				World.sendProjectile(this, new WorldTile(getX() - 2, getY(), getHeight()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, new WorldTile(getX() - 2, getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30,
+						0);
+
+				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getHeight()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30, 0);
 				final Player target = this;
 				World.get().submit(new Task(0) {
 					@Override
@@ -1598,28 +1636,28 @@ public class Player extends Entity {
 						}
 
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 2, getY() + 2, getPlane()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() + 2, getY(), getPlane()));
+								new WorldTile(getX() + 2, getY() + 2, getHeight()));
+						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() + 2, getY(), getHeight()));
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 2, getY() - 2, getPlane()));
+								new WorldTile(getX() + 2, getY() - 2, getHeight()));
 
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 2, getY() + 2, getPlane()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() - 2, getY(), getPlane()));
+								new WorldTile(getX() - 2, getY() + 2, getHeight()));
+						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() - 2, getY(), getHeight()));
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 2, getY() - 2, getPlane()));
+								new WorldTile(getX() - 2, getY() - 2, getHeight()));
 
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() + 2, getPlane()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() - 2, getPlane()));
+						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() + 2, getHeight()));
+						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() - 2, getHeight()));
 
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 1, getY() + 1, getPlane()));
+								new WorldTile(getX() + 1, getY() + 1, getHeight()));
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 1, getY() - 1, getPlane()));
+								new WorldTile(getX() + 1, getY() - 1, getHeight()));
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 1, getY() + 1, getPlane()));
+								new WorldTile(getX() - 1, getY() + 1, getHeight()));
 						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 1, getY() - 1, getPlane()));
+								new WorldTile(getX() - 1, getY() - 1, getHeight()));
 
 					}
 				});

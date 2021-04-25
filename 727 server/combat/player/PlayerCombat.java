@@ -1524,7 +1524,7 @@ public class PlayerCombat extends Action {
 				player.getEquipment().removeAmmo(weaponId, quantity);
 				World.updateGroundItem(new Item(weaponId, quantity),
 						new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()),
-								target.getPlane()),
+								target.getHeight()),
 						player);
 			}
 		} else {
@@ -1540,7 +1540,7 @@ public class PlayerCombat extends Action {
 			if (ammoId != -1) {
 				player.getEquipment().removeAmmo(ammoId, quantity);
 				World.updateGroundItem(new Item(ammoId, quantity), new WorldTile(target.getCoordFaceX(target.getSize()),
-						target.getCoordFaceY(target.getSize()), target.getPlane()), player);
+						target.getCoordFaceY(target.getSize()), target.getHeight()), player);
 			}
 		}
 	}
@@ -2888,7 +2888,7 @@ public class PlayerCombat extends Action {
 		int distanceY = player.getY() - target.getY();
 		int size = target.getSize();
 		int maxDistance = 16;
-		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance
+		if (player.getHeight() != target.getHeight() || distanceX > size + maxDistance || distanceX < -1 - maxDistance
 				|| distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
 			return false;
 		}

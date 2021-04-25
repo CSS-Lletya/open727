@@ -212,7 +212,7 @@ public class NexCombat extends CombatScript {
 						String key = t.getX() + "_" + t.getY();
 						if (!tiles.containsKey(t.getX() + "_" + t.getY())) {
 							tiles.put(key, new int[] { t.getX(), t.getY() });
-							World.spawnTemporaryObject(new WorldObject(57261, 10, 0, t.getX(), t.getY(), 0), 2400);
+							World.spawnTemporaryObject(new WorldObject(57261, (short) 10, (short) 0, (short)t.getX(), (short) t.getY(), 0), 2400);
 						}
 					}
 					WorldTasksManager.schedule(new WorldTask() {
@@ -310,8 +310,8 @@ public class NexCombat extends CombatScript {
 						int[][] dirs = Utils.getCoordOffsetsNear(bloodReaverSize);
 						for (int dir = 0; dir < dirs[0].length; dir++) {
 							final WorldTile tile = new WorldTile(new WorldTile(target.getX() + dirs[0][dir],
-									target.getY() + dirs[1][dir], target.getPlane()));
-							if (World.canMoveNPC(tile.getPlane(), tile.getX(), tile.getY(), bloodReaverSize)) { // if found
+									target.getY() + dirs[1][dir], target.getHeight()));
+							if (World.canMoveNPC(tile.getHeight(), tile.getX(), tile.getY(), bloodReaverSize)) { // if found
 																												// done
 								nex.getBloodReavers()[respawnedBloodReaverCount++] = new NPC(13458, tile, -1, true,
 										true);

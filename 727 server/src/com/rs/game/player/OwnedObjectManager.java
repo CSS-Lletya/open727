@@ -36,7 +36,7 @@ public class OwnedObjectManager {
 				continue;
 			}
 			if (manager.getCurrentObject().getX() == object.getX() && manager.getCurrentObject().getY() == object.getY()
-					&& manager.getCurrentObject().getPlane() == object.getPlane()
+					&& manager.getCurrentObject().getHeight() == object.getHeight()
 					&& manager.getCurrentObject().getId() == object.getId())
 				return true;
 		}
@@ -53,7 +53,7 @@ public class OwnedObjectManager {
 		for (OwnedObjectManager manager : ownedObjects.values()) {
 			if (manager.getCurrentObject().getX() == toObject.getX()
 					&& manager.getCurrentObject().getY() == toObject.getY()
-					&& manager.getCurrentObject().getPlane() == toObject.getPlane()
+					&& manager.getCurrentObject().getHeight() == toObject.getHeight()
 					&& manager.getCurrentObject().getId() == object.getId()) {
 				if (event != null && !event.canConvert(manager.player))
 					return false;
@@ -72,7 +72,7 @@ public class OwnedObjectManager {
 				continue;
 			}
 			if (manager.getCurrentObject().getX() == object.getX() && manager.getCurrentObject().getY() == object.getY()
-					&& manager.getCurrentObject().getPlane() == object.getPlane()
+					&& manager.getCurrentObject().getHeight() == object.getHeight()
 					&& manager.getCurrentObject().getId() == object.getId()) {
 				World.get().submit(new Task(0, true) {
 					@Override

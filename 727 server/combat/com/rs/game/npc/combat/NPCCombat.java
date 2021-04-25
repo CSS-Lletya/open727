@@ -108,7 +108,7 @@ public final class NPCCombat {
 		if (target == null)
 			return false;
 		if (npc.isDead() || npc.hasFinished() || npc.isForceWalking() || target.isDead() || target.hasFinished()
-				|| npc.getPlane() != target.getPlane())
+				|| npc.getHeight() != target.getHeight())
 			return false;
 		if (npc.getFreezeDelay() >= Utils.currentTimeMillis())
 			return true; // if freeze cant move ofc
@@ -204,8 +204,8 @@ public final class NPCCombat {
 						int[][] dirs = Utils.getCoordOffsetsNear(size);
 						for (int dir = 0; dir < dirs[0].length; dir++) {
 							final WorldTile tile = new WorldTile(new WorldTile(target.getX() + dirs[0][dir],
-									target.getY() + dirs[1][dir], target.getPlane()));
-							if (World.canMoveNPC(tile.getPlane(), tile.getX(), tile.getY(), size)) { // if found done
+									target.getY() + dirs[1][dir], target.getHeight()));
+							if (World.canMoveNPC(tile.getHeight(), tile.getX(), tile.getY(), size)) { // if found done
 								nex.setFlyTime(4);
 								npc.setNextForceMovement(new ForceMovement(new WorldTile(npc), 0, tile, 1,
 										Utils.getMoveDirection(tile.getX() - npc.getX(), tile.getY() - npc.getY())));

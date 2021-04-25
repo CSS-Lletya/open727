@@ -16,7 +16,7 @@ public class CorpBeastControler extends Controler {
 		if (object.getId() == 37929 || object.getId() == 38811) {
 			removeControler();
 			player.stopAll();
-			player.setNextWorldTile(new WorldTile(2970, 4384, player.getPlane()));
+			player.setNextWorldTile(new WorldTile(2970, 4384, player.getHeight()));
 			return false;
 		}
 		return true;

@@ -26,7 +26,7 @@ public class DynamicRegion extends Region {
 	public void removeMapObject(WorldObject object, int x, int y) {
 		if (removedMap == null)
 			removedMap = new RegionMap(getRegionId(), false);
-		int plane = object.getPlane();
+		int plane = object.getHeight();
 		int type = object.getType();
 		int rotation = object.getRotation();
 		if (x < 0 || y < 0 || x >= removedMap.getMasks()[plane].length || y >= removedMap.getMasks()[plane][x].length)

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.AnimationDefinitions;
@@ -22,9 +21,6 @@ import skills.Skills;
 import skills.magic.Magic;
 
 public abstract class Entity extends WorldTile {
-
-	private static final long serialVersionUID = -3372926325008880753L;
-	private final static AtomicInteger hashCodeGenerator = new AtomicInteger();
 
 	// transient stuff
 	private transient int index;
@@ -71,7 +67,6 @@ public abstract class Entity extends WorldTile {
 	private transient long frozenBlocked;
 	private transient long findTargetDelay;
 	private transient ConcurrentHashMap<Object, Object> temporaryAttributes;
-	private transient int hashCode;
 
 	// saving stuff
 	private int hitpoints;
@@ -85,18 +80,12 @@ public abstract class Entity extends WorldTile {
 		super(tile);
 		poison = new Poison();
 	}
-
-	@Override
-	public int hashCode() {
-		return hashCode;
-	}
-
+	
 	public boolean inArea(int a, int b, int c, int d) {
 		return getX() >= a && getY() >= b && getX() <= c && getY() <= d;
 	}
 
 	public final void initEntity() {
-		hashCode = hashCodeGenerator.getAndIncrement();
 		mapRegionsIds = new CopyOnWriteArrayList<Integer>();
 		walkSteps = new ConcurrentLinkedQueue<Object[]>();
 		receivedHits = new ConcurrentLinkedQueue<Hit>();
@@ -300,7 +289,7 @@ public abstract class Entity extends WorldTile {
 		}
 		nextWalkDirection = nextRunDirection = -1;
 		if (nextWorldTile != null) {
-			int lastPlane = getPlane();
+			int lastPlane = getHeight();
 			setLocation(nextWorldTile);
 			nextWorldTile = null;
 			teleported = true;
@@ -309,7 +298,7 @@ public abstract class Entity extends WorldTile {
 			World.updateEntityRegion(this);
 			if (needMapUpdate())
 				loadMapRegions();
-			else if (this instanceof Player && lastPlane != getPlane())
+			else if (this instanceof Player && lastPlane != getHeight())
 				((Player) this).setClientHasntLoadedMapRegion();
 			resetWalkSteps();
 			return;
@@ -335,7 +324,7 @@ public abstract class Entity extends WorldTile {
 				break;
 			}
 			int dir = (int) nextStep[0];
-			if (((boolean) nextStep[3] && !World.checkWalkStep(getPlane(), getX(), getY(), dir, getSize())) || (this instanceof Player && !((Player) this).getControlerManager().canMove(dir))) {
+			if (((boolean) nextStep[3] && !World.checkWalkStep(getHeight(), getX(), getY(), dir, getSize())) || (this instanceof Player && !((Player) this).getControlerManager().canMove(dir))) {
 				resetWalkSteps();
 				break;
 			}
@@ -510,9 +499,9 @@ public abstract class Entity extends WorldTile {
 			if (dir == -1)
 				return false;
 			if (checkClose) {
-				if (!World.checkWalkStep(getPlane(), lastTileX, lastTileY, dir, size))
+				if (!World.checkWalkStep(getHeight(), lastTileX, lastTileY, dir, size))
 					return false;
-			} else if (!World.checkProjectileStep(getPlane(), lastTileX, lastTileY, dir, size))
+			} else if (!World.checkProjectileStep(getHeight(), lastTileX, lastTileY, dir, size))
 				return false;
 			lastTileX = myX;
 			lastTileY = myY;
@@ -545,7 +534,7 @@ public abstract class Entity extends WorldTile {
 			if (npcIndexes != null) {
 				for (int npcIndex : npcIndexes) {
 					NPC target = World.getNPCs().get(npcIndex);
-					if (target == null || target == this || target.isDead() || target.hasFinished() || target.getPlane() != getPlane() || !target.isAtMultiArea() || (!(this instanceof Familiar) && target instanceof Familiar))
+					if (target == null || target == this || target.isDead() || target.hasFinished() || target.getHeight() != getHeight() || !target.isAtMultiArea() || (!(this instanceof Familiar) && target instanceof Familiar))
 						continue;
 					int targetSize = target.getSize();
 					if (!checkUnder && target.getNextWalkDirection() == -1) { // means the walk hasnt been processed yet
@@ -726,7 +715,7 @@ public abstract class Entity extends WorldTile {
 		if (dir == -1)
 			return false;
 
-		if (check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize())) {
+		if (check && !World.checkWalkStep(getHeight(), lastX, lastY, dir, getSize())) {
 			return false;
 		}
 		return true;
@@ -737,7 +726,7 @@ public abstract class Entity extends WorldTile {
 		int dir = Utils.getMoveDirection(nextX - lastX, nextY - lastY);
 		if (dir == -1)
 			return false;
-		if (check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize()))// double check must be done sadly cuz of npc
+		if (check && !World.checkWalkStep(getHeight(), lastX, lastY, dir, getSize()))// double check must be done sadly cuz of npc
 																					// under check, can be improved later to
 																					// only check when we want
 			return false;
@@ -1112,12 +1101,12 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public void faceEntity(Entity target) {
-		setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
+		setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getHeight()));
 	}
 
 	public void faceObject(WorldObject object) {
 		ObjectDefinitions objectDef = object.getDefinitions();
-		setNextFaceWorldTile(new WorldTile(object.getCoordFaceX(objectDef.getSizeX(), objectDef.getSizeY(), object.getRotation()), object.getCoordFaceY(objectDef.getSizeX(), objectDef.getSizeY(), object.getRotation()), object.getPlane()));
+		setNextFaceWorldTile(new WorldTile(object.getCoordFaceX(objectDef.getSizeX(), objectDef.getSizeY(), object.getRotation()), object.getCoordFaceY(objectDef.getSizeX(), objectDef.getSizeY(), object.getRotation()), object.getHeight()));
 	}
 
 	public long getLastAnimationEnd() {

@@ -99,7 +99,7 @@ public class CorporealBeastCombat extends CombatScript {
 				public void run() {
 					for (int i = 0; i < 6; i++) {
 						final WorldTile newTile = new WorldTile(tile, 3);
-						if (!World.canMoveNPC(newTile.getPlane(), newTile.getX(), newTile.getY(), 1))
+						if (!World.canMoveNPC(newTile.getHeight(), newTile.getX(), newTile.getY(), 1))
 							continue;
 						World.sendProjectile(npc, tile, newTile, 1824, 0, 0, 25, 0, 30, 0);
 						for (Entity t : possibleTargets) {

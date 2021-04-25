@@ -79,7 +79,7 @@ public class ObjectSpawnLoader extends GsonLoader<ObjectSpawnLoader.ObjectSpawn>
 			return;
 		}
 		for (ObjectSpawn spawn : spawns) {
-			World.spawnObject(new WorldObject(spawn.getId(), spawn.getType(), spawn.getRotation(), spawn.getX(), spawn.getY(), spawn.getPlane()), true);
+			World.spawnObject(new WorldObject(spawn.getId(), (short) spawn.getType(), (short) spawn.getRotation(), spawn.getX(), spawn.getY(), spawn.getPlane()), true);
 		}
 	}
 

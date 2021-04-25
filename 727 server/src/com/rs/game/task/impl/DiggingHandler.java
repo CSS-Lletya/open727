@@ -7,12 +7,13 @@ import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
 /**
- * Holds functionality which will execute after the player attempts to dig.
- * @author <a href="http://www.rune-server.org/members/stand+up/">Stand Up</a>
- * 
- * BROKEN
+ * Handles Player digging Task handling
+ * Rest of the event responses should be handled
+ * in the specified class (Exmaple Barrows class).
+ * @author Dennis
+ *
  */
-public final class DiggingHandler extends Task {
+public class DiggingHandler extends Task {
 	
 	/**
 	 * The player whom is digging.
@@ -23,6 +24,11 @@ public final class DiggingHandler extends Task {
 	 * The destination after digging.
 	 */
 	private final Consumer<Player> action;
+
+	/**
+	 * A Simple seconds counter object;
+	 */
+	private byte counter;
 	
 	/**
 	 * Constructs a new {@link DiggingHandler}.
@@ -30,25 +36,23 @@ public final class DiggingHandler extends Task {
 	 * @param action {@link #action}.
 	 */
 	public DiggingHandler(Player player, Consumer<Player> action) {
-		super(1, false);
+		super(2, false);
 		this.player = player;
 		this.action = action;
 	}
 	
 	@Override
-	public void onSubmit() {
-		player.setNextAnimation(new Animation(831));
-	}
-	
-	@Override
 	public void execute() {
-		cancel();
-		player.setNextAnimation(null);
+		counter++;
+		player.setNextAnimation(new Animation(831));
+		if (counter == getDelay()) {
+			player.setNextAnimation(new Animation(Animation.RESET_ANIMATION));
+			this.cancel();
+		}
 	}
 	
 	@Override
 	public void onCancel() {
 		action.accept(player);
 	}
-	
 }

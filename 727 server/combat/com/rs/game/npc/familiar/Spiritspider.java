@@ -58,7 +58,7 @@ public class Spiritspider extends Familiar {
 		// attemps to randomize tile by 4x4 area
 		for (int trycount = 0; trycount < Utils.getRandom(10); trycount++) {
 			tile = new WorldTile(this, 2);
-			if (World.canMoveNPC(this.getPlane(), tile.getX(), tile.getY(), player.getSize()))
+			if (World.canMoveNPC(this.getHeight(), tile.getX(), tile.getY(), player.getSize()))
 				return true;
 			for (Entity entity : this.getPossibleTargets()) {
 				if (entity instanceof Player) {

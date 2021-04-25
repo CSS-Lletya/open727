@@ -131,7 +131,7 @@ public final class ObjectDispatcher {
 //		int y = stream.readUnsignedShortLE128();
 		int y = stream.readUnsignedShort();
 		int x = stream.readUnsignedShort();
-		final int id = stream.readInt();
+		final short id = (short) stream.readInt();
 		boolean forceRun = stream.readUnsignedByte128() == 1;
 		
 		if (Settings.DEBUG)
@@ -139,7 +139,7 @@ public final class ObjectDispatcher {
 		
 		int rotation = 0;
 		if (player.isAtDynamicRegion()) {
-			rotation = World.getRotation(player.getPlane(), x, y);
+			rotation = World.getRotation(player.getHeight(), x, y);
 			if (rotation == 1) {
 				ObjectDefinitions defs = ObjectDefinitions.getObjectDefinitions(id);
 				y += defs.getSizeY() - 1;
@@ -148,19 +148,19 @@ public final class ObjectDispatcher {
 				x += defs.getSizeY() - 1;
 			}
 		}
-		final WorldTile tile = new WorldTile(x, y, player.getPlane());
+		final WorldTile tile = new WorldTile(x, y, player.getHeight());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;
 		WorldObject mapObject = World.getRegion(regionId).getObject(id, tile);
 		if (mapObject == null || mapObject.getId() != id)
 			return;
-		if (player.isAtDynamicRegion() && World.getRotation(player.getPlane(), x, y) != 0) { // temp fix
+		if (player.isAtDynamicRegion() && World.getRotation(player.getHeight(), x, y) != 0) { // temp fix
 			ObjectDefinitions defs = ObjectDefinitions.getObjectDefinitions(id);
 			if (defs.getSizeX() > 1 || defs.getSizeY() > 1) {
 				for (int xs = 0; xs < defs.getSizeX() + 1 && (mapObject == null || mapObject.getId() != id); xs++) {
 					for (int ys = 0; ys < defs.getSizeY() + 1 && (mapObject == null || mapObject.getId() != id); ys++) {
-						tile.setLocation(x + xs, y + ys, tile.getPlane());
+						tile.setLocation(x + xs, y + ys, tile.getHeight());
 						mapObject = World.getRegion(regionId).getObject(id, tile);
 					}
 				}
@@ -169,8 +169,8 @@ public final class ObjectDispatcher {
 				return;
 		}
 		final WorldObject object = !player.isAtDynamicRegion() ? mapObject
-				: new WorldObject(id, mapObject.getType(), (mapObject.getRotation() + rotation % 4), x, y,
-						player.getPlane());
+				: new WorldObject(id, mapObject.getType(), (byte) (mapObject.getRotation() + rotation % 4), x, y,
+						player.getHeight());
 		player.stopAll(false);
 		if (forceRun)
 			player.setRun(forceRun);
@@ -201,7 +201,7 @@ public final class ObjectDispatcher {
 
 				Logger.log("ObjectHandler",
 						"examined object id : " + object.getId() + ", " + object.getX() + ", " + object.getY() + ", "
-								+ object.getPlane() + ", " + object.getType() + ", " + object.getRotation() + ", "
+								+ object.getHeight() + ", " + object.getType() + ", " + object.getRotation() + ", "
 								+ object.getDefinitions().name);
 	}
 	

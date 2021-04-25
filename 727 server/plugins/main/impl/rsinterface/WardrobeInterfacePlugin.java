@@ -1,8 +1,7 @@
 package main.impl.rsinterface;
 
-import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.task.Task;
+
 import main.impl.commands.PlayerDesign;
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;

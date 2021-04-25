@@ -25,7 +25,7 @@ public final class Launcher {
 			return;
 		}
 		Settings.HOSTED = Boolean.parseBoolean(args[2]);
-		Settings.DEBUG = Boolean.parseBoolean(args[1]);
+		Settings.DEBUG = true;//Boolean.parseBoolean(args[1]);
 		long currentTime = Utils.currentTimeMillis();
 		if (Settings.discordRelay) {
 			bot = new DiscordBot();

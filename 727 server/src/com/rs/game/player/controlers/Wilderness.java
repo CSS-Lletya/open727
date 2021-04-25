@@ -160,7 +160,7 @@ public class Wilderness extends Controler {
 			final WorldTile toTile = new WorldTile(
 					object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(),
 					object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(),
-					object.getPlane());
+					object.getHeight());
 
 			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2,
 					object.getRotation() == 0 || object.getRotation() == 2 ? ForceMovement.SOUTH : ForceMovement.EAST));

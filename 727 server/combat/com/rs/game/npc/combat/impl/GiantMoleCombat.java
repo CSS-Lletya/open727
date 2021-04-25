@@ -45,21 +45,21 @@ public class GiantMoleCombat extends CombatScript {
 						return;
 					World.sendGraphics(npc, new Graphics(572), middle);
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX(), middle.getY() - 1, middle.getPlane()));
+							new WorldTile(middle.getX(), middle.getY() - 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX(), middle.getY() + 1, middle.getPlane()));
+							new WorldTile(middle.getX(), middle.getY() + 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() - 1, middle.getY() - 1, middle.getPlane()));
+							new WorldTile(middle.getX() - 1, middle.getY() - 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() - 1, middle.getY() + 1, middle.getPlane()));
+							new WorldTile(middle.getX() - 1, middle.getY() + 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() + 1, middle.getY() - 1, middle.getPlane()));
+							new WorldTile(middle.getX() + 1, middle.getY() - 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() + 1, middle.getY() + 1, middle.getPlane()));
+							new WorldTile(middle.getX() + 1, middle.getY() + 1, middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() - 1, middle.getY(), middle.getPlane()));
+							new WorldTile(middle.getX() - 1, middle.getY(), middle.getHeight()));
 					World.sendGraphics(npc, new Graphics(571),
-							new WorldTile(middle.getX() + 1, middle.getY(), middle.getPlane()));
+							new WorldTile(middle.getX() + 1, middle.getY(), middle.getHeight()));
 					npc.setNextWorldTile(new WorldTile(COORDS[Utils.random(COORDS.length)]));
 					npc.setNextAnimation(new Animation(3315));
 

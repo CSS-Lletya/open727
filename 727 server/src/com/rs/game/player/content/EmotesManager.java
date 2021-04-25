@@ -448,14 +448,14 @@ public final class EmotesManager implements Serializable {
 					}
 					int size = NPCDefinitions.getNPCDefinitions(1224).size;
 					WorldTile spawnTile = new WorldTile(
-							new WorldTile(player.getX() + 1, player.getY(), player.getPlane()));
-					if (!World.canMoveNPC(spawnTile.getPlane(), spawnTile.getX(), spawnTile.getY(), size)) {
+							new WorldTile(player.getX() + 1, player.getY(), player.getHeight()));
+					if (!World.canMoveNPC(spawnTile.getHeight(), spawnTile.getX(), spawnTile.getY(), size)) {
 						spawnTile = null;
 						int[][] dirs = Utils.getCoordOffsetsNear(size);
 						for (int dir = 0; dir < dirs[0].length; dir++) {
 							final WorldTile tile = new WorldTile(new WorldTile(player.getX() + dirs[0][dir],
-									player.getY() + dirs[1][dir], player.getPlane()));
-							if (World.canMoveNPC(tile.getPlane(), tile.getX(), tile.getY(), size)) {
+									player.getY() + dirs[1][dir], player.getHeight()));
+							if (World.canMoveNPC(tile.getHeight(), tile.getX(), tile.getY(), size)) {
 								spawnTile = tile;
 								break;
 							}
@@ -511,7 +511,7 @@ public final class EmotesManager implements Serializable {
 					break;
 				case 20769:
 				case 20771: // Compl cape
-					if (!World.canMoveNPC(player.getPlane(), player.getX(), player.getY(), 3)) {
+					if (!World.canMoveNPC(player.getHeight(), player.getX(), player.getY(), 3)) {
 						player.getPackets().sendGameMessage("Need more space to perform this skillcape emote.");
 						return;
 					} else if (player.getControlerManager().getControler() != null) {

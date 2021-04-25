@@ -118,21 +118,21 @@ public final class Nex extends NPC {
 						if (entity == null || entity.isDead() || entity.hasFinished()
 								|| !entity.withinDistance(target, 10))
 							continue;
-						World.sendProjectile(target, new WorldTile(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41,
+						World.sendProjectile(target, new WorldTile(getX() + 2, getY() + 2, getHeight()), 2260, 24, 0, 41,
 								35, 30, 0);
-						World.sendProjectile(target, new WorldTile(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35,
+						World.sendProjectile(target, new WorldTile(getX() + 2, getY(), getHeight()), 2260, 41, 0, 41, 35,
 								30, 0);
-						World.sendProjectile(target, new WorldTile(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41,
+						World.sendProjectile(target, new WorldTile(getX() + 2, getY() - 2, getHeight()), 2260, 41, 0, 41,
 								35, 30, 0);
-						World.sendProjectile(target, new WorldTile(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41,
+						World.sendProjectile(target, new WorldTile(getX() - 2, getY() + 2, getHeight()), 2260, 41, 0, 41,
 								35, 30, 0);
-						World.sendProjectile(target, new WorldTile(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35,
+						World.sendProjectile(target, new WorldTile(getX() - 2, getY(), getHeight()), 2260, 41, 0, 41, 35,
 								30, 0);
-						World.sendProjectile(target, new WorldTile(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41,
+						World.sendProjectile(target, new WorldTile(getX() - 2, getY() - 2, getHeight()), 2260, 41, 0, 41,
 								35, 30, 0);
-						World.sendProjectile(target, new WorldTile(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35,
+						World.sendProjectile(target, new WorldTile(getX(), getY() + 2, getHeight()), 2260, 41, 0, 41, 35,
 								30, 0);
-						World.sendProjectile(target, new WorldTile(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35,
+						World.sendProjectile(target, new WorldTile(getX(), getY() - 2, getHeight()), 2260, 41, 0, 41, 35,
 								30, 0);
 						entity.applyHit(new Hit(target, Utils.getRandom(600), HitLook.REGULAR_DAMAGE));
 					}

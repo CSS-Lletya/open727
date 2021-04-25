@@ -355,7 +355,7 @@ public class WorldPacketsEncoder extends Encoder {
 		OutputStream stream = new OutputStream(4);
 		stream.writePacket(player, 41);
 		stream.writeByte128(tile.getLocalY(player.getLastLoadedMapRegionTile(), player.getMapSize()) >> 3);
-		stream.writeByte128(tile.getPlane());
+		stream.writeByte128(tile.getHeight());
 		stream.writeByte128(tile.getLocalX(player.getLastLoadedMapRegionTile(), player.getMapSize()) >> 3);
 		return stream;
 	}
@@ -765,7 +765,7 @@ public class WorldPacketsEncoder extends Encoder {
 			hash = n.getIndex() & 0xffff | 1 << 29;
 		} else {
 			WorldTile tile = (WorldTile) target;
-			hash = tile.getPlane() << 28 | tile.getX() << 14 | tile.getY() & 0x3fff | 1 << 30;
+			hash = tile.getHeight() << 28 | tile.getX() << 14 | tile.getY() & 0x3fff | 1 << 30;
 		}
 		stream.writePacket(player, 126);
 		stream.writeByteC(0);
@@ -1277,7 +1277,7 @@ public class WorldPacketsEncoder extends Encoder {
 		stream.writeIntLE(xteas[2]);
 		stream.writeIntV1(object.getId());
 		stream.writeByte128((object.getType() << 2) | (object.getRotation() & 0x3));
-		stream.writeInt((object.getPlane() << 28) | (object.getX() << 14) | object.getY()); // the
+		stream.writeInt((object.getHeight() << 28) | (object.getX() << 14) | object.getY()); // the
 		stream.writeIntV2((windowId << 16) | windowComponentId);
 		stream.writeShort(interfaceId);
 		stream.writeInt(xteas[3]);

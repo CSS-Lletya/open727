@@ -35,6 +35,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 	
 	@SuppressWarnings("unused")
 	public static boolean sendWear(Player player, int slotId, int itemId) {
+
 		if (player.hasFinished() || player.isDead())
 			return false;
 		player.stopAll(false, false);

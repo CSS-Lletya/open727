@@ -114,7 +114,7 @@ public final class LocalNPCUpdate {
 				stream.writeBits(15, n.getId());
 				stream.writeBits(largeSceneView ? 8 : 5, x);
 				stream.writeBits(1, n.hasTeleported() ? 1 : 0);
-				stream.writeBits(2, n.getPlane());
+				stream.writeBits(2, n.getHeight());
 				localNPCs.add(n);
 				if (needUpdate)
 					appendUpdateBlock(n, updateBlockData, true);

@@ -187,7 +187,7 @@ public final class QueenBlackDragon extends NPC {
 		this.attacker = attacker;
 		this.nextAttack = 40;
 		setHitpoints(getMaxHitpoints());
-		activeArtifact = new WorldObject(70776, 10, 0, base.transform(33, 31, 0));
+		activeArtifact = new WorldObject(70776, (short) 10, (short) 0, base.transform(33, 31, 0));
 		this.setPhase(1);
 	}
 
@@ -216,30 +216,30 @@ public final class QueenBlackDragon extends NPC {
 		switch (phase) {
 		case 1:
 			attacker.getPackets().sendGlobalConfig(1924, 1);
-			activeArtifact = new WorldObject(70777, 10, 0, base.transform(33, 31, 0));
+			activeArtifact = new WorldObject(70777, (short) 10, (short) 0, base.transform(33, 31, 0));
 			attacker.getPackets().sendGameMessage(
 					"The Queen Black Dragon's concentration wavers; the first artefact is now unguarded.");
 			break;
 		case 2:
 			attacker.getPackets().sendGlobalConfig(1924, 3);
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70844, 10, 0, base.transform(24, 21, -1)));
-			activeArtifact = new WorldObject(70780, 10, 0, base.transform(24, 21, 0));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70844, (short) 10, (short) 0, base.transform(24, 21, -1)));
+			activeArtifact = new WorldObject(70780, (short) 10, (short) 0, base.transform(24, 21, 0));
 			attacker.getPackets()
 					.sendGameMessage("The Queen Black Dragon's concentration wavers; the second artefact is now");
 			attacker.getPackets().sendGameMessage("unguarded.");
 			break;
 		case 3:
 			attacker.getPackets().sendGlobalConfig(1924, 5);
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70846, 10, 0, base.transform(24, 21, -1)));
-			activeArtifact = new WorldObject(70783, 10, 0, base.transform(42, 21, 0));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70846, (short) 10, (short) 0, base.transform(24, 21, -1)));
+			activeArtifact = new WorldObject(70783, (short) 10, (short) 0, base.transform(42, 21, 0));
 			attacker.getPackets()
 					.sendGameMessage("The Queen Black Dragon's concentration wavers; the third artefact is now");
 			attacker.getPackets().sendGameMessage("unguarded.");
 			break;
 		case 4:
 			attacker.getPackets().sendGlobalConfig(1924, 7);
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70848, 10, 0, base.transform(24, 21, -1)));
-			activeArtifact = new WorldObject(70786, 10, 0, base.transform(33, 21, 0));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70848, (short) 10, (short) 0, base.transform(24, 21, -1)));
+			activeArtifact = new WorldObject(70786, (short) 10, (short) 0, base.transform(33, 21, 0));
 			attacker.getPackets().sendGameMessage(
 					"The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.");
 			break;
@@ -269,9 +269,9 @@ public final class QueenBlackDragon extends NPC {
 			switchState(QueenState.DEFAULT);
 			switchState(QueenState.SLEEPING);
 			super.setNextAnimation(SLEEP_ANIMATION);
-			World.removeObject(new WorldObject(70778, 10, 0, base.transform(33, 31, 0)), true);
-			World.spawnObject(new WorldObject(70790, 10, 0, base.transform(31, 29, 0)), true);
-			World.spawnObject(new WorldObject(70775, 10, 0, base.transform(31, 29, -1)), true);
+			World.removeObject(new WorldObject(70778, (short) 10, (short) 0, base.transform(33, 31, 0)), true);
+			World.spawnObject(new WorldObject(70790, (short) 10, (short) 0, base.transform(31, 29, 0)), true);
+			World.spawnObject(new WorldObject(70775, (short) 10, (short) 0, base.transform(31, 29, -1)), true);
 		} else if (ticks == -1) {
 			return;
 		}
@@ -374,16 +374,16 @@ public final class QueenBlackDragon extends NPC {
 		super.transformIntoNPC(state.getNpcId());
 		switch (state) {
 		case DEFAULT:
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70822, 10, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70818, 10, 0, base.transform(39, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70822, (short) 10, (short) 0, base.transform(21, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70818, (short) 10, (short) 0, base.transform(39, 35, -1)));
 			break;
 		case HARDEN:
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70824, 10, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70820, 10, 0, base.transform(39, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70824, (short) 10, (short) 0, base.transform(21, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70820, (short) 10, (short) 0, base.transform(39, 35, -1)));
 			break;
 		case CRYSTAL_ARMOUR:
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70823, 10, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70819, 10, 0, base.transform(39, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70823, (short) 10, (short) 0, base.transform(21, 35, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70819, (short) 10, (short) 0, base.transform(39, 35, -1)));
 			break;
 		}
 	}
@@ -395,10 +395,10 @@ public final class QueenBlackDragon extends NPC {
 	public void openRewardChest(boolean replace) {
 		attacker.getInterfaceManager().sendInterface(1284);
 		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
-		attacker.getPackets().sendAccessMask(1284, 7, 0, 10, 0, 1, 2, 3);
+		attacker.getPackets().sendAccessMask(1284, 7, 0, (short) 10, (short) 0, 1, 2, 3);
 		attacker.getPackets().sendItems(100, rewards);
 		if (replace) {
-			World.spawnObject(new WorldObject(70817, 10, 0, base.transform(30, 28, -1)), true);
+			World.spawnObject(new WorldObject(70817, (short) 10, (short) 0, base.transform(30, 28, -1)), true);
 		}
 	}
 
@@ -463,8 +463,8 @@ public final class QueenBlackDragon extends NPC {
 			}
 			ticks = -22;
 			prepareRewards();
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70837, 10, 0, base.transform(22, 24, -1)));
-			attacker.getPackets().sendSpawnedObject(new WorldObject(70840, 10, 0, base.transform(34, 24, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70837, (short) 10, (short) 0, base.transform(22, 24, -1)));
+			attacker.getPackets().sendSpawnedObject(new WorldObject(70840, (short) 10, (short) 0, base.transform(34, 24, -1)));
 			attacker.getPackets().sendGameMessage(
 					"<col=33FFFF>The enchantment is restored! The Queen Black Dragon falls back into her cursed</col>");
 			attacker.getPackets().sendGameMessage("<col=33FFFF>slumber.</col>");
