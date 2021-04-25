@@ -3,11 +3,11 @@ package com.rs.game.npc.kalph;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 
 @SuppressWarnings("serial")
 public class KalphiteQueen extends NPC {
@@ -25,11 +25,10 @@ public class KalphiteQueen extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
@@ -38,15 +37,14 @@ public class KalphiteQueen extends NPC {
 						transformIntoNPC(1160);
 						setNextGraphics(new Graphics(1055));
 						setNextAnimation(new Animation(6270));
-						WorldTasksManager.schedule(new WorldTask() {
-
+						World.get().submit(new Task(5) {
 							@Override
-							public void run() {
+							protected void execute() {
 								reset();
 								setCantInteract(false);
+								this.cancel();
 							}
-
-						}, 5);
+						});
 					} else {
 						drop();
 						reset();
@@ -56,11 +54,10 @@ public class KalphiteQueen extends NPC {
 							setRespawnTask();
 						transformIntoNPC(1158);
 					}
-					stop();
+					this.cancel();
 				}
 				loop++;
 			}
-		}, 0, 1);
+		});
 	}
-
 }

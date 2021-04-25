@@ -1,12 +1,12 @@
 package com.rs.game.npc.others;
 
 import com.rs.game.Animation;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @SuppressWarnings("serial")
@@ -32,10 +32,9 @@ public class FireSpirit extends NPC {
 			return;
 		player.lock();
 		player.setNextAnimation(new Animation(16705));
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(2) {
 			@Override
-			public void run() {
+			protected void execute() {
 				player.unlock();
 				player.getInventory().addItem(new Item(12158, Utils.random(1, 6)));
 				player.getInventory().addItem(new Item(12159, Utils.random(1, 6)));
@@ -44,10 +43,9 @@ public class FireSpirit extends NPC {
 				player.getPackets().sendGameMessage(
 						"The fire spirit gives you a reward to say thank you for freeing it, before disappearing.");
 				finish();
-
+				this.cancel();
 			}
-
-		}, 2);
+		});
 	}
 
 	@Override

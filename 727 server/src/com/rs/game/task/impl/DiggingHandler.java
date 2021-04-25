@@ -13,7 +13,7 @@ import com.rs.game.task.Task;
  * @author Dennis
  *
  */
-public class DiggingHandler extends Task {
+public final class DiggingHandler extends Task {
 	
 	/**
 	 * The player whom is digging.
