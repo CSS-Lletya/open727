@@ -22,8 +22,7 @@ import com.rs.game.npc.qbd.QueenBlackDragon;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.MapAreas;
 import com.rs.utils.Utils;
 
@@ -557,20 +556,20 @@ public class PlayerCombat extends Action {
 				target.getTemporaryAttributtes().put("miasmic_immunity", Boolean.TRUE);
 				target.getTemporaryAttributtes().put("miasmic_effect", Boolean.TRUE);
 				final Entity t = target;
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(20) {
 					@Override
-					public void run() {
+					protected void execute() {
 						t.getTemporaryAttributtes().remove("miasmic_effect");
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(15) {
 							@Override
-							public void run() {
+							protected void execute() {
 								t.getTemporaryAttributtes().remove("miasmic_immunity");
-								stop();
+								this.cancel();
 							}
-						}, 15);
-						stop();
+						});
+						this.cancel();
 					}
-				}, 20);
+				});
 				return 4;
 			case 37: // Miasmic blitz
 				player.setNextAnimation(new Animation(10524));
@@ -588,20 +587,20 @@ public class PlayerCombat extends Action {
 				target.getTemporaryAttributtes().put("miasmic_immunity", Boolean.TRUE);
 				target.getTemporaryAttributtes().put("miasmic_effect", Boolean.TRUE);
 				final Entity t0 = target;
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(60) {
 					@Override
-					public void run() {
+					protected void execute() {
 						t0.getTemporaryAttributtes().remove("miasmic_effect");
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(15) {
 							@Override
-							public void run() {
+							protected void execute() {
 								t0.getTemporaryAttributtes().remove("miasmic_immunity");
-								stop();
+								this.cancel();
 							}
-						}, 15);
-						stop();
+						});
+						this.cancel();
 					}
-				}, 60);
+				});
 				return 4;
 			case 38: // Miasmic burst
 				player.setNextAnimation(new Animation(10516));
@@ -622,20 +621,20 @@ public class PlayerCombat extends Action {
 							target.getTemporaryAttributtes().put("miasmic_immunity", Boolean.TRUE);
 							target.getTemporaryAttributtes().put("miasmic_effect", Boolean.TRUE);
 							final Entity t = target;
-							WorldTasksManager.schedule(new WorldTask() {
+							World.get().submit(new Task(40) {
 								@Override
-								public void run() {
+								protected void execute() {
 									t.getTemporaryAttributtes().remove("miasmic_effect");
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(15) {
 										@Override
-										public void run() {
+										protected void execute() {
 											t.getTemporaryAttributtes().remove("miasmic_immunity");
-											stop();
+											this.cancel();
 										}
-									}, 15);
-									stop();
+									});
+									this.cancel();
 								}
-							}, 40);
+							});
 						}
 						if (!nextTarget) {
 							if (damage == -1) {
@@ -667,20 +666,19 @@ public class PlayerCombat extends Action {
 							target.getTemporaryAttributtes().put("miasmic_immunity", Boolean.TRUE);
 							target.getTemporaryAttributtes().put("miasmic_effect", Boolean.TRUE);
 							final Entity t = target;
-							WorldTasksManager.schedule(new WorldTask() {
+							World.get().submit(new Task(80) {
 								@Override
-								public void run() {
+								protected void execute() {
 									t.getTemporaryAttributtes().remove("miasmic_effect");
-									WorldTasksManager.schedule(new WorldTask() {
-										@Override
-										public void run() {
+									World.get().submit(new Task(15) {
+										protected void execute() {
 											t.getTemporaryAttributtes().remove("miasmic_immunity");
-											stop();
+											this.cancel();
 										}
-									}, 15);
-									stop();
+									});
+									this.cancel();
 								}
-							}, 80);
+							});
 						}
 						if (!nextTarget) {
 							if (damage == -1) {
@@ -1147,12 +1145,12 @@ public class PlayerCombat extends Action {
 						player.setNextAnimation(new Animation(2779));
 						World.sendProjectile(player, target, weaponId == 10034 ? 909 : 908, 41, 16, 31, 35, 16, 0);
 						delayHit(1, weaponId, attackStyle, getRangeHit(player, damage));
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(2) {
 							@Override
-							public void run() {
+							protected void execute() {
 								player.setNextGraphics(new Graphics(2739, 0, 96 << 16));
 							}
-						}, 2);
+						});
 						if (!nextTarget) {
 							if (damage == -1)
 								return false;
@@ -1178,13 +1176,12 @@ public class PlayerCombat extends Action {
 				dropAmmo(player, 2);
 				break;
 			case 15241: // Hand cannon
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task((int) 0.25) {
 					int loop = 0;
-
 					@Override
-					public void run() {
+					protected void execute() {
 						if ((target.isDead() || player.isDead() || loop > 1) && !World.getNPCs().contains(target)) {
-							stop();
+							this.cancel();
 							return;
 						}
 						if (loop == 0) {
@@ -1199,11 +1196,11 @@ public class PlayerCombat extends Action {
 							World.sendProjectile(player, target, 2143, 18, 18, 50, 50, 0, 0);
 							delayHit(1, weaponId, attackStyle, getRangeHit(player,
 									getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0, true)));
-							stop();
+							this.cancel();
 						}
 						loop++;
 					}
-				}, 0, (int) 0.25);
+				});
 				combatDelay = 9;
 				break;
 			case 11235: // dark bows
@@ -1225,12 +1222,12 @@ public class PlayerCombat extends Action {
 					World.sendProjectile(player, target, 1099, 41, 16, 25, 35, 21, 0);
 					delayHit(2, weaponId, attackStyle, getRangeHit(player, damage));
 					delayHit(3, weaponId, attackStyle, getRangeHit(player, damage2));
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(2) {
 						@Override
-						public void run() {
+						protected void execute() {
 							target.setNextGraphics(new Graphics(1100, 0, 100));
 						}
-					}, 2);
+					});
 				} else {
 					int damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.3, true);
 					if (damage < 50)
@@ -1269,13 +1266,12 @@ public class PlayerCombat extends Action {
 				delayHit(2, weaponId, attackStyle, getRangeHit(player, hit));
 				if (hit > 0) {
 					final Entity finalTarget = target;
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(4) {
 						int damage = hit;
-
 						@Override
-						public void run() {
+						protected void execute() {
 							if (finalTarget.isDead() || finalTarget.hasFinished()) {
-								stop();
+								this.cancel();
 								return;
 							}
 							if (damage > 50) {
@@ -1283,10 +1279,10 @@ public class PlayerCombat extends Action {
 								finalTarget.applyHit(new Hit(player, 50, HitLook.REGULAR_DAMAGE));
 							} else {
 								finalTarget.applyHit(new Hit(player, damage, HitLook.REGULAR_DAMAGE));
-								stop();
+								this.cancel();
 							}
 						}
-					}, 4, 2);
+					});
 				}
 				dropAmmo(player, -1);
 				break;
@@ -1429,12 +1425,13 @@ public class PlayerCombat extends Action {
 					if (getRandomMaxHit(player, weaponId, attackStyle, true) > 0
 							&& target.getFrozenBlockedDelay() < currentTime) {
 						target.addFreezeDelay(delay, true);
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(2) {
 							@Override
-							public void run() {
+							protected void execute() {
 								target.setNextGraphics(new Graphics(469, 0, 96));
+								this.cancel();
 							}
-						}, 2);
+						});
 					}
 					playSound(soundId, player, target);
 					return combatDelay;
@@ -1690,9 +1687,9 @@ public class PlayerCombat extends Action {
 						target.getY() - player.getY() + target.getY(), 1))
 					player.setNextFaceEntity(target);
 				target.setNextFaceEntity(player);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					@Override
-					public void run() {
+					protected void execute() {
 						target.setNextFaceEntity(null);
 						player.setNextFaceEntity(null);
 					}
@@ -1702,13 +1699,13 @@ public class PlayerCombat extends Action {
 					other.lock();
 					other.addFoodDelay(3000);
 					other.setDisableEquip(true);
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(5) {
 						@Override
-						public void run() {
+						protected void execute() {
 							other.setDisableEquip(false);
 							other.unlock();
 						}
-					}, 5);
+					});
 				} else {
 					NPC n = (NPC) target;
 					n.setFreezeDelay(3000);
@@ -1904,15 +1901,14 @@ public class PlayerCombat extends Action {
 						target.addFreezeDelay(10000, true);
 						target.setNextGraphics(new Graphics(181, 0, 96));
 						final Entity t = target;
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(1) {
 							@Override
-							public void run() {
+							protected void execute() {
 								final int damage = getRandomMaxHit(player, -2, attack, false, false, 1.0, false);
 								t.applyHit(new Hit(player, damage, HitLook.REGULAR_DAMAGE));
-
-								stop();
+								this.cancel();
 							}
-						}, 1);
+						});
 						if (target instanceof Player) {
 							Player p = (Player) target;
 							for (int i = 0; i < 7; i++) {
@@ -2476,11 +2472,10 @@ public class PlayerCombat extends Action {
 				}
 			}
 		}
-
-		WorldTasksManager.schedule(new WorldTask() {
-
+		
+		World.get().submit(new Task(delay) {
 			@Override
-			public void run() {
+			protected void execute() {
 				for (Hit hit : hits) {
 					boolean splash = false;
 					Player player = (Player) hit.getSource();
@@ -2576,8 +2571,9 @@ public class PlayerCombat extends Action {
 					}
 
 				}
+				this.cancel();
 			}
-		}, delay);
+		});
 	}
 
 	private int getSoundId(int weaponId, int attackStyle) {
