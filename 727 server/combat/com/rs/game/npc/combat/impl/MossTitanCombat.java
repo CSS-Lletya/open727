@@ -11,7 +11,7 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.utils.Utils;
 
-import player.poison.PoisonType;
+import player.type.PoisonType;
 
 public class MossTitanCombat extends CombatScript {
 

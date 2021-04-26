@@ -19,8 +19,8 @@ import com.rs.utils.MutableNumber;
 import com.rs.utils.Utils;
 
 import player.Combat;
-import player.poison.CombatEffectType;
-import player.poison.PoisonType;
+import player.type.CombatEffectType;
+import player.type.PoisonType;
 import skills.Skills;
 import skills.magic.Magic;
 
@@ -796,7 +796,7 @@ public abstract class Entity extends WorldTile {
 	/**
 	 * The flag determining if this entity is dead.
 	 */
-	private boolean dead;
+	private transient boolean dead;
 	
 	public void resetMasks() {
 		nextAnimation = null;

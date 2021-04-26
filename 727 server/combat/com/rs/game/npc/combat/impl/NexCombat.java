@@ -23,7 +23,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
 
-import player.poison.PoisonType;
+import player.type.PoisonType;
 
 public class NexCombat extends CombatScript {
 

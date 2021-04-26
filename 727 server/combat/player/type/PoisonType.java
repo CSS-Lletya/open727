@@ -1,4 +1,4 @@
-package player.poison;
+package player.type;
 
 /**
  * The enumerated type whose elements represent the different levels of poison.

@@ -14,6 +14,8 @@ import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import player.Combat;
+import player.type.CombatEffectType;
 import skills.Skills;
 
 public class Wilderness extends Controler {
@@ -74,7 +76,7 @@ public class Wilderness extends Controler {
 		if (!canAttack(target))
 			return false;
 		if (target.getAttackedBy() != player && player.getAttackedBy() != target)
-			player.setWildernessSkull();
+			Combat.effect(player, CombatEffectType.SKULL);
 		if (player.getCombatDefinitions().getSpellId() <= 0
 				&& Utils.inCircle(new WorldTile(3105, 3933, 0), target, 24)) {
 			player.getPackets().sendGameMessage("You can only use magic in the arena.");

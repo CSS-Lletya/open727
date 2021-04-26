@@ -11,7 +11,7 @@ import com.rs.game.npc.others.DreadNip;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-import player.poison.PoisonType;
+import player.type.PoisonType;
 
 public class DreadNipCombat extends CombatScript {
 

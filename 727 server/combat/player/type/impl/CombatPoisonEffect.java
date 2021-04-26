@@ -1,4 +1,4 @@
-package player.poison;
+package player.type.impl;
 
 import java.util.Optional;
 
@@ -10,6 +10,8 @@ import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import player.type.CombatEffect;
+import player.type.PoisonType;
 
 /**
  * The combat effect applied when a character needs to be poisoned.

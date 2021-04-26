@@ -1,6 +1,9 @@
-package player.poison;
+package player.type;
 
 import com.google.common.collect.ImmutableSet;
+
+import player.type.impl.CombatPoisonEffect;
+import player.type.impl.CombatSkullEffect;
 
 /**
  * The enumerated type whose values represent the collection of different combat
@@ -12,12 +15,12 @@ public enum CombatEffectType {
 	/**
 	 * The combat poison effect, handles the poisoning of characters.
 	 */
-	POISON(new CombatPoisonEffect());
+	POISON(new CombatPoisonEffect()),
 	
-//	/**
-//	 * The combat skull effect, handles the skulling of players.
-//	 */
-//	SKULL(new CombatSkullEffect()),
+	/**
+	 * The combat skull effect, handles the skulling of players.
+	 */
+	SKULL(new CombatSkullEffect()),
 //	
 //	/**
 //	 * The combat teleblock effect, handles the teleblocking of players.
@@ -34,6 +37,7 @@ public enum CombatEffectType {
 //	 */
 //	SUPER_ANTIFIRE_POTION(new CombatAntifireEffect(AntifireType.SUPER));
 	
+	;
 	/**
 	 * The immutable set that holds the elements of this enumerated type, to
 	 * prevent repeated calls to {@code values()}.

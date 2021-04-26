@@ -10,7 +10,7 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 import player.Combat;
-import player.poison.PoisonType;
+import player.type.PoisonType;
 
 public class KingBlackDragonCombat extends CombatScript {
 

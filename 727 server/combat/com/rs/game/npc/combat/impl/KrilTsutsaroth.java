@@ -11,7 +11,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-import player.poison.PoisonType;
+import player.type.PoisonType;
 
 public class KrilTsutsaroth extends CombatScript {
 

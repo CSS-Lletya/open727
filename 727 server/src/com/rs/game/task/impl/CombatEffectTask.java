@@ -3,7 +3,7 @@ package com.rs.game.task.impl;
 import com.rs.game.Entity;
 import com.rs.game.task.Task;
 
-import player.poison.CombatEffect;
+import player.type.CombatEffect;
 
 /**
  * The {@link Task} implementation that provides processing for

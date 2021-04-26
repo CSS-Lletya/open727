@@ -63,7 +63,7 @@ import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import player.PlayerCombat;
-import player.poison.CombatEffect;
+import player.type.CombatEffect;
 import server.database.model.RequestModel;
 import server.database.model.impl.NewPlayerDBPlugin;
 import server.database.passive.PassiveDatabaseWorker;
@@ -175,7 +175,6 @@ public class Player extends Entity {
 	private boolean mouseButtons;
 	private int privateChatSetup;
 	private int friendChatSetup;
-	private int skullDelay;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
 	private long poisonImmune;
@@ -306,29 +305,6 @@ public class Player extends Entity {
 		updateIPnPass();
 	}
 
-	public void setWildernessSkull() {
-		skullDelay = 3000; // 30minutes
-		skullId = 0;
-		appearence.getAppeareanceBlocks();
-	}
-
-	public void setFightPitsSkull() {
-		skullDelay = Integer.MAX_VALUE; // infinite
-		skullId = 1;
-		appearence.getAppeareanceBlocks();
-	}
-
-	public void setSkullInfiniteDelay(int skullId) {
-		skullDelay = Integer.MAX_VALUE; // infinite
-		this.skullId = skullId;
-		appearence.getAppeareanceBlocks();
-	}
-
-	public void removeSkull() {
-		skullDelay = -1;
-		appearence.getAppeareanceBlocks();
-	}
-
 	public SquealOfFortune getSquealOfFortune() {
 		return sof;
 	}
@@ -342,11 +318,7 @@ public class Player extends Entity {
 	}
 
 	public boolean hasSkull() {
-		return skullDelay > 0;
-	}
-
-	public int setSkullDelay(int delay) {
-		return this.skullDelay = delay;
+		return getSkullTimer().get() > 0;
 	}
 
 	public void refreshSpawnedItems() {
@@ -458,7 +430,6 @@ public class Player extends Entity {
 		prayer.reset();
 		combatDefinitions.resetSpells(true);
 		resting = false;
-		skullDelay = 0;
 		foodDelay = 0;
 		potDelay = 0;
 		poisonImmune = 0;
@@ -528,11 +499,6 @@ public class Player extends Entity {
 			routeEvent = null;
 		if (musicsManager.musicEnded())
 			musicsManager.replayMusic();
-		if (hasSkull()) {
-			skullDelay--;
-			if (!hasSkull())
-				appearence.getAppeareanceBlocks();
-		}
 		if (polDelay != 0 && polDelay <= Utils.currentTimeMillis()) {
 			getPackets().sendGameMessage(
 					"The power of the light fades. Your resistance to melee attacks return to normal.");
@@ -1528,6 +1494,7 @@ public class Player extends Entity {
 	public void sendDeath(final Entity source) {
 		setDead(true);
 		getPoisonDamage().set(0);
+		getSkullTimer().set(0);
 		if (prayer.hasPrayersOn() && getTemporaryAttributtes().get("startedDuel") != Boolean.TRUE) {
 			if (prayer.usingPrayer(0, 22)) {
 				setNextGraphics(new Graphics(437));
@@ -2592,7 +2559,7 @@ public class Player extends Entity {
 		}.submit();
 	}
 
-	private final MutableNumber poisonImmunity = new MutableNumber();
+	private final MutableNumber poisonImmunity = new MutableNumber(), skullTimer = new MutableNumber();
 	
 	/**
 	 * Gets the poison immunity counter value.
@@ -2600,5 +2567,13 @@ public class Player extends Entity {
 	 */
 	public MutableNumber getPoisonImmunity() {
 		return poisonImmunity;
+	}
+	
+	/**
+	 * Gets the skull timer counter value.
+	 * @return the skull timer counter.
+	 */
+	public MutableNumber getSkullTimer() {
+		return skullTimer;
 	}
 }

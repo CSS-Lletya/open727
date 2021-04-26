@@ -1,4 +1,4 @@
-package player.poison;
+package player.type;
 
 import java.util.Collection;
 import java.util.Collections;
