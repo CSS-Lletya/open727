@@ -23,6 +23,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.utils.Utils;
 
+import player.type.PoisonType;
+
 public class NexCombat extends CombatScript {
 
 	@Override
@@ -161,7 +163,7 @@ public class NexCombat extends CombatScript {
 					if (damage > 0 && Utils.getRandom(5) == 0) // 1/6
 																// probability
 																// poisoning
-						t.getPoison().makePoisoned(80);
+					t.poison(PoisonType.SUPER_MELEE);
 				}
 				return defs.getAttackDelay();
 			} else if (nex.getAttacksStage() == 1) {

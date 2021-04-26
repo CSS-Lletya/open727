@@ -10,6 +10,7 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 import player.Combat;
+import player.type.PoisonType;
 
 public class KingBlackDragonCombat extends CombatScript {
 
@@ -41,9 +42,10 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (Combat.hasAntiDragProtection(target) || (player != null
 					&& (player.getPrayer().usingPrayer(0, 17) || player.getPrayer().usingPrayer(1, 7))))
 				damage = 0;
-//			if (player != null && player.getFireImmune() > Utils.currentTimeMillis()) {
-//				if (damage != 0)
-//					damage = Utils.getRandom(164);
+			if (player != null && player.getAntifireDetails().isPresent()) {
+				if (damage != 0)
+					damage = Utils.getRandom(164);
+			}
 			if (damage == 0)
 				damage = Utils.getRandom(164);
 			else if (player != null)
@@ -72,7 +74,7 @@ public class KingBlackDragonCombat extends CombatScript {
 					player.getPackets().sendGameMessage("You are hit by the dragon's poisonous breath!", true);
 			}
 			if (Utils.getRandom(2) == 0)
-				target.getPoison().makePoisoned(80);
+				player.poison(PoisonType.SUPER_MAGIC);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
 			World.sendProjectile(npc, target, 394, 34, 16, 30, 35, 16, 0);
 			npc.setNextAnimation(new Animation(81));

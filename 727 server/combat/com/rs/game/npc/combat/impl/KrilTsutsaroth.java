@@ -11,6 +11,8 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
+import player.type.PoisonType;
+
 public class KrilTsutsaroth extends CombatScript {
 
 	@Override
@@ -62,7 +64,7 @@ public class KrilTsutsaroth extends CombatScript {
 				delayHit(npc, 1, t, getMagicHit(npc, getRandomMaxHit(npc, 300, NPCCombatDefinitions.MAGE, t)));
 				World.sendProjectile(npc, t, 1211, 41, 16, 41, 35, 16, 0);
 				if (Utils.getRandom(4) == 0)
-					t.getPoison().makePoisoned(168);
+					t.poison(PoisonType.SUPER_MELEE);
 			}
 			break;
 		case 1:// main attack

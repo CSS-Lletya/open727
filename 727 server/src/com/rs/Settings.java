@@ -80,4 +80,10 @@ public final class Settings {
 	 * Do we want to run our Discord bot on startup?
 	 */
 	public static final boolean discordRelay = false;
+	
+	/**
+	 * The maximum amount of players that can be logged in on a single game
+	 * sequence.
+	 */
+	public static final int LOGOUT_THRESHOLD = 30;
 }

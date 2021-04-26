@@ -11,6 +11,8 @@ import com.rs.game.npc.others.DreadNip;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
+import player.type.PoisonType;
+
 public class DreadNipCombat extends CombatScript {
 
 	private String[] DREADNIP_ATTACK_MESSAGE = { "Your dreadnip stunned its target!",
@@ -43,7 +45,7 @@ public class DreadNipCombat extends CombatScript {
 			}
 			break;
 		case 2:
-			target.getPoison().makePoisoned(108);
+			target.poison(PoisonType.DEFAULT_NPC);
 			break;
 		}
 		if (attackStyle != 0)

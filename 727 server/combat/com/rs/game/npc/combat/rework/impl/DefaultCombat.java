@@ -10,13 +10,17 @@ import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
 
 /**
- * This is just a basic example of a mob.
- * TODO: Convert old handlers to this new system.
+ * This is a default class for mobs that have no special
+ * combat abilities such as Man, Woman, Imp, such..
+ * (Basically a fallback combat script if we don't have one made)
+ * 
+ * (use an array of NPC ids or call by array of npc names)
+ * (Example: 708, 709, 710 | "imp", "Man", Woman")
  * @author Dennis
  *
  */
-@MobCombatSignature(mobId = {708}, mobName = {})
-public class ImpCombat extends MobCombatInterface {
+@MobCombatSignature(mobId = {}, mobName = {})
+public class DefaultCombat extends MobCombatInterface {
 
 	@Override
 	public int execute(Player player, NPC npc) throws Exception {

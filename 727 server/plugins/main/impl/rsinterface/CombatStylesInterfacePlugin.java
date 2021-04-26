@@ -6,6 +6,7 @@ import com.rs.game.task.Task;
 
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
+import player.PlayerCombat;
 
 @RSInterfaceSignature(interfaceId = {884})
 public class CombatStylesInterfacePlugin implements RSInterface {
@@ -14,8 +15,8 @@ public class CombatStylesInterfacePlugin implements RSInterface {
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
 		if (componentId == 4) {
 			int weaponId = player.getEquipment().getWeaponId();
-			if (player.hasInstantSpecial(weaponId)) {
-				player.performInstantSpecial(weaponId);
+			if (((PlayerCombat) player.getActionManager().getAction()).hasInstantSpecial(weaponId)) {
+				((PlayerCombat) player.getActionManager().getAction()).performInstantSpecial(player, weaponId);
 				return;
 			}
 			World.get().submit(new Task(0) {

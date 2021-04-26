@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 import com.rs.Launcher;
@@ -59,6 +61,11 @@ public final class World {
 
 	private static final EntityList<NPC> npcs = new EntityList<NPC>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> regions = Collections.synchronizedMap(new HashMap<Integer, Region>());
+	
+	/**
+	 * The queue of {@link Player}s waiting to be logged out.
+	 */
+	private final Queue<Player> logouts = new ConcurrentLinkedQueue<>();
 
 	public final void init() {
 		addRestoreShopItemsTask();
@@ -1074,7 +1081,7 @@ public final class World {
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
 		for (Player p : World.getPlayers()) {
-			if (p == null || !p.isRunning() || p.isYellOff() || (forStaff && p.getRights() == Rights.PLAYER))
+			if (p == null || !p.isRunning() || (forStaff && p.getRights() == Rights.PLAYER))
 				continue;
 			p.getPackets().sendGameMessage(message);
 		}
@@ -1126,5 +1133,45 @@ public final class World {
 	 */
 	public TaskManager getTask() {
 		return taskManager;
+	}
+	
+	/**
+	 * Queues {@code player} to be logged out on the next server sequence.
+	 * @param player the player to log out.
+	 */
+	public void queueLogout(Player player) {
+		if (!player.isRunning())
+			return;
+		long currentTime = Utils.currentTimeMillis();
+		if (player.getAttackedByDelay() + 10000 > currentTime) {
+			player.getPackets().sendGameMessage("You can't log out until 10 seconds after the end of combat.");
+			return;
+		}
+		if (player.getEmotesManager().getNextEmoteEnd() >= currentTime) {
+			player.getPackets().sendGameMessage("You can't log out while performing an emote.");
+			return;
+		}
+		if (player.getLockDelay() >= currentTime) {
+			player.getPackets().sendGameMessage("You can't log out while performing an action.");
+			return;
+		}
+		player.setRun(false);
+		logouts.add(player);
+	}
+	
+	/**
+	 * Dequeue the logged out demands.
+	 */
+	public void dequeueLogout() {
+		if(!logouts.isEmpty()) {
+			for(int i = 0; i < Settings.LOGOUT_THRESHOLD; i++) {
+				Player player = logouts.poll();
+				if(player == null) {
+					continue;
+				}
+				player.getPackets().sendLogout(false);
+				logouts.offer(player);
+			}
+		}
 	}
 }

@@ -42,10 +42,11 @@ public class LeatherDragonCombat extends CombatScript {
 						.sendGameMessage("Your " + (Combat.hasAntiDragProtection(target) ? "shield" : "prayer")
 								+ " absorb's most of the dragon's breath!", true);
 			}
-			/*
-			 * if (player != null && player.getFireImmune() > Utils.currentTimeMillis()) {
-			 * if (damage != 0) damage = Utils.getRandom(50); } else
-			 */ if (damage == 0)
+
+			if (player != null && player.getAntifireDetails().isPresent()) {
+				if (damage != 0)
+					damage = Utils.getRandom(50);
+			} else if (damage == 0)
 				damage = Utils.getRandom(50);
 			else if (player != null)
 				player.getPackets().sendGameMessage("You are hit by the dragon's fiery breath!", true);

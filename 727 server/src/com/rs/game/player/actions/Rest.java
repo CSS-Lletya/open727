@@ -25,7 +25,7 @@ public class Rest extends Action {
 
 	@Override
 	public boolean process(Player player) {
-		if (player.getPoison().isPoisoned()) {
+		if (player.isPoisoned()) {
 			player.getPackets().sendGameMessage("You can't rest while you're poisoned.");
 			return false;
 		}

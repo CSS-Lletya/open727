@@ -501,6 +501,7 @@ public class NPC extends Entity implements Serializable {
 			public void run() {
 				try {
 					spawn();
+					setDead(false);
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}
@@ -529,30 +530,7 @@ public class NPC extends Entity implements Serializable {
 
 	@Override
 	public void sendDeath(Entity source) {
-		final NPCCombatDefinitions defs = getCombatDefinitions();
-		resetWalkSteps();
-		combat.removeTarget();
-		World.get().getTask().cancel(this);
-		setNextAnimation(null);
-		
-		World.get().submit(new Task(0) {
-			int loop;
-			@Override
-			protected void execute() {
-				if (loop == 0) {
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
-					drop();
-					reset();
-					setLocation(respawnTile);
-					finish();
-					if (!isSpawned())
-						setRespawnTask();
-					this.cancel();
-				}
-				loop++;
-			}
-		});
+		World.get().submit(new MobDeath(this));
 	}
 
 	public void drop() {

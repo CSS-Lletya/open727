@@ -541,7 +541,7 @@ public class WorldPacketsEncoder extends Encoder {
 	
 	public void sendGameBarStages() {
 		sendConfig(1054, player.getClanStatus());
-		sendConfig(1055, player.getAssistStatus());
+//		sendConfig(1055, player.getAssistStatus());
 		sendConfig(1056, player.isFilterGame() ? 1 : 0);
 		sendConfig(2159, player.getFriendsIgnores().getFriendsChatStatus());
 		sendOtherGameBarStages();

@@ -11,6 +11,8 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.utils.Utils;
 
+import player.type.PoisonType;
+
 public class MossTitanCombat extends CombatScript {
 
 	@Override
@@ -46,7 +48,7 @@ public class MossTitanCombat extends CombatScript {
 			delayHit(npc, 1, target, getMagicHit(npc, getRandomMaxHit(npc, 160, NPCCombatDefinitions.MAGE, target)));
 			World.sendProjectile(npc, target, 1462, 34, 16, 30, 35, 16, 0);
 			if (Utils.getRandom(3) == 0)// 1/3 chance of being poisioned
-				target.getPoison().makePoisoned(58);
+				target.poison(PoisonType.STRONG_MELEE);
 		}
 	}
 }

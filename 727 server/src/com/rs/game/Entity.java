@@ -15,8 +15,12 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.qbd.TorturedSoul;
 import com.rs.game.player.Player;
+import com.rs.utils.MutableNumber;
 import com.rs.utils.Utils;
 
+import player.Combat;
+import player.type.CombatEffectType;
+import player.type.PoisonType;
 import skills.Skills;
 import skills.magic.Magic;
 
@@ -73,12 +77,10 @@ public abstract class Entity extends WorldTile {
 	private int mapSize; // default 0, can be setted other value usefull on
 							// static maps
 	private boolean run;
-	private Poison poison;
 
 	// creates Entity and saved classes
 	public Entity(WorldTile tile) {
 		super(tile);
-		poison = new Poison();
 	}
 	
 	public boolean inArea(int a, int b, int c, int d) {
@@ -96,7 +98,6 @@ public abstract class Entity extends WorldTile {
 		nextWalkDirection = nextRunDirection - 1;
 		lastFaceEntity = -1;
 		nextFaceEntity = -2;
-		poison.setEntity(this);
 	}
 
 	public int getClientIndex() {
@@ -126,7 +127,6 @@ public abstract class Entity extends WorldTile {
 		receivedHits.clear();
 		resetCombat();
 		walkSteps.clear();
-		poison.reset();
 		resetReceivedDamage();
 		if (attributes)
 			temporaryAttributes.clear();
@@ -172,9 +172,11 @@ public abstract class Entity extends WorldTile {
 			hit.setDamage(hitpoints);
 		addReceivedDamage(hit.getSource(), hit.getDamage());
 		setHitpoints(hitpoints - hit.getDamage());
-		if (hitpoints <= 0)
-			sendDeath(hit.getSource());
-		else if (this instanceof Player) {
+		if (hitpoints <= 0) {
+			sendDeath(hit.getSource()); 
+			return;
+		}
+		if (this instanceof Player) {
 			Player player = (Player) this;
 			if (player.getEquipment().getRingId() == 2550) {
 				if (hit.getSource() != null && hit.getSource() != player)
@@ -775,10 +777,27 @@ public abstract class Entity extends WorldTile {
 		return nextFaceEntity != -2 || nextAnimation != null || nextGraphics1 != null || nextGraphics2 != null || nextGraphics3 != null || nextGraphics4 != null || (nextWalkDirection == -1 && nextFaceWorldTile != null) || !nextHits.isEmpty() || !nextBars.isEmpty() || nextForceMovement != null || nextForceTalk != null;
 	}
 
-	public boolean isDead() {
-		return hitpoints == 0;
+	/**
+	 * Determines if this entity is dead or not.
+	 * @return {@code true} if this entity is dead, {@code false} otherwise.
+	 */
+	public final boolean isDead() {
+		return dead;
 	}
-
+	
+	/**
+	 * Sets the value for {@link Actor#dead}.
+	 * @param dead the new value to set.
+	 */
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
+	
+	/**
+	 * The flag determining if this entity is dead.
+	 */
+	private transient boolean dead;
+	
 	public void resetMasks() {
 		nextAnimation = null;
 		nextGraphics1 = null;
@@ -799,7 +818,6 @@ public abstract class Entity extends WorldTile {
 	public abstract int getMaxHitpoints();
 
 	public void processEntity() {
-		poison.processPoison();
 		processMovement();
 		processReceivedHits();
 		processReceivedDamage();
@@ -838,7 +856,6 @@ public abstract class Entity extends WorldTile {
 
 	public void setHitpoints(int hitpoints) {
 		this.hitpoints = hitpoints;
-
 	}
 
 	public void setLastRegionId(int lastRegionId) {
@@ -1088,10 +1105,6 @@ public abstract class Entity extends WorldTile {
 		this.nextForceMovement = nextForceMovement;
 	}
 
-	public Poison getPoison() {
-		return poison;
-	}
-
 	public ForceTalk getNextForceTalk() {
 		return nextForceTalk;
 	}
@@ -1171,4 +1184,55 @@ public abstract class Entity extends WorldTile {
 		this.nextBars = nextBars;
 	}
 
+	/**
+	 * The amount of poison damage this entity has.
+	 */
+	private final MutableNumber poisonDamage = new MutableNumber();
+	
+	/**
+	 * Determines if this entity is poisoned.
+	 * @return {@code true} if this entity is poisoned, {@code false}
+	 * otherwise.
+	 */
+	public final boolean isPoisoned() {
+		return poisonDamage.get() > 0;
+	}
+	
+	/**
+	 * The type of poison that was previously applied.
+	 */
+	private PoisonType poisonType;
+	
+	/**
+	 * Gets the type of poison that was previously applied.
+	 * @return the type of poison.
+	 */
+	public PoisonType getPoisonType() {
+		return poisonType;
+	}
+	
+	/**
+	 * Applies poison with an intensity of {@code type} to the entity.
+	 * @param type the poison type to apply.
+	 */
+	public void poison(PoisonType type) {
+		poisonType = type;
+		Combat.effect(this, CombatEffectType.POISON);
+	}
+	
+	/**
+	 * Sets the value for {@link Actor#poisonType}.
+	 * @param poisonType the new value to set.
+	 */
+	public void setPoisonType(PoisonType poisonType) {
+		this.poisonType = poisonType;
+	}
+
+	/**
+	 * Gets the amount of poison damage this entity has.
+	 * @return the amount of poison damage.
+	 */
+	public final MutableNumber getPoisonDamage() {
+		return poisonDamage;
+	}
 }

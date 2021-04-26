@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.combat.rework.impl.DefaultCombat;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
@@ -34,7 +35,15 @@ public final class NPCCombatDispatcher {
 	 * @throws Exception 
 	 */
 	public static int execute(Player player, NPC npc) {
-		Optional<MobCombatInterface> mobCombat = getMobCombatant(npc.getId());
+		Optional<MobCombatInterface> mobCombat = getMobCombatant(npc);
+		if (!mobCombat.isPresent()) {
+			DefaultCombat defaultScript = new DefaultCombat();
+			try {
+				return defaultScript.execute(player, npc);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		mobCombat.ifPresent(value -> {
 			try {
 				mobValue = value.execute(player, npc);
@@ -50,9 +59,9 @@ public final class NPCCombatDispatcher {
 	 * @param identifier the identifier to check for matches.
 	 * @return an Optional with the found value, {@link Optional#empty} otherwise.
 	 */
-	private static Optional<MobCombatInterface> getMobCombatant(int interfaceId) {
+	private static Optional<MobCombatInterface> getMobCombatant(NPC mob) {
 		for(Entry<MobCombatSignature, MobCombatInterface> MobCombatInterface : COMBATANTS.entrySet()) {
-			if (isMobId(MobCombatInterface.getValue(), interfaceId) || isMobNamed(null, null)) {
+			if (isMobId(MobCombatInterface.getValue(), mob.getId()) || isMobNamed(MobCombatInterface.getValue(), mob)) {
 				return Optional.of(MobCombatInterface.getValue());
 			}
 		}

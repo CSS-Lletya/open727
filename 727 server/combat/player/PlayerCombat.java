@@ -7,6 +7,7 @@ import java.util.Random;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
+import com.rs.game.ForceTalk;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -2399,6 +2400,7 @@ public class PlayerCombat extends Action {
 		final double base_mage_xp = this.base_mage_xp;
 		final int mage_hit_gfx = this.mage_hit_gfx;
 		final int magic_sound = this.magic_sound;
+		@SuppressWarnings("unused")
 		final int max_poison_hit = this.max_poison_hit;
 		final int freeze_time = this.freeze_time;
 		@SuppressWarnings("unused")
@@ -2498,31 +2500,33 @@ public class PlayerCombat extends Action {
 						if (combatXp > 0) {
 							if (hit.getLook() == HitLook.RANGE_DAMAGE) {
 								if (weaponId != -1) {
+									@SuppressWarnings("unused")
 									String name = ItemDefinitions.getItemDefinitions(weaponId).getName();
-									if (name.contains("(p++)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(48);
-									} else if (name.contains("(p+)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(38);
-									} else if (name.contains("(p)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(28);
-									}
+//									if (name.contains("(p++)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(48);
+//									} else if (name.contains("(p+)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(38);
+//									} else if (name.contains("(p)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(28);
+//									}
 								}
 							} else {
 								if (weaponId != -1) {
+									@SuppressWarnings("unused")
 									String name = ItemDefinitions.getItemDefinitions(weaponId).getName();
-									if (name.contains("(p++)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(68);
-									} else if (name.contains("(p+)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(58);
-									} else if (name.contains("(p)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(48);
-									}
+//									if (name.contains("(p++)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(68);
+//									} else if (name.contains("(p+)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(58);
+//									} else if (name.contains("(p)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(48);
+//									}
 									if (target instanceof Player) {
 										if (((Player) target).getPolDelay() >= Utils.currentTimeMillis())
 											target.setNextGraphics(new Graphics(2320));
@@ -2554,10 +2558,10 @@ public class PlayerCombat extends Action {
 								playSound(magic_sound, player, target);
 						}
 					}
-					if (max_poison_hit > 0 && Utils.getRandom(10) == 0) {
-						if (!target.getPoison().isPoisoned())
-							target.getPoison().makePoisoned(max_poison_hit);
-					}
+//					if (max_poison_hit > 0 && Utils.getRandom(10) == 0) {
+//						if (!target.getPoison().isPoisoned())
+//							target.getPoison().makePoisoned(max_poison_hit);
+//					}
 					if (target instanceof Player) {
 						Player p2 = (Player) target;
 						p2.closeInterfaces();
@@ -3429,5 +3433,110 @@ public class PlayerCombat extends Action {
 
 	public Entity getTarget() {
 		return target;
+	}
+	
+	public boolean hasInstantSpecial(final int weaponId) {
+		switch (weaponId) {
+		case 4153:
+		case 15486:
+		case 22207:
+		case 22209:
+		case 22211:
+		case 22213:
+		case 1377:
+		case 13472:
+		case 35:// Excalibur
+		case 8280:
+		case 14632:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public void performInstantSpecial(Player player, final int weaponId) {
+		int specAmt = PlayerCombat.getSpecialAmmount(weaponId);
+		if (player.getCombatDefinitions().hasRingOfVigour())
+			specAmt *= 0.9;
+		if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
+			player.getPackets().sendGameMessage("You don't have enough power left.");
+			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			return;
+		}
+		if (player.getSwitchItemCache().size() > 0) {
+			World.get().submit(new Task(0) {
+				@Override
+				protected void execute() {
+					player.getCombatDefinitions().switchUsingSpecialAttack();
+					this.cancel();
+				}
+			});
+			return;
+		}
+		switch (weaponId) {
+		case 4153:
+			player.getCombatDefinitions().setInstantAttack(true);
+			player.getCombatDefinitions().switchUsingSpecialAttack();
+			Entity target = (Entity) player.getTemporaryAttributtes().get("last_target");
+			if (target != null && target.getTemporaryAttributtes().get("last_attacker") == this) {
+				if (!(player.getActionManager().getAction() instanceof PlayerCombat)
+						|| ((PlayerCombat) player.getActionManager().getAction()).getTarget() != target) {
+					player.getActionManager().setAction(new PlayerCombat(target));
+				}
+			}
+			break;
+		case 1377:
+		case 13472:
+			player.setNextAnimation(new Animation(1056));
+			player.setNextGraphics(new Graphics(246));
+			player.setNextForceTalk(new ForceTalk("Raarrrrrgggggghhhhhhh!"));
+			int defence = (int) (player.getSkills().getLevelForXp(Skills.DEFENCE) * 0.90D);
+			int attack = (int) (player.getSkills().getLevelForXp(Skills.ATTACK) * 0.90D);
+			int range = (int) (player.getSkills().getLevelForXp(Skills.RANGE) * 0.90D);
+			int magic = (int) (player.getSkills().getLevelForXp(Skills.MAGIC) * 0.90D);
+			int strength = (int) (player.getSkills().getLevelForXp(Skills.STRENGTH) * 1.2D);
+			player.getSkills().set(Skills.DEFENCE, defence);
+			player.getSkills().set(Skills.ATTACK, attack);
+			player.getSkills().set(Skills.RANGE, range);
+			player.getSkills().set(Skills.MAGIC, magic);
+			player.getSkills().set(Skills.STRENGTH, strength);
+			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			break;
+		case 35:// Excalibur
+		case 8280:
+		case 14632:
+			player.setNextAnimation(new Animation(1168));
+			player.setNextGraphics(new Graphics(247));
+			player.setNextForceTalk(new ForceTalk("For Matrix!"));
+			final boolean enhanced = weaponId == 14632;
+			player.getSkills().set(Skills.DEFENCE, enhanced ? (int) (player.getSkills().getLevelForXp(Skills.DEFENCE) * 1.15D)
+					: (player.getSkills().getLevel(Skills.DEFENCE) + 8));
+			World.get().submit(new Task(4) {
+				int count;
+				@Override
+				protected void execute() {
+					if (player.isDead() || player.hasFinished() || player.getHitpoints() >= player.getMaxHitpoints()) {
+						return;
+					}
+					player.heal(enhanced ? 80 : 40);
+					if (count-- == 0) {
+						return;
+					}
+				}
+			});
+			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			break;
+		case 15486:
+		case 22207:
+		case 22209:
+		case 22211:
+		case 22213:
+			player.setNextAnimation(new Animation(12804));
+			player.setNextGraphics(new Graphics(2319));// 2320
+			player.setNextGraphics(new Graphics(2321));
+			player.addPolDelay(60000);
+			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			break;
+		}
 	}
 }

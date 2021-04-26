@@ -40,7 +40,7 @@ public class FrostDragonCombat extends CombatScript {
 									+ " absorbs most of the dragon's breath!", true);
 				} else if ((!Combat.hasAntiDragProtection(target) || !player.getPrayer().usingPrayer(0, 17)
 						|| !player.getPrayer().usingPrayer(1, 7))
-				/* && player.getFireImmune() > Utils.currentTimeMillis() */) {
+				&& player.getAntifireDetails().isPresent()) {
 					damage = Utils.getRandom(164);
 					player.getPackets().sendGameMessage("Your potion absorbs most of the dragon's breath!", true);
 				}
@@ -78,7 +78,7 @@ public class FrostDragonCombat extends CombatScript {
 									+ " absorbs most of the dragon's breath!", true);
 				} else if ((!Combat.hasAntiDragProtection(target) || !player.getPrayer().usingPrayer(0, 17)
 						|| !player.getPrayer().usingPrayer(1, 7))
-				/* && player.getFireImmune() > Utils.currentTimeMillis() */) {
+						&& player.getAntifireDetails().isPresent()) {
 					damage = Utils.getRandom(164);
 					player.getPackets().sendGameMessage(
 							"Your potion fully protects you from the heat of the dragon's breath!", true);

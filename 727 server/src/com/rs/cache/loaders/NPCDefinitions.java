@@ -433,4 +433,8 @@ public final class NPCDefinitions {
 		}
 		return false;
 	}
+	
+	public int getCombatLevel() {
+		return combatLevel;
+	}
 }
