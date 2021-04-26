@@ -441,7 +441,10 @@ public class Player extends Entity {
 			interfaceManager.closeScreenInterface();
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.closeInventoryInterface();
-		dialogueManager.finishDialogue();
+		
+		getInterfaceManager().closeChatBoxInterface();
+		getTemporaryAttributtes().remove("dialogue_event");
+		
 		if (closeInterfacesEvent != null) {
 			closeInterfacesEvent.run();
 			closeInterfacesEvent = null;
