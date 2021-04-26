@@ -5,8 +5,21 @@ import com.rs.game.Entity;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
+import player.poison.CombatEffect;
+import player.poison.CombatEffectType;
+
 public final class Combat {
 
+	/**
+	 * Applies the {@code effect} in any context.
+	 * @param effect the effect that must be applied.
+	 * @return {@code true} if it was successfully applied, {@code false}
+	 * otherwise.
+	 */
+	public static boolean effect(Entity character, CombatEffectType effect) {
+		return CombatEffect.EFFECTS.get(effect).start(character);
+	}
+	
 	public static boolean hasAntiDragProtection(Entity target) {
 		if (target instanceof NPC)
 			return false;

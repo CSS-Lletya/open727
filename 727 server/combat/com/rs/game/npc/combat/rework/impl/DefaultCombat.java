@@ -25,7 +25,6 @@ public class DefaultCombat extends MobCombatInterface {
 	@Override
 	public int execute(Player player, NPC npc) throws Exception {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		System.out.println("unknown npc, so we used this instead.");
 		int attackStyle = defs.getAttackStyle();
 		if (attackStyle == NPCCombatDefinitions.MELEE) {
 			delayHit(npc, 0, player, getMeleeHit(npc, getRandomMaxHit(npc, defs.getMaxHit(), attackStyle, player)));

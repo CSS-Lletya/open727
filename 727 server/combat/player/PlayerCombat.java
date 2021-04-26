@@ -2399,6 +2399,7 @@ public class PlayerCombat extends Action {
 		final double base_mage_xp = this.base_mage_xp;
 		final int mage_hit_gfx = this.mage_hit_gfx;
 		final int magic_sound = this.magic_sound;
+		@SuppressWarnings("unused")
 		final int max_poison_hit = this.max_poison_hit;
 		final int freeze_time = this.freeze_time;
 		@SuppressWarnings("unused")
@@ -2498,31 +2499,33 @@ public class PlayerCombat extends Action {
 						if (combatXp > 0) {
 							if (hit.getLook() == HitLook.RANGE_DAMAGE) {
 								if (weaponId != -1) {
+									@SuppressWarnings("unused")
 									String name = ItemDefinitions.getItemDefinitions(weaponId).getName();
-									if (name.contains("(p++)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(48);
-									} else if (name.contains("(p+)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(38);
-									} else if (name.contains("(p)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(28);
-									}
+//									if (name.contains("(p++)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(48);
+//									} else if (name.contains("(p+)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(38);
+//									} else if (name.contains("(p)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(28);
+//									}
 								}
 							} else {
 								if (weaponId != -1) {
+									@SuppressWarnings("unused")
 									String name = ItemDefinitions.getItemDefinitions(weaponId).getName();
-									if (name.contains("(p++)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(68);
-									} else if (name.contains("(p+)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(58);
-									} else if (name.contains("(p)")) {
-										if (Utils.getRandom(8) == 0)
-											target.getPoison().makePoisoned(48);
-									}
+//									if (name.contains("(p++)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(68);
+//									} else if (name.contains("(p+)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(58);
+//									} else if (name.contains("(p)")) {
+//										if (Utils.getRandom(8) == 0)
+//											target.getPoison().makePoisoned(48);
+//									}
 									if (target instanceof Player) {
 										if (((Player) target).getPolDelay() >= Utils.currentTimeMillis())
 											target.setNextGraphics(new Graphics(2320));
@@ -2554,10 +2557,10 @@ public class PlayerCombat extends Action {
 								playSound(magic_sound, player, target);
 						}
 					}
-					if (max_poison_hit > 0 && Utils.getRandom(10) == 0) {
-						if (!target.getPoison().isPoisoned())
-							target.getPoison().makePoisoned(max_poison_hit);
-					}
+//					if (max_poison_hit > 0 && Utils.getRandom(10) == 0) {
+//						if (!target.getPoison().isPoisoned())
+//							target.getPoison().makePoisoned(max_poison_hit);
+//					}
 					if (target instanceof Player) {
 						Player p2 = (Player) target;
 						p2.closeInterfaces();

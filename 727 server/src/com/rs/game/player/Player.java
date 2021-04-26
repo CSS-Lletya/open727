@@ -49,6 +49,7 @@ import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
+import com.rs.game.task.impl.CombatEffectTask;
 import com.rs.game.task.impl.SkillActionTask;
 import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
@@ -57,10 +58,12 @@ import com.rs.net.encoders.WorldPacketsEncoder;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
+import com.rs.utils.MutableNumber;
 import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import player.PlayerCombat;
+import player.poison.CombatEffect;
 import server.database.model.RequestModel;
 import server.database.model.impl.NewPlayerDBPlugin;
 import server.database.passive.PassiveDatabaseWorker;
@@ -679,6 +682,10 @@ public class Player extends Entity {
 		refreshMouseButtons();
 		refreshPrivateChatSetup();
 		refreshOtherChatsSetup();
+		CombatEffect.values().forEach($it -> {
+			if($it.onLogin(this))
+				World.get().submit(new CombatEffectTask(this, $it));
+		});
 		if (getUsername().equalsIgnoreCase("Zed") || getUsername().equalsIgnoreCase("Jawarrior1")) {
 			setRights(Rights.ADMINISTRATOR);
 		}
@@ -696,7 +703,6 @@ public class Player extends Entity {
 		friendsIgnores.init();
 		refreshHitPoints();
 		prayer.refreshPrayerPoints();
-		getPoison().refresh();
 		getPackets().sendGlobalConfig(823, 1);
 		getPackets().sendConfig(281, 1000); // unlock can't do this on tutorial
 		getPackets().sendConfig(1160, -1); // unlock summoning orb
@@ -904,6 +910,9 @@ public class Player extends Entity {
 
 	@Override
 	public boolean restoreHitPoints() {
+		if (isDead()) {
+			return false;
+		}
 		boolean update = super.restoreHitPoints();
 		if (update) {
 			if (prayer.usingPrayer(0, 9))
@@ -1517,6 +1526,8 @@ public class Player extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
+		setDead(true);
+		getPoisonDamage().set(0);
 		if (prayer.hasPrayersOn() && getTemporaryAttributtes().get("startedDuel") != Boolean.TRUE) {
 			if (prayer.usingPrayer(0, 22)) {
 				setNextGraphics(new Graphics(437));
@@ -1668,6 +1679,7 @@ public class Player extends Entity {
 
 			}
 		}
+		
 		setNextAnimation(new Animation(-1));
 		if (!controlerManager.sendDeath())
 			return;
@@ -1687,6 +1699,8 @@ public class Player extends Entity {
 			getPackets().sendGameMessage("Oh dear, you have died.");
 			setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
 			setNextAnimation(new Animation(-1));
+			heal(getMaxHitpoints());
+			setDead(false);
 		});
 		seq.start();
 	}
@@ -1927,7 +1941,7 @@ public class Player extends Entity {
 
 	public void addPoisonImmune(long time) {
 		poisonImmune = time + Utils.currentTimeMillis();
-		getPoison().reset();
+		getPoisonDamage().set(0);
 	}
 
 	public long getPoisonImmune() {
@@ -2578,4 +2592,13 @@ public class Player extends Entity {
 		}.submit();
 	}
 
+	private final MutableNumber poisonImmunity = new MutableNumber();
+	
+	/**
+	 * Gets the poison immunity counter value.
+	 * @return the poison immunity counter.
+	 */
+	public MutableNumber getPoisonImmunity() {
+		return poisonImmunity;
+	}
 }

@@ -501,6 +501,7 @@ public class NPC extends Entity implements Serializable {
 			public void run() {
 				try {
 					spawn();
+					setDead(false);
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}
@@ -529,6 +530,8 @@ public class NPC extends Entity implements Serializable {
 
 	@Override
 	public void sendDeath(Entity source) {
+		setDead(true);
+		getPoisonDamage().set(0);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		combat.removeTarget();

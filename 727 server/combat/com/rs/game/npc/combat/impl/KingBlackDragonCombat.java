@@ -10,6 +10,7 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 import player.Combat;
+import player.poison.PoisonType;
 
 public class KingBlackDragonCombat extends CombatScript {
 
@@ -72,7 +73,7 @@ public class KingBlackDragonCombat extends CombatScript {
 					player.getPackets().sendGameMessage("You are hit by the dragon's poisonous breath!", true);
 			}
 			if (Utils.getRandom(2) == 0)
-				target.getPoison().makePoisoned(80);
+				player.poison(PoisonType.SUPER_MAGIC);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
 			World.sendProjectile(npc, target, 394, 34, 16, 30, 35, 16, 0);
 			npc.setNextAnimation(new Animation(81));

@@ -2,10 +2,10 @@ package main.impl.commands;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.game.task.impl.DiggingHandler;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
+import player.poison.PoisonType;
 
 /**
  * This is just a dummy command to re-use
@@ -18,8 +18,6 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		new DiggingHandler(player, p -> {
-			p.getPackets().sendGameMessage("You dug man, noice");
-		}).submit();
+		player.poison(PoisonType.DEFAULT_NPC);
 	}
 }
