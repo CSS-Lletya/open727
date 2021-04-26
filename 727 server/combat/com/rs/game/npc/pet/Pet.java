@@ -1,7 +1,5 @@
 package com.rs.game.npc.pet;
 
-import java.io.Serializable;
-
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
@@ -16,12 +14,7 @@ import com.rs.utils.Utils;
  * @author Emperor
  *
  */
-public final class Pet extends NPC implements Serializable {
-
-	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -2848843157767889742L;
+public final class Pet extends NPC {
 
 	/**
 	 * The owner.

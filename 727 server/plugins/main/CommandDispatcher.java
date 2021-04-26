@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
@@ -129,6 +130,18 @@ public final class CommandDispatcher {
 		String[] cmd = command.toLowerCase().split(" ");
 		if (cmd.length == 0)
 			return false;
+		if (clientCommand) {
+			switch (cmd[0]) {
+			//NOTE: There's a bug where in World Map if you shift click it crashes client, idk why.
+			case "tele":
+				cmd = cmd[1].split(",");
+				int plane = Integer.valueOf(cmd[0]);
+				int x = Integer.valueOf(cmd[1]) << 6 | Integer.valueOf(cmd[3]);
+				int y = Integer.valueOf(cmd[2]) << 6 | Integer.valueOf(cmd[4]);
+				player.setNextWorldTile(new WorldTile(x, y, plane));
+				return true;
+			}
+		}
 		CommandDispatcher.execute(player, cmd, command);
 		return false;
 	}
