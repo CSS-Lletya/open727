@@ -4,15 +4,16 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import player.Combat;
 
 /**
  * Represents a default fire breath attack.
+ * 
  * @author Emperor
  *
  */
@@ -32,10 +33,9 @@ public final class FireBreathAttack implements QueenAttack {
 	public int attack(final QueenBlackDragon npc, final Player victim) {
 		npc.setNextAnimation(ANIMATION);
 		npc.setNextGraphics(GRAPHIC);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
-				super.stop();
+			protected void execute() {
 				String message = getProtectMessage(victim);
 				int hit;
 				if (message != null) {
@@ -47,8 +47,9 @@ public final class FireBreathAttack implements QueenAttack {
 				}
 				victim.setNextAnimation(new Animation(Combat.getDefenceEmote(victim)));
 				victim.applyHit(new Hit(npc, hit, HitLook.REGULAR_DAMAGE));
+				this.cancel();
 			}
-		}, 1);
+		});
 		return Utils.random(4, 15); // Attack delay seems to be random a lot.
 	}
 
@@ -59,6 +60,7 @@ public final class FireBreathAttack implements QueenAttack {
 
 	/**
 	 * Gets the dragonfire protect message.
+	 * 
 	 * @param player The player.
 	 * @return The message to send, or {@code null} if the player was unprotected.
 	 */

@@ -7,7 +7,6 @@ import com.rs.game.npc.NPC;
 import skills.dungeoneering.DungeonManager;
 import skills.dungeoneering.RoomReference;
 
-@SuppressWarnings("serial")
 public class Guardian extends NPC {
 
 	private DungeonManager manager;

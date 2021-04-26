@@ -9,7 +9,6 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.task.Task;
 
-@SuppressWarnings("serial")
 public class KalphiteQueen extends NPC {
 
 	public KalphiteQueen(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea,

@@ -203,34 +203,14 @@ public class Wilderness extends Controler {
 
 	@Override
 	public boolean sendDeath() {
-		LinkedTaskSequence seq = new LinkedTaskSequence();
-		seq.connect(1, () -> player.setNextAnimation(new Animation(836)));
-		seq.connect(3, () -> {
-			Player killer = player.getMostDamageReceivedSourcePlayer();
-			if (killer != null) {
-				killer.removeDamage(player);
-			}
-			player.getPackets().sendGameMessage("Oh dear, you have died.");
-			player.sendItemsOnDeath(killer);
-			player.getEquipment().init();
-			player.getInventory().init();
-			player.reset();
-			player.setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
-			player.setNextAnimation(new Animation(-1));
-		});
-		seq.connect(4, () -> {
-			removeIcon();
-			removeControler();
-			player.getPackets().sendMusicEffect(90);
-		});
-		seq.start();
+		
 		return false;
 	}
 
 	@Override
 	public void moved() {
 		boolean isAtWild = isAtWild(player);
-		boolean isAtWildSafe = isAtWildSafe();
+		boolean isAtWildSafe = isAtWildSafe(player);
 		if (!showingSkull && isAtWild && !isAtWildSafe) {
 			showingSkull = true;
 			player.setCanPvp(true);
@@ -280,10 +260,15 @@ public class Wilderness extends Controler {
 				|| (tile.getX() >= 3012 && tile.getX() <= 3059 && tile.getY() >= 10303 && tile.getY() <= 10351);
 	}
 
-	public boolean isAtWildSafe() {
-		return (player.getX() >= 2940 && player.getX() <= 3395 && player.getY() <= 3524 && player.getY() >= 3523);
+	public static boolean isAtWildSafe(Player player) {
+		return (player.getX() >= 2940 && player.getX() <= 3395 && player.getY() >= 3524 && player.getY() <= 3523
+				|| player.getX() >= 2327 && player.getX() <= 2332 && player.getY() >= 3686 && player.getY() <= 3693
+				|| player.getX() >= 2994 && player.getX() <= 3030 && player.getY() >= 3526 && player.getY() <= 3533
+				|| player.getX() >= 3005 && player.getX() <= 3025 && player.getY() >= 3534 && player.getY() <= 3543
+				|| player.getX() >= 3001 && player.getX() <= 3004 && player.getY() >= 3534 && player.getY() <= 3538
+				|| player.getX() >= 3386 && player.getX() <= 3396 && player.getY() >= 3612 && player.getY() <= 3630);
 	}
-
+	
 	public int getWildLevel() {
 		if (player.getY() > 9900)
 			return (player.getY() - 9912) / 8 + 1;

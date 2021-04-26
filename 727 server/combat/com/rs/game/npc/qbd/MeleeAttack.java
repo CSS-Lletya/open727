@@ -4,9 +4,9 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import player.Combat;
@@ -42,10 +42,9 @@ public final class MeleeAttack implements QueenAttack {
 		} else {
 			npc.setNextAnimation(DEFAULT);
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
-				stop();
+			protected void execute() {
 				int hit = 0;
 				if (victim.getPrayer().usingPrayer(1, 9)) {
 					victim.setNextAnimation(new Animation(12573));
@@ -60,6 +59,7 @@ public final class MeleeAttack implements QueenAttack {
 					victim.setNextAnimation(new Animation(Combat.getDefenceEmote(victim)));
 				}
 				victim.applyHit(new Hit(npc, hit, hit == 0 ? HitLook.MISSED : HitLook.MELEE_DAMAGE));
+				this.cancel();
 			}
 		});
 		return Utils.random(4, 15);

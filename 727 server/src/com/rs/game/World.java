@@ -33,9 +33,6 @@ import com.rs.game.npc.godwars.zaros.ZarosGodwars;
 import com.rs.game.npc.kalph.KalphiteQueen;
 import com.rs.game.npc.others.Bork;
 import com.rs.game.npc.others.LivingRock;
-import com.rs.game.npc.others.Lucien;
-import com.rs.game.npc.others.MasterOfFear;
-import com.rs.game.npc.others.MercenaryMage;
 import com.rs.game.npc.others.PestMonsters;
 import com.rs.game.npc.others.Revenant;
 import com.rs.game.npc.others.TormentedDemon;
@@ -212,14 +209,6 @@ public final class World {
 			n = ZarosGodwars.cruor = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else if (id == 13454)
 			n = ZarosGodwars.glacies = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 14256)
-			n = new Lucien(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 8335)
-			n = new MercenaryMage(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 8349 || id == 8450 || id == 8451)
-			n = new TormentedDemon(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 15149)
-			n = new MasterOfFear(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		else
 			n = new NPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
 		return n;

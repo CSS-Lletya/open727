@@ -1,12 +1,9 @@
 package com.rs.game.npc;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.rs.Settings;
-import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.Animation;
@@ -16,9 +13,9 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.item.Item;
 import com.rs.game.npc.combat.NPCCombat;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.npc.drops.DropManager;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
@@ -31,12 +28,9 @@ import com.rs.utils.Logger;
 import com.rs.utils.MapAreas;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
-import com.rs.utils.NPCDrops;
 import com.rs.utils.Utils;
 
-public class NPC extends Entity implements Serializable {
-
-	private static final long serialVersionUID = -4794678936277614443L;
+public class NPC extends Entity {
 
 	public static int NORMAL_WALK = 0x2, WATER_WALK = 0x4, FLY_WALK = 0x8;
 
@@ -535,35 +529,16 @@ public class NPC extends Entity implements Serializable {
 
 	public void drop() {
 		try {
-			Drop[] drops = NPCDrops.getDrops(id);
-			if (drops == null)
-				return;
+			
 			Player killer = getMostDamageReceivedSourcePlayer();
 			if (killer == null)
 				return;
-			Drop[] possibleDrops = new Drop[drops.length];
-			int possibleDropsCount = 0;
-			for (Drop drop : drops) {
-				if (drop.getRate() == 100)
-					sendDrop(killer, drop);
-				else {
-					if ((Utils.getRandomDouble(99) + 1) <= drop.getRate() * 1.5)
-						possibleDrops[possibleDropsCount++] = drop;
-				}
-			}
-			if (possibleDropsCount > 0)
-				sendDrop(killer, possibleDrops[Utils.getRandom(possibleDropsCount - 1)]);
+			DropManager.dropItems(killer, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} catch (Error e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void sendDrop(Player player, Drop drop) {
-		int size = getSize();
-		Item item = ItemDefinitions.getItemDefinitions(drop.getItemId()).isStackable() ? new Item(drop.getItemId(), (drop.getMinAmount() * Settings.DROP_RATE) + Utils.getRandom(drop.getExtraAmount() * Settings.DROP_RATE)) : new Item(drop.getItemId(), drop.getMinAmount() + Utils.getRandom(drop.getExtraAmount()));
-		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getHeight()), player, false, 180, true);
 	}
 
 	@Override

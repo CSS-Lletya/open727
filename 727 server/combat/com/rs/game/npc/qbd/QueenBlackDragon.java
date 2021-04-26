@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.rs.game.Animation;
 import com.rs.game.Entity;
-import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
@@ -15,8 +14,7 @@ import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
@@ -25,11 +23,6 @@ import com.rs.utils.Utils;
  *
  */
 public final class QueenBlackDragon extends NPC {
-
-	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -7709946348178377601L;
 
 	/**
 	 * The attacks for the first phase.
@@ -314,15 +307,16 @@ public final class QueenBlackDragon extends NPC {
 		final WorldTile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
 		attacker.getPackets().sendProjectile(null, this, destination, 3141, 128, 0, 60, 0, 5, 3,
 				super.getDefinitions().size);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				if (getPhase() > 4) {
+					this.cancel();
 					return;
 				}
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(5) {
 					@Override
-					public void run() {
+					protected void execute() {
 						if (getPhase() > 4) {
 							return;
 						}
@@ -330,11 +324,11 @@ public final class QueenBlackDragon extends NPC {
 						worms.add(worm);
 						worm.setForceMultiArea(true);
 						worm.getCombat().setTarget(attacker);
+						this.cancel();
 					}
-				}, 5);
-				attacker.getPackets().sendGraphics(new Graphics(3142), destination);
+				});
 			}
-		}, 1);
+		});
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public final class Nex extends NPC {
 
 	private boolean followTarget;

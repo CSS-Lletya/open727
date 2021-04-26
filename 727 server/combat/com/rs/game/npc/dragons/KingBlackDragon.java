@@ -3,7 +3,6 @@ package com.rs.game.npc.dragons;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 
-@SuppressWarnings("serial")
 public class KingBlackDragon extends NPC {
 
 	public KingBlackDragon(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea,

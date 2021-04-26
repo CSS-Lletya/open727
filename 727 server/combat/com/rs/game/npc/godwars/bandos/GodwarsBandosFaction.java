@@ -12,7 +12,6 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class GodwarsBandosFaction extends NPC {
 
 	public GodwarsBandosFaction(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea,

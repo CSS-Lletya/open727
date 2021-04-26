@@ -4,9 +4,9 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import player.Combat;
@@ -34,11 +34,10 @@ public final class SuperFireAttack implements QueenAttack {
 		npc.setNextGraphics(GRAPHIC);
 		victim.getPackets().sendGameMessage(
 				"<col=FFCC00>The Queen Black Dragon gathers her strength to breath extremely hot flames.</col>");
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(4) {
 			int count = 0;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				String message = FireBreathAttack.getProtectMessage(victim);
 				int hit;
 				if (message != null) {
@@ -53,10 +52,11 @@ public final class SuperFireAttack implements QueenAttack {
 				victim.setNextAnimation(new Animation(Combat.getDefenceEmote(victim)));
 				victim.applyHit(new Hit(npc, hit, HitLook.REGULAR_DAMAGE));
 				if (++count == 3) {
-					stop();
+					this.cancel();
 				}
+				this.cancel();
 			}
-		}, 4, 1);
+		});
 		return Utils.random(8, 15);
 	}
 

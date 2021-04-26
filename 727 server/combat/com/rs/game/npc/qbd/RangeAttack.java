@@ -4,9 +4,9 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import player.Combat;
@@ -26,10 +26,9 @@ public final class RangeAttack implements QueenAttack {
 	@Override
 	public int attack(final QueenBlackDragon npc, final Player victim) {
 		npc.setNextAnimation(ANIMATION);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
-				stop();
+			protected void execute() {
 				int hit;
 				if (victim.getPrayer().usingPrayer(1, 8)) {
 					victim.setNextAnimation(new Animation(12573));
@@ -44,8 +43,9 @@ public final class RangeAttack implements QueenAttack {
 					victim.setNextAnimation(new Animation(Combat.getDefenceEmote(victim)));
 				}
 				victim.applyHit(new Hit(npc, hit, hit == 0 ? HitLook.MISSED : HitLook.RANGE_DAMAGE));
+				this.cancel();
 			}
-		}, 1);
+		});
 		return Utils.random(4, 15);
 	}
 

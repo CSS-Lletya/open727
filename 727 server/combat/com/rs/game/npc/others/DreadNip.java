@@ -5,7 +5,6 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class DreadNip extends NPC {
 
 	public static final String[] DREADNIP_MESSAGES = { "Your dreadnip couldn't attack so it left.",

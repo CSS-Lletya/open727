@@ -30,12 +30,11 @@ public final class CombatAntifireEffect extends CombatEffect {
 	}
 
 	@Override
-	public boolean apply(Entity c) {
-		if(!(c instanceof Player)) {
+	public boolean apply(Entity entity) {
+		if(!(entity instanceof Player)) {
 			return false;
 		}
-		System.out.println("hey");
-		Player player = (Player) c;
+		Player player = (Player) entity;
 		if(player.getAntifireDetails().isPresent()) {
 			player.setAntifireDetail(new AntifireDetails(type));
 			return false;
@@ -45,26 +44,24 @@ public final class CombatAntifireEffect extends CombatEffect {
 	}
 
 	@Override
-	public boolean removeOn(Entity c) {
-		if(c instanceof Player) {
-			Player player = (Player) c;
+	public boolean removeOn(Entity entity) {
+		if(entity instanceof Player) {
+			Player player = (Player) entity;
 			return !player.getAntifireDetails().isPresent() ? true : false;
 		}
 		return true;
 	}
 
 	@Override
-	public void process(Entity c) {
-		if (c instanceof Player) {
-			Player player = (Player) c;
-			
+	public void process(Entity entity) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
 			if (player.getAntifireDetails().isPresent()) {
 				AntifireDetails detail = player.getAntifireDetails().get();
 				int count = detail.getAntifireDelay().decrementAndGet();
 				if (count == 30) {
 					player.getPackets().sendGameMessage("Your resistance to dragon fire is about to wear off!");
 				}
-				System.out.println(count);
 				if (count < 1) {
 					player.setAntifireDetail(Optional.empty());
 					player.getPackets().sendGameMessage("Your resistance to dragon fire has worn off!");
@@ -74,9 +71,9 @@ public final class CombatAntifireEffect extends CombatEffect {
 	}
 
 	@Override
-	public boolean onLogin(Entity c) {
-		if (c instanceof Player) {
-			Player player = (Player) c;
+	public boolean onLogin(Entity entity) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
 			return player.getAntifireDetails().isPresent() ? true : false;
 		}
 		return false;

@@ -3,10 +3,10 @@ package com.rs.game.npc.qbd;
 import java.util.Iterator;
 
 import com.rs.game.ForceTalk;
+import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
@@ -41,14 +41,13 @@ public final class TimeStopAttack implements QueenAttack {
 		soul.setNextGraphics(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
 		soul.setLocked(true);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(3) {
 			int stage = -1;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				stage++;
 				if (stage == 8) {
-					stop();
+					this.cancel();
 					npc.getTemporaryAttributtes().put("_time_stop_atk", npc.getTicks() + Utils.random(50) + 40);
 					for (TorturedSoul s : npc.getSouls()) {
 						s.setLocked(false);
@@ -77,12 +76,13 @@ public final class TimeStopAttack implements QueenAttack {
 					return;
 				}
 				if (soul.isDead()) {
-					stop();
+					this.cancel();
 					return;
 				}
 				soul.setNextForceTalk(MESSAGES[stage]);
+				this.cancel();
 			}
-		}, 3, 3);
+		});
 		npc.getTemporaryAttributtes().put("_time_stop_atk", 9999999);
 		return Utils.random(5, 10);
 	}

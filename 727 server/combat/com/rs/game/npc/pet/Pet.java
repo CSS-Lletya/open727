@@ -17,11 +17,6 @@ import com.rs.utils.Utils;
 public final class Pet extends NPC {
 
 	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -2848843157767889742L;
-
-	/**
 	 * The owner.
 	 */
 	private transient final Player owner;

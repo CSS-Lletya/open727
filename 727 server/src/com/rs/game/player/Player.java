@@ -40,6 +40,7 @@ import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
+import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
@@ -50,6 +51,8 @@ import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.encoders.WorldPacketsEncoder;
+import com.rs.net.host.HostListType;
+import com.rs.net.host.HostManager;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
@@ -181,8 +184,6 @@ public class Player extends Entity {
 	private long displayTime;
 	private long muted;
 	private long jailed;
-	private long banned;
-	private boolean permBanned;
 	private boolean filterGame;
 	private boolean xpLocked;
 	// game bar status
@@ -441,7 +442,10 @@ public class Player extends Entity {
 			interfaceManager.closeScreenInterface();
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.closeInventoryInterface();
-		dialogueManager.finishDialogue();
+		
+		getInterfaceManager().closeChatBoxInterface();
+		getTemporaryAttributtes().remove("dialogue_event");
+		
 		if (closeInterfacesEvent != null) {
 			closeInterfacesEvent.run();
 			closeInterfacesEvent = null;
@@ -497,6 +501,11 @@ public class Player extends Entity {
 			polDelay = 0;
 		}
 		
+		if (!(getControlerManager().getControler() instanceof Wilderness) && isAtWild()
+				&& !Wilderness.isAtWildSafe(this)) {
+			getControlerManager().startControler("Wilderness");
+		}
+		
 		miscTick++;
 		if (miscTick % 1 == 0) {
 			//Just a random test
@@ -541,7 +550,18 @@ public class Player extends Entity {
 		controlerManager.process();
 	}
 	
-    public void restoreSkills() {
+	public final boolean isAtWild() {
+		return (getX() >= 3011 && getX() <= 3132 && getY() >= 10052 && getY() <= 10175)
+				|| (getX() >= 2940 && getX() <= 3395 && getY() >= 3525 && getY() <= 4000)
+				|| (getX() >= 3264 && getX() <= 3279 && getY() >= 3279 && getY() <= 3672)
+				|| (getX() >= 3158 && getX() <= 3181 && getY() >= 3679 && getY() <= 3697)
+				|| (getX() >= 3280 && getX() <= 3183 && getY() >= 3885 && getY() <= 3888)
+				|| (getX() >= 3012 && getX() <= 3059 && getY() >= 10303 && getY() <= 10351)
+				|| (getX() >= 3060 && getX() <= 3072 && getY() >= 10251 && getY() <= 10263);
+	}
+
+
+	public void restoreSkills() {
         for (int skill = 0; skill < 25; skill++) {
             if (skill == Skills.HITPOINTS || skill == Skills.SUMMONING || skill == Skills.PRAYER)
                 continue;
@@ -689,10 +709,9 @@ public class Player extends Entity {
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);
 		
-		if (!recievedStarter) {
-			getDialogueManager().startDialogue("SimpleMessage", "Welcome new player " + getDisplayName() + "! We're open source right now!");
+		if (!HostManager.contains(getUsername(), HostListType.STARTER_RECEIVED)) {
 			PassiveDatabaseWorker.addRequest(new NewPlayerDBPlugin(getDisplayName()));
-			recievedStarter = true;
+			HostManager.add(this, HostListType.STARTER_RECEIVED, true);
 		}
 		
 		interfaceManager.sendOverlay(1252, false);
@@ -1467,8 +1486,8 @@ public class Player extends Entity {
 	}
 
 	public void sendItemsOnDeath(Player killer) {
-		if (getRights().isStaff())
-			return;
+//		if (getRights().isStaff())
+//			return;
 		getCharges().die();
 		getAuraManager().removeAura();
 		CopyOnWriteArrayList<Item> containedItems = new CopyOnWriteArrayList<Item>();
@@ -1507,6 +1526,25 @@ public class Player extends Entity {
 		getEquipment().reset();
 		for (Item item : keptItems) {
 			getInventory().addItem(item);
+		}
+		/** This Checks which items that is listed in the 'PROTECT_ON_DEATH' **/
+		for (Item item : containedItems) {	// This checks the items you had in your inventory or equipped
+			for (String string : Settings.PROTECT_ON_DEATH) {	//	This checks the matched items from the list 'PROTECT_ON_DEATH'
+				if (item.getDefinitions().getName().toLowerCase().contains(string)) {
+					getInventory().addItem(item);	//	This adds the items that is matched and listed in 'PROTECT_ON_DEATH'
+					containedItems.remove(item);	//	This remove the whole list of the contained items that is matched
+				}
+			}
+		}
+
+		/** This to avoid items to be dropped in the list 'PROTECT_ON_DEATH' **/
+		for (Item item : containedItems) {	//	This checks the items you had in your inventory or equipped
+			for (String string : Settings.PROTECT_ON_DEATH) {	//	This checks the matched items from the list 'PROTECT_ON_DEATH'
+				if (item.getDefinitions().getName().toLowerCase().contains(string)) {
+					containedItems.remove(item);	//	This remove the whole list of the contained items that is matched
+				}
+			}
+			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);	//	This dropps the items to the killer, and is showed for 180 seconds
 		}
 		for (Item item : containedItems) {
 			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
@@ -1732,22 +1770,6 @@ public class Player extends Entity {
 
 	public void setJailed(long jailed) {
 		this.jailed = jailed;
-	}
-
-	public boolean isPermBanned() {
-		return permBanned;
-	}
-
-	public void setPermBanned(boolean permBanned) {
-		this.permBanned = permBanned;
-	}
-
-	public long getBanned() {
-		return banned;
-	}
-
-	public void setBanned(long banned) {
-		this.banned = banned;
 	}
 
 	public ChargesManager getCharges() {
@@ -2129,8 +2151,6 @@ public class Player extends Entity {
 	public void setRequestResults(Queue<RequestModel> requestResults) {
 		this.requestResults = requestResults;
 	}
-	
-	public boolean recievedStarter = false;
 	
 	/**
 	 * The current skill action that is going on for this player.

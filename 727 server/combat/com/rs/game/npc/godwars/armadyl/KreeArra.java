@@ -15,7 +15,6 @@ import com.rs.game.npc.godwars.GodWarsBosses;
 import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
-@SuppressWarnings("serial")
 public class KreeArra extends NPC {
 
 	public KreeArra(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {

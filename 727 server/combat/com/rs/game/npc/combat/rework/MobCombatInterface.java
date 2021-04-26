@@ -17,7 +17,7 @@ import skills.Skills;
 
 public abstract class MobCombatInterface {
 	
-	public int execute(Player player, NPC mob) throws Exception {
+	public int execute(Player target, NPC mob) throws Exception {
 		return 0;
 	}
 	

@@ -4,7 +4,6 @@ import com.rs.game.Entity;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 
-@SuppressWarnings("serial")
 public class NexMinion extends NPC {
 
 	private boolean hasNoBarrier;

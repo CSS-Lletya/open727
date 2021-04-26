@@ -17,7 +17,6 @@ import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public final class TormentedDemon extends NPC {
 
 	private boolean[] demonPrayer;

@@ -4,7 +4,6 @@ import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 
-@SuppressWarnings("serial")
 public class Revenant extends NPC {
 
 	public Revenant(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {

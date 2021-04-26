@@ -11,7 +11,6 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class DarkEnergyCore extends NPC {
 
 	private CorporealBeast beast;
