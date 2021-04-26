@@ -42,9 +42,10 @@ public class KingBlackDragonCombat extends CombatScript {
 			if (Combat.hasAntiDragProtection(target) || (player != null
 					&& (player.getPrayer().usingPrayer(0, 17) || player.getPrayer().usingPrayer(1, 7))))
 				damage = 0;
-//			if (player != null && player.getFireImmune() > Utils.currentTimeMillis()) {
-//				if (damage != 0)
-//					damage = Utils.getRandom(164);
+			if (player != null && player.getAntifireDetails().isPresent()) {
+				if (damage != 0)
+					damage = Utils.getRandom(164);
+			}
 			if (damage == 0)
 				damage = Utils.getRandom(164);
 			else if (player != null)

@@ -2,6 +2,8 @@ package player.type;
 
 import com.google.common.collect.ImmutableSet;
 
+import player.type.AntifireDetails.AntifireType;
+import player.type.impl.CombatAntifireEffect;
 import player.type.impl.CombatPoisonEffect;
 import player.type.impl.CombatSkullEffect;
 
@@ -27,17 +29,16 @@ public enum CombatEffectType {
 //	 */
 //	TELEBLOCK(new CombatTeleblockEffect()),
 //	
-//	/**
-//	 * The combat antifire potion effect, handles the effect of drinking the potion.
-//	 */
-//	ANTIFIRE_POTION(new CombatAntifireEffect(AntifireType.REGULAR)),
-//	
-//	/**
-//	 * The combat super antifire potion effect, handles the effect of drinking the potion.
-//	 */
-//	SUPER_ANTIFIRE_POTION(new CombatAntifireEffect(AntifireType.SUPER));
+	/**
+	 * The combat antifire potion effect, handles the effect of drinking the potion.
+	 */
+	ANTIFIRE_POTION(new CombatAntifireEffect(AntifireType.REGULAR)),
 	
-	;
+	/**
+	 * The combat super antifire potion effect, handles the effect of drinking the potion.
+	 */
+	SUPER_ANTIFIRE_POTION(new CombatAntifireEffect(AntifireType.SUPER));
+	
 	/**
 	 * The immutable set that holds the elements of this enumerated type, to
 	 * prevent repeated calls to {@code values()}.

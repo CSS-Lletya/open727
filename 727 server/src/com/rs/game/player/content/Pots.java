@@ -12,8 +12,15 @@ import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import player.Combat;
+import player.type.CombatEffectType;
 import skills.Skills;
 
+/**
+ * This has to be redone someday.
+ * @author Dennis
+ *
+ */
 public final class Pots {
 
 	public static enum Pot {
@@ -29,7 +36,7 @@ public final class Pots {
 		MAGIC_POTION(new int[] { 3040, 3042, 3044, 3046 }, Effects.MAGIC_POTION),
 
 		MAGIC_FLASK(new int[] { 23423, 23425, 23427, 23429, 23431, 23433 },
-				Effects.MAGIC_POTION), ANTI_POISION(new int[] { 2446, 175, 177, 179 }, Effects.ANTIPOISON),
+				Effects.MAGIC_POTION),
 
 		PRAYER_POTION(new int[] { 2434, 139, 141, 143 }, Effects.PRAYER_POTION),
 
@@ -117,9 +124,9 @@ public final class Pots {
 
 		RANGING_FLASK(new int[] { 23303, 23305, 23307, 23309, 23311, 23313 }, Effects.RANGE_POTION),
 
-		ANTIPOISON_FLASK(new int[] { 23315, 23317, 23319, 23321, 23323, 23325 }, Effects.ANTIPOISON),
-
-		SUPER_ANTIPOISON_FLASK(new int[] { 23327, 23329, 23331, 23333, 23335, 23337 }, Effects.SUPER_ANTIPOISON),
+//		ANTIPOISON_FLASK(new int[] { 23315, 23317, 23319, 23321, 23323, 23325 }, Effects.ANTIPOISON),
+//
+//		SUPER_ANTIPOISON_FLASK(new int[] { 23327, 23329, 23331, 23333, 23335, 23337 }, Effects.SUPER_ANTIPOISON),
 
 		/*
 		 * ZAMORAK_BREW_FLASK(new int[] { 23339, 23341, 23343, 23345, 23347, 23349 }, null),
@@ -242,7 +249,7 @@ public final class Pots {
 				player.getPrayer()
 						.restorePrayer((int) ((int) (player.getSkills().getLevelForXp(Skills.PRAYER) * 0.33 * 10)
 								* player.getAuraManager().getPrayerPotsRestoreMultiplier()));
-				player.addPoisonImmune(180000);
+//				player.addPoisonImmune(180000);
 				// TODO DISEASE HEALING
 			}
 
@@ -263,20 +270,20 @@ public final class Pots {
 					familiar.restoreSpecialAttack(15);
 			}
 		},
-		ANTIPOISON() {
-			@Override
-			public void extra(Player player) {
-				player.addPoisonImmune(180000);
-				player.getPackets().sendGameMessage("You are now immune to poison.");
-			}
-		},
-		SUPER_ANTIPOISON() {
-			@Override
-			public void extra(Player player) {
-				player.addPoisonImmune(360000);
-				player.getPackets().sendGameMessage("You are now immune to poison.");
-			}
-		},
+//		ANTIPOISON() {
+//			@Override
+//			public void extra(Player player) {
+//				player.addPoisonImmune(180000);
+//				player.getPackets().sendGameMessage("You are now immune to poison.");
+//			}
+//		},
+//		SUPER_ANTIPOISON() {
+//			@Override
+//			public void extra(Player player) {
+//				player.addPoisonImmune(360000);
+//				player.getPackets().sendGameMessage("You are now immune to poison.");
+//			}
+//		},
 		ENERGY_POTION() {
 			@Override
 			public void extra(Player player) {
@@ -759,7 +766,15 @@ public final class Pots {
 		}
 	}
 
-	private Pots() {
-
+	/**
+	 * The method that executes the anti-fire potion action.
+	 * @param player the player to do this action for.
+	 * @param superVariant determines if this potion is the super variant.
+	 */
+	@SuppressWarnings("unused")
+	private static void onAntiFireEffect(Player player, boolean superVariant) {
+		player.getPackets().sendGameMessage("You take a sip of the" + (superVariant ? " super" : "") + " antifire potion.");
+		Combat.effect(player, superVariant ? CombatEffectType.SUPER_ANTIFIRE_POTION : CombatEffectType.ANTIFIRE_POTION);
 	}
+	
 }

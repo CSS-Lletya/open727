@@ -856,7 +856,6 @@ public abstract class Entity extends WorldTile {
 
 	public void setHitpoints(int hitpoints) {
 		this.hitpoints = hitpoints;
-
 	}
 
 	public void setLastRegionId(int lastRegionId) {

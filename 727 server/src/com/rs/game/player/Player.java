@@ -63,6 +63,7 @@ import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
 import player.PlayerCombat;
+import player.type.AntifireDetails;
 import player.type.CombatEffect;
 import server.database.model.RequestModel;
 import server.database.model.impl.NewPlayerDBPlugin;
@@ -112,7 +113,6 @@ public class Player extends Entity {
 	private transient long lockDelay; // used for doors and stuff like that
 	private transient long foodDelay;
 	private transient long potDelay;
-	private transient long boneDelay;
 	private transient Runnable closeInterfacesEvent;
 	private transient long lastPublicMessage;
 	private transient long polDelay;
@@ -177,8 +177,6 @@ public class Player extends Entity {
 	private int friendChatSetup;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
-	private long poisonImmune;
-	private long fireImmune;
 	private boolean killedQueenBlackDragon;
 
 	private int lastBonfire;
@@ -432,8 +430,7 @@ public class Player extends Entity {
 		resting = false;
 		foodDelay = 0;
 		potDelay = 0;
-		poisonImmune = 0;
-		fireImmune = 0;
+		getPoisonDamage().set(0);
 		castedVeng = false;
 		setRunEnergy(100);
 		appearence.getAppeareanceBlocks();
@@ -1494,7 +1491,7 @@ public class Player extends Entity {
 	public void sendDeath(final Entity source) {
 		setDead(true);
 		getPoisonDamage().set(0);
-		getSkullTimer().set(0);
+		setAntifireDetail(Optional.empty());
 		if (prayer.hasPrayersOn() && getTemporaryAttributtes().get("startedDuel") != Boolean.TRUE) {
 			if (prayer.usingPrayer(0, 22)) {
 				setNextGraphics(new Graphics(437));
@@ -1896,31 +1893,6 @@ public class Player extends Entity {
 
 	public long getFoodDelay() {
 		return foodDelay;
-	}
-
-	public long getBoneDelay() {
-		return boneDelay;
-	}
-
-	public void addBoneDelay(long time) {
-		boneDelay = time + Utils.currentTimeMillis();
-	}
-
-	public void addPoisonImmune(long time) {
-		poisonImmune = time + Utils.currentTimeMillis();
-		getPoisonDamage().set(0);
-	}
-
-	public long getPoisonImmune() {
-		return poisonImmune;
-	}
-
-	public void addFireImmune(long time) {
-		fireImmune = time + Utils.currentTimeMillis();
-	}
-
-	public long getFireImmune() {
-		return fireImmune;
 	}
 
 	@Override
@@ -2575,5 +2547,34 @@ public class Player extends Entity {
 	 */
 	public MutableNumber getSkullTimer() {
 		return skullTimer;
+	}
+
+	/**
+	 * Holds an optional wrapped inside the Antifire details.
+	 */
+	private Optional<AntifireDetails> antifireDetails = Optional.empty();
+	
+	/**
+	 * Gets the anti-fire details instance for this player.
+	 * @return the {@link AntifireDetails} as an optional.
+	 */
+	public Optional<AntifireDetails> getAntifireDetails() {
+		return antifireDetails;
+	}
+	
+	/**
+	 * Sets a new anti-fire instance for this class.
+	 * @param details the anti-fire instance to set.
+	 */
+	public void setAntifireDetail(Optional<AntifireDetails> details) {
+		this.antifireDetails = details;
+	}
+	
+	/**
+	 * Sets the new anti-fire instance for this class directly.
+	 * @param details the anti-fire instance to set.
+	 */
+	public void setAntifireDetail(AntifireDetails details) {
+		setAntifireDetail(details == null ? Optional.empty() : Optional.of(details));
 	}
 }
