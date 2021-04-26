@@ -32,18 +32,14 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.corp.CorpBeastControler;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.godwars.GodWars;
 import com.rs.game.npc.godwars.zaros.Nex;
-import com.rs.game.npc.godwars.zaros.ZGDControler;
 import com.rs.game.npc.pet.Pet;
-import com.rs.game.npc.qbd.QueenBlackDragonController;
 import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
-import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
@@ -119,9 +115,7 @@ public class Player extends Entity {
 	private transient List<Integer> switchItemCache;
 	private transient boolean disableEquip;
 	private transient MachineInformation machineInformation;
-	private transient boolean spawnsMode;
 	private transient boolean castedVeng;
-	private transient boolean invulnerable;
 	private transient double hpBoostMultiplier;
 	private transient boolean largeSceneView;
 	private transient RouteEvent routeEvent;
@@ -188,12 +182,10 @@ public class Player extends Entity {
 	private boolean permBanned;
 	private boolean filterGame;
 	private boolean xpLocked;
-	private boolean yellOff;
 	// game bar status
 	private int publicStatus;
 	private int clanStatus;
 	private int tradeStatus;
-	private int assistStatus;
 
 	// Used for storing recent ips and password
 	private transient ArrayList<String> passwordList = new ArrayList<String>();
@@ -1099,10 +1091,6 @@ public class Player extends Entity {
 		if (hit.getLook() != HitLook.MELEE_DAMAGE && hit.getLook() != HitLook.RANGE_DAMAGE
 				&& hit.getLook() != HitLook.MAGIC_DAMAGE)
 			return;
-		if (invulnerable) {
-			hit.setDamage(0);
-			return;
-		}
 		if (auraManager.usingPenance()) {
 			int amount = (int) (hit.getDamage() * 0.2);
 			if (amount > 0)
@@ -2133,17 +2121,6 @@ public class Player extends Entity {
 		this.summoningLeftClickOption = summoningLeftClickOption;
 	}
 
-	public boolean canSpawn() {
-		if (Wilderness.isAtWild(this)
-				|| getControlerManager().getControler() instanceof CorpBeastControler
-				|| getControlerManager().getControler() instanceof ZGDControler
-				|| getControlerManager().getControler() instanceof GodWars
-				|| getControlerManager().getControler() instanceof QueenBlackDragonController) {
-			return false;
-		}
-		return true;
-	}
-
 	public long getPolDelay() {
 		return polDelay;
 	}
@@ -2174,111 +2151,6 @@ public class Player extends Entity {
 		if (ownedObjectsManagerKeys == null) // temporary
 			ownedObjectsManagerKeys = new LinkedList<String>();
 		return ownedObjectsManagerKeys;
-	}
-
-	public boolean hasInstantSpecial(final int weaponId) {
-		switch (weaponId) {
-		case 4153:
-		case 15486:
-		case 22207:
-		case 22209:
-		case 22211:
-		case 22213:
-		case 1377:
-		case 13472:
-		case 35:// Excalibur
-		case 8280:
-		case 14632:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	public void performInstantSpecial(final int weaponId) {
-		int specAmt = PlayerCombat.getSpecialAmmount(weaponId);
-		if (combatDefinitions.hasRingOfVigour())
-			specAmt *= 0.9;
-		if (combatDefinitions.getSpecialAttackPercentage() < specAmt) {
-			getPackets().sendGameMessage("You don't have enough power left.");
-			combatDefinitions.desecreaseSpecialAttack(0);
-			return;
-		}
-		if (this.getSwitchItemCache().size() > 0) {
-			World.get().submit(new Task(0) {
-				@Override
-				protected void execute() {
-					getCombatDefinitions().switchUsingSpecialAttack();
-					this.cancel();
-				}
-			});
-			return;
-		}
-		switch (weaponId) {
-		case 4153:
-			combatDefinitions.setInstantAttack(true);
-			combatDefinitions.switchUsingSpecialAttack();
-			Entity target = (Entity) getTemporaryAttributtes().get("last_target");
-			if (target != null && target.getTemporaryAttributtes().get("last_attacker") == this) {
-				if (!(getActionManager().getAction() instanceof PlayerCombat)
-						|| ((PlayerCombat) getActionManager().getAction()).getTarget() != target) {
-					getActionManager().setAction(new PlayerCombat(target));
-				}
-			}
-			break;
-		case 1377:
-		case 13472:
-			setNextAnimation(new Animation(1056));
-			setNextGraphics(new Graphics(246));
-			setNextForceTalk(new ForceTalk("Raarrrrrgggggghhhhhhh!"));
-			int defence = (int) (skills.getLevelForXp(Skills.DEFENCE) * 0.90D);
-			int attack = (int) (skills.getLevelForXp(Skills.ATTACK) * 0.90D);
-			int range = (int) (skills.getLevelForXp(Skills.RANGE) * 0.90D);
-			int magic = (int) (skills.getLevelForXp(Skills.MAGIC) * 0.90D);
-			int strength = (int) (skills.getLevelForXp(Skills.STRENGTH) * 1.2D);
-			skills.set(Skills.DEFENCE, defence);
-			skills.set(Skills.ATTACK, attack);
-			skills.set(Skills.RANGE, range);
-			skills.set(Skills.MAGIC, magic);
-			skills.set(Skills.STRENGTH, strength);
-			combatDefinitions.desecreaseSpecialAttack(specAmt);
-			break;
-		case 35:// Excalibur
-		case 8280:
-		case 14632:
-			setNextAnimation(new Animation(1168));
-			setNextGraphics(new Graphics(247));
-			setNextForceTalk(new ForceTalk("For Matrix!"));
-			final boolean enhanced = weaponId == 14632;
-			skills.set(Skills.DEFENCE, enhanced ? (int) (skills.getLevelForXp(Skills.DEFENCE) * 1.15D)
-					: (skills.getLevel(Skills.DEFENCE) + 8));
-			World.get().submit(new Task(4) {
-				int count;
-				@Override
-				protected void execute() {
-					if (isDead() || hasFinished() || getHitpoints() >= getMaxHitpoints()) {
-						return;
-					}
-					heal(enhanced ? 80 : 40);
-					if (count-- == 0) {
-						return;
-					}
-				}
-			});
-			combatDefinitions.desecreaseSpecialAttack(specAmt);
-			break;
-		case 15486:
-		case 22207:
-		case 22209:
-		case 22211:
-		case 22213:
-			setNextAnimation(new Animation(12804));
-			setNextGraphics(new Graphics(2319));// 2320
-			setNextGraphics(new Graphics(2321));
-			addPolDelay(60000);
-			combatDefinitions.desecreaseSpecialAttack(specAmt);
-			break;
-		}
 	}
 
 	public void setDisableEquip(boolean equip) {
@@ -2319,22 +2191,6 @@ public class Player extends Entity {
 
 	public void setTradeStatus(int tradeStatus) {
 		this.tradeStatus = tradeStatus;
-	}
-
-	public int getAssistStatus() {
-		return assistStatus;
-	}
-
-	public void setAssistStatus(int assistStatus) {
-		this.assistStatus = assistStatus;
-	}
-
-	public boolean isSpawnsMode() {
-		return spawnsMode;
-	}
-
-	public void setSpawnsMode(boolean spawnsMode) {
-		this.spawnsMode = spawnsMode;
 	}
 	
 	public IsaacKeyPair getIsaacKeyPair() {
@@ -2404,19 +2260,7 @@ public class Player extends Entity {
 	public void setLastBonfire(int lastBonfire) {
 		this.lastBonfire = lastBonfire;
 	}
-
-	public boolean isYellOff() {
-		return yellOff;
-	}
-
-	public void setYellOff(boolean yellOff) {
-		this.yellOff = yellOff;
-	}
-
-	public void setInvulnerable(boolean invulnerable) {
-		this.invulnerable = invulnerable;
-	}
-
+	
 	public double getHpBoostMultiplier() {
 		return hpBoostMultiplier;
 	}
@@ -2461,15 +2305,6 @@ public class Player extends Entity {
 	public void dialog(DialogueEventListener listener){ //temp
 		getTemporaryAttributtes().put("dialogue_event", listener.begin());
 	}
-	
-	/*public DialogueEventListener dialog(String key, Object...args){
-		DialogueEventListener listener = DialogueEventRepository.getListener(key, this, args);
-		if (listener == null)
-			return null;
-		getTemporaryAttributtes().put("dialogue_event", listener.begin());
-		return listener;
-		
-	}*/
 	
 	public DialogueEventListener dialog(){
 		DialogueEventListener listener = (DialogueEventListener) getTemporaryAttributtes().get("dialogue_event");

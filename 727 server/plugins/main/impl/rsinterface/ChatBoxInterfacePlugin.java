@@ -57,16 +57,17 @@ public class ChatBoxInterfacePlugin implements RSInterface {
 				player.setTradeStatus(1);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
 				player.setTradeStatus(2);
-		} else if (componentId == 17) {
-			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
-				player.setAssistStatus(0);
-			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET)
-				player.setAssistStatus(1);
-			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.setAssistStatus(2);
-			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON9_PACKET) {
-				// ASSIST XP Earned/Time
-			}
-		}
+		} 
+//		else if (componentId == 17) {
+//			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
+//				player.setAssistStatus(0);
+//			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET)
+//				player.setAssistStatus(1);
+//			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
+//				player.setAssistStatus(2);
+//			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON9_PACKET) {
+//				// ASSIST XP Earned/Time
+//			}
+//		}
 	}
 }

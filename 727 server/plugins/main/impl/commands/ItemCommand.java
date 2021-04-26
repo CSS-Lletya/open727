@@ -19,10 +19,6 @@ public final class ItemCommand implements Command {
 			return;
 		}
 		try {
-			if (!player.canSpawn()) {
-				player.getPackets().sendGameMessage("You can't spawn while you're in this area.");
-				return;
-			}
 			int itemId = Integer.valueOf(cmd[1]);
 			ItemDefinitions defs = ItemDefinitions.getItemDefinitions(itemId);
 			if (defs.isLended())

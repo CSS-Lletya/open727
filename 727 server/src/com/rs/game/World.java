@@ -1074,7 +1074,7 @@ public final class World {
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
 		for (Player p : World.getPlayers()) {
-			if (p == null || !p.isRunning() || p.isYellOff() || (forStaff && p.getRights() == Rights.PLAYER))
+			if (p == null || !p.isRunning() || (forStaff && p.getRights() == Rights.PLAYER))
 				continue;
 			p.getPackets().sendGameMessage(message);
 		}
