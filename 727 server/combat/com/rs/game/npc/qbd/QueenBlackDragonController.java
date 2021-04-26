@@ -13,8 +13,7 @@ import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.player.content.FadingScreen;
 import com.rs.game.player.controlers.Controler;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Logger;
 
 import skills.magic.Magic;
@@ -338,12 +337,13 @@ public final class QueenBlackDragonController extends Controler {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(6) {
 			@Override
-			public void run() {
+			protected void execute() {
 				end(0);
+				this.cancel();
 			}
-		}, 6);
+		});
 		return true;
 	}
 

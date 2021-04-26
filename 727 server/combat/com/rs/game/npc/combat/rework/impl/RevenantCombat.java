@@ -8,8 +8,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @MobCombatSignature(mobId = { 13465, 13466, 13467, 13468, 13469, 13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477,
@@ -114,18 +113,17 @@ public class RevenantCombat extends MobCombatInterface {
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16, 0);
 			if (damage > 0) {
-				WorldTasksManager.schedule(new WorldTask() {
-
+				World.get().submit(new Task(2) {
 					@Override
-					public void run() {
+					protected void execute() {
 						target.setNextGraphics(new Graphics(1277, 0, 100));
 						if (Utils.random(5) == 0) { // 1/5 prob freezing while maging
 							target.setNextGraphics(new Graphics(363));
 							target.addFreezeDelay(30000);
 						}
+						this.cancel();
 					}
-
-				}, 2);
+				});
 			}
 			npc.setNextAnimation(new Animation(getMagicAnimation(npc)));
 			break;

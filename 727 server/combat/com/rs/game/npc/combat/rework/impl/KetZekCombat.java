@@ -9,8 +9,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @MobCombatSignature(mobId = {15207}, mobName = {"Ket-Zek"})
@@ -47,12 +46,12 @@ public class KetZekCombat extends MobCombatInterface {
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
 		World.sendProjectile(npc, target, 2984, 34, 16, 30, 35, 16, 0);
 		delayHit(npc, 2, target, getMagicHit(npc, hit));
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(2) {
 			@Override
-			public void run() {
+			protected void execute() {
 				target.setNextGraphics(new Graphics(2983, 0, 96 << 16));
+				this.cancel();
 			}
-		}, 2);
+		});
 	}
 }

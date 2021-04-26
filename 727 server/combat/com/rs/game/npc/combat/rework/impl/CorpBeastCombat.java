@@ -13,8 +13,7 @@ import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.npc.corp.CorporealBeast;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import skills.Skills;
@@ -67,9 +66,9 @@ public class CorpBeastCombat extends MobCombatInterface {
 			npc.setNextAnimation(new Animation(10410));
 			delayHit(npc, 1, target, getMagicHit(npc, getRandomMaxHit(npc, 550, NPCCombatDefinitions.MAGE, target)));
 			if (target instanceof Player) {
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					@Override
-					public void run() {
+					protected void execute() {
 						int skill = Utils.getRandom(2);
 						skill = skill == 0 ? Skills.MAGIC : (skill == 1 ? Skills.SUMMONING : Skills.PRAYER);
 						Player player = (Player) target;
@@ -82,18 +81,18 @@ public class CorpBeastCombat extends MobCombatInterface {
 						}
 						player.getPackets()
 								.sendGameMessage("Your " + Skills.SKILL_NAME[skill] + " has been slighly drained!");
+						this.cancel();
 					}
-
-				}, 1);
+				});
 				World.sendProjectile(npc, target, 1823, 41, 16, 41, 0, 16, 0);
 			}
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
 			final WorldTile tile = new WorldTile(target);
 			World.sendProjectile(npc, tile, 1824, 41, 16, 30, 0, 16, 0);
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(1) {
 				@Override
-				public void run() {
+				protected void execute() {
 					for (int i = 0; i < 6; i++) {
 						final WorldTile newTile = new WorldTile(tile, 3);
 						if (!World.canMoveNPC(newTile.getHeight(), newTile.getX(), newTile.getY(), 1))
@@ -106,16 +105,17 @@ public class CorpBeastCombat extends MobCombatInterface {
 							delayHit(npc, 0, t,
 									getMagicHit(npc, getRandomMaxHit(npc, 350, NPCCombatDefinitions.MAGE, t)));
 						}
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(1) {
 							@Override
-							public void run() {
+							protected void execute() {
 								World.sendGraphics(npc, new Graphics(1806), newTile);
+								this.cancel();
 							}
-
 						});
 					}
+					this.cancel();
 				}
-			}, 1);
+			});
 		}
 		return defs.getAttackDelay();
 	}

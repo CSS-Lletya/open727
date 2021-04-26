@@ -7,9 +7,9 @@ import java.util.List;
 import com.rs.game.Animation;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
@@ -43,21 +43,25 @@ public final class FireWallAttack implements QueenAttack {
 		Collections.shuffle(wallIds);
 		victim.getPackets().sendGameMessage("<col=FF9900>The Queen Black Dragon takes a huge breath.</col>");
 		final int wallCount = waves;
-		WorldTasksManager.schedule(new WorldTask() {
+		
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				for (int i = 0; i < wallCount; i++) {
 					final int wallId = wallIds.get(i);
-					WorldTasksManager.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							for (int j = 0; j < 2; j++) {
-								final boolean second = j == 1;
-								WorldTasksManager.schedule(new WorldTask() {
-									int y = 37 + (second ? 1 : 0);
-
+				World.get().submit(new Task((i * 7) + 1) {
+					@Override
+					protected void execute() {
+						for (int j = 0; j < 2; j++) {
+							final boolean second = j == 1;
+						World.get().submit(new Task(1) {
+							int y = 37 + (second ? 1 : 0);
+							@Override
+							protected void execute() {
+								
+								World.get().submit(new Task(1) {
 									@Override
-									public void run() {
+									protected void execute() {
 										if (!((wallId == 3158 && victim.getX() == npc.getBase().getX() + 28)
 												|| (wallId == 3159 && victim.getX() == npc.getBase().getX() + 37)
 												|| (wallId == 3160 && victim.getX() == npc.getBase().getX() + 32))) {
@@ -76,19 +80,76 @@ public final class FireWallAttack implements QueenAttack {
 											}
 										}
 										if (--y == 19) {
-											stop();
+											this.cancel();
 										}
+										this.cancel();
 									}
-								}, 0, 0);
+								});
+								
+								this.cancel();
+								victim.getPackets().sendProjectile(null, npc.getBase().transform(33, 38, 0),
+										npc.getBase().transform(33, 19, 0), wallId, 0, 0, 18, 46, 0, 0, 0);
 							}
-							victim.getPackets().sendProjectile(null, npc.getBase().transform(33, 38, 0),
-									npc.getBase().transform(33, 19, 0), wallId, 0, 0, 18, 46, 0, 0, 0);
-						}
-
-					}, (i * 7) + 1);
+						});
+						this.cancel();
+					}
+					}
+				});
+				this.cancel();
 				}
 			}
-		}, 1);
+		});
+		
+		/*
+		 * Leaving this in case for bug referencing and such.
+		 */
+		
+//		WorldTasksManager.schedule(new WorldTask() {
+//			@Override
+//			public void run() {
+//				for (int i = 0; i < wallCount; i++) {
+//					final int wallId = wallIds.get(i);
+//					WorldTasksManager.schedule(new WorldTask() {
+//						@Override
+//						public void run() {
+//							for (int j = 0; j < 2; j++) {
+//								final boolean second = j == 1;
+//								WorldTasksManager.schedule(new WorldTask() {
+//									int y = 37 + (second ? 1 : 0);
+//
+//									@Override
+//									public void run() {
+//										if (!((wallId == 3158 && victim.getX() == npc.getBase().getX() + 28)
+//												|| (wallId == 3159 && victim.getX() == npc.getBase().getX() + 37)
+//												|| (wallId == 3160 && victim.getX() == npc.getBase().getX() + 32))) {
+//											if (victim.getY() == npc.getBase().getY() + y) {
+//												int hit;
+//												String message = FireBreathAttack.getProtectMessage(victim);
+//												if (message == null) {
+//													victim.getPackets().sendGameMessage(
+//															"You are horribly burned by the fire wall!");
+//													hit = Utils.random(400, 765);
+//												} else {
+//													victim.getPackets().sendGameMessage(message);
+//													hit = Utils.random(200, message.contains("prayer") ? 450 : 260);
+//												}
+//												victim.applyHit(new Hit(npc, hit, HitLook.REGULAR_DAMAGE));
+//											}
+//										}
+//										if (--y == 19) {
+//											stop();
+//										}
+//									}
+//								}, 0, 0);
+//							}
+//							victim.getPackets().sendProjectile(null, npc.getBase().transform(33, 38, 0),
+//									npc.getBase().transform(33, 19, 0), wallId, 0, 0, 18, 46, 0, 0, 0);
+//						}
+//
+//					}, (i * 7) + 1);
+//				}
+//			}
+//		}, 1);
 		npc.getTemporaryAttributtes().put("fire_wall_tick_", npc.getTicks() + Utils.random((waves * 7) + 5, 60)); // Don't make it too often.
 		return 8 + (waves * 2);
 	}

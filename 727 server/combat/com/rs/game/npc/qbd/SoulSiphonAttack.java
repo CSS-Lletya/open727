@@ -5,9 +5,9 @@ import java.util.Iterator;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
@@ -35,9 +35,9 @@ public final class SoulSiphonAttack implements QueenAttack {
 		}
 		victim.getPackets()
 				.sendGameMessage("<col=9900CC>The Queen Black Dragon starts to siphon the energy of her mages.</col>");
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();) {
 					TorturedSoul soul = it.next();
 					if (soul.isDead()) {
@@ -50,11 +50,12 @@ public final class SoulSiphonAttack implements QueenAttack {
 					npc.heal(40);
 				}
 				if (npc.getSouls().isEmpty()) {
-					stop();
+					this.cancel();
 					npc.getTemporaryAttributtes().put("_last_soul_summon", npc.getTicks() + Utils.random(120) + 125);
 				}
+				this.cancel();
 			}
-		}, 0, 0);
+		});
 		npc.getTemporaryAttributtes().put("_last_soul_summon", npc.getTicks() + 999);
 		npc.getTemporaryAttributtes().put("_soul_siphon_atk", npc.getTicks() + 50 + Utils.random(40));
 		return Utils.random(5, 10);

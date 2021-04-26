@@ -10,18 +10,17 @@ import com.rs.game.ForceMovement;
 import com.rs.game.ForceTalk;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
+import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
-import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 import player.type.PoisonType;
@@ -67,11 +66,11 @@ public class NexCombat extends MobCombatInterface {
 				final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
 				final WorldTile dir = NO_ESCAPE_TELEPORTS[idx];
 				final WorldTile center = new WorldTile(2924, 5202, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					private int count;
-
+					
 					@Override
-					public void run() {
+					protected void execute() {
 						if (count == 0) {
 							npc.setNextAnimation(new Animation(6321));
 							npc.setNextGraphics(new Graphics(1216));
@@ -97,11 +96,11 @@ public class NexCombat extends MobCombatInterface {
 						} else if (count == 4) {
 							nex.setTarget(target);
 							npc.setCantInteract(false);
-							stop();
+							this.cancel();
 						}
-						count++;
+						this.cancel();
 					}
-				}, 0, 1);
+				});
 				return defs.getAttackDelay();
 			}
 			// normal melee attack
@@ -135,9 +134,9 @@ public class NexCombat extends MobCombatInterface {
 					npc.setNextAnimation(new Animation(6986));
 					npc.setTarget(player);
 					player.setNextAnimation(new Animation(-1));
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(1) {
 						@Override
-						public void run() {
+						protected void execute() {
 							player.setNextWorldTile(nex);
 							player.getPackets()
 									.sendGameMessage("You've been injured and you can't use protective curses!");
@@ -145,6 +144,7 @@ public class NexCombat extends MobCombatInterface {
 																				// 20
 																				// seconds
 							player.getPackets().sendGameMessage("You're stunned.");
+							this.cancel();
 						}
 					});
 					return defs.getAttackDelay();
@@ -170,9 +170,9 @@ public class NexCombat extends MobCombatInterface {
 					nex.playSound(3322, 2);
 					npc.setNextAnimation(new Animation(6355));
 					npc.setNextGraphics(new Graphics(1217));
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(1) {
 						@Override
-						public void run() {
+						protected void execute() {
 							if (nex.getAttacksStage() != 1 || nex.hasFinished()) {
 								for (Entity entity : nex.getPossibleTargets()) {
 									if (entity instanceof Player) {
@@ -180,7 +180,7 @@ public class NexCombat extends MobCombatInterface {
 										player.getPackets().sendGlobalConfig(1435, 255);
 									}
 								}
-								stop();
+								this.cancel();
 								return;
 							}
 							if (Utils.getRandom(2) == 0) {
@@ -195,8 +195,9 @@ public class NexCombat extends MobCombatInterface {
 									}
 								}
 							}
+							this.cancel();
 						}
-					}, 0, 0);
+					});
 					return defs.getAttackDelay();
 				}
 				if (!nex.isTrapsSettedUp() && Utils.getRandom(2) == 0) {
@@ -214,11 +215,11 @@ public class NexCombat extends MobCombatInterface {
 							World.spawnTemporaryObject(new WorldObject(57261, (short) 10, (short) 0, (short)t.getX(), (short) t.getY(), 0), 2400);
 						}
 					}
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(3) {
 						private boolean firstCall;
-
+						
 						@Override
-						public void run() {
+						protected void execute() {
 							if (!firstCall) {
 								ArrayList<Entity> possibleTargets = nex.getPossibleTargets();
 								for (int[] tile : tiles.values()) {
@@ -231,11 +232,11 @@ public class NexCombat extends MobCombatInterface {
 								firstCall = true;
 							} else {
 								nex.setTrapsSettedUp(false);
-								stop();
+								this.cancel();
 							}
+							this.cancel();
 						}
-
-					}, 3, 3);
+					});
 					return defs.getAttackDelay();
 				}
 				npc.setNextAnimation(new Animation(6987));
@@ -246,12 +247,13 @@ public class NexCombat extends MobCombatInterface {
 						World.sendProjectile(npc, t, 380, 41, 16, 41, 35, 16, 0);
 						delayHit(npc, 1, t,
 								getRangeHit(npc, getRandomMaxHit(npc, damage, NPCCombatDefinitions.RANGE, t)));
-						WorldTasksManager.schedule(new WorldTask() {
+						World.get().submit(new Task(1) {
 							@Override
-							public void run() {
+							protected void execute() {
 								t.setNextGraphics(new Graphics(471));
+								this.cancel();
 							}
-						}, 1);
+						});
 					}
 				}
 				return defs.getAttackDelay();
@@ -264,9 +266,9 @@ public class NexCombat extends MobCombatInterface {
 					player.getPackets().sendGameMessage("Nex has marked you as a sacrifice, RUN!");
 					final int x = player.getX();
 					final int y = player.getY();
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(defs.getAttackDelay()) {
 						@Override
-						public void run() {
+						protected void execute() {
 							player.getAppearance().setGlowRed(false);
 							if (x == player.getX() && y == player.getY()) {
 								player.getPackets().sendGameMessage(
@@ -276,21 +278,23 @@ public class NexCombat extends MobCombatInterface {
 									World.sendProjectile(npc, t, 374, 41, 16, 41, 35, 16, 0);
 									final int damage = getRandomMaxHit(npc, 290, NPCCombatDefinitions.MAGE, t);
 									delayHit(npc, 1, t, getMagicHit(npc, damage));
-									WorldTasksManager.schedule(new WorldTask() {
+									World.get().submit(new Task(1) {
 										@Override
-										public void run() {
+										protected void execute() {
 											t.setNextGraphics(new Graphics(376));
 											nex.heal(damage / 4);
 											if (t instanceof Player) {
 												Player p = (Player) t;
 												p.getPrayer().drainPrayerOnHalf();
 											}
+											this.cancel();
 										}
-									}, 1);
+									});
 								}
 							}
+							this.cancel();
 						}
-					}, defs.getAttackDelay());
+					});
 					return defs.getAttackDelay() * 2;
 				}
 				if (nex.getLastSiphon() < Utils.currentTimeMillis() && npc.getHitpoints() <= 18000
@@ -319,12 +323,13 @@ public class NexCombat extends MobCombatInterface {
 							}
 						}
 					}
-					WorldTasksManager.schedule(new WorldTask() {
+					World.get().submit(new Task(8) {
 						@Override
-						public void run() {
+						protected void execute() {
 							nex.setDoingSiphon(false);
+							this.cancel();
 						}
-					}, 8);
+					});
 					return defs.getAttackDelay();
 				}
 				npc.setNextAnimation(new Animation(6986));
@@ -338,17 +343,16 @@ public class NexCombat extends MobCombatInterface {
 					World.sendProjectile(npc, t, 362, 41, 16, 41, 35, 16, 0);
 					int damage = getRandomMaxHit(npc, defs.getMaxHit(), NPCCombatDefinitions.MAGE, t);
 					delayHit(npc, 1, t, getMagicHit(npc, damage));
-					if (damage > 0 && Utils.getRandom(5) == 0) {// 1/6
-																// probability
-																// freezing
-						WorldTasksManager.schedule(new WorldTask() {
+					if (damage > 0 && Utils.getRandom(5) == 0) {// 1/6 probability freezing
+
+						World.get().submit(new Task(2) {
 							@Override
-							public void run() {
+							protected void execute() {
 								t.addFreezeDelay(18000);
 								t.setNextGraphics(new Graphics(369));
+								this.cancel();
 							}
-						}, 2);
-
+						});
 					}
 				}
 				return defs.getAttackDelay();

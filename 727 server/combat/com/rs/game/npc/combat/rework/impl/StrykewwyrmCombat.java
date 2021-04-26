@@ -3,16 +3,15 @@ package com.rs.game.npc.combat.rework.impl;
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
+import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @MobCombatSignature(mobId = { 9463, 9465, 9467 }, mobName = {})
@@ -41,9 +40,9 @@ public class StrykewwyrmCombat extends MobCombatInterface {
 			delayHit(npc, 1, target, hit);
 			World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 30, 16, 0);
 			if (npc.getId() == 9463) {
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					@Override
-					public void run() {
+					protected void execute() {
 						if (Utils.getRandom(10) == 0 && target.getFreezeDelay() < System.currentTimeMillis()) {
 							target.addFreezeDelay(3000);
 							target.setNextGraphics(new Graphics(369));
@@ -53,8 +52,9 @@ public class StrykewwyrmCombat extends MobCombatInterface {
 							}
 						} else if (hit.getDamage() != 0)
 							target.setNextGraphics(new Graphics(2315));
+						this.cancel();
 					}
-				}, 1);
+				});
 			}
 		} else if (attackStyle == 10) { // bury
 			final WorldTile tile = new WorldTile(target);
@@ -63,12 +63,10 @@ public class StrykewwyrmCombat extends MobCombatInterface {
 			npc.setCantInteract(true);
 			npc.getCombat().removeTarget();
 			final int id = npc.getId();
-			WorldTasksManager.schedule(new WorldTask() {
-
+			World.get().submit(new Task(1) {
 				int count;
-
 				@Override
-				public void run() {
+				protected void execute() {
 					if (count == 0) {
 
 						npc.transformIntoNPC(id - 1);
@@ -87,10 +85,11 @@ public class StrykewwyrmCombat extends MobCombatInterface {
 						npc.getCombat().setCombatDelay(defs.getAttackDelay());
 						npc.setTarget(target);
 						npc.setCantInteract(false);
-						stop();
+						this.cancel();
 					}
+					this.cancel();
 				}
-			}, 1, 1);
+			});
 		}
 		return defs.getAttackDelay();
 	}

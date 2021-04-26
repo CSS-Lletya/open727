@@ -8,16 +8,16 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
  * Non melee doesn't hit, find out why.
+ * 
  * @author Dennis
  *
  */
-@MobCombatSignature(mobId = {}, mobName = {"Jad"})
+@MobCombatSignature(mobId = {}, mobName = { "Jad" })
 public class JadCombat extends MobCombatInterface {
 
 	@Override
@@ -40,32 +40,27 @@ public class JadCombat extends MobCombatInterface {
 		if (attackStyle == 1) { // range
 			npc.setNextAnimation(new Animation(16202));
 			npc.setNextGraphics(new Graphics(2994));
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(3) {
 				@Override
-				public void run() {
+				protected void execute() {
 					target.setNextGraphics(new Graphics(3000));
 					delayHit(npc, 1, target, getRangeHit(npc,
 							getRandomMaxHit(npc, defs.getMaxHit() - 2, NPCCombatDefinitions.RANGE, target)));
+					this.cancel();
 				}
-			}, 3);
+			});
 		} else {
 			npc.setNextAnimation(new Animation(16195));
 			npc.setNextGraphics(new Graphics(2995));
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(2) {
 				@Override
-				public void run() {
-					World.sendProjectile(npc, target, 2996, 80, 30, 40, 20, 5, 0);
-					WorldTasksManager.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							target.setNextGraphics(new Graphics(2741, 0, 100));
-							delayHit(npc, 0, target, getMagicHit(npc,
-									getRandomMaxHit(npc, defs.getMaxHit() - 2, NPCCombatDefinitions.MAGE, target)));
-						}
-
-					}, 1);
+				protected void execute() {
+					target.setNextGraphics(new Graphics(2741, 0, 100));
+					delayHit(npc, 0, target, getMagicHit(npc,
+							getRandomMaxHit(npc, defs.getMaxHit() - 2, NPCCombatDefinitions.MAGE, target)));
+					this.cancel();
 				}
-			}, 2);
+			});
 		}
 
 		return defs.getAttackDelay() + 2;

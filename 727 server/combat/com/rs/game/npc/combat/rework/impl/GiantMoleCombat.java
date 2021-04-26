@@ -9,8 +9,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @MobCombatSignature(mobId = {}, mobName = {"Giant Mole"})
@@ -31,9 +30,9 @@ public class GiantMoleCombat extends MobCombatInterface {
 			if (player != null)
 				player.getInterfaceManager().sendTab(player.getInterfaceManager().hasRezizableScreen() ? 1 : 11, 226);
 			final WorldTile middle = npc.getMiddleWorldTile();
-			WorldTasksManager.schedule(new WorldTask() {
+			World.get().submit(new Task(2) {
 				@Override
-				public void run() {
+				protected void execute() {
 					if (player != null)
 						player.getPackets().closeInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 11);
 					npc.setCantInteract(false);
@@ -58,11 +57,9 @@ public class GiantMoleCombat extends MobCombatInterface {
 							new WorldTile(middle.getX() + 1, middle.getY(), middle.getHeight()));
 					npc.setNextWorldTile(new WorldTile(COORDS[Utils.random(COORDS.length)]));
 					npc.setNextAnimation(new Animation(3315));
-
+					this.cancel();
 				}
-
-			}, 2);
-
+			});
 		} else {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			delayHit(npc, 0, target,

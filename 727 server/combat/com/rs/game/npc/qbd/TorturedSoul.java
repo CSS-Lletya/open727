@@ -6,12 +6,12 @@ import com.rs.game.ForceTalk;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 /**
@@ -100,20 +100,20 @@ public final class TorturedSoul extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			int loop;
-
 			@Override
-			public void run() {
+			protected void execute() {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
 					finish();
-					stop();
+					this.cancel();
 				}
 				loop++;
+				this.cancel();
 			}
-		}, 0, 1);
+		});
 	}
 
 	/**
@@ -125,10 +125,9 @@ public final class TorturedSoul extends NPC {
 		super.setNextGraphics(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();
-		WorldTasksManager.schedule(new WorldTask() {
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
-				stop();
+			protected void execute() {
 				int diffX = getX() - victim.getX(), diffY = getY() - victim.getY();
 				if (diffX < 0) {
 					diffX = -diffX;
@@ -152,11 +151,10 @@ public final class TorturedSoul extends NPC {
 				setNextGraphics(SPECIAL_ATT_GFX_);
 				setNextAnimation(SPECIAL_ATT_ANIM_);
 				getCombat().setTarget(victim);
-				WorldTasksManager.schedule(new WorldTask() {
+				World.get().submit(new Task(1) {
 					int x = currentX, y = currentY;
-
 					@Override
-					public void run() {
+					protected void execute() {
 						WorldTile current = new WorldTile(x, y, 1);
 						victim.getPackets().sendGraphics(SPECIAL_GRAPHIC, current);
 						Entity target = null;
@@ -178,7 +176,7 @@ public final class TorturedSoul extends NPC {
 							target = victim;
 						}
 						if (target != null) {
-							stop();
+							this.cancel();
 							target.applyHit(new Hit(dragon, Utils.random(200, 260), HitLook.REGULAR_DAMAGE));
 							return;
 						}
@@ -192,9 +190,11 @@ public final class TorturedSoul extends NPC {
 						} else if (y < victim.getY()) {
 							y++;
 						}
+						this.cancel();
 					}
-				}, 0, 0);
+				});
+				this.cancel();
 			}
-		}, 1);
+		});
 	}
 }

@@ -15,8 +15,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.rework.MobCombatInterface;
 import com.rs.game.npc.combat.rework.MobCombatSignature;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
 @MobCombatSignature(mobId = {}, mobName = {"Kalphite Queen"})
@@ -48,13 +47,12 @@ public class KalphiteQueenCombat extends MobCombatInterface {
 			}
 		} else {
 			npc.setNextGraphics(new Graphics(npc.getId() == 1158 ? 278 : 279));
-			WorldTasksManager.schedule(new WorldTask() {
-
+			World.get().submit(new Task(1) {
 				@Override
-				public void run() {
+				protected void execute() {
 					attackMageTarget(new ArrayList<Player>(), npc, npc, target);
+					this.cancel();
 				}
-
 			});
 		}
 		return defs.getAttackDelay();
@@ -69,12 +67,12 @@ public class KalphiteQueenCombat extends MobCombatInterface {
 		World.sendProjectile(fromEntity, target, 280, fromEntity == startTile ? 70 : 20, 20, 60, 30, 0, 0);
 		delayHit(startTile, 0, target, getMagicHit(startTile,
 				getRandomMaxHit(startTile, startTile.getMaxHit(), NPCCombatDefinitions.MAGE, target)));
-		WorldTasksManager.schedule(new WorldTask() {
-
+		World.get().submit(new Task(1) {
 			@Override
-			public void run() {
+			protected void execute() {
 				target.setNextGraphics(new Graphics(281));
 				attackMageTarget(arrayList, target, startTile, null);
+				this.cancel();
 			}
 		});
 	}
