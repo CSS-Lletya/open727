@@ -1,5 +1,7 @@
 package com.rs.game.npc.pet;
 
+import java.io.Serializable;
+
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
@@ -14,7 +16,7 @@ import com.rs.utils.Utils;
  * @author Emperor
  *
  */
-public final class Pet extends NPC {
+public final class Pet extends NPC implements Serializable {
 
 	/**
 	 * The serial UID.

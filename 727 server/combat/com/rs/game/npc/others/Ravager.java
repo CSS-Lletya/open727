@@ -3,7 +3,6 @@ package com.rs.game.npc.others;
 import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 
-@SuppressWarnings("serial")
 public class Ravager extends NPC {
 
 	boolean destroyingObject = false;

@@ -11,7 +11,6 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
-@SuppressWarnings("serial")
 public class Bork extends NPC {
 
 	public static long deadTime;

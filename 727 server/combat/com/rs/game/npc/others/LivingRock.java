@@ -14,7 +14,6 @@ import com.rs.game.task.Task;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class LivingRock extends NPC {
 
 	private Entity source;

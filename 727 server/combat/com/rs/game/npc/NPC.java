@@ -1,6 +1,5 @@
 package com.rs.game.npc;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +16,7 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
+import com.rs.game.npc.combat.Drop;
 import com.rs.game.npc.combat.NPCCombat;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
@@ -34,9 +34,7 @@ import com.rs.utils.NPCCombatDefinitionsL;
 import com.rs.utils.NPCDrops;
 import com.rs.utils.Utils;
 
-public class NPC extends Entity implements Serializable {
-
-	private static final long serialVersionUID = -4794678936277614443L;
+public class NPC extends Entity {
 
 	public static int NORMAL_WALK = 0x2, WATER_WALK = 0x4, FLY_WALK = 0x8;
 

@@ -9,7 +9,6 @@ import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class FireSpirit extends NPC {
 
 	private Player target;

@@ -13,7 +13,6 @@ import com.rs.game.npc.godwars.zammorak.GodwarsZammorakFaction;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class GodwarsArmadylFaction extends NPC {
 
 	public GodwarsArmadylFaction(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea,

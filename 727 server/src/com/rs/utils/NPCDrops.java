@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.HashMap;
 
-import com.rs.game.npc.Drop;
+import com.rs.game.npc.combat.Drop;
 
 public class NPCDrops {
 

@@ -11,7 +11,6 @@ import com.rs.game.RegionBuilder;
 import com.rs.game.World;
 import com.rs.game.dialogue.DialogueEventRepository;
 import com.rs.game.item.AutomaticGroundItem;
-import com.rs.game.npc.combat.CombatScriptsHandler;
 import com.rs.game.npc.combat.rework.NPCCombatDispatcher;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
@@ -89,12 +88,9 @@ public class GameLoader {
 			ShopsHandler.init();
 		});
 		getBackgroundLoader().submit(() -> {
-			CombatScriptsHandler.init();
 			ControlerHandler.init();
 			FriendChatsManager.init();
 			RegionBuilder.init();
-		});
-		getBackgroundLoader().submit(() -> {
 			DialogueEventRepository.init();
 		});
 		getBackgroundLoader().submit(() -> {

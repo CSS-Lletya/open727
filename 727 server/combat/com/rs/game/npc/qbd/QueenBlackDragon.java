@@ -27,11 +27,6 @@ import com.rs.utils.Utils;
 public final class QueenBlackDragon extends NPC {
 
 	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -7709946348178377601L;
-
-	/**
 	 * The attacks for the first phase.
 	 */
 	private static final QueenAttack[] PHASE_1_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(),

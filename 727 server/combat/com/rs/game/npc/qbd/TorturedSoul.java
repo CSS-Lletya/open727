@@ -22,11 +22,6 @@ import com.rs.utils.Utils;
 public final class TorturedSoul extends NPC {
 
 	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -1148744797884976406L;
-
-	/**
 	 * The messages the NPC can say.
 	 */
 	private static final ForceTalk[] FORCE_MESSAGES = { new ForceTalk("NO MORE! RELEASE ME, MY QUEEN! I BEG YOU!"),

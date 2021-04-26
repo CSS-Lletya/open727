@@ -13,7 +13,6 @@ import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
-@SuppressWarnings("serial")
 public class GodWarMinion extends NPC {
 
 	public GodWarMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea,
