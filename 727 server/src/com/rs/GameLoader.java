@@ -16,6 +16,8 @@ import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.json.GsonHandler;
 import com.rs.net.ServerChannelHandler;
+import com.rs.net.host.HostListType;
+import com.rs.net.host.HostManager;
 import com.rs.utils.Huffman;
 import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
@@ -100,6 +102,11 @@ public class GameLoader {
 			ObjectDispatcher.load();
 			NPCDispatcher.load();
 			NPCCombatDispatcher.load();
+		});
+		getBackgroundLoader().submit(() -> {
+			HostManager.deserialize(HostListType.STARTER_RECEIVED);
+			HostManager.deserialize(HostListType.BANNED_IP);
+			HostManager.deserialize(HostListType.MUTED_IP);
 		});
 	}
 	

@@ -50,6 +50,8 @@ import com.rs.net.Session;
 import com.rs.net.decoders.LogicPacket;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.encoders.WorldPacketsEncoder;
+import com.rs.net.host.HostListType;
+import com.rs.net.host.HostManager;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
@@ -181,8 +183,6 @@ public class Player extends Entity {
 	private long displayTime;
 	private long muted;
 	private long jailed;
-	private long banned;
-	private boolean permBanned;
 	private boolean filterGame;
 	private boolean xpLocked;
 	// game bar status
@@ -692,10 +692,9 @@ public class Player extends Entity {
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);
 		
-		if (!recievedStarter) {
-			getDialogueManager().startDialogue("SimpleMessage", "Welcome new player " + getDisplayName() + "! We're open source right now!");
+		if (!HostManager.contains(getUsername(), HostListType.STARTER_RECEIVED)) {
 			PassiveDatabaseWorker.addRequest(new NewPlayerDBPlugin(getDisplayName()));
-			recievedStarter = true;
+			HostManager.add(this, HostListType.STARTER_RECEIVED, true);
 		}
 		
 		interfaceManager.sendOverlay(1252, false);
@@ -1737,22 +1736,6 @@ public class Player extends Entity {
 		this.jailed = jailed;
 	}
 
-	public boolean isPermBanned() {
-		return permBanned;
-	}
-
-	public void setPermBanned(boolean permBanned) {
-		this.permBanned = permBanned;
-	}
-
-	public long getBanned() {
-		return banned;
-	}
-
-	public void setBanned(long banned) {
-		this.banned = banned;
-	}
-
 	public ChargesManager getCharges() {
 		return charges;
 	}
@@ -2132,8 +2115,6 @@ public class Player extends Entity {
 	public void setRequestResults(Queue<RequestModel> requestResults) {
 		this.requestResults = requestResults;
 	}
-	
-	public boolean recievedStarter = false;
 	
 	/**
 	 * The current skill action that is going on for this player.

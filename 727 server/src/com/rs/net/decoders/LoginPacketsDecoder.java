@@ -6,6 +6,8 @@ import com.rs.game.World;
 import com.rs.game.player.AccountCreation;
 import com.rs.game.player.Player;
 import com.rs.net.Session;
+import com.rs.net.host.HostListType;
+import com.rs.net.host.HostManager;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Encrypt;
 import com.rs.utils.IsaacKeyPair;
@@ -142,10 +144,11 @@ public final class LoginPacketsDecoder extends Decoder {
 				return;
 			}
 		}
-		if (player.isPermBanned() || player.getBanned() > Utils.currentTimeMillis()) {
+		if(HostManager.contains(player.getLastIP(), HostListType.BANNED_IP)) {
 			session.getLoginPackets().sendClientPacket(4);
 			return;
 		}
+		
 		player.init(session, username, displayMode, screenWidth, screenHeight, mInformation, new IsaacKeyPair(isaacKeys));
 		session.getLoginPackets().sendLoginDetails(player);
 		session.setDecoder(3, player);
