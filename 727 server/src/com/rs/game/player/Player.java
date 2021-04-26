@@ -102,6 +102,10 @@ public class Player extends Entity {
 	private transient boolean started;
 	private transient boolean running;
 
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 	private transient long packetsDecoderPing;
 	private transient boolean resting;
 	private transient boolean canPvp;
@@ -762,7 +766,7 @@ public class Player extends Entity {
 
 	@Override
 	public void checkMultiArea() {
-		if (!started)
+		if (!hasStarted())
 			return;
 		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(this);
 		if (isAtMultiArea && !isAtMultiArea()) {
@@ -779,24 +783,7 @@ public class Player extends Entity {
 	 * @param lobby If we're logging out to the lobby.
 	 */
 	public void logout(boolean lobby) {
-		if (!running)
-			return;
-		long currentTime = Utils.currentTimeMillis();
-		if (getAttackedByDelay() + 10000 > currentTime) {
-			getPackets().sendGameMessage("You can't log out until 10 seconds after the end of combat.");
-			return;
-		}
-		if (getEmotesManager().getNextEmoteEnd() >= currentTime) {
-			getPackets().sendGameMessage("You can't log out while performing an emote.");
-			return;
-		}
-		if (lockDelay >= currentTime) {
-			getPackets().sendGameMessage("You can't log out while performing an action.");
-			return;
-		}
-		lobby = false;
-		running = false;
-		getPackets().sendLogout(false);
+		World.get().queueLogout(this);
 	}
 
 	public void forceLogout() {
@@ -1477,169 +1464,17 @@ public class Player extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
+		if (!getControlerManager().sendDeath())
+			return;
 		setDead(true);
 		getPoisonDamage().set(0);
-		setAntifireDetail(Optional.empty());
-		if (prayer.hasPrayersOn() && getTemporaryAttributtes().get("startedDuel") != Boolean.TRUE) {
-			if (prayer.usingPrayer(0, 22)) {
-				setNextGraphics(new Graphics(437));
-				final Player target = this;
-				if (isAtMultiArea()) {
-					for (int regionId : getMapRegionsIds()) {
-						List<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-						if (playersIndexes != null) {
-							for (int playerIndex : playersIndexes) {
-								Player player = World.getPlayers().get(playerIndex);
-								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished()
-										|| !player.withinDistance(this, 1) || !player.isCanPvp()
-										|| !target.getControlerManager().canHit(player))
-									continue;
-								player.applyHit(new Hit(target,
-										Utils.getRandom((int) (skills.getLevelForXp(Skills.PRAYER) * 2.5)),
-										HitLook.REGULAR_DAMAGE));
-							}
-						}
-						List<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-						if (npcsIndexes != null) {
-							for (int npcIndex : npcsIndexes) {
-								NPC npc = World.getNPCs().get(npcIndex);
-								if (npc == null || npc.isDead() || npc.hasFinished() || !npc.withinDistance(this, 1)
-										|| !npc.getDefinitions().hasAttackOption()
-										|| !target.getControlerManager().canHit(npc))
-									continue;
-								npc.applyHit(new Hit(target,
-										Utils.getRandom((int) (skills.getLevelForXp(Skills.PRAYER) * 2.5)),
-										HitLook.REGULAR_DAMAGE));
-							}
-						}
-					}
-				} else {
-					if (source != null && source != this && !source.isDead() && !source.hasFinished()
-							&& source.withinDistance(this, 1))
-						source.applyHit(
-								new Hit(target, Utils.getRandom((int) (skills.getLevelForXp(Skills.PRAYER) * 2.5)),
-										HitLook.REGULAR_DAMAGE));
-				}
-				World.get().submit(new Task(0) {
-					@Override
-					protected void execute() {
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY(), target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY(), target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX(), target.getY() - 1, target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX(), target.getY() + 1, target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY() - 1, target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() - 1, target.getY() + 1, target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY() - 1, target.getHeight()));
-						World.sendGraphics(target, new Graphics(438),
-								new WorldTile(target.getX() + 1, target.getY() + 1, target.getHeight()));
-						this.cancel();
-					}
-				});
-			} else if (prayer.usingPrayer(1, 17)) {
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() + 2, getHeight()), 2260, 24, 0, 41, 35, 30,
-						0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY(), getHeight()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30,
-						0);
-
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() + 2, getHeight()), 2260, 41, 0, 41, 35, 30,
-						0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY(), getHeight()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30,
-						0);
-
-				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getHeight()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getHeight()), 2260, 41, 0, 41, 35, 30, 0);
-				final Player target = this;
-				World.get().submit(new Task(0) {
-					@Override
-					protected void execute() {
-						setNextGraphics(new Graphics(2259));
-
-						if (isAtMultiArea()) {
-							for (int regionId : getMapRegionsIds()) {
-								List<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-								if (playersIndexes != null) {
-									for (int playerIndex : playersIndexes) {
-										Player player = World.getPlayers().get(playerIndex);
-										if (player == null || !player.hasStarted() || player.isDead()
-												|| player.hasFinished() || !player.isCanPvp()
-												|| !player.withinDistance(target, 2)
-												|| !target.getControlerManager().canHit(player))
-											continue;
-										player.applyHit(new Hit(target,
-												Utils.getRandom((skills.getLevelForXp(Skills.PRAYER) * 3)),
-												HitLook.REGULAR_DAMAGE));
-									}
-								}
-								List<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-								if (npcsIndexes != null) {
-									for (int npcIndex : npcsIndexes) {
-										NPC npc = World.getNPCs().get(npcIndex);
-										if (npc == null || npc.isDead() || npc.hasFinished()
-												|| !npc.withinDistance(target, 2)
-												|| !npc.getDefinitions().hasAttackOption()
-												|| !target.getControlerManager().canHit(npc))
-											continue;
-										npc.applyHit(new Hit(target,
-												Utils.getRandom((skills.getLevelForXp(Skills.PRAYER) * 3)),
-												HitLook.REGULAR_DAMAGE));
-									}
-								}
-							}
-						} else {
-							if (source != null && source != target && !source.isDead() && !source.hasFinished()
-									&& source.withinDistance(target, 2))
-								source.applyHit(
-										new Hit(target, Utils.getRandom((skills.getLevelForXp(Skills.PRAYER) * 3)),
-												HitLook.REGULAR_DAMAGE));
-						}
-
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 2, getY() + 2, getHeight()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() + 2, getY(), getHeight()));
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 2, getY() - 2, getHeight()));
-
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 2, getY() + 2, getHeight()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX() - 2, getY(), getHeight()));
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 2, getY() - 2, getHeight()));
-
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() + 2, getHeight()));
-						World.sendGraphics(target, new Graphics(2260), new WorldTile(getX(), getY() - 2, getHeight()));
-
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 1, getY() + 1, getHeight()));
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() + 1, getY() - 1, getHeight()));
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 1, getY() + 1, getHeight()));
-						World.sendGraphics(target, new Graphics(2260),
-								new WorldTile(getX() - 1, getY() - 1, getHeight()));
-
-					}
-				});
-
-			}
-		}
+		setAntifireDetail(Optional.empty());		
+		setNextAnimation(new Animation(Animation.RESET_ANIMATION));
 		
-		setNextAnimation(new Animation(-1));
-		if (!controlerManager.sendDeath())
-			return;
 		lock(7);
 		stopAll();
-		if (familiar != null)
-			familiar.sendDeath(this);
-
+		if (getFamiliar() != null)
+			getFamiliar().sendDeath(this);
 		LinkedTaskSequence seq = new LinkedTaskSequence();
 		seq.connect(1, () -> setNextAnimation(new Animation(836)));
 		seq.connect(4, () -> {
@@ -1660,25 +1495,25 @@ public class Player extends Entity {
 	public void sendItemsOnDeath(Player killer) {
 		if (getRights().isStaff())
 			return;
-		charges.die();
-		auraManager.removeAura();
+		getCharges().die();
+		getAuraManager().removeAura();
 		CopyOnWriteArrayList<Item> containedItems = new CopyOnWriteArrayList<Item>();
 		for (int i = 0; i < 14; i++) {
-			if (equipment.getItem(i) != null && equipment.getItem(i).getId() != -1
-					&& equipment.getItem(i).getAmount() != -1)
-				containedItems.add(new Item(equipment.getItem(i).getId(), equipment.getItem(i).getAmount()));
+			if (getEquipment().getItem(i) != null && getEquipment().getItem(i).getId() != -1
+					&& getEquipment().getItem(i).getAmount() != -1)
+				containedItems.add(new Item(getEquipment().getItem(i).getId(), getEquipment().getItem(i).getAmount()));
 		}
 		for (int i = 0; i < 28; i++) {
-			if (inventory.getItem(i) != null && inventory.getItem(i).getId() != -1
-					&& inventory.getItem(i).getAmount() != -1)
+			if (getInventory().getItem(i) != null && getInventory().getItem(i).getId() != -1
+					&& getInventory().getItem(i).getAmount() != -1)
 				containedItems.add(new Item(getInventory().getItem(i).getId(), getInventory().getItem(i).getAmount()));
 		}
 		if (containedItems.isEmpty())
 			return;
 		int keptAmount = 0;
-		if (!(controlerManager.getControler() instanceof CorpBeastControler)) {
+		if (!(getControlerManager().getControler() instanceof CorpBeastControler)) {
 			keptAmount = hasSkull() ? 0 : 3;
-			if (prayer.usingPrayer(0, 10) || prayer.usingPrayer(1, 0))
+			if (getPrayer().usingPrayer(0, 10) || getPrayer().usingPrayer(1, 0))
 				keptAmount++;
 		}
 		CopyOnWriteArrayList<Item> keptItems = new CopyOnWriteArrayList<Item>();
@@ -1694,8 +1529,8 @@ public class Player extends Entity {
 			containedItems.remove(lastItem);
 			lastItem = new Item(1, 1);
 		}
-		inventory.reset();
-		equipment.reset();
+		getInventory().reset();
+		getEquipment().reset();
 		for (Item item : keptItems) {
 			getInventory().addItem(item);
 		}

@@ -21,6 +21,7 @@ public final class WorldThread extends Thread {
 			long currentTime = Utils.currentTimeMillis();
 			try {
 				World.get().taskManager.sequence();
+				World.get().dequeueLogout();
 				AutomaticGroundItem.processGameTick();
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted() || player.hasFinished())
