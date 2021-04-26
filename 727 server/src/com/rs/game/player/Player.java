@@ -43,7 +43,6 @@ import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
-import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
 import com.rs.game.task.impl.CombatEffectTask;
 import com.rs.game.task.impl.SkillActionTask;
@@ -1464,32 +1463,7 @@ public class Player extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
-		if (!getControlerManager().sendDeath())
-			return;
-		setDead(true);
-		getPoisonDamage().set(0);
-		setAntifireDetail(Optional.empty());		
-		setNextAnimation(new Animation(Animation.RESET_ANIMATION));
-		
-		lock(7);
-		stopAll();
-		if (getFamiliar() != null)
-			getFamiliar().sendDeath(this);
-		LinkedTaskSequence seq = new LinkedTaskSequence();
-		seq.connect(1, () -> setNextAnimation(new Animation(836)));
-		seq.connect(4, () -> {
-			getPackets().sendMusicEffect(90);
-			if (source instanceof Player) {
-				Player killer = (Player) source;
-				killer.setAttackedByDelay(4);
-			}
-			getPackets().sendGameMessage("Oh dear, you have died.");
-			setNextWorldTile(new WorldTile(Settings.RESPAWN_PLAYER_LOCATION));
-			setNextAnimation(new Animation(-1));
-			heal(getMaxHitpoints());
-			setDead(false);
-		});
-		seq.start();
+		World.get().submit(new PlayerDeath(this));
 	}
 
 	public void sendItemsOnDeath(Player killer) {
