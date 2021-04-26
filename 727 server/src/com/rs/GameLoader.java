@@ -15,6 +15,7 @@ import com.rs.game.npc.combat.rework.NPCCombatDispatcher;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.json.GsonHandler;
+import com.rs.json.impl.MobDropTableLoader;
 import com.rs.net.ServerChannelHandler;
 import com.rs.net.host.HostListType;
 import com.rs.net.host.HostManager;
@@ -27,7 +28,6 @@ import com.rs.utils.MapAreas;
 import com.rs.utils.MusicHints;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
-import com.rs.utils.NPCDrops;
 import com.rs.utils.ShopsHandler;
 
 import main.CommandDispatcher;
@@ -82,7 +82,6 @@ public class GameLoader {
 		});
 		getBackgroundLoader().submit(() -> {
 			NPCBonuses.init();
-			NPCDrops.init();
 			ItemExamines.init();
 			ItemBonuses.init();
 			AutomaticGroundItem.initialize();
@@ -107,6 +106,7 @@ public class GameLoader {
 			HostManager.deserialize(HostListType.STARTER_RECEIVED);
 			HostManager.deserialize(HostListType.BANNED_IP);
 			HostManager.deserialize(HostListType.MUTED_IP);
+			new MobDropTableLoader().load();
 		});
 	}
 	

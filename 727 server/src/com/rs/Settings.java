@@ -86,4 +86,15 @@ public final class Settings {
 	 * sequence.
 	 */
 	public static final int LOGOUT_THRESHOLD = 30;
+	
+	/**
+	 * The maximum amount of drops that can be rolled from the dynamic drop
+	 * table.
+	 */
+	public static final int DROP_THRESHOLD = 2;
+	
+	/**
+	 * The attempted looped of randomized rare mob drops.
+	 */
+	public static final int DROP_RARE_ATTEMPTS = 5;
 }
