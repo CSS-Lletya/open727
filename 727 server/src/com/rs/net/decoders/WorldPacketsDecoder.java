@@ -1258,23 +1258,22 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.getDialogueManager().finishDialogue();
 			}
 		} else if (packetId == SWITCH_INTERFACE_ITEM_PACKET) {
-			
-			
-			int toSlot = stream.readShortLE128();
-			int fromSlot = stream.readUnsignedShortLE();//.readIntV1(); -
-			@SuppressWarnings("unused")
-			int fromSlot22 = stream.readUnsignedShort();//.readInt();
-			@SuppressWarnings("unused")
-			int fromSlot2 = stream.readUnsignedShortLE128();//.readUnsignedShort();
-			int fromInterfaceHash = stream.readIntV1();//.readUnsignedShortLE128(); -
-			int toInterfaceHash = stream.readIntLE();//.readUnsignedShortLE();
+			stream.readUnsignedShortLE();//skip in stream
+			int fromSlot = stream.readUnsignedShortLE();
+			int toSlot = stream.readUnsignedShortLE();
+			stream.readUnsignedShortLE();//skip, idk what these are?
+			int fromComponentId = stream.readShort();
+			int fromInterfaceId = stream.readUnsignedShort();
+			int toComponentId = stream.readUnsignedShortLE();
 
-			int toInterfaceId = toInterfaceHash >> 16;
-			int toComponentId = toInterfaceHash - (toInterfaceId << 16);
-			int fromInterfaceId = fromInterfaceHash >> 16;
-			int fromComponentId = fromInterfaceHash - (fromInterfaceId << 16);
-			
-			System.out.println(String.format("fromInterface: %s, toInterface %s, fromSlot: %s, toSlot: %s", fromInterfaceId, toInterfaceId, fromSlot, toSlot));
+			//temporary, did I miss the from interface in the stream or is there no way to go between interfaces??
+			int toInterfaceId = fromInterfaceId;
+
+			if(Settings.DEBUG)
+				System.out.println(String.format("fromInterfaceID: %s, toInterfaceID: %s, fromcompID: %s, tocompID %s, fromSlot: %s, toSlot: %s",
+					fromInterfaceId, toInterfaceId, fromComponentId, toComponentId, fromSlot, toSlot));
+
+
 			
 			if (Utils.getInterfaceDefinitionsSize() <= fromInterfaceId || Utils.getInterfaceDefinitionsSize() <= toInterfaceId)
 				return;
@@ -1297,7 +1296,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				player.getBank().switchItem(fromSlot, toSlot, fromComponentId, toComponentId);
 			}
 			if (Settings.DEBUG)
-				System.out.println("Switch item " + fromInterfaceId + ", " + fromSlot + ", " + toSlot);
+				System.out.println("Switch item interface " + fromInterfaceId + " from slot " + fromSlot + " to slot " + toSlot);
 		} else if (packetId == DONE_LOADING_REGION_PACKET) {
 			
 			/*

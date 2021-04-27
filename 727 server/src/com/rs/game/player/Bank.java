@@ -214,19 +214,19 @@ public class Bank implements Serializable {
 
 	public void openDepositBox() {
 		player.getInterfaceManager().sendInterface(11);
-		player.getInterfaceManager().closeInventory();
-		player.getInterfaceManager().closeEquipment();
-		final int lastGameTab = player.getInterfaceManager().openGameTab(9); // friends
+//		player.getInterfaceManager().closeInventory();
+//		player.getInterfaceManager().closeEquipment();
+//		final int lastGameTab = player.getInterfaceManager().openGameTab(9); // friends
 		// tab
 		sendBoxInterItems();
 		player.getPackets().sendIComponentText(11, 13, "Bank Of " + Settings.SERVER_NAME + " - Deposit Box");
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getInterfaceManager().sendInventory();
-				player.getInventory().unlockInventoryOptions();
-				player.getInterfaceManager().sendEquipment();
-				player.getInterfaceManager().openGameTab(lastGameTab);
+//				player.getInterfaceManager().sendInventory();
+//				player.getInventory().unlockInventoryOptions();
+//				player.getInterfaceManager().sendEquipment();
+//				player.getInterfaceManager().openGameTab(lastGameTab);
 			}
 		});
 	}
@@ -246,6 +246,7 @@ public class Bank implements Serializable {
 		sendItems();
 		refreshLastX();
 	}
+
 
 	public void refreshLastX() {
 		player.getPackets().sendConfig(1249, lastX);
@@ -548,9 +549,18 @@ public class Bank implements Serializable {
 		player.getPackets().sendAccessMask(763, 0, 0, 27, 2361342);//(763, 0, 0, 27, 2425982);
 	}
 
+	public boolean getWithdrawNotes() {
+		return withdrawNotes;
+	}
+
 	public void switchWithdrawNotes() {
 		withdrawNotes = !withdrawNotes;
+		player.getPackets().sendConfig(115, withdrawNotes ? 1 : 0);
 	}
+
+//	public void switchWithdrawNotes() {
+//		withdrawNotes = !withdrawNotes;
+//	}
 
 	public void switchInsertItems() {
 		insertItems = !insertItems;

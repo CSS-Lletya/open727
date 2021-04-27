@@ -230,6 +230,17 @@ public final class Equipment implements Serializable {
 		refreshItems(itemsBefore);
 	}
 
+	/**
+	 * Removes all equipment
+	 */
+	public void removeAllEquipment() {
+		Item[] itemsBefore = items.getItemsCopy();
+		for(Item item : itemsBefore)
+			if(item != null)
+				items.remove(item);
+		refreshItems(itemsBefore);
+	}
+
 	public void refreshItems(Item[] itemsBefore) {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
