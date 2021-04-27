@@ -109,4 +109,8 @@ public final class Settings {
 	 * stop acting aggressive towards a specific {@link Player}.
 	 */
 	public static final int TOLERANCE_SECONDS = 600;
+	/**
+	 * Retrieves the delay before consuming another consumable type.
+	 */
+	public static int CONSUME_DELAY = 1800;
 }

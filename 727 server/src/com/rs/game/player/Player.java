@@ -14,6 +14,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import com.google.common.collect.ImmutableMap;
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
 import com.rs.game.Animation;
@@ -114,8 +115,6 @@ public class Player extends Entity {
 	private transient boolean canPvp;
 	private transient boolean cantTrade;
 	private transient long lockDelay; // used for doors and stuff like that
-	private transient long foodDelay;
-	private transient long potDelay;
 	private transient Runnable closeInterfacesEvent;
 	private transient long lastPublicMessage;
 	private transient long polDelay;
@@ -171,7 +170,7 @@ public class Player extends Entity {
 	private Familiar familiar;
 	private AuraManager auraManager;
 	private PetManager petManager;
-	private byte runEnergy;
+	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
 	private int privateChatSetup;
@@ -232,7 +231,7 @@ public class Player extends Entity {
 		charges = new ChargesManager();
 		auraManager = new AuraManager();
 		petManager = new PetManager();
-		runEnergy = 100;
+		runEnergy = 100D;
 		this.spins = 0;
 		allowChatEffects = true;
 		mouseButtons = true;
@@ -425,8 +424,6 @@ public class Player extends Entity {
 		prayer.reset();
 		combatDefinitions.resetSpells(true);
 		resting = false;
-		foodDelay = 0;
-		potDelay = 0;
 		getPoisonDamage().set(0);
 		castedVeng = false;
 		setRunEnergy(100);
@@ -639,20 +636,11 @@ public class Player extends Entity {
 		if(lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
 			double restoreRate = 0.45D;
 			double agilityFactor = 0.01 * getSkills().getLevel(Skills.AGILITY);
-			setRunEnergy((int) (runEnergy + (restoreRate + agilityFactor)));
+			setRunEnergy(runEnergy + (restoreRate + agilityFactor));
 			lastEnergy.reset();
 			getPackets().sendRunEnergy();
 		}
 	}
-	
-//	public void restoreRunEnergy() {
-//		if (getNextRunDirection() == -1 && runEnergy < 100) {
-//			runEnergy++;
-//			if (resting && runEnergy < 100)
-//				runEnergy++;
-//			getPackets().sendRunEnergy();
-//		}
-//	}
 
 	public void run() {
 		if (World.exiting_start != 0) {
@@ -1028,7 +1016,7 @@ public class Player extends Entity {
 		return skills;
 	}
 
-	public byte getRunEnergy() {
+	public double getRunEnergy() {
 		return runEnergy;
 	}
 
@@ -1036,8 +1024,8 @@ public class Player extends Entity {
 		setRunEnergy(runEnergy - 1);
 	}
 
-	public void setRunEnergy(int runEnergy) {
-		this.runEnergy = (byte) runEnergy;
+	public void setRunEnergy(double runEnergy) {
+		this.runEnergy = runEnergy;
 		getPackets().sendRunEnergy();
 	}
 
@@ -1721,22 +1709,6 @@ public class Player extends Entity {
 		this.displayName = displayName;
 	}
 
-	public void addPotDelay(long time) {
-		potDelay = time + Utils.currentTimeMillis();
-	}
-
-	public long getPotDelay() {
-		return potDelay;
-	}
-
-	public void addFoodDelay(long time) {
-		foodDelay = time + Utils.currentTimeMillis();
-	}
-
-	public long getFoodDelay() {
-		return foodDelay;
-	}
-
 	@Override
 	public void heal(int ammount, int extra) {
 		super.heal(ammount, extra);
@@ -2261,4 +2233,7 @@ public class Player extends Entity {
 	public Stopwatch getTolerance() {
 		return tolerance;
 	}
+	
+	public transient final ImmutableMap<String, Stopwatch> consumeDelay = ImmutableMap.of("SPECIAL", new Stopwatch().reset(), "FOOD", new Stopwatch().reset(), "DRINKS", new Stopwatch().reset());
+	
 }
