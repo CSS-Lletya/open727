@@ -1,6 +1,5 @@
 package com.rs.game.player.controlers;
 
-import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
@@ -10,7 +9,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
-import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 

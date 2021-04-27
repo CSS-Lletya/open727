@@ -67,5 +67,5 @@ public final class CombatSkullEffect extends CombatEffect {
 		return false;
 	}
 	
-	private final int WHITE_SKULL = 0, NO_SKULL = -1;
+	private final byte WHITE_SKULL = 0, NO_SKULL = -1;
 }

@@ -1,9 +1,8 @@
 package main.impl.rsinterface;
 
-import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.net.decoders.WorldPacketsDecoder;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
+
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 

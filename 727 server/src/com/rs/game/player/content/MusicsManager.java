@@ -1,6 +1,5 @@
 package com.rs.game.player.content;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.rs.cache.loaders.ClientScriptMap;
@@ -10,9 +9,7 @@ import com.rs.game.player.Player;
 import com.rs.utils.MusicHints;
 import com.rs.utils.Utils;
 
-public final class MusicsManager implements Serializable {
-
-	private static final long serialVersionUID = 1020415702861567375L;
+public final class MusicsManager  {
 
 	private static final int[] CONFIG_IDS = new int[] { 20, 21, 22, 23, 24, 25, 298, 311, 346, 414, 464, 598, 662, 721,
 			906, 1009, 1104, 1136, 1180, 1202, 1381, 1394, 1434, 1596, 1618, 1619, 1620, 1865, 1864, 2246, 2019, -1,
@@ -34,19 +31,9 @@ public final class MusicsManager implements Serializable {
 		unlockedMusics = new ArrayList<Integer>();
 		playList = new ArrayList<Integer>(12);
 		// auto unlocked musics
-		unlockedMusics.add(62);
-		unlockedMusics.add(400);
-		unlockedMusics.add(16);
-		unlockedMusics.add(466);
-		unlockedMusics.add(321);
-		unlockedMusics.add(547);
-		unlockedMusics.add(621);
-		unlockedMusics.add(207);
-		unlockedMusics.add(401);
-		unlockedMusics.add(147);
-		unlockedMusics.add(457);
-		unlockedMusics.add(552);
-		unlockedMusics.add(858);
+		for (int i = 0; i < 900; i++) {
+			unlockedMusics.add(i);
+		}
 	}
 
 	public void passMusics(Player p) {
