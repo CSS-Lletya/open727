@@ -481,7 +481,6 @@ public class Player extends Entity {
 	}
 
 	private transient int miscTick = 0;
-	private transient int runTick = 0;
 	private transient int healTick = 0;
 	
 	@Override
@@ -525,13 +524,7 @@ public class Player extends Entity {
         boolean usingRapidHeal = Prayer.usingRapidHeal(this);
         if (healTick % (usingRenewal ? 2 : isResting() ? 2 : usingRapidHeal ? 5 : 10) == 0)
             restoreHitPoints();
-        runTick += (8 + (getSkills().getLevelForXp(Skills.AGILITY) / 6)) / 1.43;
-		int requiredTick = isResting() ? 15 : 75;
-		if (runTick >= requiredTick) {
-			int leftOver = runTick - requiredTick;
-			runTick = leftOver;
-			restoreRunEnergy();
-		}
+        restoreRunEnergy();
 		
 		if (lastBonfire > 0) {
 			lastBonfire--;
@@ -639,14 +632,27 @@ public class Player extends Entity {
 		getPackets().sendConfig(173, resting ? 3 : getRun() ? 1 : 0);
 	}
 
+	/**
+	 * Restores run energy based on the last time it was restored.
+	 */
 	public void restoreRunEnergy() {
-		if (getNextRunDirection() == -1 && runEnergy < 100) {
-			runEnergy++;
-			if (resting && runEnergy < 100)
-				runEnergy++;
+		if(lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
+			double restoreRate = 0.45D;
+			double agilityFactor = 0.01 * getSkills().getLevel(Skills.AGILITY);
+			setRunEnergy((int) (runEnergy + (restoreRate + agilityFactor)));
+			lastEnergy.reset();
 			getPackets().sendRunEnergy();
 		}
 	}
+	
+//	public void restoreRunEnergy() {
+//		if (getNextRunDirection() == -1 && runEnergy < 100) {
+//			runEnergy++;
+//			if (resting && runEnergy < 100)
+//				runEnergy++;
+//			getPackets().sendRunEnergy();
+//		}
+//	}
 
 	public void run() {
 		if (World.exiting_start != 0) {
@@ -2246,7 +2252,7 @@ public class Player extends Entity {
 	/**
 	 * The collection of stopwatches used for various timing operations.
 	 */
-	private final Stopwatch tolerance = new Stopwatch();
+	public transient final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
 	
 	/**
 	 * Gets the npc tolerance stopwatch timer.
