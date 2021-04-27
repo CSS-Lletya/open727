@@ -579,6 +579,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			}
 			player.stopAll(false);
 			player.getActionManager().setAction(new PlayerCombat(npc));
+			player.getTolerance().reset();
 		}
 		
 		
@@ -1299,11 +1300,8 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				System.out.println("Switch item " + fromInterfaceId + ", " + fromSlot + ", " + toSlot);
 		} else if (packetId == DONE_LOADING_REGION_PACKET) {
-			
-			/*
-			 * if(!player.clientHasLoadedMapRegion()) { //load objects and items here player.setClientHasLoadedMapRegion(); } //player.refreshSpawnedObjects();
-			 * //player.refreshSpawnedItems();
-			 */
+			//bit off but ye for most part this is done.
+			player.getTolerance().reset();
 		} 
 		//TODO queue
 		else if (packetId == WALKING_PACKET 

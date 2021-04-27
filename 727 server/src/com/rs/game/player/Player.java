@@ -57,6 +57,7 @@ import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.MutableNumber;
+import com.rs.utils.Stopwatch;
 import com.rs.utils.Utils;
 
 import player.CombatDefinitions;
@@ -2240,5 +2241,18 @@ public class Player extends Entity {
 	 */
 	public void setAntifireDetail(AntifireDetails details) {
 		setAntifireDetail(details == null ? Optional.empty() : Optional.of(details));
+	}
+	
+	/**
+	 * The collection of stopwatches used for various timing operations.
+	 */
+	private final Stopwatch tolerance = new Stopwatch();
+	
+	/**
+	 * Gets the npc tolerance stopwatch timer.
+	 * @return the tolerance timer.
+	 */
+	public Stopwatch getTolerance() {
+		return tolerance;
 	}
 }
