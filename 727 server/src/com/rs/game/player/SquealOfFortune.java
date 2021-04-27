@@ -23,7 +23,7 @@ public class SquealOfFortune {
 
     private static List<Item> COMMON = Arrays.asList(new Item[] {
             //coins, bones, feathers, bait,
-            new Item(995, 100), new Item(527, 10), new Item(314, 25), new Item(313, 25),
+            new Item(995, 4_500), new Item(527, 10), new Item(314, 25), new Item(313, 25),
 
             //seeds: guam marrentill tarromin harralander
             new Item(3291, 3), new Item(5292, 3), new Item(5293, 3), new Item(5294, 3),
@@ -31,16 +31,21 @@ public class SquealOfFortune {
             //Leather:Cowhide snake hide, molten glass, gold ore, iron ore
             new Item(1740, 3), new Item(6288, 3), new Item(1776, 25), new Item(445, 3), new Item(441, 3),
 
+            //Runes: Fire, water, air, earth, mind, body
+            new Item(554, 80), new Item(555, 80), new Item(556, 80), new Item(557, 80), new Item(558, 80),
+            new Item(559, 80)
+
             //Lamps
-            new Item(23717), new Item(23721), new Item(23725), new Item(23729),
-            new Item(23733), new Item(23737), new Item(23741), new Item(23745), new Item(23749), new Item(23753),
-            new Item(23757), new Item(23761), new Item(23765), new Item(23769), new Item(23774), new Item(23778),
-            new Item(23782), new Item(23786), new Item(23790), new Item(23794), new Item(23798), new Item(23802),
-            new Item(23806), new Item(23810), new Item(23814)});
+//            new Item(23717), new Item(23721), new Item(23725), new Item(23729),
+//            new Item(23733), new Item(23737), new Item(23741), new Item(23745), new Item(23749), new Item(23753),
+//            new Item(23757), new Item(23761), new Item(23765), new Item(23769), new Item(23774), new Item(23778),
+//            new Item(23782), new Item(23786), new Item(23790), new Item(23794), new Item(23798), new Item(23802),
+//            new Item(23806), new Item(23810), new Item(23814)
+            });
 
     private static List<Item> UNCOMMON = Arrays.asList(new Item[] {
             //coins, wolf bones, big bones, baby dragon bones, snape grass
-            new Item(995, 250), new Item(2860, 10), new Item(533, 10), new Item(535, 10),
+            new Item(995, 25_000), new Item(2860, 10), new Item(533, 10), new Item(535, 10),
 
             //seeds: Ranarr, Toadflax, irit, avantoe
             new Item(5295, 3), new Item(5296, 3), new Item(5297, 3), new Item(5298, 3),
@@ -48,31 +53,44 @@ public class SquealOfFortune {
             //Dragon Hide
             new Item(1754, 3), new Item(1752, 3), new Item(1750, 3),
 
+            //Runes: Death, Nature, Chaos, astral, mud, lava
+            new Item(560, 40), new Item(561, 40), new Item(562, 40), new Item(9075, 40),
+            new Item(4698, 40), new Item(4699, 40),
+
+            //Pure essence
+            new Item(7937, 100)
             //Lamps
-            new Item(23718), new Item(23722), new Item(23726), new Item(23730),
-            new Item(23734),	new Item(23738), new Item(23742), new Item(23746), new Item(23750), new Item(23754),
-            new Item(23758), new Item(23762), new Item(23766), new Item(23770), new Item(23775), new Item(23779),
-            new Item(23783), new Item(23787), new Item(23791), new Item(23795), new Item(23799), new Item(23803),
-            new Item(23807),	new Item(23811), new Item(23815) });
+//            new Item(23718), new Item(23722), new Item(23726), new Item(23730),
+//            new Item(23734),	new Item(23738), new Item(23742), new Item(23746), new Item(23750), new Item(23754),
+//            new Item(23758), new Item(23762), new Item(23766), new Item(23770), new Item(23775), new Item(23779),
+//            new Item(23783), new Item(23787), new Item(23791), new Item(23795), new Item(23799), new Item(23803),
+//            new Item(23807),	new Item(23811), new Item(23815)
+    });
     private static List<Item> RARE = Arrays.asList(new Item[] {
             //coins, living minerals, dragon bones, ourg bones, black dragonhide
-            new Item(995, 750), new Item(15263, 25), new Item(537, 10), new Item(4835, 10), new Item(2492, 6),
+            new Item(995, 75_000), new Item(15263, 25), new Item(537, 10), new Item(4835, 10), new Item(2492, 6),
 
             //Seeds: Kwuarm Snapdragon Cadantine lantadyme dwarfweed
-            new Item(5299, 3), new Item(5300, 3), new Item(5301, 3), new Item(5302, 3), new Item(5303, 3)
+            new Item(5299, 3), new Item(5300, 3), new Item(5301, 3), new Item(5302, 3), new Item(5303, 3),
+
+            //Runes: Law, Cosmic, blood, soul
+            new Item(563, 40), new Item(564, 40), new Item(565, 40), new Item(566, 40),
+
+            //Pure ess
+            new Item(7937, 250)
     });
 
     private static List<Item> SUPER_RARE = Arrays.asList(new Item[] {
             //coins, christmas cracker, pumpkin, easter egg, green h'ween, blue h'ween, red h'ween, santa hat
-            new Item(995, 3000), new Item(962), new Item(1960, 3), new Item(1961, 3), new Item(1053), new Item(1055), new Item(1057), new Item(1050),
+            new Item(995, 300_000), new Item(962), new Item(1960, 3), new Item(1961, 3), new Item(1053), new Item(1055), new Item(1057), new Item(1050),
 
             //frost bones, torstol seeds
-            new Item(18831, 20), new Item(5304, 5)//,
+            new Item(18831, 80), new Item(5304, 5)//,
     });
 
     public Item chooseSOFItem(List<Item> rewards) {
         Item reward = rewards.get((int) (Math.random() * rewards.size()));
-        return setupTotalLevelScaling(reward);
+        return reward;
     }
 
     private ItemsContainer<Item> items;
@@ -140,7 +158,7 @@ public class SquealOfFortune {
             for(double xp : player.getSkills().getXp())
                 totalXP += (int)xp;
 
-            int levelModifier = totalLevel/100;
+            int levelModifier = totalLevel/(300*Settings.XP_RATE);
             int xpModifier = totalXP/(1_000_000 * Settings.XP_RATE);
             int totalModifier = levelModifier + xpModifier;
 
@@ -172,13 +190,14 @@ public class SquealOfFortune {
         player.getPackets().sendHideIComponent(SOF_INTERFACE_ID, 14, true);
         player.getPackets().sendHideIComponent(SOF_INTERFACE_ID, 15, true);
 
-        sendInterItems();
+        rollChance();
     }
 
     /**
+     * Contains the chances of receiving items.
      * Sends the Items in the reward container.
      */
-    private void sendInterItems() {
+    private void rollChance() {
         player.getPackets().sendItems(665, items);
         int random = Utils.random(100_000);
 
