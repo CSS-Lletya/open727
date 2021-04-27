@@ -3435,7 +3435,7 @@ public class PlayerCombat extends Action {
 		return target;
 	}
 	
-	public boolean hasInstantSpecial(final int weaponId) {
+	public static boolean hasInstantSpecial(final int weaponId) {
 		switch (weaponId) {
 		case 4153:
 		case 15486:
@@ -3454,7 +3454,7 @@ public class PlayerCombat extends Action {
 		}
 	}
 
-	public void performInstantSpecial(Player player, final int weaponId) {
+	public static void performInstantSpecial(Player player, final int weaponId) {
 		int specAmt = PlayerCombat.getSpecialAmmount(weaponId);
 		if (player.getCombatDefinitions().hasRingOfVigour())
 			specAmt *= 0.9;
@@ -3478,7 +3478,7 @@ public class PlayerCombat extends Action {
 			player.getCombatDefinitions().setInstantAttack(true);
 			player.getCombatDefinitions().switchUsingSpecialAttack();
 			Entity target = (Entity) player.getTemporaryAttributtes().get("last_target");
-			if (target != null && target.getTemporaryAttributtes().get("last_attacker") == this) {
+			if (target != null && target.getTemporaryAttributtes().get("last_attacker") == player) {
 				if (!(player.getActionManager().getAction() instanceof PlayerCombat)
 						|| ((PlayerCombat) player.getActionManager().getAction()).getTarget() != target) {
 					player.getActionManager().setAction(new PlayerCombat(target));

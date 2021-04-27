@@ -508,8 +508,6 @@ public class Player extends Entity {
 			//Just a random test
 			getPrayer().processPrayerDrain();
 		}
-		if (miscTick % 48 == 0)
-            getCombatDefinitions().restoreSpecialAttack();
 		boolean usingBerserk = Prayer.usingBerserker(this);
 		if (miscTick % (usingBerserk ? 110 : 96) == 0)
 			drainSkills();
@@ -2224,7 +2222,7 @@ public class Player extends Entity {
 	/**
 	 * The collection of stopwatches used for various timing operations.
 	 */
-	public transient final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
+	public final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
 	
 	/**
 	 * Gets the npc tolerance stopwatch timer.
