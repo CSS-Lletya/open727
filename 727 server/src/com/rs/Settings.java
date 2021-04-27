@@ -10,6 +10,7 @@ public final class Settings {
 	 * General client and server settings.
 	 */
 	public static final String SERVER_NAME = "open727";
+//	public static final int PORT_ID = 5555;//for testing
 	public static final int PORT_ID = 43594;
 	public static final String LASTEST_UPDATE = "<col=7E2217>We're proud to be open sourced! Join the Discord & Development.";
 	public static final String CACHE_PATH = "data/cache/";

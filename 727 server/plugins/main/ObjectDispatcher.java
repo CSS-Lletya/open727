@@ -2,6 +2,7 @@ package main;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.IncompleteAnnotationException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
@@ -124,16 +125,12 @@ public final class ObjectDispatcher {
 		long currentTime = Utils.currentTimeMillis();
 		if (player.getLockDelay() >= currentTime || player.getEmotesManager().getNextEmoteEnd() >= currentTime)
 			return;
-		
-//		boolean forceRun = stream.readUnsignedByte128() == 1;
-//		final int id = stream.readIntLE();
-//		int x = stream.readUnsignedShortLE();
-//		int y = stream.readUnsignedShortLE128();
+
 		int y = stream.readUnsignedShort();
 		int x = stream.readUnsignedShort();
-		final short id = (short) stream.readInt();
-		boolean forceRun = stream.readUnsignedByte128() == 1;
-		
+		boolean forceRun = stream.readUnsignedShort() == 1;
+		final int id = stream.readUnsignedShort();
+
 		if (Settings.DEBUG)
 			System.out.println(x+", "+ y +", "+id +", "+forceRun);
 		
@@ -153,6 +150,7 @@ public final class ObjectDispatcher {
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;
 		WorldObject mapObject = World.getRegion(regionId).getObject(id, tile);
+
 		if (mapObject == null || mapObject.getId() != id)
 			return;
 		if (player.isAtDynamicRegion() && World.getRotation(player.getHeight(), x, y) != 0) { // temp fix
