@@ -1,5 +1,8 @@
 package com.rs.game.npc.combat;
 
+import java.util.concurrent.TimeUnit;
+
+import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
@@ -116,6 +119,12 @@ public final class NPCCombat {
 		int distanceY = npc.getY() - npc.getRespawnTile().getY();
 		int size = npc.getSize();
 		int maxDistance;
+		Player n = (Player) target;
+		boolean agressive = n.getTolerance().elapsed(Settings.TOLERANCE_SECONDS, TimeUnit.SECONDS);
+		if (agressive) {
+			npc.resetCombat();
+			npc.resetWalkSteps();
+		}
 		if (!npc.isNoDistanceCheck() && !npc.isCantFollowUnderCombat()) {
 			maxDistance = 32;
 			if (!(npc instanceof Familiar)) {
@@ -237,7 +246,7 @@ public final class NPCCombat {
 
 			}
 		}
-		return true;
+		return true && !agressive;
 	}
 
 	public void addCombatDelay(int delay) {

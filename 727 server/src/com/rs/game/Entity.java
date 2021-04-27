@@ -334,6 +334,15 @@ public abstract class Entity extends WorldTile {
 				nextWalkDirection = dir;
 			} else {
 				nextRunDirection = dir;
+				if (this instanceof Player) {
+					if (!((Player) this).getControlerManager().canMove(
+							nextWalkDirection)) {
+						nextWalkDirection = -1;
+						resetWalkSteps();
+						return;
+					}
+					((Player) this).drainRunEnergy();
+				}
 			}
 			moveLocation(Utils.DIRECTION_DELTA_X[dir], Utils.DIRECTION_DELTA_Y[dir], 0);
 			/*

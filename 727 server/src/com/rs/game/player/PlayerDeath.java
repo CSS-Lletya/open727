@@ -19,17 +19,18 @@ public class PlayerDeath extends ActorDeath<Player> {
 
 	@Override
 	public void preDeath() {
+		if (!getActor().getControlerManager().sendDeath())
+			return;
 		getActor().lock();
 		getActor().setNextAnimation(new Animation(836));
 	}
 
 	@Override
 	public void death() {
-		if (!getActor().getControlerManager().sendDeath())
-			return;
-		getActor().setDead(true);
 		getActor().getPoisonDamage().set(0);
 		getActor().setAntifireDetail(Optional.empty());	
+		getActor().getSkullTimer().set(0);
+		getActor().getTolerance().reset();
 		getActor().stopAll();
 		if (getActor().getFamiliar() != null)
 			getActor().getFamiliar().sendDeath(getActor());
@@ -44,7 +45,6 @@ public class PlayerDeath extends ActorDeath<Player> {
 		getActor().heal(getActor().getMaxHitpoints());
 		final int maxPrayer = getActor().getSkills().getLevelForXp(Skills.PRAYER) * 10;
 		getActor().getPrayer().restorePrayer(maxPrayer);
-		getActor().setDead(false);
 		getActor().setNextAnimation(new Animation(Animation.RESET_ANIMATION));
 		getActor().unlock();
 		getActor().getCombatDefinitions().resetSpecialAttack();

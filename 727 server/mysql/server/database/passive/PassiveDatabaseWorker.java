@@ -3,6 +3,8 @@ package server.database.passive;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.rs.Settings;
+
 import server.database.DatabaseRequest;
 import server.database.model.Modelable;
 
@@ -72,6 +74,9 @@ public class PassiveDatabaseWorker implements Runnable {
 	 * @param databaseModel: DAO to be processed.
 	 */
 	public static void addRequest(Modelable databaseModel) {
+		if (!Settings.mysqlEnabled) {
+			return;
+		}
 		if (getSingleton() != null) {
 			if (!getSingleton().databaseModels.contains(databaseModel)) {
 				getSingleton().databaseModels.add(databaseModel);

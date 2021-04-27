@@ -15,8 +15,8 @@ public class CombatStylesInterfacePlugin implements RSInterface {
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
 		if (componentId == 4) {
 			int weaponId = player.getEquipment().getWeaponId();
-			if (((PlayerCombat) player.getActionManager().getAction()).hasInstantSpecial(weaponId)) {
-				((PlayerCombat) player.getActionManager().getAction()).performInstantSpecial(player, weaponId);
+			if (PlayerCombat.hasInstantSpecial(weaponId)) {
+				PlayerCombat.performInstantSpecial(player, weaponId);
 				return;
 			}
 			World.get().submit(new Task(0) {

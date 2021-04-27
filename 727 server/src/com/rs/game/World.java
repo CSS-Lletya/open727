@@ -44,6 +44,7 @@ import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
 import com.rs.game.task.Task;
 import com.rs.game.task.TaskManager;
+import com.rs.game.task.impl.RestoreSpecialTask;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Logger;
 import com.rs.utils.ShopsHandler;
@@ -68,6 +69,7 @@ public final class World {
 		addRestoreShopItemsTask();
 		addSummoningEffectTask();
 		addOwnedObjectsTask();
+		World.get().submit(new RestoreSpecialTask());
 	}
 
 	private static void addOwnedObjectsTask() {

@@ -13,6 +13,8 @@ import com.rs.game.npc.familiar.Familiar.SpecialAttack;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Foods;
+import com.rs.game.player.content.Pots;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.task.Task;
 import com.rs.utils.Logger;
@@ -50,7 +52,10 @@ public class InventoryOptionsHandler {
 		if (player.getLockDelay() >= time || player.getEmotesManager().getNextEmoteEnd() >= time)
 			return;
 		player.stopAll(false);
-		
+		if (Foods.eat(player, item, slotId))
+			return;
+		if (Pots.pot(player, item, slotId))
+			return;
 		if (Settings.DEBUG)
 			Logger.log("ItemHandler", "Item Select:" + itemId + ", Slot Id:" + slotId);
 	}
