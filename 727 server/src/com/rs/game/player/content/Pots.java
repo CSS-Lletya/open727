@@ -1,5 +1,6 @@
 package com.rs.game.player.content;
 
+import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
@@ -287,14 +288,14 @@ public final class Pots {
 		ENERGY_POTION() {
 			@Override
 			public void extra(Player player) {
-				int restoredEnergy = player.getRunEnergy() + 20;
+				int restoredEnergy = (int) (player.getRunEnergy() + 20);
 				player.setRunEnergy(restoredEnergy > 100 ? 100 : restoredEnergy);
 			}
 		},
 		SUPER_ENERGY() {
 			@Override
 			public void extra(Player player) {
-				int restoredEnergy = player.getRunEnergy() + 40;
+				int restoredEnergy = (int) (player.getRunEnergy() + 40);
 				player.setRunEnergy(restoredEnergy > 100 ? 100 : restoredEnergy);
 			}
 		},
@@ -638,13 +639,13 @@ public final class Pots {
 		Pot pot = getPot(item.getId());
 		if (pot == null)
 			return false;
-		if (player.getPotDelay() > Utils.currentTimeMillis())
+		if (!player.consumeDelay.get("DRINKS").elapsed(Settings.CONSUME_DELAY))
 			return true;
 		if (!player.getControlerManager().canPot(pot))
 			return true;
 		if (!pot.effect.canDrink(player))
 			return true;
-		player.addPotDelay(1075);
+		player.consumeDelay.get("DRINKS").reset();
 		String name = item.getDefinitions().getName();
 		int index = name.indexOf("(");
 		int dosesLeft = 0;

@@ -495,7 +495,6 @@ public class NPC extends Entity {
 			public void run() {
 				try {
 					spawn();
-					setDead(false);
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}

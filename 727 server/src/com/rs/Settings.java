@@ -3,6 +3,7 @@ package com.rs;
 import java.math.BigInteger;
 
 import com.rs.game.WorldTile;
+import com.rs.game.player.Player;
 
 public final class Settings {
 
@@ -10,6 +11,7 @@ public final class Settings {
 	 * General client and server settings.
 	 */
 	public static final String SERVER_NAME = "open727";
+//	public static final int PORT_ID = 5555;//for testing
 	public static final int PORT_ID = 43594;
 	public static final String LASTEST_UPDATE = "<col=7E2217>We're proud to be open sourced! Join the Discord & Development.";
 	public static final String CACHE_PATH = "data/cache/";
@@ -101,4 +103,14 @@ public final class Settings {
 	public static String[] PROTECT_ON_DEATH = { "chaotic", "stream", "defender", "swift", "spellcaster", "goliath",
 			"fire cape", "max cape", "max hood", "completionist cape", "completionist hood", "farseer kiteshield",
 			"eagle-eye kiteshield", "gravite" };
+	
+	/**
+	 * The time in seconds that has to be spent in a region before {@link Mob}s
+	 * stop acting aggressive towards a specific {@link Player}.
+	 */
+	public static final int TOLERANCE_SECONDS = 600;
+	/**
+	 * Retrieves the delay before consuming another consumable type.
+	 */
+	public static int CONSUME_DELAY = 1800;
 }

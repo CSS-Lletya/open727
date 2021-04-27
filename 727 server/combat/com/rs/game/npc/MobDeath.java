@@ -18,7 +18,6 @@ public class MobDeath extends ActorDeath<NPC> {
 	public void preDeath() {
 		World.get().getTask().cancel(this);
 		getActor().setNextAnimation(null);
-		getActor().setDead(true);
 		getActor().getPoisonDamage().set(0);
 		getActor().resetWalkSteps();
 		getActor().getCombat().removeTarget();

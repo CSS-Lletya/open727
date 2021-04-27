@@ -7,14 +7,14 @@ import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 
 @ObjectSignature(objectId = {}, name = {"Bank deposit box"})
-public class DepositBoxTest implements ObjectType {
+public class DepositBox implements ObjectType {
 
 	@Override
 	public void execute(Player player, WorldObject object, int optionId) throws Exception {
 		System.out.println("General response");
 		
 		if (optionId == 1)
-			System.out.println("Option Selected: " + optionId);
+			player.getBank().openDepositBox();
 		
 		if (object.getDefinitions().getNameContaining("Bank deposit box"))
 			System.out.println("Yeah it's a deposit box for sure.");

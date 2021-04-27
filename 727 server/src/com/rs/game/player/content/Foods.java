@@ -3,6 +3,7 @@ package com.rs.game.player.content;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.Hit;
@@ -499,8 +500,9 @@ public class Foods {
 		Food food = Food.forId(item.getId());
 		if (food == null)
 			return false;
-		if (player.getFoodDelay() > Utils.currentTimeMillis())
-			return true;
+		if(!player.consumeDelay.get("FOOD").elapsed(Settings.CONSUME_DELAY)) {
+			return false;
+		}
 		if (!player.getControlerManager().canEat(food))
 			return true;
 		String name = ItemDefinitions.getItemDefinitions(food.getId()).getName().toLowerCase();
@@ -508,7 +510,7 @@ public class Foods {
 		player.setNextAnimation(EAT_ANIM);
 		long foodDelay = name.contains("half") ? 600 : 1800;
 		player.getActionManager().setActionDelay((int) foodDelay / 1000);
-		player.addFoodDelay(foodDelay);
+		player.consumeDelay.get("FOOD").reset();
 		player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 2);
 		player.getInventory().getItems().set(slot, food.getNewId() == 0 ? null : new Item(food.getNewId(), 1));
 		player.getInventory().refresh(slot);

@@ -579,6 +579,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			}
 			player.stopAll(false);
 			player.getActionManager().setAction(new PlayerCombat(npc));
+			player.getTolerance().reset();
 		}
 		
 		
@@ -952,8 +953,6 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				System.out.println("Spell:" + componentId);
 		}
-	 
-	 	NPCDispatcher.executeMobInteraction(player, stream, packetId == NPC_CLICK1_PACKET ? 1 :packetId ==  NPC_CLICK2_PACKET ? 2 :packetId ==  NPC_CLICK3_PACKET ? 3 : packetId == NPC_CLICK4_PACKET ? 4 : 5);
 		
 	 	if (packetId == OBJECT_CLICK1_PACKET)
 			ObjectDispatcher.handleOption(player, stream, 1);
@@ -996,6 +995,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			final FloorItem item = World.getRegion(regionId).getGroundItem(id, tile, player);
 			if (item == null)
 				return;
+			System.out.println(item.getId());
 			player.stopAll(false);
 			if (forceRun)
 				player.setRun(forceRun);
@@ -1017,6 +1017,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				}
 			}, false));
 		}
+	 	NPCDispatcher.executeMobInteraction(player, stream, packetId == NPC_CLICK1_PACKET ? 1 :packetId ==  NPC_CLICK2_PACKET ? 2 :packetId ==  NPC_CLICK3_PACKET ? 3 : packetId == NPC_CLICK4_PACKET ? 4 : 5);
 	}
 
 	public void processPackets(final int packetId, InputStream stream, int length) {
@@ -1299,11 +1300,8 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				System.out.println("Switch item " + fromInterfaceId + ", " + fromSlot + ", " + toSlot);
 		} else if (packetId == DONE_LOADING_REGION_PACKET) {
-			
-			/*
-			 * if(!player.clientHasLoadedMapRegion()) { //load objects and items here player.setClientHasLoadedMapRegion(); } //player.refreshSpawnedObjects();
-			 * //player.refreshSpawnedItems();
-			 */
+			//bit off but ye for most part this is done.
+			player.getTolerance().reset();
 		} 
 		//TODO queue
 		else if (packetId == WALKING_PACKET 

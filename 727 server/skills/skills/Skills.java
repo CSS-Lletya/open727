@@ -1,13 +1,9 @@
 package skills;
 
-import java.io.Serializable;
-
 import com.rs.Settings;
 import com.rs.game.player.Player;
 
-public class Skills implements Serializable {
-
-	private static final long serialVersionUID = -7086829989489745985L;
+public class Skills {
 
 	public static final double MAXIMUM_EXP = 200000000;
 	public static final int ATTACK = 0, DEFENCE = 1, STRENGTH = 2, HITPOINTS = 3, RANGE = 4, PRAYER = 5, MAGIC = 6,

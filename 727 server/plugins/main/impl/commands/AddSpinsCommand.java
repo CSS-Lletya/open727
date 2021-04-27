@@ -10,15 +10,16 @@ public final class AddSpinsCommand implements Command {
 
     @Override
     public void execute(Player player, String[] cmd, String command) throws Exception {
-        if(cmd.length > 2 || !cmd[1].matches("\\d+")) {
+        if(cmd.length != 2 && cmd.length != 1) {
             player.getPackets().sendGameMessage("The format is \";;addspins [amt]\"");
             return;
         }
         int amount = 1;
-        if(cmd.length == 2)
+        if(cmd.length == 2 && cmd[1].matches("\\d+"))
             amount = Integer.parseInt(cmd[1]);
 
         player.setSpins(player.getSpins() + amount);
         player.getPackets().sendGameMessage("You recieved " + amount + " free spins for Squeal Of Fortune.");
+        player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getSpins()));
     }
 }
