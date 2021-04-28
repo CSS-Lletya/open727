@@ -116,6 +116,7 @@ public class Player extends Entity {
 	private transient boolean cantTrade;
 	private transient long lockDelay; // used for doors and stuff like that
 	private transient Runnable closeInterfacesEvent;
+	private transient Runnable beforeCloseInterfacesEvent;
 	private transient long lastPublicMessage;
 	private transient long polDelay;
 	private transient List<Integer> switchItemCache;
@@ -436,11 +437,14 @@ public class Player extends Entity {
 	}
 
 	public void closeInterfaces() {
+		if(beforeCloseInterfacesEvent != null) {
+			beforeCloseInterfacesEvent.run();
+			beforeCloseInterfacesEvent = null;
+		}
 		if (interfaceManager.containsScreenInter())
 			interfaceManager.closeScreenInterface();
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.closeInventoryInterface();
-		
 		getInterfaceManager().closeChatBoxInterface();
 		getTemporaryAttributtes().remove("dialogue_event");
 		
@@ -630,7 +634,6 @@ public class Player extends Entity {
 	/**
 	 * Restores run energy based on the last time it was restored.
 	 */
-
 	public void restoreRunEnergy() {
 		if (lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
 			double restoreRate = 0.45D;
@@ -1732,6 +1735,10 @@ public class Player extends Entity {
 
 	public void setCloseInterfacesEvent(Runnable closeInterfacesEvent) {
 		this.closeInterfacesEvent = closeInterfacesEvent;
+	}
+
+	public void setBeforeCloseInterfacesEvent(Runnable beforeCloseInterfacesEvent) {
+		this.beforeCloseInterfacesEvent = beforeCloseInterfacesEvent;
 	}
 
 	public long getMuted() {

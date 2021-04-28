@@ -98,7 +98,6 @@ public final class RSInterfaceDispatcher {
 	public static void handleButtons(final Player player, InputStream stream, int packetId) {
 		int interfaceHash = stream.readIntLE();
 		int interfaceId = interfaceHash >> 16;
-		System.out.println("interface " + interfaceId);
 		if (Utils.getInterfaceDefinitionsSize() <= interfaceId) {
 			// hack, or server error or client error
 			// player.getSession().getChannel().close();
