@@ -1226,6 +1226,10 @@ public abstract class Entity extends WorldTile {
 	 */
 	public void poison(PoisonType type) {
 		poisonType = type;
+		if (this instanceof Player) {
+			Player player = (Player) this;
+			player.getPackets().sendGameMessage("You have been poisoned!");
+		}
 		Combat.effect(this, CombatEffectType.POISON);
 	}
 	

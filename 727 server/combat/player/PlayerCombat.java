@@ -1698,7 +1698,7 @@ public class PlayerCombat extends Action {
 				if (target instanceof Player) {
 					final Player other = (Player) target;
 					other.lock();
-					other.consumeDelay.get("FOOD").reset();
+					other.getWatchMap().get("FOOD").reset();
 					other.setDisableEquip(true);
 					World.get().submit(new Task(5) {
 						@Override

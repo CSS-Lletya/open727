@@ -579,7 +579,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			}
 			player.stopAll(false);
 			player.getActionManager().setAction(new PlayerCombat(npc));
-			player.getTolerance().reset();
+			player.tolerance.reset();
 		}
 		
 		
@@ -1300,7 +1300,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				System.out.println("Switch item interface " + fromInterfaceId + " from slot " + fromSlot + " to slot " + toSlot);
 		} else if (packetId == DONE_LOADING_REGION_PACKET) {
 			//bit off but ye for most part this is done.
-			player.getTolerance().reset();
+			player.tolerance.reset();
 		} 
 		//TODO queue
 		else if (packetId == WALKING_PACKET 

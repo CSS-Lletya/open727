@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import com.google.common.collect.ImmutableMap;
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
 import com.rs.game.Animation;
@@ -2223,16 +2223,26 @@ public class Player extends Entity {
 	/**
 	 * The collection of stopwatches used for various timing operations.
 	 */
-	public final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
+	public transient final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
 	
 	/**
-	 * Gets the npc tolerance stopwatch timer.
-	 * @return the tolerance timer.
+	 * A collection of Stopwatches
 	 */
-	public Stopwatch getTolerance() {
-		return tolerance;
+	public HashMap<String, Stopwatch> watchMap = new HashMap<>();
+	
+	/**
+	 * Gets the collection of Stopwatches
+	 * @return stopwatch
+	 */
+	public HashMap<String, Stopwatch> getWatchMap() {
+		return watchMap;
 	}
 	
-	public transient final ImmutableMap<String, Stopwatch> consumeDelay = ImmutableMap.of("SPECIAL", new Stopwatch().reset(), "FOOD", new Stopwatch().reset(), "DRINKS", new Stopwatch().reset());
-	
+	/**
+	 * Populates the {@link #watchMap}
+	 */
+	{
+		watchMap.put("FOOD", new Stopwatch());
+		watchMap.put("DRINKS", new Stopwatch());
+	}
 }

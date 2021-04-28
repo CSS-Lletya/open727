@@ -1,6 +1,5 @@
 package com.rs.game.player.content;
 
-import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.Hit;
@@ -639,13 +638,14 @@ public final class Pots {
 		Pot pot = getPot(item.getId());
 		if (pot == null)
 			return false;
-		if (!player.consumeDelay.get("DRINKS").elapsed(Settings.CONSUME_DELAY))
-			return true;
+		if (!player.getWatchMap().get("DRINKS").elapsed(1800)) {
+			return false;
+		}
 		if (!player.getControlerManager().canPot(pot))
 			return true;
 		if (!pot.effect.canDrink(player))
 			return true;
-		player.consumeDelay.get("DRINKS").reset();
+		player.getWatchMap().get("DRINKS").reset();
 		String name = item.getDefinitions().getName();
 		int index = name.indexOf("(");
 		int dosesLeft = 0;

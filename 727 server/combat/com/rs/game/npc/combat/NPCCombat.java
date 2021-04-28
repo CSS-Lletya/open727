@@ -120,7 +120,7 @@ public final class NPCCombat {
 		int size = npc.getSize();
 		int maxDistance;
 		Player n = (Player) target;
-		boolean agressive = n.getTolerance().elapsed(Settings.TOLERANCE_SECONDS, TimeUnit.SECONDS);
+		boolean agressive = n.tolerance.elapsed(Settings.TOLERANCE_SECONDS, TimeUnit.SECONDS);
 		if (agressive) {
 			npc.resetCombat();
 			npc.resetWalkSteps();

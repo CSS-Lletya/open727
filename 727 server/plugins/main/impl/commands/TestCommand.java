@@ -7,6 +7,7 @@ import main.listener.Command;
 import main.wrapper.CommandSignature;
 import player.Combat;
 import player.type.CombatEffectType;
+import player.type.PoisonType;
 
 /**
  * This is just a dummy command to re-use
@@ -19,6 +20,6 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		Combat.effect(player, CombatEffectType.ANTIFIRE_POTION);
+		player.poison(PoisonType.DEFAULT_MAGIC);
 	}
 }

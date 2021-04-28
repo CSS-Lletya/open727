@@ -98,6 +98,32 @@ public class NPC extends Entity {
 		GsonHandler.waitForLoad();
 		setDirection(((NPCAutoSpawn) GsonHandler.getJsonLoader(NPCAutoSpawn.class)).getDirection(this).ordinal());
 	}
+	
+	public NPC(int id, WorldTile tile) {
+		super(tile);
+		this.id = id;
+		this.respawnTile = new WorldTile(tile);
+		this.mapAreaNameHash = -1;
+		this.canBeAttackFromOutOfArea = false;
+		this.setSpawned(spawned);
+		combatLevel = -1;
+		setHitpoints(getMaxHitpoints());
+		setRandomWalk(getDefinitions().walkMask);
+		setStartTile(tile);
+		bonuses = NPCBonuses.getBonuses(id);
+		combat = new NPCCombat(this);
+		capDamage = -1;
+		lureDelay = 12000;
+		// npc is inited on creating instance
+		initEntity();
+		World.addNPC(this);
+		World.updateEntityRegion(this);
+		// npc is started on creating instance
+		loadMapRegions();
+		checkMultiArea();
+		GsonHandler.waitForLoad();
+		setDirection(((NPCAutoSpawn) GsonHandler.getJsonLoader(NPCAutoSpawn.class)).getDirection(this).ordinal());
+	}
 
 	@Override
 	public boolean needMasksUpdate() {
