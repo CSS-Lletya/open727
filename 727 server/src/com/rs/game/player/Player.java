@@ -632,11 +632,11 @@ public class Player extends Entity {
 	 */
 
 	public void restoreRunEnergy() {
-		if (lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
+		if (getWatchMap().get("ENERGY").elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
 			double restoreRate = 0.45D;
 			double agilityFactor = 0.01 * getSkills().getLevel(Skills.AGILITY);
 			setRunEnergy(runEnergy + (restoreRate + agilityFactor));
-			lastEnergy.reset();
+			getWatchMap().get("ENERGY").reset();
 			getPackets().sendRunEnergy();
 		}
 	}
@@ -2221,11 +2221,6 @@ public class Player extends Entity {
 	}
 	
 	/**
-	 * The collection of stopwatches used for various timing operations.
-	 */
-	public transient final Stopwatch tolerance = new Stopwatch(), lastEnergy = new Stopwatch().reset();
-	
-	/**
 	 * A collection of Stopwatches
 	 */
 	public HashMap<String, Stopwatch> watchMap = new HashMap<>();
@@ -2244,5 +2239,7 @@ public class Player extends Entity {
 	{
 		watchMap.put("FOOD", new Stopwatch());
 		watchMap.put("DRINKS", new Stopwatch());
+		watchMap.put("ENERGY", new Stopwatch());
+		watchMap.put("TOLERANCE", new Stopwatch());
 	}
 }
