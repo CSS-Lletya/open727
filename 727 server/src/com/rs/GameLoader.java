@@ -34,6 +34,7 @@ import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
 import npc.combat.rework.NPCCombatDispatcher;
+import player.specials.WeaponSpecialDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
 
@@ -107,6 +108,7 @@ public class GameLoader {
 			HostManager.deserialize(HostListType.BANNED_IP);
 			HostManager.deserialize(HostListType.MUTED_IP);
 			new MobDropTableLoader().load();
+			WeaponSpecialDispatcher.load();
 		});
 	}
 	

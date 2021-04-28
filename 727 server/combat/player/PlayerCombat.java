@@ -28,6 +28,7 @@ import npc.familiar.Steeltitan;
 import npc.godwars.zaros.Nex;
 import npc.godwars.zaros.NexMinion;
 import npc.qbd.QueenBlackDragon;
+import player.specials.WeaponSpecialDispatcher;
 import skills.Skills;
 import skills.magic.Magic;
 
@@ -1645,6 +1646,7 @@ public class PlayerCombat extends Action {
 				weaponId = -2;
 			}
 		}
+		
 		if (player.getCombatDefinitions().isUsingSpecialAttack()) {
 			if (!specialExecute(player))
 				return combatDelay;
@@ -1653,7 +1655,7 @@ public class PlayerCombat extends Action {
 			case 15443:
 			case 15444:
 			case 15441:
-			case 4151:
+//			case 4151:
 			case 23691:
 				player.setNextAnimation(new Animation(11971));
 				target.setNextGraphics(new Graphics(2108, 0, 100));
@@ -1987,7 +1989,7 @@ public class PlayerCombat extends Action {
 		case 15443:
 		case 15444:
 		case 15441:
-		case 4151:
+//		case 4151:
 		case 23691:
 		case 11698: // sgs
 		case 23681:
@@ -3015,24 +3017,28 @@ public class PlayerCombat extends Action {
 		return true;
 	}
 
-	public static boolean specialExecute(Player player) {
+	public boolean specialExecute(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
 		player.getCombatDefinitions().switchUsingSpecialAttack();
 		int specAmt = getSpecialAmmount(weaponId);
-		if (specAmt == 0) {
-			player.getPackets()
-					.sendGameMessage("This weapon has no special Attack, if you still see special bar please relogin.");
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
-			return false;
-		}
 		if (player.getCombatDefinitions().hasRingOfVigour())
 			specAmt *= 0.9;
-		if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
-			player.getPackets().sendGameMessage("You don't have enough power left.");
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+		if (WeaponSpecialDispatcher.execute(player, target, weaponId)) {
 			return false;
+		} else {
+			if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
+				player.getPackets().sendGameMessage("You don't have enough power left.");
+				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				return false;
+			}
+			if (specAmt == 0) {
+				player.getPackets()
+						.sendGameMessage("This weapon has no special Attack, if you still see special bar please relogin.");
+				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				return false;
+			}
+			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
 		}
-		player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
 		return true;
 	}
 
@@ -3535,7 +3541,7 @@ public class PlayerCombat extends Action {
 			player.setNextAnimation(new Animation(12804));
 			player.setNextGraphics(new Graphics(2319));// 2320
 			player.setNextGraphics(new Graphics(2321));
-//			player.addPolDelay(60000);
+			player.getWatchMap().get("DRINKS").elapsed(60000);
 			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
 			break;
 		}
@@ -3551,8 +3557,10 @@ public class PlayerCombat extends Action {
 				player.getPrayer().restorePrayer(amount);
 		}
 		Entity source = hit.getSource();
-		if (source == null)
+		if (source == null) {
+			player.resetReceivedDamage();
 			return;
+		}
 		if (player.getPrayer().hasPrayersOn() && hit.getDamage() != 0) {
 			if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
 				if (player.getPrayer().usingPrayer(0, 17))
