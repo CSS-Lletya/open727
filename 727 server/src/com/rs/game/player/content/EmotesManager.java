@@ -1,6 +1,5 @@
 package com.rs.game.player.content;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.rs.cache.loaders.NPCDefinitions;
@@ -8,22 +7,21 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 /**
  * TODO: Redo all this.
  * @author Dennis
  *
  */
-public final class EmotesManager implements Serializable {
+public final class EmotesManager {
 
-	private static final long serialVersionUID = 8489480378717534336L;
-
-	private ArrayList<Integer> unlockedEmotes;
+	private transient ArrayList<Integer> unlockedEmotes;
 	private transient Player player;
 	private transient long nextEmoteEnd;
 	private NPC npc;

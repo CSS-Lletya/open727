@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rs.cache.Cache;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+
+import npc.NPC;
 
 public final class RegionBuilder {
 

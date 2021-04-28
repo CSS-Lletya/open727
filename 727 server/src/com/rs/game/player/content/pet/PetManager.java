@@ -9,8 +9,9 @@ import com.rs.game.Animation;
 import com.rs.game.ForceTalk;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
-import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Player;
+
+import npc.pet.Pet;
 
 /**
  * The pet manager.

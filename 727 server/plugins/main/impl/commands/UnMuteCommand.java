@@ -23,6 +23,6 @@ public final class UnMuteCommand implements Command {
 		if (target == null)
 			return;
 		HostManager.remove(cmd[1], HostListType.MUTED_IP, true);
-		target.setMuted(0);
+		target.getPlayerDetails().setMuted(0);
 	}
 }

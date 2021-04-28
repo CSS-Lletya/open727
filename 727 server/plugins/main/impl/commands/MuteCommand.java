@@ -24,6 +24,6 @@ public final class MuteCommand implements Command {
 		if (target == null)
 			return;
 		HostManager.add(target, HostListType.MUTED_IP, true);
-		target.setMuted(Utils.currentTimeMillis() + (player.getRights() == Rights.ADMINISTRATOR ? (48 * 60 * 60 * 1000) : (1 * 60 * 60 * 1000)));
+		target.getPlayerDetails().setMuted(Utils.currentTimeMillis() + (player.getRights() == Rights.ADMINISTRATOR ? (48 * 60 * 60 * 1000) : (1 * 60 * 60 * 1000)));
 	}
 }

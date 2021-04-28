@@ -5,13 +5,13 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import npc.others.Kalaboss;
 import skills.Skills;
 
 /*

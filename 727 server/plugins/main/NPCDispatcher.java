@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import com.rs.Settings;
 import com.rs.cache.io.InputStream;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.utils.Logger;
@@ -20,6 +19,7 @@ import com.rs.utils.Utils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import main.listener.NPCType;
 import main.wrapper.NPCSignature;
+import npc.NPC;
 
 /**
  * @author Dennis

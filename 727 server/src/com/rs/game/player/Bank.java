@@ -1,21 +1,15 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
+import static main.impl.rsinterface.EquipmentInterfacePlugin.refreshEquipBonuses;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.utils.ItemExamines;
 
-import static main.impl.rsinterface.EquipmentInterfacePlugin.refreshEquipBonuses;
+import npc.familiar.Familiar;
 
-public class Bank implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1551246756081236625L;
+public class Bank {
 
 	// tab, items
 	private Item[][] bankTabs;

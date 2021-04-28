@@ -11,7 +11,7 @@ public class SquealOfFortuneInterfacePlugin implements RSInterface {
     public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
         if(interfaceId == 1252) {
             if(componentId == 3) //Goblin icon
-                if(player.getSpins() > 0)
+                if(player.getPlayerDetails().getSpins() > 0)
                     player.getSquealOfFortune().start();
                 else
                     player.getPackets().sendGameMessage("No spins available");

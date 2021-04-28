@@ -10,10 +10,11 @@ import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.rs.game.npc.drops.Drop;
-import com.rs.game.npc.drops.DropManager;
-import com.rs.game.npc.drops.DropTable;
 import com.rs.json.JsonLoader;
+
+import npc.drops.Drop;
+import npc.drops.DropManager;
+import npc.drops.DropTable;
 
 /**
  * The {@link JsonLoader} implementation that loads all npc drops.

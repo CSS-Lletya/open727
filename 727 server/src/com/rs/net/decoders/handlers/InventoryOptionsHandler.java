@@ -8,9 +8,6 @@ import com.rs.cores.WorldThread;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar.SpecialAttack;
-import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Foods;
@@ -21,6 +18,9 @@ import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
 import main.impl.rsinterface.InventoryInterfaceTypePlugin;
+import npc.NPC;
+import npc.familiar.Familiar.SpecialAttack;
+import npc.pet.Pet;
 
 public class InventoryOptionsHandler {
 

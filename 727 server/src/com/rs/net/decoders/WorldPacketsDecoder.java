@@ -11,9 +11,6 @@ import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.familiar.Familiar.SpecialAttack;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
@@ -33,6 +30,9 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import npc.NPC;
+import npc.familiar.Familiar;
+import npc.familiar.Familiar.SpecialAttack;
 import player.PlayerCombat;
 import skills.Skills;
 import skills.magic.Magic;
@@ -579,7 +579,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			}
 			player.stopAll(false);
 			player.getActionManager().setAction(new PlayerCombat(npc));
-			player.getTolerance().reset();
+			player.getWatchMap().get("TOLERANCE").reset();
 		}
 		
 		
@@ -1187,8 +1187,8 @@ public final class WorldPacketsDecoder extends Decoder {
 				} else if (Utils.containsInvalidCharacter(value) || value.contains("_")) {
 					player.getDialogueManager().startDialogue("SimpleMessage", "The requested yell color can only contain numeric and regular characters.");
 				} else {
-					player.setYellColor(value);
-					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getYellColor() + ">" + player.getYellColor() + "</col>.");
+					player.getPlayerDetails().setYellColor(value);
+					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getPlayerDetails().getYellColor() + ">" + player.getPlayerDetails().getYellColor() + "</col>.");
 				}
 				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
 			}
@@ -1300,7 +1300,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				System.out.println("Switch item interface " + fromInterfaceId + " from slot " + fromSlot + " to slot " + toSlot);
 		} else if (packetId == DONE_LOADING_REGION_PACKET) {
 			//bit off but ye for most part this is done.
-			player.getTolerance().reset();
+			player.getWatchMap().get("TOLERANCE").reset();
 		} 
 		//TODO queue
 		else if (packetId == WALKING_PACKET 
@@ -1385,7 +1385,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == SEND_FRIEND_MESSAGE_PACKET) {
 			if (!player.hasStarted())
 				return;
-			if (player.getMuted() > Utils.currentTimeMillis()) {
+			if (player.getPlayerDetails().getMuted() > Utils.currentTimeMillis()) {
 				player.getPackets().sendGameMessage("You temporary muted. Recheck in 48 hours.");
 				return;
 			}
@@ -1452,7 +1452,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				CommandDispatcher.processCommand(player, message.replace("::", "").replace(";;", ""), false, false);
 				return;
 			}
-			if (player.getMuted() > Utils.currentTimeMillis()) {
+			if (player.getPlayerDetails().getMuted() > Utils.currentTimeMillis()) {
 				player.getPackets().sendGameMessage("You temporary muted. Recheck in 48 hours.");
 				return;
 			}

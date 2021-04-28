@@ -5,11 +5,12 @@ import com.rs.cores.CoresManager;
 import com.rs.game.RegionBuilder;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.dungeonnering.Guardian;
 import com.rs.game.player.Player;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
+
+import npc.NPC;
+import npc.dungeonnering.Guardian;
 
 public class DungeonManager {
 

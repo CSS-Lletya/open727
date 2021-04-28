@@ -20,8 +20,8 @@ public final class MusicsManager  {
 	private transient int playingMusic;
 	private transient long playingMusicDelay;
 	private transient boolean settedMusic;
-	private ArrayList<Integer> unlockedMusics;
-	private ArrayList<Integer> playList;
+	private transient ArrayList<Integer> unlockedMusics;
+	private transient ArrayList<Integer> playList;
 
 	private transient boolean playListOn;
 	private transient int nextPlayListMusic;

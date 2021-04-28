@@ -12,15 +12,15 @@ import com.rs.net.Session;
 
 public final class GrabPacketsEncoder extends Encoder {
 
-	private static byte[] UKEYS_FILE;
-
 	private int encryptionValue;
 
-	public static final OutputStream getUkeysFile() {
-		if (UKEYS_FILE == null)
-			UKEYS_FILE = Cache.generateUkeysFile();
-		return getContainerPacketData(255, 255, UKEYS_FILE);
-	}
+	private static OutputStream UKEY_PACKET;
+
+    public static final OutputStream getUkeysFile() {
+        if (UKEY_PACKET == null)
+            UKEY_PACKET = getContainerPacketData(255, 255, Cache.generateUkeysFile());
+        return UKEY_PACKET;
+    }
 
 	public GrabPacketsEncoder(Session connection) {
 		super(connection);

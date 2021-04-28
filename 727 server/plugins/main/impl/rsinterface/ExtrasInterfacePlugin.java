@@ -9,13 +9,13 @@ import main.wrapper.RSInterfaceSignature;
 public class ExtrasInterfacePlugin implements RSInterface {
 	@Override
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
-		player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getSpins()));
+		player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getPlayerDetails().getSpins()));
 		switch(componentId) {
 			case 14:
 				System.out.println("Solomon Store");
 				break;
 			case 7://Squeal Of Fortune
-				if(player.getSpins() > 0)
+				if(player.getPlayerDetails().getSpins() > 0)
 					player.getSquealOfFortune().start();
 				else
 					player.getPackets().sendGameMessage("No spins available");

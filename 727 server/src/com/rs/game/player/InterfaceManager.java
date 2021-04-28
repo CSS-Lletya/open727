@@ -61,6 +61,7 @@ public class InterfaceManager {
 			resizableScreen = false;
 			sendFixedInterfaces();
 		}
+		player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getPlayerDetails().getSpins()));
 		player.getSkills().sendInterfaces();
 		player.getCombatDefinitions().sendUnlockAttackStylesButtons();
 		player.getMusicsManager().unlockMusicPlayer();
@@ -70,6 +71,7 @@ public class InterfaceManager {
 		if (player.getFamiliar() != null && player.isRunning())
 			player.getFamiliar().unlock();
 		player.getControlerManager().sendInterfaces();
+		player.getInterfaceManager().sendOverlay(1252, false);
 	}
 
 	public void replaceRealChatBoxInterface(int interfaceId) {

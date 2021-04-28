@@ -27,10 +27,13 @@ public class PlayerDeath extends ActorDeath<Player> {
 
 	@Override
 	public void death() {
-		getActor().getPoisonDamage().set(0);
+		if (getActor().getPoisonDamage().get() > 0) {
+			getActor().getPoisonDamage().set(0);
+			getActor().getPackets().sendConfig(102, 0);
+		}
 		getActor().setAntifireDetail(Optional.empty());	
 		getActor().getSkullTimer().set(0);
-		getActor().getTolerance().reset();
+		getActor().getWatchMap().get("TOLERANCE").reset();
 		getActor().stopAll();
 		if (getActor().getFamiliar() != null)
 			getActor().getFamiliar().sendDeath(getActor());

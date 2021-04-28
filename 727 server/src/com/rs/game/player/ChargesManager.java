@@ -1,6 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import com.rs.cache.loaders.ItemDefinitions;
@@ -8,9 +7,7 @@ import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.utils.Utils;
 
-public class ChargesManager implements Serializable {
-
-	private static final long serialVersionUID = -5978513415281726450L;
+public class ChargesManager {
 
 	private transient Player player;
 
