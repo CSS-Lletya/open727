@@ -1,6 +1,6 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
+import static main.impl.rsinterface.EquipmentInterfacePlugin.refreshEquipBonuses;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -8,12 +8,7 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.utils.ItemExamines;
 
-public class Bank implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1551246756081236625L;
+public class Bank {
 
 	// tab, items
 	private Item[][] bankTabs;
@@ -214,19 +209,19 @@ public class Bank implements Serializable {
 
 	public void openDepositBox() {
 		player.getInterfaceManager().sendInterface(11);
-		player.getInterfaceManager().closeInventory();
-		player.getInterfaceManager().closeEquipment();
-		final int lastGameTab = player.getInterfaceManager().openGameTab(9); // friends
+//		player.getInterfaceManager().closeInventory();
+//		player.getInterfaceManager().closeEquipment();
+//		final int lastGameTab = player.getInterfaceManager().openGameTab(9); // friends
 		// tab
 		sendBoxInterItems();
 		player.getPackets().sendIComponentText(11, 13, "Bank Of " + Settings.SERVER_NAME + " - Deposit Box");
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getInterfaceManager().sendInventory();
-				player.getInventory().unlockInventoryOptions();
-				player.getInterfaceManager().sendEquipment();
-				player.getInterfaceManager().openGameTab(lastGameTab);
+//				player.getInterfaceManager().sendInventory();
+//				player.getInventory().unlockInventoryOptions();
+//				player.getInterfaceManager().sendEquipment();
+//				player.getInterfaceManager().openGameTab(lastGameTab);
 			}
 		});
 	}
@@ -246,6 +241,32 @@ public class Bank implements Serializable {
 		sendItems();
 		refreshLastX();
 	}
+
+	public void openEquipmentBonuses(boolean banking) {
+		player.stopAll();
+		player.getInterfaceManager().sendInventoryInterface(670);
+		player.getInterfaceManager().sendInterface(667);
+		player.getPackets().sendConfigByFile(4894, banking ? 1 : 0);
+		player.getPackets().sendItems(93,
+				player.getInventory().getItems());
+		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93,
+				4, 7, "Equip", "Compare", "Stats", "Examine");
+		player.getPackets().sendUnlockIComponentOptionSlots(670, 0, 0,
+				27, false,0, 1, 2, 3);
+		player.getPackets().sendAccessMask(667, 9, 0, 13, 1030);
+		refreshEquipBonuses(player);
+		if(banking) {
+			player.getTemporaryAttributtes().put("Banking", Boolean.TRUE);
+			player.setCloseInterfacesEvent(new Runnable() {
+				@Override
+				public void run() {
+					player.getTemporaryAttributtes().remove("Banking");
+				}
+
+			});
+		}
+	}
+
 
 	public void refreshLastX() {
 		player.getPackets().sendConfig(1249, lastX);
@@ -548,9 +569,18 @@ public class Bank implements Serializable {
 		player.getPackets().sendAccessMask(763, 0, 0, 27, 2361342);//(763, 0, 0, 27, 2425982);
 	}
 
+	public boolean getWithdrawNotes() {
+		return withdrawNotes;
+	}
+
 	public void switchWithdrawNotes() {
 		withdrawNotes = !withdrawNotes;
+		player.getPackets().sendConfig(115, withdrawNotes ? 1 : 0);
 	}
+
+//	public void switchWithdrawNotes() {
+//		withdrawNotes = !withdrawNotes;
+//	}
 
 	public void switchInsertItems() {
 		insertItems = !insertItems;

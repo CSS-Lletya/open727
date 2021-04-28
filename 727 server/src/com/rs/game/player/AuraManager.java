@@ -1,6 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import com.rs.game.Animation;
@@ -10,9 +9,7 @@ import com.rs.game.item.Item;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
-public class AuraManager implements Serializable {
-
-	private static final long serialVersionUID = -8860530757819448608L;
+public class AuraManager {
 
 	private transient Player player;
 	private transient boolean warned;

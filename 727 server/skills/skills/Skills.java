@@ -16,7 +16,7 @@ public class Skills {
 			"Herblore", "Agility", "Thieving", "Slayer", "Farming", "Runecrafting", "Hunter", "Construction",
 			"Summoning", "Dungeoneering" };
 
-	private short level[];
+	private byte level[];
 	private double xp[];
 	private double[] xpTracks;
 	private boolean[] trackSkills;
@@ -32,12 +32,16 @@ public class Skills {
 	}
 
 	public Skills() {
-		level = new short[25];
+		level = new byte[25];
 		xp = new double[25];
 		for (int i = 0; i < level.length; i++) {
-			level[i] = 99;
-			xp[i] = 14000000;
+			level[i] = 1;
+			xp[i] = 0;
 		}
+		level[3] = 10;
+		xp[3] = 1184;
+		level[HERBLORE] = 3;
+		xp[HERBLORE] = 250;
 		xpPopup = true;
 		xpTracks = new double[3];
 		trackSkills = new boolean[3];
@@ -146,7 +150,7 @@ public class Skills {
 
 	public void restoreSkills() {
 		for (int skill = 0; skill < level.length; skill++) {
-			level[skill] = (short) getLevelForXp(skill);
+			level[skill] = (byte) getLevelForXp(skill);
 			refresh(skill);
 		}
 	}
@@ -165,7 +169,7 @@ public class Skills {
 		}
 	}
 
-	public short[] getLevels() {
+	public byte[] getLevels() {
 		return level;
 	}
 
@@ -218,7 +222,7 @@ public class Skills {
 	}
 
 	public void set(int skill, int newLevel) {
-		level[skill] = (short) newLevel;
+		level[skill] = (byte) newLevel;
 		refresh(skill);
 	}
 
@@ -351,7 +355,7 @@ public class Skills {
 
 	public void addXp(int skill, double exp) {
 		player.getControlerManager().trackXP(skill, (int) exp);
-		if (player.isXpLocked())
+		if (player.getPlayerDetails().isXpLocked())
 			return;
 		if (skill != ATTACK && skill != DEFENCE && skill != STRENGTH && skill != MAGIC && skill != RANGE
 				&& skill != HITPOINTS)
@@ -394,7 +398,7 @@ public class Skills {
 
 	public void addSkillXpRefresh(int skill, double xp) {
 		this.xp[skill] += xp;
-		level[skill] = (short) getLevelForXp(skill);
+		level[skill] = (byte) getLevelForXp(skill);
 	}
 
 	public void resetSkillNoRefresh(int skill) {

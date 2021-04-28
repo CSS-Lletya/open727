@@ -1,5 +1,6 @@
 package main.impl.rsinterface;
 
+import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.net.decoders.WorldPacketsDecoder;
 
@@ -28,8 +29,12 @@ public class DepositBoxInterfacePlugin implements RSInterface {
                 player.getInventory().sendExamine(slotId);
         } else if (componentId == 18)
             player.getBank().depositAllInventory(false);
-        else if (componentId == 22)
-            player.getBank().depositAllEquipment(false);
+        else if (componentId == 22) {//deposit all equipment
+            Item[] items = player.getEquipment().getItems().getItemsCopy();
+            player.getBank().addItems(items, true);
+            player.getEquipment().removeAllEquipment();
+            player.getAppearance().generateAppearenceData();
+        }
         else if (componentId == 24)
             player.getBank().depositAllBob(false);
         else if (componentId == 20)

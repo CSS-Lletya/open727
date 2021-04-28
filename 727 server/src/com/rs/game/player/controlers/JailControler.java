@@ -11,13 +11,13 @@ public class JailControler extends Controler {
 
 	@Override
 	public void start() {
-		if (player.getJailed() > Utils.currentTimeMillis())
+		if (player.getPlayerDetails().getJailed() > Utils.currentTimeMillis())
 			player.sendRandomJail(player);
 	}
 
 	@Override
 	public void process() {
-		if (player.getJailed() <= Utils.currentTimeMillis()) {
+		if (player.getPlayerDetails().getJailed() <= Utils.currentTimeMillis()) {
 			player.getControlerManager().getControler().removeControler();
 			player.getPackets().sendGameMessage("Your account has been unjailed.", true);
 			player.setNextWorldTile(new WorldTile(2677, 10379, 0));

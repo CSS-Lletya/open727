@@ -1,7 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
@@ -9,9 +7,7 @@ import com.rs.utils.ItemExamines;
 
 import skills.Skills;
 
-public final class Equipment implements Serializable {
-
-	private static final long serialVersionUID = -4147163237095647617L;
+public final class Equipment {
 
 	public static final byte SLOT_HAT = 0, SLOT_CAPE = 1, SLOT_AMULET = 2, SLOT_WEAPON = 3, SLOT_CHEST = 4,
 			SLOT_SHIELD = 5, SLOT_LEGS = 7, SLOT_HANDS = 9, SLOT_FEET = 10, SLOT_RING = 12, SLOT_ARROWS = 13,
@@ -33,7 +29,6 @@ public final class Equipment implements Serializable {
 	}
 
 	public void init() {
-		items.set(SLOT_WEAPON, new Item(11694));
 		player.getPackets().sendItems(94, items);
 		refresh(null);
 	}
@@ -230,6 +225,17 @@ public final class Equipment implements Serializable {
 		refreshItems(itemsBefore);
 	}
 
+	/**
+	 * Removes all equipment
+	 */
+	public void removeAllEquipment() {
+		Item[] itemsBefore = items.getItemsCopy();
+		for(Item item : itemsBefore)
+			if(item != null)
+				items.remove(item);
+		refreshItems(itemsBefore);
+	}
+
 	public void refreshItems(Item[] itemsBefore) {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
@@ -284,5 +290,26 @@ public final class Equipment implements Serializable {
 	public boolean hasTwoHandedWeapon() {
 		Item weapon = items.get(SLOT_WEAPON);
 		return weapon != null && isTwoHandedWeapon(weapon);
+	}
+
+	/**
+	 * Removes equipment based on the slot
+	 * @param slotId
+	 */
+	public void sendRemoveEquipment(final int slotId) {
+		player.stopAll(false, false);
+		Item item = player.getEquipment().getItem(slotId);
+		if (item == null)
+			return;
+		player.getEquipment().getItems().set(slotId, null);
+		player.getEquipment().refresh(slotId);
+		player.getCombatDefinitions().desecreaseSpecialAttack(0);
+
+		if (player.getHitpoints() > (player.getMaxHitpoints() * 1.15)) {
+			player.setHitpoints(player.getMaxHitpoints());
+			player.refreshHitPoints();
+		}
+		player.getAppearance().generateAppearenceData();;
+
 	}
 }

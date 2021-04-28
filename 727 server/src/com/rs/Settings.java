@@ -5,6 +5,11 @@ import java.math.BigInteger;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 
+/**
+ * Server Settings
+ * @author Dennis
+ *
+ */
 public final class Settings {
 
 	/**

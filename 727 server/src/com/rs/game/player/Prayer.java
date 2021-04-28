@@ -1,7 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
-
 import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.utils.Utils;
@@ -9,12 +7,7 @@ import com.rs.utils.Utils;
 import player.CombatDefinitions;
 import skills.Skills;
 
-public class Prayer implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2082861520556582824L;
+public class Prayer {
 
 	private final static int[][] prayerLvls = {
 			// normal prayer book
@@ -562,14 +555,6 @@ public class Prayer implements Serializable {
 		player.getPackets().sendSound(2662, 0, 1);
 		return true;
 	}
-
-	public void processPrayer() {
-		if (!hasPrayersOn())
-			return;
-		boostedLeech = false;
-	}
-
-	// 600
 
 	public void processPrayerDrain() {
 		if (!hasPrayersOn())

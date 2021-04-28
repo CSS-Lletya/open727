@@ -154,6 +154,14 @@ public class WorldPacketsEncoder extends Encoder {
 
 	}
 
+	/**
+	 * Makes the interface and component clickable. Clicking the component ID or slot allows for a packet to be sent incoming
+	 * @param interfaceId
+	 * @param componentId
+	 * @param fromSlot
+	 * @param toSlot
+	 * @param optionsSlots
+	 */
 	public void sendAccessMask(int interfaceId, int componentId, int fromSlot, int toSlot, int... optionsSlots) {
 		int settingsHash = 0;
 		for (int slot : optionsSlots)
@@ -161,6 +169,14 @@ public class WorldPacketsEncoder extends Encoder {
 		sendAccessMask(interfaceId, componentId, fromSlot, toSlot, settingsHash);
 	}
 
+	/**
+	 * Makes the interface and component clickable. Clicking the component ID or slot allows for a packet to be sent incoming
+	 * @param interfaceId
+	 * @param componentId
+	 * @param fromSlot
+	 * @param toSlot
+	 * @param settingsHash
+	 */
 	public void sendAccessMask(int interfaceId, int componentId, int fromSlot, int toSlot, int settingsHash) {
 		OutputStream stream = new OutputStream(13);
 		stream.writePacket(player, 121);
@@ -542,7 +558,7 @@ public class WorldPacketsEncoder extends Encoder {
 	public void sendGameBarStages() {
 		sendConfig(1054, player.getClanStatus());
 //		sendConfig(1055, player.getAssistStatus());
-		sendConfig(1056, player.isFilterGame() ? 1 : 0);
+		sendConfig(1056, player.getPlayerDetails().isFilterGame() ? 1 : 0);
 		sendConfig(2159, player.getFriendsIgnores().getFriendsChatStatus());
 		sendOtherGameBarStages();
 		sendPrivateGameBarStage();
@@ -1288,7 +1304,7 @@ public class WorldPacketsEncoder extends Encoder {
 	public void sendItemsLook() {
 		OutputStream stream = new OutputStream(2);
 		stream.writePacket(player, 160);
-		stream.writeByte(player.isOldItemsLook() ? 1 : 0);
+		stream.writeByte(player.getPlayerDetails().isOldItemsLook() ? 1 : 0);
 		// session.write(stream);
 	}
 }

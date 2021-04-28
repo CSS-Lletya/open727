@@ -1,6 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import com.rs.cache.io.OutputStream;
@@ -12,20 +11,18 @@ import com.rs.game.World;
 import com.rs.game.item.Item;
 import com.rs.utils.Utils;
 
-public class Appearance implements Serializable {
-
-	private static final long serialVersionUID = 7655608569741626591L;
+public class Appearance {
 
 	private transient int renderEmote;
 	private int title;
 	private int[] bodyStyle;
 	private byte[] bodyColors;
 	private boolean male;
-	private boolean glowRed;
-	private byte[] appearanceBlock;
-	private byte[] encryptedAppearenceBlock;
-	private short transformedNpcId;
-	private boolean hidePlayer;
+	private transient boolean glowRed;
+	private transient byte[] appearanceBlock;
+	private transient byte[] encryptedAppearenceBlock;
+	private transient short transformedNpcId;
+	private transient boolean hidePlayer;
 
 	private transient Player player;
 
@@ -107,7 +104,7 @@ public class Appearance implements Serializable {
 		if (title != null)
 			stream.writeGJString(title);
 
-		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1);
+		stream.writeByte(player.hasSkull() ? player.getPlayerDetails().getSkullId() : -1);
 		stream.writeByte(player.getPrayer().getPrayerHeadIcon());
 		stream.writeByte(hidePlayer ? 1 : 0);
 
@@ -356,7 +353,7 @@ public class Appearance implements Serializable {
 			String titleName = title == 666 ? "<col=C12006>Phantom </col>" : ClientScriptMap.getMap(male ? 1093 : 3872).getStringValue(title);
 			stream.writeGJString(titleName);
 		}
-		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1); // pk// icon
+		stream.writeByte(player.hasSkull() ? player.getPlayerDetails().getSkullId() : -1); // pk// icon
 		stream.writeByte(player.getPrayer().getPrayerHeadIcon()); // prayer icon
 		stream.writeByte(hidePlayer ? 1 : 0);
 		// npc
@@ -430,12 +427,12 @@ public class Appearance implements Serializable {
 					int hatId = player.getEquipment().getHatId();
 					if (hatId == 20768 || hatId == 20770 || hatId == 20772) {
 						ItemDefinitions defs = ItemDefinitions.getItemDefinitions(hatId-1);
-						if ((hatId == 20768	&& Arrays.equals(player.getMaxedCapeCustomized(), defs.originalModelColors) || ((hatId == 20770 || hatId == 20772)
-								&& Arrays.equals(player.getCompletionistCapeCustomized(), defs.originalModelColors))))
+						if ((hatId == 20768	&& Arrays.equals(player.getPlayerDetails().getMaxedCapeCustomized(), defs.originalModelColors) || ((hatId == 20770 || hatId == 20772)
+								&& Arrays.equals(player.getPlayerDetails().getCompletionistCapeCustomized(), defs.originalModelColors))))
 							continue;
 						hash |= 1 << slotFlag;
 						stream.writeByte(0x4); // modify 4 model colors
-						int[] hat = hatId == 20768 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+						int[] hat = hatId == 20768 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 						int slots = 0 | 1 << 4 | 2 << 8 | 3 << 12;
 						stream.writeShort(slots);
 						for (int i = 0; i < 4; i++)
@@ -445,12 +442,12 @@ public class Appearance implements Serializable {
 					int capeId = player.getEquipment().getCapeId();
 					if (capeId == 20767 || capeId == 20769 || capeId == 20771) {
 						ItemDefinitions defs = ItemDefinitions.getItemDefinitions(capeId);
-						if ((capeId == 20767 && Arrays.equals(player.getMaxedCapeCustomized(), defs.originalModelColors) || ((capeId == 20769 || capeId == 20771)
-								&& Arrays.equals(player.getCompletionistCapeCustomized(), defs.originalModelColors))))
+						if ((capeId == 20767 && Arrays.equals(player.getPlayerDetails().getMaxedCapeCustomized(), defs.originalModelColors) || ((capeId == 20769 || capeId == 20771)
+								&& Arrays.equals(player.getPlayerDetails().getCompletionistCapeCustomized(), defs.originalModelColors))))
 							continue;
 						hash |= 1 << slotFlag;
 						stream.writeByte(0x4); // modify 4 model colors
-						int[] cape = capeId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+						int[] cape = capeId == 20767 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 						int slots = 0 | 1 << 4 | 2 << 8 | 3 << 12;
 						stream.writeShort(slots);
 						for (int i = 0; i < 4; i++)
@@ -525,7 +522,7 @@ public class Appearance implements Serializable {
 			String titleName = title == 666 ? "<col=C12006>Phantom </col>" : ClientScriptMap.getMap(male ? 1093 : 3872).getStringValue(title);
 			stream.writeGJString(titleName);
 		}
-		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1); // pk// icon
+		stream.writeByte(player.hasSkull() ? player.getPlayerDetails().getSkullId() : -1); // pk// icon
 		stream.writeByte(player.getPrayer().getPrayerHeadIcon()); // prayer icon
 		stream.writeByte(hidePlayer ? 1 : 0);
 		// npc
@@ -599,12 +596,12 @@ public class Appearance implements Serializable {
 					int hatId = player.getEquipment().getHatId();
 					if (hatId == 20768 || hatId == 20770 || hatId == 20772) {
 						ItemDefinitions defs = ItemDefinitions.getItemDefinitions(hatId - 1);
-						if ((hatId == 20768 && Arrays.equals(player.getMaxedCapeCustomized(), defs.originalModelColors) || ((hatId == 20770 || hatId == 20772)
-								&& Arrays.equals(player.getCompletionistCapeCustomized(), defs.originalModelColors))))
+						if ((hatId == 20768 && Arrays.equals(player.getPlayerDetails().getMaxedCapeCustomized(), defs.originalModelColors) || ((hatId == 20770 || hatId == 20772)
+								&& Arrays.equals(player.getPlayerDetails().getCompletionistCapeCustomized(), defs.originalModelColors))))
 							continue;
 						hash |= 1 << slotFlag;
 						stream.writeByte(0x4); // modify 4 model colors
-						int[] hat = hatId == 20768 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+						int[] hat = hatId == 20768 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 						int slots = 0 | 1 << 4 | 2 << 8 | 3 << 12;
 						stream.writeShort(slots);
 						for (int i = 0; i < 4; i++)
@@ -614,12 +611,12 @@ public class Appearance implements Serializable {
 					int capeId = player.getEquipment().getCapeId();
 					if (capeId == 20767 || capeId == 20769 || capeId == 20771) {
 						ItemDefinitions defs = ItemDefinitions.getItemDefinitions(capeId);
-						if ((capeId == 20767 && Arrays.equals(player.getMaxedCapeCustomized(), defs.originalModelColors) || ((capeId == 20769 || capeId == 20771)
-								&& Arrays.equals(player.getCompletionistCapeCustomized(), defs.originalModelColors))))
+						if ((capeId == 20767 && Arrays.equals(player.getPlayerDetails().getMaxedCapeCustomized(), defs.originalModelColors) || ((capeId == 20769 || capeId == 20771)
+								&& Arrays.equals(player.getPlayerDetails().getCompletionistCapeCustomized(), defs.originalModelColors))))
 							continue;
 						hash |= 1 << slotFlag;
 						stream.writeByte(0x4); // modify 4 model colors
-						int[] cape = capeId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+						int[] cape = capeId == 20767 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 						int slots = 0 | 1 << 4 | 2 << 8 | 3 << 12;
 						stream.writeShort(slots);
 						for (int i = 0; i < 4; i++)

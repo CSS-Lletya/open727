@@ -1,6 +1,5 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +8,7 @@ import com.rs.game.World;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Utils;
 
-public class FriendsIgnores implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 39693097250367467L;
+public class FriendsIgnores {
 
 	// friends chat
 	private String chatName;

@@ -12,7 +12,6 @@ import com.rs.utils.AntiFlood;
 import com.rs.utils.Encrypt;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
-import com.rs.utils.MachineInformation;
 import com.rs.utils.Utils;
 
 public final class LoginPacketsDecoder extends Decoder {
@@ -99,8 +98,7 @@ public final class LoginPacketsDecoder extends Decoder {
 		String settings = stream.readString();
 		int affid = stream.readInt();
 		stream.skip(stream.readUnsignedByte()); // useless settings
-
-		MachineInformation mInformation = null;
+		
 		int unknown3 = stream.readInt();
 		long userFlow = stream.readLong();
 		boolean hasAditionalInformation = stream.readUnsignedByte() == 1;
@@ -144,12 +142,12 @@ public final class LoginPacketsDecoder extends Decoder {
 				return;
 			}
 		}
-		if(HostManager.contains(player.getLastIP(), HostListType.BANNED_IP)) {
+		if(HostManager.contains(player.getPlayerDetails().getLastIP(), HostListType.BANNED_IP)) {
 			session.getLoginPackets().sendClientPacket(4);
 			return;
 		}
 		
-		player.init(session, username, displayMode, screenWidth, screenHeight, mInformation, new IsaacKeyPair(isaacKeys));
+		player.init(session, username, displayMode, screenWidth, screenHeight, new IsaacKeyPair(isaacKeys));
 		session.getLoginPackets().sendLoginDetails(player);
 		session.setDecoder(3, player);
 		session.setEncoder(2, player);

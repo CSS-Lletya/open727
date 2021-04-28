@@ -18,8 +18,8 @@ public final class AddSpinsCommand implements Command {
         if(cmd.length == 2 && cmd[1].matches("\\d+"))
             amount = Integer.parseInt(cmd[1]);
 
-        player.setSpins(player.getSpins() + amount);
+        player.getPlayerDetails().setSpins(player.getPlayerDetails().getSpins() + amount);
         player.getPackets().sendGameMessage("You recieved " + amount + " free spins for Squeal Of Fortune.");
-        player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getSpins()));
+        player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getPlayerDetails().getSpins()));
     }
 }

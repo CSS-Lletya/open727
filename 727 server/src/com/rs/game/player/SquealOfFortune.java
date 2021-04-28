@@ -114,7 +114,7 @@ public class SquealOfFortune {
      */
     public void start() {
         items.clear();
-        player.getPackets().sendConfigByFile(11026, player.getSpins());
+        player.getPackets().sendConfigByFile(11026, player.getPlayerDetails().getSpins());
         player.getPackets().sendConfigByFile(11155, 1);
         player.getPackets().sendGlobalConfig(1928, 1);
         for (int slotLocation = 0; slotLocation < 14; slotLocation++) {
@@ -176,7 +176,7 @@ public class SquealOfFortune {
         player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 107, "Exit");
 
         //set spin amount
-        player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 96, ""+ player.getSpins());
+        player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 95, ""+ player.getPlayerDetails().getSpins());
 
         //Hide Buy Spins1
         player.getPackets().sendHideIComponent(SOF_INTERFACE_ID, 0, true);
@@ -230,7 +230,7 @@ public class SquealOfFortune {
     }
 
     private void setupSOFRewardInterface() {
-        player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 161, "Spins remaining: "+ Integer.toString(player.getSpins()-1));
+        player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 161, "Spins remaining: "+ Integer.toString(player.getPlayerDetails().getSpins()));
         player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 43, "For every 12 hours of play time, you get a spin ticket!");
         player.getPackets().sendHideIComponent(SOF_INTERFACE_ID, 305, true);//Hide Buy Spins text image
     }
@@ -239,12 +239,13 @@ public class SquealOfFortune {
         long currentTime = Utils.currentTimeMillis();
 
         if (buttonId == 92) {//red button next screen
-            if (player.getSpins() == 0) {
+            if (player.getPlayerDetails().getSpins() == 0) {
                 items.clear();
                 player.getPackets().sendWindowsPane(player.getInterfaceManager().hasRezizableScreen() ? 746	: 548, 0);
                 player.getPackets().sendGlobalConfig(1790, 0);
                 player.getPackets().sendRunScript(5906);
                 isDiscarded = false;
+                player.getPackets().sendGameMessage("You don't have any spins.");
                 return;
             }  //damx
             if (player.getLockDelay() >= currentTime) {
@@ -255,7 +256,7 @@ public class SquealOfFortune {
             player.getPackets().sendConfigByFile(10860, prizeId);
             player.getPackets().sendGlobalConfig(1790, 1);
             player.getPackets().sendConfigByFile(10861, prizeId);
-            player.setSpins(player.getSpins() - 1);
+            player.getPlayerDetails().setSpins(player.getPlayerDetails().getSpins() - 1);
 
             final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(3);
             executor.schedule(new Runnable() {
@@ -276,7 +277,7 @@ public class SquealOfFortune {
                 setupSOFRewardInterface();
                 setVisibleExitButton(true);
                 if (player.getInventory().hasFreeSlots())
-                    player.getInventory().addItem(new Item(items.get(prizeId).getId()));
+                    player.getInventory().addItem(new Item(items.get(prizeId).getId(), items.get(prizeId).getAmount()));
                 else {
                     Item[] itemsToBank = new Item[]{new Item(items.get(prizeId).getId())};
                     player.getBank().addItems(itemsToBank, true);
@@ -289,7 +290,7 @@ public class SquealOfFortune {
             player.getPackets().sendHideIComponent(1253, 225, false);
             player.getPackets().sendRunScript(5906);
             items.clear();
-            player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 161, "Spins remaining: "+ Integer.toString(player.getSpins()-1));
+            player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 161, "Spins remaining: "+ Integer.toString(player.getPlayerDetails().getSpins()));
         } else if (buttonId == 243) {//done
             items.clear();
             player.getPackets().sendWindowsPane(player.getInterfaceManager().hasRezizableScreen() ? 746 : 548, 0);
@@ -307,7 +308,7 @@ public class SquealOfFortune {
             player.getPackets().sendHideIComponent(1253, 225, false);
             player.getPackets().sendRunScript(5906);
             items.clear();
-            player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 162, "Spins remaining: "+ player.getSpins());
+            player.getPackets().sendIComponentText(SOF_INTERFACE_ID, 162, "Spins remaining: "+ player.getPlayerDetails().getSpins());
         }
     }
 

@@ -1,15 +1,11 @@
 package com.rs.game.player;
 
-import java.io.Serializable;
-
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.Utils;
 
-public final class Inventory implements Serializable {
-
-	private static final long serialVersionUID = 8842800123753277093L;
+public final class Inventory {
 
 	private ItemsContainer<Item> items;
 
