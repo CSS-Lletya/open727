@@ -91,7 +91,7 @@ public class BankInterfacePlugin implements RSInterface {
                     player.getPackets().sendRunScript(108, new Object[] { "Enter Amount:" });
                 } else if (packetId == WorldPacketsDecoder.ACTION_BUTTON9_PACKET)
                     player.getBank().withdrawItem(slotId, Integer.MAX_VALUE);
-                else if (packetId == WorldPacketsDecoder.ACTION_BUTTON6_PACKET)
+                else if (packetId == WorldPacketsDecoder.ACTION_BUTTON7_PACKET)
                     player.getBank().withdrawItemButOne(slotId);
                 else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
                     player.getBank().sendExamine(slotId);
