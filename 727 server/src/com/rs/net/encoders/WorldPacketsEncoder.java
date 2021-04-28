@@ -17,7 +17,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.AccountCreation;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.Player;
@@ -27,6 +26,8 @@ import com.rs.net.Session;
 import com.rs.utils.Huffman;
 import com.rs.utils.MapArchiveKeys;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 public class WorldPacketsEncoder extends Encoder {
 

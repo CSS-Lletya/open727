@@ -1,11 +1,11 @@
 package main.impl.npcs;
 
 import com.rs.game.dialogue.impl.TestD;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
 import main.listener.NPCType;
 import main.wrapper.NPCSignature;
+import npc.NPC;
 
 @NPCSignature(name = {"Ozan"}, npcId = {})
 public class TestNPC implements NPCType {

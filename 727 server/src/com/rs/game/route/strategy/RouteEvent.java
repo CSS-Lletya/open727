@@ -4,11 +4,12 @@ import com.rs.game.Entity;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.item.FloorItem;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.route.RouteFinder;
 import com.rs.game.route.RouteStrategy;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 public class RouteEvent {
 

@@ -6,12 +6,12 @@ import com.rs.game.ForceMovement;
 import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.others.Kalaboss;
 import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import npc.NPC;
+import npc.others.Kalaboss;
 import player.Combat;
 import player.type.CombatEffectType;
 import skills.Skills;

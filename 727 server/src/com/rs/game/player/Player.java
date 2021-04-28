@@ -27,9 +27,6 @@ import com.rs.game.WorldTile;
 import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
-import com.rs.game.npc.corp.CorpBeastControler;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
 import com.rs.game.player.content.MusicsManager;
@@ -55,6 +52,9 @@ import com.rs.utils.MutableNumber;
 import com.rs.utils.Stopwatch;
 import com.rs.utils.Utils;
 
+import npc.corp.CorpBeastControler;
+import npc.familiar.Familiar;
+import npc.pet.Pet;
 import player.CombatDefinitions;
 import player.PlayerCombat;
 import player.type.AntifireDetails;
@@ -93,8 +93,8 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private int temporaryMovementType;
-	private boolean updateMovementType;
+	private transient int temporaryMovementType;
+	private transient boolean updateMovementType;
 
 	// player stages - not personal
 	private transient boolean started;
@@ -1658,5 +1658,9 @@ public class Player extends Entity {
 	
 	public PlayerDetails getPlayerDetails() {
 		return details;
+	}
+	
+	public void sendSound(int id) {
+		getPackets().sendSound(id, 0, 1);
 	}
 }

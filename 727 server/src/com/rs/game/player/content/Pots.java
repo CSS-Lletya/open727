@@ -6,12 +6,12 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.item.Item;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import npc.familiar.Familiar;
 import player.Combat;
 import player.type.CombatEffectType;
 import skills.Skills;
@@ -124,9 +124,10 @@ public final class Pots {
 
 		RANGING_FLASK(new int[] { 23303, 23305, 23307, 23309, 23311, 23313 }, Effects.RANGE_POTION),
 
-//		ANTIPOISON_FLASK(new int[] { 23315, 23317, 23319, 23321, 23323, 23325 }, Effects.ANTIPOISON),
-//
-//		SUPER_ANTIPOISON_FLASK(new int[] { 23327, 23329, 23331, 23333, 23335, 23337 }, Effects.SUPER_ANTIPOISON),
+		ANTIPOISON_FLASK(new int[] { 23315, 23317, 23319, 23321, 23323, 23325 }, Effects.ANTIPOISON),
+		ANTIPOISON(new int[] { 23315, 23317, 23319, 23321, 23323, 23325 }, Effects.ANTIPOISON),
+
+		SUPER_ANTIPOISON_FLASK(new int[] { 175, 177, 179 }, Effects.ANTIPOISON),
 
 		/*
 		 * ZAMORAK_BREW_FLASK(new int[] { 23339, 23341, 23343, 23345, 23347, 23349 }, null),
@@ -270,20 +271,18 @@ public final class Pots {
 					familiar.restoreSpecialAttack(15);
 			}
 		},
-//		ANTIPOISON() {
-//			@Override
-//			public void extra(Player player) {
-//				player.addPoisonImmune(180000);
-//				player.getPackets().sendGameMessage("You are now immune to poison.");
-//			}
-//		},
-//		SUPER_ANTIPOISON() {
-//			@Override
-//			public void extra(Player player) {
-//				player.addPoisonImmune(360000);
-//				player.getPackets().sendGameMessage("You are now immune to poison.");
-//			}
-//		},
+		ANTIPOISON() {
+			@Override
+			public void extra(Player player) {
+				onAntiPoisonEffect(player, false, 250);
+			}
+		},
+		SUPER_ANTIPOISON() {
+			@Override
+			public void extra(Player player) {
+				onAntiPoisonEffect(player, true, 500);
+			}
+		},
 		ENERGY_POTION() {
 			@Override
 			public void extra(Player player) {
@@ -661,7 +660,6 @@ public final class Pots {
 		for (int skillId : pot.effect.affectedSkills)
 			player.getSkills().set(skillId, pot.effect.getAffectedSkill(player, skillId,
 					player.getSkills().getLevel(skillId), player.getSkills().getLevelForXp(skillId)));
-		pot.effect.extra(player);
 		player.setNextAnimation(new Animation(829));
 		player.getPackets().sendSound(4580, 0, 1);
 		player.getPackets().sendGameMessage(
@@ -675,6 +673,7 @@ public final class Pots {
 						? "You have finished your "
 								+ (name.contains("flask") ? "flask and the glass shatters to peices." : "potion.")
 						: "You have " + dosesLeft + " dose of potion left.", true);
+		pot.effect.extra(player);
 		return true;
 	}
 
@@ -776,6 +775,47 @@ public final class Pots {
 	private static void onAntiFireEffect(Player player, boolean superVariant) {
 		player.getPackets().sendGameMessage("You take a sip of the" + (superVariant ? " super" : "") + " antifire potion.");
 		Combat.effect(player, superVariant ? CombatEffectType.SUPER_ANTIFIRE_POTION : CombatEffectType.ANTIFIRE_POTION);
+	}
+	
+	/**
+	 * The method that executes the anti-poison potion action.
+	 * @param player the player to do this action for.
+	 * @param superPotion {@code true} if this potion is a super potion, {@code false}
+	 * otherwise.
+	 * @param length the length that the effect lingers for.
+	 */
+	public static void onAntiPoisonEffect(Player player, boolean superPotion, int length) {
+		if(player.isPoisoned()) {
+			player.getPoisonDamage().set(0);
+			player.getPackets().sendConfig(102, 0);
+			player.getPackets().sendGameMessage("You have been cured of your poison!");
+		}
+		if(superPotion) {
+			if(player.getPoisonImmunity().get() <= 0) {
+				player.getPackets().sendGameMessage("You have been granted immunity against poison.");
+				player.getPoisonImmunity().incrementAndGet(length);
+				World.get().submit(new Task(50, false) {
+					@Override
+					public void execute() {
+						if(player.getPoisonImmunity().get() <= 0)
+							this.cancel();
+						if(player.getPoisonImmunity().decrementAndGet(50) <= 50)
+							player.getPackets().sendGameMessage("Your resistance to poison is about to wear off!");
+						if(player.getPoisonImmunity().get() <= 0)
+							this.cancel();
+					}
+					
+					@Override
+					public void onCancel() {
+						player.getPackets().sendGameMessage("Your resistance to poison has worn off!");
+						player.getPoisonImmunity().set(0);
+					}
+				}.attach(player));
+			} else if(player.getPoisonImmunity().get() > 0) {
+				player.getPackets().sendGameMessage("Your immunity against poison has been restored!");
+				player.getPoisonImmunity().set(length);
+			}
+		}
 	}
 	
 }

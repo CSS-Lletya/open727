@@ -1,10 +1,10 @@
 package main.impl.npcs;
 
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
 import main.listener.NPCType;
 import main.wrapper.NPCSignature;
+import npc.NPC;
 import skills.fishing.Fishing;
 import skills.fishing.Tool;
 

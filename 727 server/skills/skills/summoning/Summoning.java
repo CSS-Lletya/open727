@@ -8,11 +8,11 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.others.DreadNip;
 import com.rs.game.player.Player;
 
+import npc.NPC;
+import npc.familiar.Familiar;
+import npc.others.DreadNip;
 import skills.Skills;
 
 /*

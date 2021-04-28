@@ -1,8 +1,9 @@
 package com.rs.game.dialogue.impl;
 
 import com.rs.game.dialogue.DialogueEventListener;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+
+import npc.NPC;
 
 public class TestD extends DialogueEventListener {
 

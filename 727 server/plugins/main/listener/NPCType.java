@@ -1,7 +1,8 @@
 package main.listener;
 
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+
+import npc.NPC;
 
 /**
  * 

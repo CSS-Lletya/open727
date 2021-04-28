@@ -9,10 +9,11 @@ import com.rs.cache.io.OutputStream;
 import com.rs.game.Bar;
 import com.rs.game.Hit;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.json.GsonHandler;
 import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 public final class LocalNPCUpdate {
 

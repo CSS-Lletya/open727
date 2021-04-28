@@ -7,9 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 public abstract class DialogueEventListener implements DialogueFaceExpression {
 	
