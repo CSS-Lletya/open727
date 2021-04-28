@@ -44,6 +44,7 @@ import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.route.Flags;
 import com.rs.game.task.Task;
 import com.rs.game.task.TaskManager;
+import com.rs.game.task.impl.DrainPrayerTask;
 import com.rs.game.task.impl.RestoreSpecialTask;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Logger;
@@ -70,6 +71,7 @@ public final class World {
 		addSummoningEffectTask();
 		addOwnedObjectsTask();
 		World.get().submit(new RestoreSpecialTask());
+		World.get().submit(new DrainPrayerTask());
 	}
 
 	private static void addOwnedObjectsTask() {

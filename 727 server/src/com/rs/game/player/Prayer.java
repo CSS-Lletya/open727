@@ -556,14 +556,6 @@ public class Prayer {
 		return true;
 	}
 
-	public void processPrayer() {
-		if (!hasPrayersOn())
-			return;
-		boostedLeech = false;
-	}
-
-	// 600
-
 	public void processPrayerDrain() {
 		if (!hasPrayersOn())
 			return;

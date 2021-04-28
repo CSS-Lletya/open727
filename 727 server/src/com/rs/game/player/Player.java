@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -52,7 +51,6 @@ import com.rs.net.host.HostListType;
 import com.rs.net.host.HostManager;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
-import com.rs.utils.MachineInformation;
 import com.rs.utils.MutableNumber;
 import com.rs.utils.Stopwatch;
 import com.rs.utils.Utils;
@@ -114,7 +112,6 @@ public class Player extends Entity {
 	private transient long lastPublicMessage;
 	private transient List<Integer> switchItemCache;
 	private transient boolean disableEquip;
-	private transient MachineInformation machineInformation;
 	private transient boolean castedVeng;
 	private transient double hpBoostMultiplier;
 	private transient boolean largeSceneView;
@@ -219,8 +216,7 @@ public class Player extends Entity {
 		ipList = new ArrayList<String>();
 	}
 
-	public void init(Session session, String username, int displayMode, int screenWidth, int screenHeight,
-			MachineInformation machineInformation, IsaacKeyPair isaacKeyPair) {
+	public void init(Session session, String username, int displayMode, int screenWidth, int screenHeight, IsaacKeyPair isaacKeyPair) {
 		// temporary deleted after reset all chars
 		if (auraManager == null)
 			auraManager = new AuraManager();
@@ -235,7 +231,6 @@ public class Player extends Entity {
 		this.displayMode = displayMode;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		this.machineInformation = machineInformation;
 		this.isaacKeyPair = isaacKeyPair;
 		interfaceManager = new InterfaceManager(this);
 		dialogueManager = new DialogueManager(this);
@@ -335,28 +330,8 @@ public class Player extends Entity {
 		started = true;
 		run();
 
-		startUpPlayerFurther();
-
 		if (isDead())
 			sendDeath(null);
-	}
-
-	/**
-	 * Update appearence so you dont start off blank
-	 * Create a spin count in extras interface.
-	 * Add other startup lines to this.
-	 */
-	public void startUpPlayerFurther() {
-		appearence.generateAppearenceData();
-
-		//Update spins number
-		final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(3);
-		executor.schedule(new Runnable() {
-			@Override
-			public void run() {
-				getPackets().sendIComponentText(1139, 6, Integer.toString(getPlayerDetails().getSpins()));
-			}
-		}, 5, TimeUnit.SECONDS);
 	}
 
 	public void stopAll() {
@@ -471,9 +446,6 @@ public class Player extends Entity {
 		}
 		
 		miscTick++;
-		if (miscTick % 1 == 0) {
-			getPrayer().processPrayerDrain();
-		}
 		boolean usingBerserk = Prayer.usingBerserker(this);
 		if (miscTick % (usingBerserk ? 110 : 96) == 0)
 			drainSkills();
@@ -490,7 +462,6 @@ public class Player extends Entity {
 		charges.process();
 		auraManager.process();
 		actionManager.process();
-		prayer.processPrayer();
 		controlerManager.process();
 	}
 	
@@ -601,8 +572,9 @@ public class Player extends Entity {
 			int delayPassed = (int) ((Utils.currentTimeMillis() - World.exiting_start) / 1000);
 			getPackets().sendSystemUpdate(World.exiting_delay - delayPassed);
 		}
+		getAppearance().generateAppearenceData();
 		getPlayerDetails().setLastIP(getSession().getIP());
-		interfaceManager.sendInterfaces();
+		getInterfaceManager().sendInterfaces();
 		getPackets().sendRunEnergy();
 		getPackets().sendItemsLook();
 		refreshAllowChatEffects();
@@ -622,55 +594,45 @@ public class Player extends Entity {
 
 		sendDefaultPlayersOptions();
 		checkMultiArea();
-		inventory.init();
-		equipment.init();
-		skills.init();
-		combatDefinitions.init();
-		prayer.init();
-		friendsIgnores.init();
+		getInventory().init();
+		getEquipment().init();
+		getSkills().init();
+		getCombatDefinitions().init();
+		getPrayer().init();
+		getFriendsIgnores().init();
 		refreshHitPoints();
-		prayer.refreshPrayerPoints();
+		getPrayer().refreshPrayerPoints();
 		getPackets().sendGlobalConfig(823, 1);
 		getPackets().sendConfig(281, 1000); // unlock can't do this on tutorial
 		getPackets().sendConfig(1160, -1); // unlock summoning orb
 		getPackets().sendConfig(1159, 1);
 		getCombatDefinitions().sendUnlockAttackStylesButtons();
 		getPackets().sendGameBarStages();
-		musicsManager.init();
-		emotesManager.refreshListConfigs();
+		getMusicsManager().init();
+		getEmotesManager().refreshListConfigs();
 		sendUnlockedObjectConfigs();
-		if (currentFriendChatOwner != null) {
-			FriendChatsManager.joinChat(currentFriendChatOwner, this);
+		if (getCurrentFriendChatOwner() != null) {
+			FriendChatsManager.joinChat(getCurrentFriendChatOwner(), this);
 			if (currentFriendChat == null) // failed
 				currentFriendChatOwner = null;
 		}
-		if (familiar != null) {
-			familiar.respawnFamiliar(this);
+		if (getFamiliar() != null) {
+			getFamiliar().respawnFamiliar(this);
 		} else {
-			petManager.init();
+			getPetManager().init();
 		}
 		running = true;
 		updateMovementType = true;
-		appearence.getAppeareanceBlocks();
-		controlerManager.login(); // checks what to do on login after welcome
+		getAppearance().getAppeareanceBlocks();
+		getControlerManager().login(); // checks what to do on login after welcome
 		OwnedObjectManager.linkKeys(this);
-		// screen
-		if (machineInformation != null)
-			machineInformation.sendSuggestions(this);
 		
 		if (!HostManager.contains(getUsername(), HostListType.STARTER_RECEIVED)) {
 			PassiveDatabaseWorker.addRequest(new NewPlayerDBPlugin(getDisplayName()));
 			HostManager.add(this, HostListType.STARTER_RECEIVED, true);
 		}
-		
-		interfaceManager.sendOverlay(1252, false);
 		if (!getRun())
 			toogleRun(true);
-		
-//		getPackets().sendRunScript(5557, 1);
-//		getPackets().sendRunScript(5557, 0);
-//		getPackets().sendRunScript(5560, 1337);
-		
 	}
 
 	private void sendUnlockedObjectConfigs() {
