@@ -7,11 +7,12 @@ import com.rs.game.Animation;
 import com.rs.game.Graphics;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.task.LinkedTaskSequence;
 import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Utils;
+
+import npc.NPC;
 
 /**
  * TODO: Redo all this.

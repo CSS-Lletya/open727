@@ -11,10 +11,11 @@ import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
 import com.rs.cache.Cache;
-import com.rs.game.npc.NPC;
 import com.rs.json.GsonHandler;
 import com.rs.json.GsonLoader;
 import com.rs.utils.NPCSpawning;
+
+import npc.NPC;
 
 public class NPCAutoSpawn extends GsonLoader<NPCSpawning> {
 

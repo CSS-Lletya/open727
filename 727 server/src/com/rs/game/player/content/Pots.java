@@ -6,12 +6,12 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.item.Item;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.controlers.Wilderness;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import npc.familiar.Familiar;
 import player.Combat;
 import player.type.CombatEffectType;
 import skills.Skills;

@@ -11,7 +11,6 @@ import com.rs.game.RegionBuilder;
 import com.rs.game.World;
 import com.rs.game.dialogue.DialogueEventRepository;
 import com.rs.game.item.AutomaticGroundItem;
-import com.rs.game.npc.combat.rework.NPCCombatDispatcher;
 import com.rs.game.player.FriendChatsManager;
 import com.rs.game.player.controlers.ControlerHandler;
 import com.rs.json.GsonHandler;
@@ -34,6 +33,7 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import npc.combat.rework.NPCCombatDispatcher;
 import server.database.GameDatabase;
 import server.database.passive.PassiveDatabaseWorker;
 

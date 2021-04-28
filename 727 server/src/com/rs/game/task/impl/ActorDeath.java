@@ -2,9 +2,10 @@ package com.rs.game.task.impl;
 
 import com.rs.game.Entity;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.task.Task;
+
+import npc.NPC;
 
 /**
  * The parent class that handles the death process for all characters.

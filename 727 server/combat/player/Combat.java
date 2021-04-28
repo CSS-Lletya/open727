@@ -2,9 +2,9 @@ package player;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Entity;
-import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 
+import npc.NPC;
 import player.type.CombatEffect;
 import player.type.CombatEffectType;
 

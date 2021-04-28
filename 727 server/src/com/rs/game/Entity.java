@@ -11,13 +11,13 @@ import com.rs.Settings;
 import com.rs.cache.loaders.AnimationDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.qbd.TorturedSoul;
 import com.rs.game.player.Player;
 import com.rs.utils.MutableNumber;
 import com.rs.utils.Utils;
 
+import npc.NPC;
+import npc.familiar.Familiar;
+import npc.qbd.TorturedSoul;
 import player.Combat;
 import player.type.CombatEffectType;
 import player.type.PoisonType;

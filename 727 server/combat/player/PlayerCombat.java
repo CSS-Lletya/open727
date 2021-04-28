@@ -15,12 +15,6 @@ import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.familiar.Steeltitan;
-import com.rs.game.npc.godwars.zaros.Nex;
-import com.rs.game.npc.godwars.zaros.NexMinion;
-import com.rs.game.npc.qbd.QueenBlackDragon;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
@@ -28,6 +22,12 @@ import com.rs.game.task.Task;
 import com.rs.utils.MapAreas;
 import com.rs.utils.Utils;
 
+import npc.NPC;
+import npc.familiar.Familiar;
+import npc.familiar.Steeltitan;
+import npc.godwars.zaros.Nex;
+import npc.godwars.zaros.NexMinion;
+import npc.qbd.QueenBlackDragon;
 import skills.Skills;
 import skills.magic.Magic;
 

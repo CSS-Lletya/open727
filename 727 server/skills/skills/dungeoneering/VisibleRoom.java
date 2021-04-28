@@ -2,8 +2,7 @@ package skills.dungeoneering;
 
 import java.util.ArrayList;
 
-import com.rs.game.npc.NPC;
-
+import npc.NPC;
 import skills.dungeoneering.rooms.BossRoom;
 import skills.dungeoneering.rooms.HandledRoom;
 import skills.dungeoneering.rooms.StartRoom;

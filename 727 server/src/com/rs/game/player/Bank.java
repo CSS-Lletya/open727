@@ -5,8 +5,9 @@ import static main.impl.rsinterface.EquipmentInterfacePlugin.refreshEquipBonuses
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.utils.ItemExamines;
+
+import npc.familiar.Familiar;
 
 public class Bank {
 
