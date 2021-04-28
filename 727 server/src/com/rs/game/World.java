@@ -14,7 +14,6 @@ import com.rs.cores.CoresManager;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
-import com.rs.game.player.OwnedObjectManager;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.game.player.controlers.Wilderness;
@@ -22,10 +21,12 @@ import com.rs.game.route.Flags;
 import com.rs.game.task.Task;
 import com.rs.game.task.TaskManager;
 import com.rs.game.task.impl.DrainPrayerTask;
+import com.rs.game.task.impl.PlayerOwnedObjectTask;
 import com.rs.game.task.impl.RestoreSpecialTask;
+import com.rs.game.task.impl.ShopRestockTask;
+import com.rs.game.task.impl.SummoningPassiveTask;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Logger;
-import com.rs.utils.ShopsHandler;
 import com.rs.utils.Utils;
 
 import npc.NPC;
@@ -68,63 +69,14 @@ public final class World {
 	private final Queue<Player> logouts = new ConcurrentLinkedQueue<>();
 
 	public final void init() {
-		addRestoreShopItemsTask();
-		addSummoningEffectTask();
-		addOwnedObjectsTask();
+		World.get().submit(new PlayerOwnedObjectTask());
 		World.get().submit(new RestoreSpecialTask());
 		World.get().submit(new DrainPrayerTask());
+		World.get().submit(new ShopRestockTask());
+		World.get().submit(new ShopRestockTask());
+		World.get().submit(new SummoningPassiveTask());
 	}
-
-	private static void addOwnedObjectsTask() {
-		CoresManager.slowExecutor.scheduleWithFixedDelay(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					for (Player player : getPlayers()) {
-						if (!player.getOwnedObjectManagerKeys().isEmpty()) {
-							OwnedObjectManager.processAll();
-						}
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, 1, TimeUnit.SECONDS);
-	}
-
-	private static void addRestoreShopItemsTask() {
-		CoresManager.slowExecutor.scheduleWithFixedDelay(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					ShopsHandler.restoreShops();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, 30, TimeUnit.SECONDS);
-	}
-
-	private static final void addSummoningEffectTask() {
-		CoresManager.slowExecutor.scheduleWithFixedDelay(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					for (Player player : getPlayers()) {
-						if (player == null || player.getFamiliar() == null || player.isDead() || !player.hasFinished())
-							continue;
-						if (player.getFamiliar().getOriginalId() == 6814) {
-							player.heal(20);
-							player.setNextGraphics(new Graphics(1507));
-						}
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, 15, TimeUnit.SECONDS);
-	}
-
+	
 	public static final Map<Integer, Region> getRegions() {
 		return regions;
 	}

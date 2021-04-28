@@ -6,12 +6,12 @@ import com.rs.Settings;
 import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.task.impl.ActorDeath;
+import com.rs.game.task.impl.ActorDeathTask;
 import com.rs.net.host.HostManager;
 
 import skills.Skills;
 
-public class PlayerDeath extends ActorDeath<Player> {
+public class PlayerDeath extends ActorDeathTask<Player> {
 
 	public PlayerDeath(Player actor) {
 		super(actor);
