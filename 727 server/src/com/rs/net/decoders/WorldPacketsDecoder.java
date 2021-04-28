@@ -1187,8 +1187,8 @@ public final class WorldPacketsDecoder extends Decoder {
 				} else if (Utils.containsInvalidCharacter(value) || value.contains("_")) {
 					player.getDialogueManager().startDialogue("SimpleMessage", "The requested yell color can only contain numeric and regular characters.");
 				} else {
-					player.setYellColor(value);
-					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getYellColor() + ">" + player.getYellColor() + "</col>.");
+					player.getPlayerDetails().setYellColor(value);
+					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getPlayerDetails().getYellColor() + ">" + player.getPlayerDetails().getYellColor() + "</col>.");
 				}
 				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
 			}
@@ -1385,7 +1385,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == SEND_FRIEND_MESSAGE_PACKET) {
 			if (!player.hasStarted())
 				return;
-			if (player.getMuted() > Utils.currentTimeMillis()) {
+			if (player.getPlayerDetails().getMuted() > Utils.currentTimeMillis()) {
 				player.getPackets().sendGameMessage("You temporary muted. Recheck in 48 hours.");
 				return;
 			}
@@ -1452,7 +1452,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				CommandDispatcher.processCommand(player, message.replace("::", "").replace(";;", ""), false, false);
 				return;
 			}
-			if (player.getMuted() > Utils.currentTimeMillis()) {
+			if (player.getPlayerDetails().getMuted() > Utils.currentTimeMillis()) {
 				player.getPackets().sendGameMessage("You temporary muted. Recheck in 48 hours.");
 				return;
 			}

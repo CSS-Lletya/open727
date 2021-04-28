@@ -26,7 +26,7 @@ public final class CombatSkullEffect extends CombatEffect {
 				return false;
 			}
 			player.getSkullTimer().set(3000);
-			player.setSkullId(WHITE_SKULL);
+			player.getPlayerDetails().setSkullId(WHITE_SKULL);
 			player.getAppearance().getAppeareanceBlocks();
 			return true;
 		}
@@ -38,7 +38,7 @@ public final class CombatSkullEffect extends CombatEffect {
 		if(entity instanceof Player) {
 			Player player = (Player) entity;
 			if(player.getSkullTimer().get() <= 0) {
-				player.setSkullId(NO_SKULL);
+				player.getPlayerDetails().setSkullId(NO_SKULL);
 				player.getAppearance().getAppeareanceBlocks();
 				return true;
 			}
@@ -60,7 +60,7 @@ public final class CombatSkullEffect extends CombatEffect {
 		if(entity instanceof Player) {
 			Player player = (Player) entity;
 			if(player.getSkullTimer().get() > 0) {
-				player.setSkullId(WHITE_SKULL);
+				player.getPlayerDetails().setSkullId(WHITE_SKULL);
 				return true;
 			}
 		}

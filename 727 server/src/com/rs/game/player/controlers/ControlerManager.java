@@ -1,7 +1,5 @@
 package com.rs.game.player.controlers;
 
-import java.io.Serializable;
-
 import com.rs.Settings;
 import com.rs.game.Entity;
 import com.rs.game.WorldObject;
@@ -12,9 +10,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.Foods.Food;
 import com.rs.game.player.content.Pots.Pot;
 
-public final class ControlerManager implements Serializable {
-
-	private static final long serialVersionUID = 2084691334731830796L;
+public final class ControlerManager {
 
 	private transient Player player;
 	private transient Controler controler;

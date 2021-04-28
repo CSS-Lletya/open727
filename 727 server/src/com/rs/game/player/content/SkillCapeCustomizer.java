@@ -12,14 +12,14 @@ public final class SkillCapeCustomizer {
 	}
 
 	public static void resetSkillCapes(Player player) {
-		player.setMaxedCapeCustomized(Arrays.copyOf(ItemDefinitions.getItemDefinitions(20767).originalModelColors, 4));
-		player.setCompletionistCapeCustomized(
+		player.getPlayerDetails().setMaxedCapeCustomized(Arrays.copyOf(ItemDefinitions.getItemDefinitions(20767).originalModelColors, 4));
+		player.getPlayerDetails().setCompletionistCapeCustomized(
 				Arrays.copyOf(ItemDefinitions.getItemDefinitions(20769).originalModelColors, 4));
 	}
 
 	public static void startCustomizing(Player player, int itemId) {
 		player.getTemporaryAttributtes().put("SkillcapeCustomizeId", itemId);
-		int[] skillCape = itemId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+		int[] skillCape = itemId == 20767 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 		player.getInterfaceManager().sendInterface(20);
 		for (int i = 0; i < 4; i++)
 			player.getPackets().sendConfigByFile(9254 + i, skillCape[i]);
@@ -42,7 +42,7 @@ public final class SkillCapeCustomizer {
 		Integer part = (Integer) player.getTemporaryAttributtes().get("SkillcapeCustomize");
 		if (part == null)
 			return;
-		int[] skillCape = capeId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+		int[] skillCape = capeId == 20767 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 		skillCape[part] = colorId;
 		player.getPackets().sendConfigByFile(9254 + part, colorId);
 		player.getInterfaceManager().sendInterface(20);
@@ -52,13 +52,13 @@ public final class SkillCapeCustomizer {
 		int capeId = getCapeId(player);
 		if (capeId == -1)
 			return;
-		int[] skillCape = capeId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
+		int[] skillCape = capeId == 20767 ? player.getPlayerDetails().getMaxedCapeCustomized() : player.getPlayerDetails().getCompletionistCapeCustomized();
 		if (buttonId == 58) { // reset
 			if (capeId == 20767)
-				player.setMaxedCapeCustomized(
+				player.getPlayerDetails().setMaxedCapeCustomized(
 						Arrays.copyOf(ItemDefinitions.getItemDefinitions(capeId).originalModelColors, 4));
 			else
-				player.setCompletionistCapeCustomized(
+				player.getPlayerDetails().setCompletionistCapeCustomized(
 						Arrays.copyOf(ItemDefinitions.getItemDefinitions(capeId).originalModelColors, 4));
 			for (int i = 0; i < 4; i++)
 				player.getPackets().sendConfigByFile(9254 + i, skillCape[i]);

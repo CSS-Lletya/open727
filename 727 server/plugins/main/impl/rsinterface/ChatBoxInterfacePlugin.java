@@ -24,9 +24,9 @@ public class ChatBoxInterfacePlugin implements RSInterface {
 				player.getFriendsIgnores().setPrivateStatus(2);
 		} else if (componentId == 32) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
-				player.setFilterGame(false);
+				player.getPlayerDetails().setFilterGame(false);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.setFilterGame(true);
+				player.getPlayerDetails().setFilterGame(true);
 		} else if (componentId == 29) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
 				player.setPublicStatus(0);

@@ -144,7 +144,7 @@ public final class LoginPacketsDecoder extends Decoder {
 				return;
 			}
 		}
-		if(HostManager.contains(player.getLastIP(), HostListType.BANNED_IP)) {
+		if(HostManager.contains(player.getPlayerDetails().getLastIP(), HostListType.BANNED_IP)) {
 			session.getLoginPackets().sendClientPacket(4);
 			return;
 		}

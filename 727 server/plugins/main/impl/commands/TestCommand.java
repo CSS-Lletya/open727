@@ -5,8 +5,6 @@ import com.rs.game.player.Rights;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
-import player.Combat;
-import player.type.CombatEffectType;
 import player.type.PoisonType;
 
 /**
