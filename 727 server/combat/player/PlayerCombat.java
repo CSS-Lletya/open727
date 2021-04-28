@@ -1651,21 +1651,6 @@ public class PlayerCombat extends Action {
 			if (!specialExecute(player))
 				return combatDelay;
 			switch (weaponId) {
-			case 15442:// whip start
-			case 15443:
-			case 15444:
-			case 15441:
-//			case 4151:
-			case 23691:
-				player.setNextAnimation(new Animation(11971));
-				target.setNextGraphics(new Graphics(2108, 0, 100));
-				if (target instanceof Player) {
-					Player p2 = (Player) target;
-					p2.setRunEnergy(p2.getRunEnergy() > 25 ? p2.getRunEnergy() - 25 : 0);
-				}
-				delayNormalHit(weaponId, attackStyle,
-						getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.2, true)));
-				break;
 			case 11730: // sara sword
 			case 23690:
 				player.setNextAnimation(new Animation(11993));
@@ -3023,7 +3008,7 @@ public class PlayerCombat extends Action {
 		int specAmt = getSpecialAmmount(weaponId);
 		if (player.getCombatDefinitions().hasRingOfVigour())
 			specAmt *= 0.9;
-		if (WeaponSpecialDispatcher.execute(player, target, weaponId)) {
+		if (WeaponSpecialDispatcher.execute(player, target, weaponId, this)) {
 			return false;
 		} else {
 			if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {

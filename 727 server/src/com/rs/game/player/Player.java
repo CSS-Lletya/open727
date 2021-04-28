@@ -93,8 +93,8 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private int temporaryMovementType;
-	private boolean updateMovementType;
+	private transient int temporaryMovementType;
+	private transient boolean updateMovementType;
 
 	// player stages - not personal
 	private transient boolean started;
@@ -1658,5 +1658,9 @@ public class Player extends Entity {
 	
 	public PlayerDetails getPlayerDetails() {
 		return details;
+	}
+	
+	public void sendSound(int id) {
+		getPackets().sendSound(id, 0, 1);
 	}
 }

@@ -26,6 +26,11 @@ import skills.magic.Magic;
 
 public abstract class Entity extends WorldTile {
 
+	// creates Entity and saved classes
+	public Entity(WorldTile tile) {
+		super(tile);
+	}
+	
 	// transient stuff
 	private transient int index;
 	private transient int lastRegionId; // the last region the entity was at
@@ -74,14 +79,9 @@ public abstract class Entity extends WorldTile {
 
 	// saving stuff
 	private int hitpoints;
-	private int mapSize; // default 0, can be setted other value usefull on
+	private transient int mapSize; // default 0, can be setted other value usefull on
 							// static maps
-	private boolean run;
-
-	// creates Entity and saved classes
-	public Entity(WorldTile tile) {
-		super(tile);
-	}
+	private transient boolean run;
 	
 	public boolean inArea(int a, int b, int c, int d) {
 		return getX() >= a && getY() >= b && getX() <= c && getY() <= d;

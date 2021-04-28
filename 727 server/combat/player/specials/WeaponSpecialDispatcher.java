@@ -13,26 +13,30 @@ import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import player.PlayerCombat;
 
 /**
+ * Handles all the special attack events that a Weapon can perform
+ * 
  * @author Dennis
  */
 public final class WeaponSpecialDispatcher {
-	
+
 	/**
 	 * The object map which contains all the Weapon specials in the world.
 	 */
 	private static final Object2ObjectArrayMap<WeaponSpecialSignature, WeaponSpecials> SPECIALS = new Object2ObjectArrayMap<>();
-	
+
 	/**
 	 * Executes the specified weapon if it's registered.
+	 * 
 	 * @param player the player executing the weapon.
-	 * @param parts the string which represents a weapon.
+	 * @param parts  the string which represents a weapon.
 	 */
-	public static boolean execute(Player player, Entity entity, int weaponId) {
+	public static boolean execute(Player player, Entity entity, int weaponId, PlayerCombat combat) {
 		Optional<WeaponSpecials> specials = getRSInterface(weaponId);
-		if(!specials.isPresent()) {
-			player.getPackets().sendGameMessage("Weapon ID: "+weaponId + " is not handled yet.");
+		if (!specials.isPresent()) {
+			player.getPackets().sendGameMessage("Weapon ID: " + weaponId + " is not handled yet.");
 			return false;
 		}
 		try {
@@ -44,7 +48,11 @@ public final class WeaponSpecialDispatcher {
 				}
 				player.getCombatDefinitions().desecreaseSpecialAttack(getWeaponSpecialAmount(weapon));
 			});
-			specials.get().execute(player, entity);
+			player.faceEntity(entity);
+			specials.get().getAnimation().ifPresent(player::setNextAnimation);
+			specials.get().getGraphics().ifPresent(player::setNextGraphics);
+			specials.get().getSound().ifPresent(player::sendSound);
+			specials.get().execute(player, entity, combat);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,20 +62,22 @@ public final class WeaponSpecialDispatcher {
 
 	/**
 	 * Gets a weapon which matches the {@code identifier}.
+	 * 
 	 * @param identifier the identifier to check for matches.
 	 * @return an Optional with the found value, {@link Optional#empty} otherwise.
 	 */
 	private static Optional<WeaponSpecials> getRSInterface(int interfaceId) {
-		for(Entry<WeaponSpecialSignature, WeaponSpecials> WeaponSpecials : SPECIALS.entrySet()) {
+		for (Entry<WeaponSpecialSignature, WeaponSpecials> WeaponSpecials : SPECIALS.entrySet()) {
 			if (getWeaponId(WeaponSpecials.getValue(), interfaceId)) {
 				return Optional.of(WeaponSpecials.getValue());
 			}
 		}
 		return Optional.empty();
 	}
-	
+
 	/**
-	 * Gets the Weapon id for the special evnet to take place with
+	 * Gets the Weapon id for the special event to take place with
+	 * 
 	 * @param WeaponSpecials
 	 * @param weaponId
 	 * @return weaponId
@@ -77,23 +87,25 @@ public final class WeaponSpecialDispatcher {
 		WeaponSpecialSignature signature = (WeaponSpecialSignature) annotation;
 		return Arrays.stream(signature.weapons()).anyMatch(id -> weaponId == id);
 	}
-	
+
 	/**
-	 * Returns the Special amount for a wepaon
+	 * Returns the Special amount for a weapon
+	 * 
 	 * @param interfaceId
 	 * @return
 	 */
 	private static Optional<WeaponSpecials> getSpecAmount(int interfaceId) {
-		for(Entry<WeaponSpecialSignature, WeaponSpecials> WeaponSpecials : SPECIALS.entrySet()) {
+		for (Entry<WeaponSpecialSignature, WeaponSpecials> WeaponSpecials : SPECIALS.entrySet()) {
 			if (getWeaponSpecialAmount(WeaponSpecials.getValue()) > 0) {
 				return Optional.of(WeaponSpecials.getValue());
 			}
 		}
 		return Optional.empty();
 	}
-	
+
 	/**
 	 * Gets the weapon special amount
+	 * 
 	 * @param weaponSpecials
 	 * @return special amount
 	 */
@@ -102,27 +114,31 @@ public final class WeaponSpecialDispatcher {
 		WeaponSpecialSignature signature = (WeaponSpecialSignature) annotation;
 		return signature.specAmount();
 	}
-	
+
 	/**
 	 * Loads all the weapon into the {@link #SPECIALS} list.
-	 * <p></p>
+	 * <p>
+	 * </p>
 	 * <b>Method should only be called once on start-up.</b>
 	 */
 	public static void load() {
-		List<WeaponSpecials> weapons = Utils.getClassesInDirectory("player.specials.impl").stream().map(clazz -> (WeaponSpecials) clazz).collect(Collectors.toList());
-		for(WeaponSpecials WeaponSpecials : weapons) {
-			if(WeaponSpecials.getClass().getAnnotation(WeaponSpecialSignature.class) == null) {
-				throw new IncompleteAnnotationException(WeaponSpecialSignature.class, WeaponSpecials.getClass().getName() + " has no annotation.");
+		List<WeaponSpecials> weapons = Utils.getClassesInDirectory("player.specials.impl").stream()
+				.map(clazz -> (WeaponSpecials) clazz).collect(Collectors.toList());
+		for (WeaponSpecials WeaponSpecials : weapons) {
+			if (WeaponSpecials.getClass().getAnnotation(WeaponSpecialSignature.class) == null) {
+				throw new IncompleteAnnotationException(WeaponSpecialSignature.class,
+						WeaponSpecials.getClass().getName() + " has no annotation.");
 			}
 			SPECIALS.put(WeaponSpecials.getClass().getAnnotation(WeaponSpecialSignature.class), WeaponSpecials);
 		}
 	}
-	
+
 	/**
 	 * Reloads all the weapon into the {@link #SPECIALS} list.
-	 * <p></p>
-	 * <b>This method can be invoked on run-time to clear all the weapons in the list
-	 * and add them back in a dynamic fashion.</b>
+	 * <p>
+	 * </p>
+	 * <b>This method can be invoked on run-time to clear all the weapons in the
+	 * list and add them back in a dynamic fashion.</b>
 	 */
 	public static void reload() {
 		SPECIALS.clear();
