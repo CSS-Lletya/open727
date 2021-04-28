@@ -6,7 +6,7 @@ import com.rs.utils.Utils;
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 
-@RSInterfaceSignature(interfaceId = {762, 763})
+@RSInterfaceSignature(interfaceId = { 762/*Bank*/, 763/*Inventory*/})
 public class BankInterfacePlugin implements RSInterface {
 
     @Override
@@ -98,8 +98,7 @@ public class BankInterfacePlugin implements RSInterface {
                     player.getBank().sendExamine(slotId);
 
             } else if (componentId == 119) {
-                ;
-//                openEquipmentBonuses(player, true);
+                player.getBank().openEquipmentBonuses(true);
             }
         } else if (interfaceId == 763) {
             if (componentId == 0) {

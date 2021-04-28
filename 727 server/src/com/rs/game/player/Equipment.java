@@ -7,6 +7,7 @@ import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
 import com.rs.utils.ItemExamines;
 
+import com.rs.utils.Utils;
 import skills.Skills;
 
 public final class Equipment implements Serializable {
@@ -295,5 +296,26 @@ public final class Equipment implements Serializable {
 	public boolean hasTwoHandedWeapon() {
 		Item weapon = items.get(SLOT_WEAPON);
 		return weapon != null && isTwoHandedWeapon(weapon);
+	}
+
+	/**
+	 * Removes equipment based on the slot
+	 * @param slotId
+	 */
+	public void sendRemoveEquipment(final int slotId) {
+		player.stopAll(false, false);
+		Item item = player.getEquipment().getItem(slotId);
+		if (item == null)
+			return;
+		player.getEquipment().getItems().set(slotId, null);
+		player.getEquipment().refresh(slotId);
+		player.getCombatDefinitions().desecreaseSpecialAttack(0);
+
+		if (player.getHitpoints() > (player.getMaxHitpoints() * 1.15)) {
+			player.setHitpoints(player.getMaxHitpoints());
+			player.refreshHitPoints();
+		}
+		player.getAppearance().generateAppearenceData();;
+
 	}
 }

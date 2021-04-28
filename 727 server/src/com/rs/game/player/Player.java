@@ -630,8 +630,9 @@ public class Player extends Entity {
 	/**
 	 * Restores run energy based on the last time it was restored.
 	 */
+
 	public void restoreRunEnergy() {
-		if(lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
+		if (lastEnergy.elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
 			double restoreRate = 0.45D;
 			double agilityFactor = 0.01 * getSkills().getLevel(Skills.AGILITY);
 			setRunEnergy(runEnergy + (restoreRate + agilityFactor));

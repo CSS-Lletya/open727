@@ -7,69 +7,36 @@ import com.rs.utils.ItemExamines;
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 
-/**
- * Doesn't seem to wanna work. No print outs on anything for this.
- * @author Dennis
- *
- */
 @RSInterfaceSignature(interfaceId = { 667 })
 public class CombatBonusesInterfacePlugin implements RSInterface {
-
 	@Override
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
-		if (componentId == 14) {
-			if (slotId >= 14)
-				return;
-			Item item = player.getEquipment().getItem(slotId);
-			if (item == null)
-				return;
-
-			if (packetId == 3) {
-				player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
-				if (item.getDefinitions().getValue() <= 1) {
-					return;
-				}
-				System.out.println(item.getName());
-//				player.getPackets().sendGameMessage(Colors.blue + "x" + Utils.format(item.getAmount()) + " "
-//						+ item.getName() + " value: "
-//						+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
-//						+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
-			} else if (packetId == 216) {
-				EquipmentInterfacePlugin.sendRemove(player, slotId);
-				EquipmentInterfacePlugin.refreshEquipBonuses(player);
-			}
-		}
-		if (componentId == 87) {
-			player.stopAll();
-		}
+		Item item2 = player.getEquipment().getItem(slotId);
+		System.out.println("Item : " + item2.getName());
 		if (componentId == 9) {
 			if (slotId >= 14)
 				return;
-			Item item = player.getEquipment().getItem(slotId);
-			if (item == null)
-				return;
-			if (packetId == 32) {
-				player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
-				if (item.getDefinitions().getValue() <= 1) {
-					return;
-				}
-				System.out.println(item.getName());
-//				player.getPackets().sendGameMessage(Colors.blue + "x" + Utils.format(item.getAmount()) + " "
-//						+ item.getName() + " value: "
-//						+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
-//						+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
-			}
-			if (packetId == 96) {
-//				sendItemStats(player, item);
-			} else if (packetId == 14) {
-				EquipmentInterfacePlugin.sendRemove(player, slotId);
-				player.getPackets().sendGlobalConfig(779, player.getEquipment().getWeaponRenderEmote());
-				EquipmentInterfacePlugin.refreshEquipBonuses(player);
-			}
-		} else if (componentId == 46) {
-//			player.getBank().openBank();
-//			player.getPackets().sendIComponentText(762, 47,
-//					"Bank Value: " + Utils.formatNumber(player.getBank().getBankValue()) + "gp");
+			player.getEquipment().sendRemoveEquipment(slotId);
+			refreshEquipBonuses(player);
 		}
 	}
+	private static String names[] = { "Stab", "Slash", "Crush", "Magic", "Ranged", "Summoning", "Absorb Melee",
+			"Absorb Magic", "Absorb Ranged", "Strength", "Ranged Strength", "Prayer", "Magic Damage" };
+
+	public static void refreshEquipBonuses(Player player) {
+		player.getPackets().sendGlobalConfig(779, player.getEquipment().getWeaponRenderEmote());
+		for (int i = 0; i < 18; i++) {
+			String bonusName = (new StringBuilder(String.valueOf(names[i <= 4 ? i : i - 5]))).append(": ").toString();
+			int bonus = player.getCombatDefinitions().getBonuses()[i];
+			bonusName = (new StringBuilder(String.valueOf(bonusName))).append(bonus >= 0 ? "+" : "").append(bonus)
+					.toString();
+			if (i == 17 || i > 10 && i < 14)
+				bonusName = (new StringBuilder(String.valueOf(bonusName))).append("%").toString();
+
+			// Weights.calculateWeight(player);
+			player.getPackets().sendIComponentText(667, 28 + i, bonusName);
+		}
+
+	}
+
 }

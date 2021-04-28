@@ -8,6 +8,8 @@ import com.rs.game.item.Item;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.utils.ItemExamines;
 
+import static main.impl.rsinterface.EquipmentInterfacePlugin.refreshEquipBonuses;
+
 public class Bank implements Serializable {
 
 	/**
@@ -245,6 +247,31 @@ public class Bank implements Serializable {
 		unlockButtons();
 		sendItems();
 		refreshLastX();
+	}
+
+	public void openEquipmentBonuses(boolean banking) {
+		player.stopAll();
+		player.getInterfaceManager().sendInventoryInterface(670);
+		player.getInterfaceManager().sendInterface(667);
+		player.getPackets().sendConfigByFile(4894, banking ? 1 : 0);
+		player.getPackets().sendItems(93,
+				player.getInventory().getItems());
+		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93,
+				4, 7, "Equip", "Compare", "Stats", "Examine");
+		player.getPackets().sendUnlockIComponentOptionSlots(670, 0, 0,
+				27, false,0, 1, 2, 3);
+		player.getPackets().sendAccessMask(667, 9, 0, 13, 1030);
+		refreshEquipBonuses(player);
+		if(banking) {
+			player.getTemporaryAttributtes().put("Banking", Boolean.TRUE);
+			player.setCloseInterfacesEvent(new Runnable() {
+				@Override
+				public void run() {
+					player.getTemporaryAttributtes().remove("Banking");
+				}
+
+			});
+		}
 	}
 
 

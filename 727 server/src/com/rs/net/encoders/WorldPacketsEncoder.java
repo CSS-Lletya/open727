@@ -154,6 +154,14 @@ public class WorldPacketsEncoder extends Encoder {
 
 	}
 
+	/**
+	 * Makes the interface and component clickable. Clicking the component ID or slot allows for a packet to be sent incoming
+	 * @param interfaceId
+	 * @param componentId
+	 * @param fromSlot
+	 * @param toSlot
+	 * @param optionsSlots
+	 */
 	public void sendAccessMask(int interfaceId, int componentId, int fromSlot, int toSlot, int... optionsSlots) {
 		int settingsHash = 0;
 		for (int slot : optionsSlots)
@@ -161,6 +169,14 @@ public class WorldPacketsEncoder extends Encoder {
 		sendAccessMask(interfaceId, componentId, fromSlot, toSlot, settingsHash);
 	}
 
+	/**
+	 * Makes the interface and component clickable. Clicking the component ID or slot allows for a packet to be sent incoming
+	 * @param interfaceId
+	 * @param componentId
+	 * @param fromSlot
+	 * @param toSlot
+	 * @param settingsHash
+	 */
 	public void sendAccessMask(int interfaceId, int componentId, int fromSlot, int toSlot, int settingsHash) {
 		OutputStream stream = new OutputStream(13);
 		stream.writePacket(player, 121);
