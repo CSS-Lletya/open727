@@ -16,13 +16,11 @@ public final class DrainPrayerTask extends Task {
 	@Override
 	public void execute() {
 		for(Player player : World.getPlayers()) {
-			if(player == null) {
+			if (World.getPlayers().isEmpty()) {
+				System.out.println("empty, ignoring.");
 				continue;
 			}
-			if(!player.isRunning()) {
-				continue;
-			}
-			if(player.isDead()) {
+			if(player == null || !player.isRunning() || player.isDead()) {
 				continue;
 			}
 			player.getPrayer().processPrayerDrain();

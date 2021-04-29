@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -981,5 +982,9 @@ public final class Utils {
 		if(value >= 1)
 			return true;
 		return ThreadLocalRandom.current().nextDouble() <= value;
+	}
+
+	public static String format(long number) {
+		return NumberFormat.getIntegerInstance().format(number);
 	}
 }

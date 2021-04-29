@@ -244,30 +244,30 @@ public class Bank {
 	}
 
 	public void openEquipmentBonuses(boolean banking) {
+		player.getPackets().sendRunScript(2319); // refresh
 		player.stopAll();
 		player.getInterfaceManager().sendInventoryInterface(670);
 		player.getInterfaceManager().sendInterface(667);
+		player.getPackets().sendHideIComponent(667, 1, false);
 		player.getPackets().sendConfigByFile(4894, banking ? 1 : 0);
-		player.getPackets().sendItems(93,
-				player.getInventory().getItems());
-		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93,
-				4, 7, "Equip", "Compare", "Stats", "Examine");
-		player.getPackets().sendUnlockIComponentOptionSlots(670, 0, 0,
-				27, false,0, 1, 2, 3);
+//		player.getPackets().sendGlobalConfig(779, player.getEquipment().getWeaponRenderEmote());
+		player.getPackets().sendRunScript(787, 1);
+		player.getPackets().sendItems(93, player.getInventory().getItems());
+		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93,	4, 7, "Equip", "Compare", "Stats", "Examine");
+		player.getPackets().sendUnlockIComponentOptionSlots(670, 0, 0, 27, false,0, 1, 2, 3);
 		player.getPackets().sendAccessMask(667, 9, 0, 13, 1030);
 		refreshEquipBonuses(player);
 		if(banking) {
-			player.getTemporaryAttributtes().put("Banking", Boolean.TRUE);
 			player.setCloseInterfacesEvent(new Runnable() {
 				@Override
 				public void run() {
-					player.getTemporaryAttributtes().remove("Banking");
+					player.getPackets().sendConfigByFile(4894, 0);
 				}
-
 			});
 		}
+		player.getPackets().sendConfigByFile(8348, 0);
+		player.getPackets().sendRunScript(2319);
 	}
-
 
 	public void refreshLastX() {
 		player.getPackets().sendConfig(1249, lastX);
@@ -600,5 +600,16 @@ public class Bank {
 
 	public void setLastX(int lastX) {
 		this.lastX = lastX;
+	}
+
+	public long getBankValue() {
+		long value = 0;
+		for (Item bank : player.getBank().getContainerCopy()) {
+			if (bank == null)
+				continue;
+			long amount = bank.getAmount();
+			value += bank.getDefinitions().getValue() * amount;
+		}
+		return value;
 	}
 }

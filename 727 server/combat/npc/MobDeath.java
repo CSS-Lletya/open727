@@ -3,11 +3,11 @@ package npc;
 import com.rs.game.Animation;
 import com.rs.game.World;
 import com.rs.game.task.Task;
-import com.rs.game.task.impl.ActorDeath;
+import com.rs.game.task.impl.ActorDeathTask;
 
 import npc.combat.NPCCombatDefinitions;
 
-public class MobDeath extends ActorDeath<NPC> {
+public class MobDeath extends ActorDeathTask<NPC> {
 
 	private final NPCCombatDefinitions definition = getActor().getCombatDefinitions();
 	

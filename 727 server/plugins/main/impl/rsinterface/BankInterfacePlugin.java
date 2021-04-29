@@ -2,7 +2,6 @@ package main.impl.rsinterface;
 
 import com.rs.game.player.Player;
 import com.rs.net.decoders.WorldPacketsDecoder;
-import com.rs.utils.Utils;
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 
@@ -92,14 +91,13 @@ public class BankInterfacePlugin implements RSInterface {
                     player.getPackets().sendRunScript(108, new Object[] { "Enter Amount:" });
                 } else if (packetId == WorldPacketsDecoder.ACTION_BUTTON9_PACKET)
                     player.getBank().withdrawItem(slotId, Integer.MAX_VALUE);
-                else if (packetId == WorldPacketsDecoder.ACTION_BUTTON6_PACKET)
+                else if (packetId == WorldPacketsDecoder.ACTION_BUTTON7_PACKET)
                     player.getBank().withdrawItemButOne(slotId);
                 else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
                     player.getBank().sendExamine(slotId);
 
-            } else if (componentId == 119) {
+            } else if (componentId == 119)
                 player.getBank().openEquipmentBonuses(true);
-            }
         } else if (interfaceId == 763) {
             if (componentId == 0) {
                 if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)

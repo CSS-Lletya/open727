@@ -13,23 +13,24 @@ import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 import skills.Skills;
 
-@RSInterfaceSignature(interfaceId = {670})
+@RSInterfaceSignature(interfaceId = {})
 public class InventoryInterfaceTypePlugin implements RSInterface {
 
 	@Override
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
-		if (componentId == 0) {
-			if (slotId >= player.getInventory().getItemsContainerSize())
-				return;
-			Item item = player.getInventory().getItem(slotId);
-			if (item == null)
-				return;
-			if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET) {
-				if (sendWear(player, slotId, item.getId()))
-					EquipmentInterfacePlugin.refreshEquipBonuses(player);
-			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.getInventory().sendExamine(slotId);
-		}
+		if(interfaceId == 670)
+			if (componentId == 0) {
+				if (slotId >= player.getInventory().getItemsContainerSize())
+					return;
+				Item item = player.getInventory().getItem(slotId);
+				if (item == null)
+					return;
+				if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET) {
+					if (sendWear(player, slotId, item.getId()))
+						EquipmentInterfacePlugin.refreshEquipBonuses(player);
+				} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
+					player.getInventory().sendExamine(slotId);
+			}
 	}
 	
 	@SuppressWarnings("unused")

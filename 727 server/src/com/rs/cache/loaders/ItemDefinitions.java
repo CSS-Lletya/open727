@@ -1089,4 +1089,7 @@ public final class ItemDefinitions {
 		return "an item";
 	}
 
+	public int getHighAlchPrice() {
+		return (int) (getValue() * 0.6);
+	}
 }

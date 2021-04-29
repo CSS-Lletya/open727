@@ -42,43 +42,7 @@ public class EquipmentInterfacePlugin implements RSInterface {
 				sendRemove(player, Equipment.SLOT_CAPE);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
 				player.getEquipment().sendExamine(Equipment.SLOT_CAPE);
-		 /*
-			 * else if (componentId == 12) { if (packetId ==
-			 * WorldPacketsDecoder.ACTION_BUTTON2_PACKET) { int amuletId =
-			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
-			 * || amuletId >= 10354 && amuletId <= 10361) { if
-			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
-			 * Transportation.GFX, 4, new WorldTile(3087, 3496, 0))) { Item amulet =
-			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
-			 * amulet.setId(amulet.getId() - 2);
-			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } else if (amuletId
-			 * == 1704 || amuletId == 10352) player.getPackets().sendGameMessage(
-			 * "The amulet has ran out of charges. You need to recharge it if you wish it use it once more."
-			 * ); } else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET) { int
-			 * amuletId = player.getEquipment().getAmuletId(); if (amuletId <= 1712 &&
-			 * amuletId >= 1706 || amuletId >= 10354 && amuletId <= 10361) { if
-			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
-			 * Transportation.GFX, 4, new WorldTile(2918, 3176, 0))) { Item amulet =
-			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
-			 * amulet.setId(amulet.getId() - 2);
-			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } } else if
-			 * (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET) { int amuletId =
-			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
-			 * || amuletId >= 10354 && amuletId <= 10361) { if
-			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
-			 * Transportation.GFX, 4, new WorldTile(3105, 3251, 0))) { Item amulet =
-			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
-			 * amulet.setId(amulet.getId() - 2);
-			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } } else if
-			 * (packetId == WorldPacketsDecoder.ACTION_BUTTON5_PACKET) { int amuletId =
-			 * player.getEquipment().getAmuletId(); if (amuletId <= 1712 && amuletId >= 1706
-			 * || amuletId >= 10354 && amuletId <= 10361) { if
-			 * (Magic.sendItemTeleportSpell(player, true, Transportation.EMOTE,
-			 * Transportation.GFX, 4, new WorldTile(3293, 3163, 0))) { Item amulet =
-			 * player.getEquipment().getItem(Equipment.SLOT_AMULET); if (amulet != null) {
-			 * amulet.setId(amulet.getId() - 2);
-			 * player.getEquipment().refresh(Equipment.SLOT_AMULET); } } } }
-			 */ else if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)
+			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)
 				sendRemove(player, Equipment.SLOT_AMULET);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
 				player.getEquipment().sendExamine(Equipment.SLOT_AMULET);
@@ -120,7 +84,7 @@ public class EquipmentInterfacePlugin implements RSInterface {
 			player.stopAll();
 			player.getInterfaceManager().sendInterface(17);
 		} else if (componentId == 38) {
-			openEquipmentBonuses(player, false);
+			player.getBank().openEquipmentBonuses(false);
 		}
 		
 		if (componentId == 42) {
@@ -130,29 +94,7 @@ public class EquipmentInterfacePlugin implements RSInterface {
 			System.out.println("Customize appearance");
 		}
 	}
-	
-	public void openEquipmentBonuses(final Player player, boolean banking) {
-		player.stopAll();
-		player.getInterfaceManager().sendInventoryInterface(670);
-		player.getInterfaceManager().sendInterface(667);
-		player.getPackets().sendConfigByFile(4894, banking ? 1 : 0);
-		player.getPackets().sendItems(93, player.getInventory().getItems());
-		player.getPackets().sendInterSetItemsOptionsScript(670, 0, 93, 4, 7, "Equip", "Compare", "Stats", "Examine");
-		player.getPackets().sendAccessMask(670, 0, 0, 27, 0, 1, 2, 3);
-		player.getPackets().sendAccessMask(667, 14, 0, 13, 1030);
-		refreshEquipBonuses(player);
-		if (banking) {
-			player.getTemporaryAttributtes().put("Banking", Boolean.TRUE);
-			player.setCloseInterfacesEvent(new Runnable() {
-				@Override
-				public void run() {
-					player.getTemporaryAttributtes().remove("Banking");
-				}
 
-			});
-		}
-	}
-	
 	public static void refreshEquipBonuses(Player player) {
 		player.getPackets().sendIComponentText(667, 28, "Stab: +" + player.getCombatDefinitions().getBonuses()[0]);
 		player.getPackets().sendIComponentText(667, 29, "Slash: +" + player.getCombatDefinitions().getBonuses()[1]);

@@ -13,7 +13,7 @@ import npc.NPC;
  * @author lare96 <http://github.com/lare96>
  * @author Dennis
  */
-public abstract class ActorDeath<T extends Entity> extends Task {
+public abstract class ActorDeathTask<T extends Entity> extends Task {
 	
 	/**
 	 * The actor who has died and needs the death process.
@@ -27,10 +27,10 @@ public abstract class ActorDeath<T extends Entity> extends Task {
 	private int counter;
 	
 	/**
-	 * Creates a new {@link ActorDeath}.
+	 * Creates a new {@link ActorDeathTask}.
 	 * @param actor the actor who has died and needs the death process.
 	 */
-	public ActorDeath(T actor) {
+	public ActorDeathTask(T actor) {
 		super(1, true);
 		this.actor = actor;
 	}
