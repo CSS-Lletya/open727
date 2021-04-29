@@ -24,6 +24,7 @@ import com.rs.game.player.PublicChatMessage;
 import com.rs.game.player.Rights;
 import com.rs.net.Session;
 import com.rs.utils.Huffman;
+import com.rs.utils.IntegerInputAction;
 import com.rs.utils.MapArchiveKeys;
 import com.rs.utils.Utils;
 
@@ -1307,5 +1308,10 @@ public class WorldPacketsEncoder extends Encoder {
 		stream.writePacket(player, 160);
 		stream.writeByte(player.getPlayerDetails().isOldItemsLook() ? 1 : 0);
 		// session.write(stream);
+	}
+	
+	public void sendInputIntegerScript(String message, IntegerInputAction onInputGivenAction) {
+		player.getTemporaryAttributtes().put("integer_input_action", onInputGivenAction);
+		sendRunScript(108, new Object[] { message });
 	}
 }

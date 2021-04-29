@@ -2,8 +2,7 @@ package main.impl.commands;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-import com.rs.json.GsonHandler;
-import com.rs.json.impl.ShopsLoader;
+import com.rs.utils.IntegerInputAction;
 
 import main.listener.Command;
 import main.wrapper.CommandSignature;
@@ -19,6 +18,11 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		((ShopsLoader) GsonHandler.getJsonLoader(ShopsLoader.class)).openShop(player, "general store");
+		player.getPackets().sendInputIntegerScript("How many many", new IntegerInputAction() {
+			@Override
+			public void handle(int input) {
+				System.out.println("was: " + input);
+			}
+		});
 	}
 }
