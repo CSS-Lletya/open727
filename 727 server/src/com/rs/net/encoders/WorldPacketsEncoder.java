@@ -179,7 +179,7 @@ public class WorldPacketsEncoder extends Encoder {
 	 * @param settingsHash
 	 */
 	public void sendAccessMask(int interfaceId, int componentId, int fromSlot, int toSlot, int settingsHash) {
-		OutputStream stream = new OutputStream(13);
+		OutputStream stream = new OutputStream();
 		stream.writePacket(player, 121);
 		stream.writeShortLE128(toSlot);
 		stream.writeIntV2(interfaceId << 16 | componentId);

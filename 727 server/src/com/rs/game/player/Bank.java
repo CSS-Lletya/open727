@@ -601,4 +601,15 @@ public class Bank {
 	public void setLastX(int lastX) {
 		this.lastX = lastX;
 	}
+
+	public long getBankValue() {
+		long value = 0;
+		for (Item bank : player.getBank().getContainerCopy()) {
+			if (bank == null)
+				continue;
+			long amount = bank.getAmount();
+			value += bank.getDefinitions().getValue() * amount;
+		}
+		return value;
+	}
 }

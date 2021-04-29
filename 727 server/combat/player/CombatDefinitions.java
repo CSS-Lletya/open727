@@ -16,6 +16,9 @@ public final class CombatDefinitions {
 	public static final int ABSORVE_MELEE_BONUS = 11, ABSORVE_RANGE_BONUS = 13, ABSORVE_MAGE_BONUS = 12;
 
 	public static final int SHARED = -1;
+	public static final String[] BONUS_LABELS = { "Stab", "Slash", "Crush", "Magic", "Range", "Stab", "Slash", "Crush",
+			"Magic", "Range", "Summoning", "Absorb Melee", "Absorb Magic", "Absorb Ranged", "Strength", "Ranged Str",
+			"Prayer", "Magic Damage" };
 	private transient Player player;
 	private transient boolean usingSpecialAttack;
 	private transient int[] bonuses;

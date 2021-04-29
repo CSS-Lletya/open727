@@ -1,23 +1,28 @@
 package main.impl.rsinterface;
 
+import java.util.HashMap;
+
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.net.decoders.WorldPacketsDecoder;
+import com.rs.utils.ChatColors;
+import com.rs.utils.ItemBonuses;
 import com.rs.utils.ItemExamines;
+import com.rs.utils.Utils;
 
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
+import player.CombatDefinitions;
 import skills.Skills;
-
-import java.util.HashMap;
 
 @RSInterfaceSignature(interfaceId = { 667, 670 })
 public class CombatBonusesInterfacePlugin implements RSInterface {
 	@Override
 	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+		System.out.println(componentId + " packet: "+packetId);
 		if(interfaceId == 670)
 			if (componentId == 0) {
 				if (slotId >= player.getInventory().getItemsContainerSize())
@@ -33,23 +38,58 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 			}
 
 		if(interfaceId == 667) {
+			if (componentId == 14) {
+				if (slotId >= 14)
+					return;
+				Item item = player.getEquipment().getItem(slotId);
+				if (item == null)
+					return;
+
+				if (packetId == 3) {
+					player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
+					if (item.getDefinitions().getValue() <= 1) {
+						return;
+					}
+					player.getPackets().sendGameMessage(ChatColors.blue + "x" + Utils.format(item.getAmount()) + " "
+							+ item.getName() + " value: "
+							+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
+							+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
+				} else if (packetId == 216) {
+					player.getEquipment().sendRemoveEquipment(slotId);
+					refreshEquipBonuses(player);
+				}
+			}
+			if (componentId == 87) {
+				player.stopAll();
+			}
 			if (componentId == 9) {
 				if (slotId >= 14)
 					return;
 				Item item = player.getEquipment().getItem(slotId);
-				player.getInventory().addItem(item);
-				player.getEquipment().sendRemoveEquipment(slotId);
-				refreshEquipBonuses(player);
-			}
-			if (componentId == 46) { //Bank icon
-				//These are needed for client side issues
-				player.getPackets().sendConfigByFile(8348, 0);
-				player.getPackets().sendRunScript(2319);
-
+				if (item == null)
+					return;
+				if (packetId == 81) {
+					player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
+					if (item.getDefinitions().getValue() <= 1) {
+						return;
+					}
+					player.getPackets().sendGameMessage(ChatColors.blue + "x" + Utils.format(item.getAmount()) + " "
+							+ item.getName() + " value: "
+							+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
+							+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
+				}
+				if (packetId == 22) {
+					sendItemStats(player, item);
+				} else if (packetId == 96) {
+					EquipmentInterfacePlugin.sendRemove(player, slotId);
+					player.getPackets().sendGlobalConfig(779, player.getEquipment().getWeaponRenderEmote());
+					refreshEquipBonuses(player);
+				}
+			} else if (componentId == 46) {
 				player.getBank().openBank();
+//				player.getPackets().sendIComponentText(762, 47,
+//						"Bank Value: " + Utils.format(player.getBank().getBankValue()) + "gp");
 			}
-			if (componentId == 87)
-				;
 		}
 	}
 	private static String names[] = { "Stab", "Slash", "Crush", "Magic", "Ranged", "Summoning", "Absorb Melee",
@@ -68,7 +108,8 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 			// Weights.calculateWeight(player);
 			player.getPackets().sendIComponentText(667, 28 + i, bonusName);
 		}
-
+		player.getPackets().sendAccessMask(670, 0, 0, 27, 0, 1, 2, 3);
+		player.getPackets().sendAccessMask(667, 9, 0, 24, 0, 8, 9);
 	}
 
 
@@ -296,4 +337,31 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 		}
 	}
 
+	public static void sendItemStats(final Player player, Item item) {
+		StringBuilder b = new StringBuilder();
+		if (item.getId() == 772)
+			return;
+		boolean hasBonuses = ItemBonuses.getItemBonuses(item.getId()) != null;
+		for (int i = 0; i < 17; i++) {
+			int bonus = hasBonuses ? ItemBonuses.getItemBonuses(item.getId())[i] : 0;
+			String label = CombatDefinitions.BONUS_LABELS[i];
+			String sign = bonus > 0 ? "+" : "";
+			if (bonus == 16) {
+				continue;
+			}
+			b.append(label + ": " + (sign + bonus) + ((label == "Magic Damage" || label == "Absorb Melee"
+					|| label == "Absorb Magic" || label == "Absorb Ranged") ? "%" : "") + "<br>");
+		}
+		player.getPackets().sendGlobalString(321, "Stats for " + item.getName());
+		player.getPackets().sendGlobalString(324, b.toString());
+		player.getPackets().sendHideIComponent(667, 49, false);
+		player.setCloseInterfacesEvent(new Runnable() {
+			@Override
+			public void run() {
+				player.getPackets().sendGlobalString(321, "");
+				player.getPackets().sendGlobalString(324, "");
+				player.getPackets().sendHideIComponent(667, 49, true);
+			}
+		});
+	}
 }
