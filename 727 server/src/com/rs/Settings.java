@@ -118,4 +118,14 @@ public final class Settings {
 	 * Retrieves the delay before consuming another consumable type.
 	 */
 	public static int CONSUME_DELAY = 1800;
+	
+	/**
+	 * A super secret key we use to verify non-hijacked staff accounts.
+	 */
+	public static byte STAFF_PIN = 118;
+	
+	/**
+	 * Should we enable pin checking on login?
+	 */
+	public static boolean PIN_ACTIVE = false;
 }

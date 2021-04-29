@@ -46,6 +46,7 @@ import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.encoders.WorldPacketsEncoder;
 import com.rs.net.host.HostListType;
 import com.rs.net.host.HostManager;
+import com.rs.utils.IntegerInputAction;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MutableNumber;
@@ -575,6 +576,19 @@ public class Player extends Entity {
 		getAppearance().generateAppearenceData();
 		getPlayerDetails().setLastIP(getSession().getIP());
 		getInterfaceManager().sendInterfaces();
+		if (getRights().isStaff() && Settings.PIN_ACTIVE) {
+			lock();
+			getPackets().sendInputIntegerScript("Whats the keycode?", new IntegerInputAction() {
+				@Override
+				public void handle(int input) {
+					System.out.println(input);
+					if (input != Settings.STAFF_PIN)
+						logout(false);
+					else 
+						unlock();
+				}
+			});
+		}
 		getPackets().sendRunEnergy();
 		getPackets().sendItemsLook();
 		refreshAllowChatEffects();
