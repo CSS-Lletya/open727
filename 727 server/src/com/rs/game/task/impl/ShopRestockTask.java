@@ -2,7 +2,8 @@ package com.rs.game.task.impl;
 
 import com.rs.game.World;
 import com.rs.game.task.Task;
-import com.rs.utils.ShopsHandler;
+import com.rs.json.GsonHandler;
+import com.rs.json.impl.ShopsLoader;
 
 public final class ShopRestockTask extends Task {
 	
@@ -15,7 +16,7 @@ public final class ShopRestockTask extends Task {
 	
 	@Override
 	public void execute() {
-		ShopsHandler.restoreShops();
+		((ShopsLoader) GsonHandler.getJsonLoader(ShopsLoader.class)).restoreShops();
 	}
 	
 	@Override

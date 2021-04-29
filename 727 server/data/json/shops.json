@@ -1,18 +1,6 @@
 [
   {
     "id": 0,
-    "name": "General Store",
-    "mainStock": [
-      {
-        "id": 590,
-        "amount": 50000
-      }
-    ],
-    "money": 995,
-    "viewingPlayers": []
-  },
-  {
-    "id": 0,
     "name": "Melee Armour",
     "mainStock": [
       {
@@ -3072,6 +3060,67 @@
       0,
       0,
       0
+    ]
+  },
+  {
+    "id": 0,
+    "name": "General Store",
+    "mainStock": [
+      {
+        "id": 590,
+        "amount": 50000
+      },
+      {
+        "id": 1050,
+        "amount": 69
+      }
+    ],
+    "generalStock": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "money": 995,
+    "viewingPlayers": [],
+    "defaultQuantity": [
+      50000
     ]
   }
 ]
