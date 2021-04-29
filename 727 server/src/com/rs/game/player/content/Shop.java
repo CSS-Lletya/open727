@@ -2,6 +2,7 @@ package com.rs.game.player.content;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,6 +13,9 @@ import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Player;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.Utils;
+
+import player.CombatDefinitions;
+import skills.Skills;
 
 public class Shop {
 
@@ -103,7 +107,6 @@ public class Shop {
 																		// store
 																		// icon
 		player.getPackets().sendAccessMask(1265, 20, 0, getStoreSize() * 6, 1150, 0,1,2,3,4,5,9);
-//		player.getPackets().sendAccessMask(1265, 20, 0, getStoreSize() * 6, UseFlag.ICOMPONENT.getFlag()); // unlocks stock slots
 		sendInventory(player);
 		player.getPackets().sendIComponentText(1265, 85, name);
 	}
@@ -151,8 +154,7 @@ public class Shop {
 		return clickSlotId / 6;
 	}
 
-	public void buy(Player player, int clickSlot, int quantity) {
-		int slotId = getSlotId(clickSlot);
+	public void buy(Player player, int slotId, int quantity) {
 		if (slotId >= getStoreSize()) {
 			return;
 		}
@@ -160,7 +162,6 @@ public class Shop {
 		if (item == null) {
 			return;
 		}
-		System.out.println("?");
 		if (item.getAmount() == 0) {
 			player.getPackets().sendGameMessage("There is no stock of that item at the moment.");
 			return;
@@ -355,8 +356,7 @@ public class Shop {
 		return 0;
 	}
 
-	public void sendInfo(Player player, int clickSlot) {
-		int slotId = getSlotId(clickSlot);
+	public void sendInfo(Player player, int slotId) {
 		if (slotId >= getStoreSize()) {
 			return;
 		}
@@ -364,7 +364,8 @@ public class Shop {
 		if (item == null) {
 			return;
 		}
-		player.getTemporaryAttributtes().put("ShopSelectedSlot", clickSlot);
+		sendInfo(player, item);
+//		player.getTemporaryAttributtes().put("ShopSelectedSlot", clickSlot);
 		int dq = slotId >= mainStock.length ? 0 : defaultQuantity[slotId];
 		int price = getBuyPrice(item, dq);
 		CustomShops shops = CustomShops.getCustomShop(name);
@@ -374,6 +375,72 @@ public class Shop {
 			player.getPackets().sendGameMessage(item.getDefinitions().getName() + ": currently costs " + Utils.format(price) + " " + ItemDefinitions.getItemDefinitions(money).getName().toLowerCase() + ".");
 		}
 	}
+	
+	public static void sendInfo(Player player, Item item) {
+		player.getInterfaceManager().sendInventoryInterface(449);
+		player.getPackets().sendGlobalConfig(741, item.getId());
+		player.getPackets().sendGlobalString(25, ItemExamines.getExamine(item));
+		player.getPackets().sendGlobalString(34, ""); // quest id for some items
+		int[] bonuses = new int[18];
+		ItemDefinitions defs = item.getDefinitions();
+		bonuses[CombatDefinitions.STAB_ATTACK] += defs.getStabAttack();
+		bonuses[CombatDefinitions.SLASH_ATTACK] += defs.getSlashAttack();
+		bonuses[CombatDefinitions.CRUSH_ATTACK] += defs.getCrushAttack();
+		bonuses[CombatDefinitions.MAGIC_ATTACK] += defs.getMagicAttack();
+		bonuses[CombatDefinitions.RANGE_ATTACK] += defs.getRangeAttack();
+		bonuses[CombatDefinitions.STAB_DEF] += defs.getStabDef();
+		bonuses[CombatDefinitions.SLASH_DEF] += defs.getSlashDef();
+		bonuses[CombatDefinitions.CRUSH_DEF] += defs.getCrushDef();
+		bonuses[CombatDefinitions.MAGIC_DEF] += defs.getMagicDef();
+		bonuses[CombatDefinitions.RANGE_DEF] += defs.getRangeDef();
+		bonuses[CombatDefinitions.SUMMONING_DEF] += defs.getSummoningDef();
+		bonuses[CombatDefinitions.ABSORVE_MELEE_BONUS] += defs.getAbsorveMeleeBonus();
+		bonuses[CombatDefinitions.ABSORVE_MAGE_BONUS] += defs.getAbsorveMageBonus();
+		bonuses[CombatDefinitions.ABSORVE_RANGE_BONUS] += defs.getAbsorveRangeBonus();
+		bonuses[CombatDefinitions.STRENGTH_BONUS] += defs.getStrengthBonus();
+		bonuses[CombatDefinitions.RANGED_STR_BONUS] += defs.getRangedStrBonus();
+		bonuses[CombatDefinitions.PRAYER_BONUS] += defs.getPrayerBonus();
+		bonuses[CombatDefinitions.MAGIC_DAMAGE] += defs.getMagicDamage();
+		boolean hasBonus = false;
+		for (int bonus : bonuses)
+			if (bonus != 0) {
+				hasBonus = true;
+				break;
+			}
+		if (hasBonus) {
+			HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();
+			if (requiriments != null && !requiriments.isEmpty()) {
+				String reqsText = "";
+				for (int skillId : requiriments.keySet()) {
+					if (skillId > 24 || skillId < 0)
+						continue;
+					int level = requiriments.get(skillId);
+					if (level < 0 || level > 120)
+						continue;
+					if (skillId == Skills.ATTACK && level == 1) {
+						continue;
+					}
+					if (skillId == Skills.FIREMAKING && level == 61) {
+						continue;
+					}
+					boolean hasReq = player.getSkills().getLevelForXp(skillId) >= level;
+					reqsText += "<br>" + (hasReq ? "<col=00ff00>" : "<col=ff0000>") + "Level " + level + " " + Skills.SKILL_NAME[skillId];
+				}
+				player.getPackets().sendGlobalString(26, "<br>Worn on yourself, requiring: " + reqsText);
+			} else
+				player.getPackets().sendGlobalString(26, "<br>Worn on yourself");
+			player.getPackets().sendGlobalString(35, "<br>Attack<br><col=ffff00>+" + bonuses[CombatDefinitions.STAB_ATTACK] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.SLASH_ATTACK] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.CRUSH_ATTACK] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.MAGIC_ATTACK] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.RANGE_ATTACK] + "<br><col=ffff00>---" + "<br>Strength" + "<br>Ranged Strength" + "<br>Magic Damage" + "<br>Absorve Melee" + "<br>Absorve Magic" + "<br>Absorve Ranged" + "<br>Prayer Bonus");
+			player.getPackets().sendGlobalString(36, "<br><br>Stab<br>Slash<br>Crush<br>Magic<br>Ranged<br>Summoning");
+			player.getPackets().sendGlobalString(52, "<<br>Defence<br><col=ffff00>+" + bonuses[CombatDefinitions.STAB_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.SLASH_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.CRUSH_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.MAGIC_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.RANGE_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.SUMMONING_DEF] + "<br><col=ffff00>+" + bonuses[CombatDefinitions.STRENGTH_BONUS] + "<br><col=ffff00>" + bonuses[CombatDefinitions.RANGED_STR_BONUS] + "<br><col=ffff00>" + bonuses[CombatDefinitions.MAGIC_DAMAGE] + "%<br><col=ffff00>" + bonuses[CombatDefinitions.ABSORVE_MELEE_BONUS] + "%<br><col=ffff00>" + bonuses[CombatDefinitions.ABSORVE_MAGE_BONUS] + "%<br><col=ffff00>" + bonuses[CombatDefinitions.ABSORVE_RANGE_BONUS] + "%<br><col=ffff00>" + bonuses[CombatDefinitions.PRAYER_BONUS]);
+		} else {
+			player.getPackets().sendGlobalString(26, "");
+			player.getPackets().sendGlobalString(35, "");
+			player.getPackets().sendGlobalString(36, "");
+			player.getPackets().sendGlobalString(52, "");
+		}
+
+	}
+
 
 	public int getBuyPrice(Item item, int dq) {
 		int value = ItemDefinitions.getItemDefinitions(item.getId()).getValue();
@@ -384,8 +451,7 @@ public class Shop {
 		return (ItemDefinitions.getItemDefinitions(item.getId()).getValue() * (3 / 4));
 	}
 
-	public void sendExamine(Player player, int clickSlot) {
-		int slotId = getSlotId(clickSlot);
+	public void sendExamine(Player player, int slotId) {
 		if (slotId >= getStoreSize()) {
 			return;
 		}
