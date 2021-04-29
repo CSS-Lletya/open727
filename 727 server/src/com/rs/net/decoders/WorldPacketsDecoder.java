@@ -25,6 +25,7 @@ import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.utils.Huffman;
 import com.rs.utils.IntegerInputAction;
 import com.rs.utils.Logger;
+import com.rs.utils.StringInputAction;
 import com.rs.utils.Utils;
 
 import main.CommandDispatcher;
@@ -1169,6 +1170,11 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (v1.equals(""))
 				return;
 			String value = Utils.getCharacterFromByte(byte0) + v1;
+			if (player.getTemporaryAttributtes().get("string_input_action") != null) {
+				StringInputAction action = (StringInputAction) player.getTemporaryAttributtes().remove("string_input_action");
+				action.handle(value);
+				return;
+			}
 			player.getPackets().sendGameMessage(""+value);
 		}
 		else if (packetId == ENTER_NAME_PACKET) {
