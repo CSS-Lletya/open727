@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.rs.json.impl.NPCAutoSpawn;
 import com.rs.json.impl.ObjectSpawnLoader;
+import com.rs.json.impl.ShopsLoader;
 
 /**
  * @author Tyluur <itstyluur@gmail.com>
@@ -51,6 +52,7 @@ public class GsonHandler {
 	public static void addJsonLoaders() throws InstantiationException, IllegalAccessException {
 		CLASSES.add(NPCAutoSpawn.class.newInstance());
 		CLASSES.add(ObjectSpawnLoader.class.newInstance());
+		CLASSES.add(ShopsLoader.class.newInstance());
 	}
 
 	/**
