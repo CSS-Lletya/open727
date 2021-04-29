@@ -84,7 +84,8 @@ public class EquipmentInterfacePlugin implements RSInterface {
 			player.getInterfaceManager().sendInterface(17);
 		} else if (componentId == 38) {
 			player.getBank().openEquipmentBonuses(false);
-			player.getPackets().sendAccessMask(667, 7, 0, 15, 1538);
+			player.getPackets().sendAccessMask(670, 0, 0, 27, 0, 1, 2, 3);
+			player.getPackets().sendAccessMask(667, 9, 0, 24, 0, 8, 9);
 		}
 		
 		if (componentId == 42) {
