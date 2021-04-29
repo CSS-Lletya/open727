@@ -31,7 +31,7 @@ public class InventoryInterfacePlugin implements RSInterface {
 				InventoryOptionsHandler.handleItemOption5(player, slotId, slotId2, item);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON6_PACKET)
 				InventoryOptionsHandler.handleItemOption6(player, slotId, slotId2, item);
-			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
+			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON7_PACKET)
 				InventoryOptionsHandler.handleItemOption7(player, slotId, slotId2, item);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON8_PACKET)
 				InventoryOptionsHandler.handleItemOption8(player, slotId, slotId2, item);

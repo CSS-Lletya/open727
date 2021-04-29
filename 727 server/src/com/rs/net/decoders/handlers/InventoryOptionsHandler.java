@@ -10,6 +10,7 @@ import com.rs.game.WorldTile;
 import com.rs.game.item.Item;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
+import com.rs.game.player.Toolbelt;
 import com.rs.game.player.content.Foods;
 import com.rs.game.player.content.Pots;
 import com.rs.game.route.CoordsEvent;
@@ -151,7 +152,7 @@ public class InventoryOptionsHandler {
 		if (player.getLockDelay() >= time || player.getEmotesManager().getNextEmoteEnd() >= time)
 			return;
 		player.stopAll(false);
-		
+
 	}
 
 	public static void handleItemOption7(Player player, int slotId, int itemId, Item item) {
@@ -161,6 +162,12 @@ public class InventoryOptionsHandler {
 		if (!player.getControlerManager().canDropItem(item))
 			return;
 		player.stopAll(false);
+
+		List<Integer> list = Toolbelt.getToolbeltItems();
+
+		if(list.contains(itemId))
+			player.getToolbelt().addItem(slotId, item);
+
 		if (item.getDefinitions().isOverSized()) {
 			player.getPackets().sendGameMessage("The item appears to be oversized.");
 			player.getInventory().deleteItem(item);

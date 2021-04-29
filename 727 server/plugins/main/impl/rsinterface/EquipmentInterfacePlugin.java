@@ -88,7 +88,7 @@ public class EquipmentInterfacePlugin implements RSInterface {
 		}
 		
 		if (componentId == 42) {
-			System.out.println("Toolbelt");
+			player.getInterfaceManager().sendInterface(1178);
 		}
 		if (componentId == 43) {
 			System.out.println("Customize appearance");

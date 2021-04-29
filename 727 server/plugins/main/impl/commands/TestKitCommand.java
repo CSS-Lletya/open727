@@ -14,7 +14,10 @@ public final class TestKitCommand implements Command {
             new Item(884, 1000), new Item(1067, 5), new Item(1115, 5), new Item(1153, 5),
 
             //iron kiteshield, dart, sword
-            new Item(1191, 5), new Item(807, 500), new Item(1279, 5), new Item(4121, 5)
+            new Item(1191, 5), new Item(807, 500), new Item(1279, 5), new Item(4121, 5),
+
+            //bronze pick, axe, regular knife, tinderbox
+            new Item(1265, 5), new Item(1351, 5), new Item(946, 5), new Item(590, 5)
     };
 
     @Override
