@@ -35,6 +35,18 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 						refreshEquipBonuses(player);
 				} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
 					player.getInventory().sendExamine(slotId);
+				else if (packetId == 27) 
+					sendItemStats(player, item);
+				else if (packetId == 68) {
+					player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
+					if (item.getDefinitions().getValue() <= 1) {
+						return;
+					}
+					player.getPackets().sendGameMessage(ChatColors.blue + "x" + Utils.format(item.getAmount()) + " "
+							+ item.getName() + " value: "
+							+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
+							+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
+				}
 			}
 
 		if(interfaceId == 667) {
