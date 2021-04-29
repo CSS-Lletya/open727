@@ -32,9 +32,21 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 					return;
 				if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET) {
 					if (sendWear(player, slotId, item.getId()))
-						EquipmentInterfacePlugin.refreshEquipBonuses(player);
+						refreshEquipBonuses(player);
 				} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
 					player.getInventory().sendExamine(slotId);
+				else if (packetId == 27) 
+					sendItemStats(player, item);
+				else if (packetId == 68) {
+					player.getPackets().sendGameMessage(ItemExamines.getExamine(item));
+					if (item.getDefinitions().getValue() <= 1) {
+						return;
+					}
+					player.getPackets().sendGameMessage(ChatColors.blue + "x" + Utils.format(item.getAmount()) + " "
+							+ item.getName() + " value: "
+							+ Utils.format(item.getDefinitions().getValue() * item.getAmount()) + "gp (HA:"
+							+ Utils.format(item.getDefinitions().getHighAlchPrice() * item.getAmount()) + "gp)");
+				}
 			}
 
 		if(interfaceId == 667) {
@@ -92,26 +104,18 @@ public class CombatBonusesInterfacePlugin implements RSInterface {
 			}
 		}
 	}
-	private static String names[] = { "Stab", "Slash", "Crush", "Magic", "Ranged", "Summoning", "Absorb Melee",
-			"Absorb Magic", "Absorb Ranged", "Strength", "Ranged Strength", "Prayer", "Magic Damage" };
 
 	public static void refreshEquipBonuses(Player player) {
-		player.getPackets().sendGlobalConfig(779, player.getEquipment().getWeaponRenderEmote());
-		for (int i = 0; i < 18; i++) {
-			String bonusName = (new StringBuilder(String.valueOf(names[i <= 4 ? i : i - 5]))).append(": ").toString();
-			int bonus = player.getCombatDefinitions().getBonuses()[i];
-			bonusName = (new StringBuilder(String.valueOf(bonusName))).append(bonus >= 0 ? "+" : "").append(bonus)
-					.toString();
-			if (i == 17 || i > 10 && i < 14)
-				bonusName = (new StringBuilder(String.valueOf(bonusName))).append("%").toString();
-
-			// Weights.calculateWeight(player);
-			player.getPackets().sendIComponentText(667, 28 + i, bonusName);
+		final int interfaceId = 667;
+		for (Object[] element : info) {
+			int bonus = player.getCombatDefinitions().getBonuses()[(int) element[1]];
+			String sign = bonus > 0 ? "+" : "";
+			player.getPackets().sendIComponentText(interfaceId, (int) element[0], element[2] + ": " + sign + bonus);
 		}
-		player.getPackets().sendAccessMask(670, 0, 0, 27, 0, 1, 2, 3);
-		player.getPackets().sendAccessMask(667, 9, 0, 24, 0, 8, 9);
 	}
 
+	private static final Object[][] info = new Object[][] { { 31, 0, "Stab" }, { 32, 1, "Slash" }, { 33, 2, "Crush" }, { 34, 3, "Magic" }, { 35, 4, "Range" }, { 36, 5, "Stab" }, { 37, 6, "Slash" }, { 38, 7, "Crush" }, { 39, 8, "Magic" }, { 40, 9, "Range" }, { 41, 10, "Summoning" }, { 42, CombatDefinitions.ABSORVE_MELEE_BONUS, "Absorb Melee" }, { 43, CombatDefinitions.ABSORVE_MAGE_BONUS, "Absorb Magic" }, { 44, CombatDefinitions.ABSORVE_RANGE_BONUS, "Absorb Range" }, { 45, 14, "Strength" }, { 46, 15, "Ranged Str" }, { 47, 16, "Prayer" }, { 48, 17, "Magic Damage" } };
+	
 
 	@SuppressWarnings("unused")
 	public static boolean sendWear(Player player, int slotId, int itemId) {

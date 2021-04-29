@@ -27,7 +27,6 @@ import com.rs.utils.MapAreas;
 import com.rs.utils.MusicHints;
 import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
-import com.rs.utils.ShopsHandler;
 
 import main.CommandDispatcher;
 import main.NPCDispatcher;
@@ -87,7 +86,6 @@ public class GameLoader {
 			ItemBonuses.init();
 			AutomaticGroundItem.initialize();
 			MusicHints.init();
-			ShopsHandler.init();
 		});
 		getBackgroundLoader().submit(() -> {
 			ControlerHandler.init();

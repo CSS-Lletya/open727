@@ -27,7 +27,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 					return;
 				if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET) {
 					if (sendWear(player, slotId, item.getId()))
-						EquipmentInterfacePlugin.refreshEquipBonuses(player);
+						CombatBonusesInterfacePlugin.refreshEquipBonuses(player);
 				} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
 					player.getInventory().sendExamine(slotId);
 			}

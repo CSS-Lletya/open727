@@ -268,7 +268,6 @@ public final class ItemDefinitions {
 			System.out.println("failed here for itemId: " + id);
 			return false;
 		}
-		System.out.println("checkfail: "+equipSlot);
 		return equipSlot != -1;
 	}
 
