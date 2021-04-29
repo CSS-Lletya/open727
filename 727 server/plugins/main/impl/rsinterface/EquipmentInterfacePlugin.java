@@ -8,7 +8,6 @@ import com.rs.net.decoders.WorldPacketsDecoder;
 
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
-import player.CombatDefinitions;
 
 @RSInterfaceSignature(interfaceId = {387})
 public class EquipmentInterfacePlugin implements RSInterface {

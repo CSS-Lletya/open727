@@ -7,7 +7,6 @@ import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.UseFlag;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.player.Player;
@@ -175,6 +174,7 @@ public class Shop {
 		if (shops != null) {
 			if (shops.buyCustomCurrency(player, item, buyQ)) {
 				if (player.getTemporaryAttributtes().get("custom_shop_price") != null) {
+					@SuppressWarnings("unused")
 					int cost = (int) player.getTemporaryAttributtes().get("custom_shop_price");
 					shops.onBuy(player, item, buyQ, (int) player.getTemporaryAttributtes().remove("custom_shop_price"));
 //					FileLogger.getFileLogger().writeLog("shops/", player.getDisplayName() + " bought:[" + item.getAmount() + "x " + item.getName() + ", id=" + item.getId() + "] from " + getName() + " cost: " + cost, true);
