@@ -1,6 +1,7 @@
 package com.rs.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -12,15 +13,19 @@ public final class ItemBonuses {
 	private static HashMap<Integer, int[]> itemBonuses;
 	private final static String PACKED_PATH = "data/items/bonuses.ib";
 
+	public static final int[] getItemBonuses(int itemId) {
+		return itemBonuses.get(itemId);
+	}
+
 	public static final void init() {
 		if (new File(PACKED_PATH).exists())
 			loadItemBonuses();
 		else
-			throw new RuntimeException("Missing item bonuses.");
-	}
-
-	public static final int[] getItemBonuses(int itemId) {
-		return itemBonuses.get(itemId);
+			try {
+				new File(PACKED_PATH).createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 
 	private static final void loadItemBonuses() {

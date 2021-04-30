@@ -4,7 +4,7 @@ public class DialogueEntityEvent extends DialogueEvent {
 	
 	
 	public DialogueEntityEvent(boolean player, int face, String text){
-		super(1, text);
+		super((byte) 1, text);
 		this.player = player;
 		this.face = face;
 	}

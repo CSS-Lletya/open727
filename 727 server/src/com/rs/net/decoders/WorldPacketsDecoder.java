@@ -23,7 +23,9 @@ import com.rs.game.route.strategy.RouteEvent;
 import com.rs.net.Session;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.utils.Huffman;
+import com.rs.utils.IntegerInputAction;
 import com.rs.utils.Logger;
+import com.rs.utils.StringInputAction;
 import com.rs.utils.Utils;
 
 import main.CommandDispatcher;
@@ -1168,6 +1170,11 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (v1.equals(""))
 				return;
 			String value = Utils.getCharacterFromByte(byte0) + v1;
+			if (player.getTemporaryAttributtes().get("string_input_action") != null) {
+				StringInputAction action = (StringInputAction) player.getTemporaryAttributtes().remove("string_input_action");
+				action.handle(value);
+				return;
+			}
 			player.getPackets().sendGameMessage(""+value);
 		}
 		else if (packetId == ENTER_NAME_PACKET) {
@@ -1196,6 +1203,11 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (!player.isRunning() || player.isDead())
 				return;
 			int value = stream.readInt();
+			if (player.getTemporaryAttributtes().get("integer_input_action") != null) {
+				IntegerInputAction action = (IntegerInputAction) player.getTemporaryAttributtes().remove("integer_input_action");
+				action.handle(value);
+				return;
+			}
 			if ((player.getInterfaceManager().containsInterface(762) && player.getInterfaceManager().containsInterface(763)) || player.getInterfaceManager().containsInterface(11)) {
 				if (value < 0)
 					return;

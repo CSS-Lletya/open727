@@ -18,12 +18,8 @@ import skills.Skills;
 
 @SuppressWarnings("unused")
 public final class ItemDefinitions {
-
-	public static final ItemDefinitions[] itemsDefinitions;
-
-	static { // that's why this is here
-		itemsDefinitions = new ItemDefinitions[25000];//Utils.getItemDefinitionsSize()];
-	}
+	
+	public static final ItemDefinitions[] itemsDefinitions = new ItemDefinitions[Utils.getItemDefinitionsSize()];
 
 	public int id;
 	public boolean loaded;
@@ -268,7 +264,6 @@ public final class ItemDefinitions {
 			System.out.println("failed here for itemId: " + id);
 			return false;
 		}
-		System.out.println("checkfail: "+equipSlot);
 		return equipSlot != -1;
 	}
 
