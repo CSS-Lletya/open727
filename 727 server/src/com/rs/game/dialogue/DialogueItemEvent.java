@@ -4,7 +4,7 @@ public class DialogueItemEvent extends DialogueEvent {
 	
 	
 	public DialogueItemEvent(int itemId, int amount, String text){
-		super(2, text);
+		super((byte) 2, text);
 		this.itemId = itemId;
 		this.amount = amount;
 	}

@@ -1,6 +1,5 @@
 package com.rs.game.player.controlers;
 
-import com.rs.Settings;
 import com.rs.game.Entity;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
@@ -19,10 +18,6 @@ public final class ControlerManager {
 	private Object[] lastControlerArguments;
 
 	private String lastControler;
-
-	public ControlerManager() {
-		lastControler = /* Settings.HOSTED ? */Settings.START_CONTROLER;// : "TutorialIsland"; // se
-	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
