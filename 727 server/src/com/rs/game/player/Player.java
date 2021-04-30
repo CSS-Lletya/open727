@@ -46,6 +46,7 @@ import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.encoders.WorldPacketsEncoder;
 import com.rs.net.host.HostListType;
 import com.rs.net.host.HostManager;
+import com.rs.utils.IntegerInputAction;
 import com.rs.utils.IsaacKeyPair;
 import com.rs.utils.Logger;
 import com.rs.utils.MutableNumber;
@@ -575,6 +576,19 @@ public class Player extends Entity {
 		getAppearance().generateAppearenceData();
 		getPlayerDetails().setLastIP(getSession().getIP());
 		getInterfaceManager().sendInterfaces();
+		if (getRights().isStaff() && Settings.PIN_ACTIVE) {
+			lock();
+			getPackets().sendInputIntegerScript("Whats the keycode?", new IntegerInputAction() {
+				@Override
+				public void handle(int input) {
+					System.out.println(input);
+					if (input != Settings.STAFF_PIN)
+						logout(false);
+					else 
+						unlock();
+				}
+			});
+		}
 		getPackets().sendRunEnergy();
 		getPackets().sendItemsLook();
 		refreshAllowChatEffects();
@@ -585,9 +599,10 @@ public class Player extends Entity {
 			if($it.onLogin(this))
 				World.get().submit(new CombatEffectTask(this, $it));
 		});
-		if (getUsername().equalsIgnoreCase("Zed") || getUsername().equalsIgnoreCase("Jawarrior1")) {
-			setRights(Rights.ADMINISTRATOR);
-		}
+		Settings.STAFF.entrySet().forEach(staff -> {
+			if (getUsername().equalsIgnoreCase(staff.getKey()))
+				setRights(staff.getValue());
+		});
 		sendRunButtonConfig();
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
 		getPackets().sendGameMessage(Settings.LASTEST_UPDATE);
@@ -1057,7 +1072,7 @@ public class Player extends Entity {
 		/** This Checks which items that is listed in the 'PROTECT_ON_DEATH' **/
 		for (Item item : containedItems) {	// This checks the items you had in your inventory or equipped
 			for (String string : Settings.PROTECT_ON_DEATH) {	//	This checks the matched items from the list 'PROTECT_ON_DEATH'
-				if (item.getDefinitions().getName().toLowerCase().contains(string)) {
+				if (item.getDefinitions().getName().toLowerCase().contains(string) || item.getDefinitions().exchangableItem) {
 					getInventory().addItem(item);	//	This adds the items that is matched and listed in 'PROTECT_ON_DEATH'
 					containedItems.remove(item);	//	This remove the whole list of the contained items that is matched
 				}

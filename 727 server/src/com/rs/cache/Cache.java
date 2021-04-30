@@ -17,7 +17,7 @@ public final class Cache {
 	}
 
 	public static void init() throws IOException {
-		STORE = new Store(Settings.CACHE_PATH);
+		STORE = new Store("data/cache/");
 	}
 
 	public static final byte[] generateUkeysFile() {

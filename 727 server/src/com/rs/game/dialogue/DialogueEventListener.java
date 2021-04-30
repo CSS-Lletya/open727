@@ -23,7 +23,7 @@ public abstract class DialogueEventListener implements DialogueFaceExpression {
 	private Object[] args;
 	
 	public DialogueEventListener mes(String message, Object...args){
-		dialogueEvent.add(new DialogueEvent(0, String.format(message, args)));
+		dialogueEvent.add(new DialogueEvent((byte) 0, String.format(message, args)));
 		return this;
 	}
 	

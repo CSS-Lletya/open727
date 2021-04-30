@@ -56,21 +56,17 @@ public final class Launcher {
 			@Override
 			public void run() {
 				try {
-					saveFiles();
+					for (Player player : World.getPlayers()) {
+						if (player == null || !player.hasStarted() || player.hasFinished())
+							continue;
+						AccountCreation.savePlayer(player);
+					}
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}
 
 			}
-		}, 15, 15, TimeUnit.MINUTES);
-	}
-
-	public static void saveFiles() {
-		for (Player player : World.getPlayers()) {
-			if (player == null || !player.hasStarted() || player.hasFinished())
-				continue;
-			AccountCreation.savePlayer(player);
-		}
+		}, 0, 10, TimeUnit.MINUTES);
 	}
 
 	public static void cleanMemory(boolean force) {
@@ -83,25 +79,21 @@ public final class Launcher {
 		}
 		for (Index index : Cache.STORE.getIndexes())
 			index.resetCachedFiles();
-		CoresManager.fastExecutor.purge();
 		System.gc();
 	}
 
 	public static void shutdown() {
 		try {
-			closeServices();
+			ServerChannelHandler.shutdown();
+			CoresManager.shutdown();
 		} finally {
 			System.exit(0);
 		}
 	}
 
-	public static void closeServices() {
+	public static void restart() {
 		ServerChannelHandler.shutdown();
 		CoresManager.shutdown();
-	}
-
-	public static void restart() {
-		closeServices();
 		System.gc();
 		try {
 			Runtime.getRuntime().exec(
@@ -110,7 +102,6 @@ public final class Launcher {
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}
-
 	}
 
 	public static DiscordBot bot;
@@ -118,5 +109,4 @@ public final class Launcher {
 	public static DiscordBot getDiscordBot() {
 		return bot;
 	}
-	
 }
