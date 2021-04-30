@@ -1304,8 +1304,13 @@ public class WorldPacketsEncoder extends Encoder {
 
 	public void sendItemsLook() {
 		OutputStream stream = new OutputStream(2);
-		stream.writePacket(player, 160);
+		stream.writePacket(player, 162);
 		stream.writeByte(player.getPlayerDetails().isOldItemsLook() ? 1 : 0);
-		// session.write(stream);
+
+//		if(player.getPlayerDetails().isOldItemsLook())
+//			System.out.println("Old is on!");
+//		else
+//			System.out.println("New is on!");
+		 session.write(stream);
 	}
 }

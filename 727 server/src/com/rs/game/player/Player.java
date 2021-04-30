@@ -1534,7 +1534,7 @@ public class Player extends Entity {
 		getPlayerDetails().oldItemsLook = !getPlayerDetails().oldItemsLook;
 		getPackets().sendItemsLook();
 	}
-	
+
 	public void dialog(DialogueEventListener listener){ //temp
 		getTemporaryAttributtes().put("dialogue_event", listener.begin());
 	}
