@@ -13,11 +13,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_SWORD, 23690 }, specAmount = 50)
 public class SaradominSword implements WeaponSpecials {
-
-    //TODO: Execution not done
     @Override
     public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
         target.setNextGraphics(new Graphics(1194, 0, 100));
+        player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
     }
 
     @Override

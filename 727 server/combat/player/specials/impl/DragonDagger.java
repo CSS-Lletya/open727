@@ -11,13 +11,13 @@ import player.specials.WeaponSpecials;
 
 import java.util.Optional;
 
-//TODO: Still a base class
+
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
 public class DragonDagger implements WeaponSpecials {
-
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
+		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
 		if (target instanceof Player) {
 			;
 		}

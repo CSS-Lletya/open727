@@ -13,12 +13,14 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
-public class DragonPickaxe implements WeaponSpecials {
+public class AbyssalVineWhip implements WeaponSpecials {
 
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
+
 		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+
 		if (target instanceof Player) {
 			;
 		}

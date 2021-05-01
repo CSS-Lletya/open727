@@ -19,6 +19,9 @@ public class AbyssalWhip implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
+
+		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+
 		if (target instanceof Player) {
 			Player targetPlayer = (Player) target;
 			int runEnergyLoss = (int)Math.ceil(targetPlayer.getRunEnergy()*0.25);
