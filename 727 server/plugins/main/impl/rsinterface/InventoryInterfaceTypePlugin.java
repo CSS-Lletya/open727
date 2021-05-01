@@ -133,7 +133,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 		player.getAppearance().generateAppearenceData();
 		player.getPackets().sendSound(2240, 0, 1);
 		if (targetSlot == 3)
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			player.getCombatDefinitions().decreaseSpecialAttack(0);
 		player.getCharges().wear(targetSlot);
 		return true;
 	}
@@ -233,7 +233,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 		player.getEquipment().getItems().set(targetSlot, item2);
 		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? 5 : targetSlot == 3 ? 0 : 3);
 		if (targetSlot == 3)
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			player.getCombatDefinitions().decreaseSpecialAttack(0);
 		player.getCharges().wear(targetSlot);
 		return true;
 	}

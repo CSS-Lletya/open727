@@ -43,10 +43,10 @@ public final class WeaponSpecialDispatcher {
 			getSpecAmount(weaponId).ifPresent(weapon -> {
 				if (player.getCombatDefinitions().getSpecialAttackPercentage() < getWeaponSpecialAmount(weapon)) {
 					player.getPackets().sendGameMessage("You don't have enough power left.");
-					player.getCombatDefinitions().desecreaseSpecialAttack(0);
+					player.getCombatDefinitions().decreaseSpecialAttack(0);
 					return;
 				}
-				player.getCombatDefinitions().desecreaseSpecialAttack(getWeaponSpecialAmount(weapon));
+				player.getCombatDefinitions().decreaseSpecialAttack(getWeaponSpecialAmount(weapon));
 			});
 			player.faceEntity(entity);
 			specials.get().getAnimation().ifPresent(player::setNextAnimation);

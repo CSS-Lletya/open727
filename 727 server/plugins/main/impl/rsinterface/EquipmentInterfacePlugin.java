@@ -109,6 +109,6 @@ public class EquipmentInterfacePlugin implements RSInterface {
 //		if (Runecrafting.isTiara(item.getId()))
 //			player.getPackets().sendConfig(491, 0);
 		if (slotId == 3)
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			player.getCombatDefinitions().decreaseSpecialAttack(0);
 	}
 }

@@ -1096,17 +1096,17 @@ public class PlayerCombat extends Action {
 			if (specAmt == 0) {
 				player.getPackets().sendGameMessage(
 						"This weapon has no special Attack, if you still see special bar please relogin.");
-				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				player.getCombatDefinitions().decreaseSpecialAttack(0);
 				return combatDelay;
 			}
 			if (player.getCombatDefinitions().hasRingOfVigour())
 				specAmt *= 0.9;
 			if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
 				player.getPackets().sendGameMessage("You don't have enough power left.");
-				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				player.getCombatDefinitions().decreaseSpecialAttack(0);
 				return combatDelay;
 			}
-			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			player.getCombatDefinitions().decreaseSpecialAttack(specAmt);
 			switch (weaponId) {
 			case 19149:// zamorak bow
 			case 19151:
@@ -3013,16 +3013,16 @@ public class PlayerCombat extends Action {
 		} else {
 			if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
 				player.getPackets().sendGameMessage("You don't have enough power left.");
-				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				player.getCombatDefinitions().decreaseSpecialAttack(0);
 				return false;
 			}
 			if (specAmt == 0) {
 				player.getPackets()
 						.sendGameMessage("This weapon has no special Attack, if you still see special bar please relogin.");
-				player.getCombatDefinitions().desecreaseSpecialAttack(0);
+				player.getCombatDefinitions().decreaseSpecialAttack(0);
 				return false;
 			}
-			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			player.getCombatDefinitions().decreaseSpecialAttack(specAmt);
 		}
 		return true;
 	}
@@ -3452,7 +3452,7 @@ public class PlayerCombat extends Action {
 			specAmt *= 0.9;
 		if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
 			player.getPackets().sendGameMessage("You don't have enough power left.");
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			player.getCombatDefinitions().decreaseSpecialAttack(0);
 			return;
 		}
 		if (player.getSwitchItemCache().size() > 0) {
@@ -3492,7 +3492,7 @@ public class PlayerCombat extends Action {
 			player.getSkills().set(Skills.RANGE, range);
 			player.getSkills().set(Skills.MAGIC, magic);
 			player.getSkills().set(Skills.STRENGTH, strength);
-			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			player.getCombatDefinitions().decreaseSpecialAttack(specAmt);
 			break;
 		case 35:// Excalibur
 		case 8280:
@@ -3516,7 +3516,7 @@ public class PlayerCombat extends Action {
 					}
 				}
 			});
-			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			player.getCombatDefinitions().decreaseSpecialAttack(specAmt);
 			break;
 		case 15486:
 		case 22207:
@@ -3527,7 +3527,7 @@ public class PlayerCombat extends Action {
 			player.setNextGraphics(new Graphics(2319));// 2320
 			player.setNextGraphics(new Graphics(2321));
 			player.getWatchMap().get("DRINKS").elapsed(60000);
-			player.getCombatDefinitions().desecreaseSpecialAttack(specAmt);
+			player.getCombatDefinitions().decreaseSpecialAttack(specAmt);
 			break;
 		}
 	}
@@ -3874,7 +3874,7 @@ public class PlayerCombat extends Action {
 											true);
 								} else {
 									p2.getCombatDefinitions().restoreSpecialAttack();
-									player.getCombatDefinitions().desecreaseSpecialAttack(10);
+									player.getCombatDefinitions().decreaseSpecialAttack(10);
 								}
 								p2.setNextAnimation(new Animation(12575));
 								p2.getPrayer().setBoostedLeech(true);
@@ -3899,7 +3899,7 @@ public class PlayerCombat extends Action {
 											"Your opponent has been weakened so much that your sap curse has no effect.",
 											true);
 								} else {
-									player.getCombatDefinitions().desecreaseSpecialAttack(10);
+									player.getCombatDefinitions().decreaseSpecialAttack(10);
 								}
 								World.sendProjectile(p2, player, 2224, 35, 35, 20, 5, 0, 0);
 								World.get().submit(new Task(1) {

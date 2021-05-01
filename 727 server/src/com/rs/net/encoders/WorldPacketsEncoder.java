@@ -1313,7 +1313,7 @@ public class WorldPacketsEncoder extends Encoder {
 //			System.out.println("Old is on!");
 //		else
 //			System.out.println("New is on!");
-		 session.write(stream);
+//		 session.write(stream);
 	}
 	
 	public void sendInputIntegerScript(String message, IntegerInputAction onInputGivenAction) {
