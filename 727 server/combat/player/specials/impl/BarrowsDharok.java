@@ -12,8 +12,9 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.BANDOS_GODSWORD }, specAmount = 25)
-public class BandosGodsword implements WeaponSpecials {
+@WeaponSpecialSignature(weapons = { ItemNames.DHAROKS_GREATAXE, ItemNames.DHAROKS_GREATAXE_USED, ItemNames.DHAROKS_GREATAXE_100, ItemNames.DHAROKS_GREATAXE_75,
+		ItemNames.DHAROKS_GREATAXE_50, ItemNames.DHAROKS_GREATAXE_25}, specAmount = 25)
+public class BarrowsDharok implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
