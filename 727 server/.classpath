@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="skills"/>
 	<classpathentry kind="src" path="combat"/>
-	<classpathentry kind="src" path="mysql"/>
 	<classpathentry kind="src" path="plugins"/>
+	<classpathentry kind="src" path="network"/>
 	<classpathentry kind="lib" path="data/libs/FileStore.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="data/libs/netty-3.5.2.Final.jar"/>
@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="data/libs/fastutil-8.2.1.jar"/>
 	<classpathentry kind="lib" path="data/libs/guava-22.0.jar"/>
 	<classpathentry kind="lib" path="data/libs/javacord-3.1.2-shaded.jar"/>
+	<classpathentry kind="lib" path="data/libs/HikariCP-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dennis/Downloads/slf4j-api-1.7.30.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -53,6 +53,7 @@ import com.rs.utils.MutableNumber;
 import com.rs.utils.Stopwatch;
 import com.rs.utils.Utils;
 
+import mysql.impl.SendStarter;
 import npc.corp.CorpBeastControler;
 import npc.familiar.Familiar;
 import npc.pet.Pet;
@@ -60,9 +61,6 @@ import player.CombatDefinitions;
 import player.PlayerCombat;
 import player.type.AntifireDetails;
 import player.type.CombatEffect;
-import server.database.model.RequestModel;
-import server.database.model.impl.NewPlayerDBPlugin;
-import server.database.passive.PassiveDatabaseWorker;
 import skills.Skills;
 
 public class Player extends Entity {
@@ -649,10 +647,7 @@ public class Player extends Entity {
 		getControlerManager().login(); // checks what to do on login after welcome
 		OwnedObjectManager.linkKeys(this);
 		
-		if (!HostManager.contains(getUsername(), HostListType.STARTER_RECEIVED)) {
-			PassiveDatabaseWorker.addRequest(new NewPlayerDBPlugin(getDisplayName()));
-			HostManager.add(this, HostListType.STARTER_RECEIVED, true);
-		}
+		new SendStarter(World.getStarterDBPool(), this).submit();
 		if (!getRun())
 			toogleRun(true);
 	}
@@ -1557,16 +1552,6 @@ public class Player extends Entity {
 	public DialogueEventListener dialog(){
 		DialogueEventListener listener = (DialogueEventListener) getTemporaryAttributtes().get("dialogue_event");
 		return listener;
-	}
-
-	public transient Queue<RequestModel> requestResults = new LinkedList<RequestModel>();
-
-	public Queue<RequestModel> getRequestResults() {
-		return requestResults;
-	}
-
-	public void setRequestResults(Queue<RequestModel> requestResults) {
-		this.requestResults = requestResults;
 	}
 	
 	/**
