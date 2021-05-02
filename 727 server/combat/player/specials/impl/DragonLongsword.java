@@ -25,8 +25,11 @@ public class DragonLongsword implements WeaponSpecials {
 		if (target instanceof Player) {
 			;
 		}
+		int weaponId = player.getEquipment().getWeaponId();
+		int attackStyle = player.getCombatDefinitions().getAttackStyle();
+		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
+		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
 	}
-
 	@Override
 	public Optional<Animation> getAnimation() {
 		return Optional.empty();

@@ -16,7 +16,7 @@ import java.util.Optional;
 public class AbyssalVineWhip implements WeaponSpecials {
 	/**
 	 *
-	 * 
+	 *
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
@@ -27,6 +27,10 @@ public class AbyssalVineWhip implements WeaponSpecials {
 		if (target instanceof Player) {
 			;
 		}
+		int weaponId = player.getEquipment().getWeaponId();
+		int attackStyle = player.getCombatDefinitions().getAttackStyle();
+		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
+		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));int weaponId = player.getEquipment().getWeaponId();
 	}
 
 	@Override

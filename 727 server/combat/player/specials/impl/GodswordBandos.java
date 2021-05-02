@@ -12,8 +12,12 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_GODSWORD }, specAmount = 50)
-public class SaradominGodsword implements WeaponSpecials {
+@WeaponSpecialSignature(weapons = { ItemNames.BANDOS_GODSWORD }, specAmount = 100)
+public class GodswordBandos implements WeaponSpecials {
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
@@ -21,6 +25,10 @@ public class SaradominGodsword implements WeaponSpecials {
 		if (target instanceof Player) {
 			;
 		}
+		int weaponId = player.getEquipment().getWeaponId();
+		int attackStyle = player.getCombatDefinitions().getAttackStyle();
+		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
+		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
 	}
 
 	@Override
