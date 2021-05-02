@@ -32,10 +32,9 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import mysql.Database;
 import npc.combat.rework.NPCCombatDispatcher;
 import player.specials.WeaponSpecialDispatcher;
-import server.database.GameDatabase;
-import server.database.passive.PassiveDatabaseWorker;
 
 public class GameLoader {
 
@@ -65,8 +64,7 @@ public class GameLoader {
 		}
 		getBackgroundLoader().submit(() -> {
 			if (Settings.mysqlEnabled) {
-				GameDatabase.initializeWebsiteDatabases();
-				PassiveDatabaseWorker.initialize();
+				new Database("127.0.0.1", "open727", "root", "", 1);
 			}
 			return null;
 		});
