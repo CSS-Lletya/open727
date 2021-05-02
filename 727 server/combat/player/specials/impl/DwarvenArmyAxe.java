@@ -14,6 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DWARVEN_ARMY_AXE }, specAmount = 100)
 public class DwarvenArmyAxe implements WeaponSpecials {
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

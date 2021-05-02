@@ -14,6 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.JADE_BOLTS_E }, specAmount = 0)
 public class EnchantedJadeBolts implements WeaponSpecials {
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

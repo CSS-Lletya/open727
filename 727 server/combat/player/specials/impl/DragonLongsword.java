@@ -14,7 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_LONGSWORD }, specAmount = 25)
 public class DragonLongsword implements WeaponSpecials {
-
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

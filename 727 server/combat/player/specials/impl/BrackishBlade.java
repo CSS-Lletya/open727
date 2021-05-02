@@ -14,7 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.BRACKISH_BLADE }, specAmount = 75)
 public class BrackishBlade implements WeaponSpecials {
-
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

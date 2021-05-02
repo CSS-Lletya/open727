@@ -14,6 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MAGIC_COMPOSITE_BOW }, specAmount = 35)
 public class MagicCompositeBow implements WeaponSpecials {
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

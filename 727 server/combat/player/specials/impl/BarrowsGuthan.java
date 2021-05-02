@@ -15,6 +15,10 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.GUTHANS_WARSPEAR, ItemNames.GUTHANS_WARSPEAR_USED, ItemNames.GUTHANS_WARSPEAR_100, ItemNames.GUTHANS_WARSPEAR_75,
 		ItemNames.GUTHANS_WARSPEAR_50, ItemNames.GUTHANS_WARSPEAR_25}, specAmount = 0)
 public class BarrowsGuthan implements WeaponSpecials {
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

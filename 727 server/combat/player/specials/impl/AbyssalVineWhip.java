@@ -14,7 +14,10 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_VINE_WHIP }, specAmount = 60)
 public class AbyssalVineWhip implements WeaponSpecials {
-
+	/**
+	 *
+	 * 
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));

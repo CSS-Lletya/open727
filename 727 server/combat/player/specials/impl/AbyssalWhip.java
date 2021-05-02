@@ -16,6 +16,10 @@ import player.specials.WeaponSpecials;
 public class AbyssalWhip implements WeaponSpecials {
 
 	//TODO: Needs to be tested against a player
+	/**
+	 *
+	 *
+	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
