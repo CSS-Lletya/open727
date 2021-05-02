@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DARKLIGHT }, specAmount = 50)
 public class Darklight implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Temporarily reduces the target's Attack, Strength, and Defence by 5%. Twice as effective on demons (reduces each stat by 10%).
 	 *

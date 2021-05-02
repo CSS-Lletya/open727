@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_2H_SWORD }, specAmount = 60)
 public class Dragon2HSword implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *In a multi-combat area, all targets within 1 square of the player will take damage. No more than 14 enemies can be hit at a time with this attack. No
 	 * advantages are offered by using this attack in a single-combat area.

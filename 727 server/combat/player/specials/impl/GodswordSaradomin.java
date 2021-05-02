@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_GODSWORD }, specAmount = 50)
 public class GodswordSaradomin implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Attack deals 10% more damage and restores the user's life points by 50% of the damage dealt (with a minimum of 100 life points) and Prayer by 25% of
 	 * damage dealt (with a minimum of 50 Prayer points). The attack has no effect if it misses completely but will always take effect if the attack hits and

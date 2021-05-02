@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.HAND_CANNON }, specAmount = 50)
 public class HandCannon implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *It has increased accuracy, but takes longer to fire. It also increases the chance of the hand cannon blowing up and damaging yourself.
 	 *

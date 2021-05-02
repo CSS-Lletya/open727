@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_PICKAXE }, specAmount = 100)
 public class DragonPickaxe implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 * Drains 5% from the opponent's Attack, Ranged, and Magic.
 	 * A large overhead swing that takes longer than a normal attack.

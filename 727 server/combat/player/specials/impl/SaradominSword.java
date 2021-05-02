@@ -13,7 +13,8 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_SWORD, 23690 }, specAmount = 100)
 public class SaradominSword implements WeaponSpecials {
-    /**
+	//TODO:Sounds, graphics, animations, implementation
+	/**
      *Hits two lightning bolts, the first hit is a regular hit which grants experience in the chosen melee skill. The second hit is magic based, and can
      * hit 50-180, giving magic experience. (Note: the special attack does not give defence experience unless defensive casting is enabled).
      *

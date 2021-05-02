@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.VESTAS_LONGSWORD }, specAmount = 25)
 public class VestasLongsword implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Deals 20% more damage and is more accurate.
 	 *

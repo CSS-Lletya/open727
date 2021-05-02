@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DORGESHUUN_CBOW }, specAmount = 75)
 public class DorgeshuunCrossbow implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Lowers the target's Defence by 10% of damage dealt. Greatly increased accuracy on an unsuspecting opponent.
 	 *

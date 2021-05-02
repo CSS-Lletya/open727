@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_SCIMITAR }, specAmount = 55)
 public class DragonScimitar implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 * A slash with increased accuracy that, if successful,
 	 * prevents the target from using protection prayers for five seconds.

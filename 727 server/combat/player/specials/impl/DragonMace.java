@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_MACE }, specAmount = 25)
 public class DragonMace implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Drastically increases Strength and decreases accuracy for one hit.
 	 *

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.GUTHIX_BOW }, specAmount = 55)
 public class GuthixBow implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Deals damage that is 1.5* the regular damage, and over a period of time, heals the amount hit that would have been done before the 1.5* multiplier.
 	 *

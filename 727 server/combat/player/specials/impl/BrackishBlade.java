@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.BRACKISH_BLADE }, specAmount = 75)
 public class BrackishBlade implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Doubles the chance of hitting, and adds 2.5% of the damage dealt to your Strength, Attack and Defence. For example if you hit 200, this means your Strength, Attack and Defence all get a visible 5 level boost.
 	 * When using the special attack, if you hit, you will have a guarenteed max hit. Otherwise you will deal zero damage.

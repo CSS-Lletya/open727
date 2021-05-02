@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.GRANITE_MAUL }, specAmount = 50)
 public class GraniteMaul implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *An extra attack done instantly with no other effects.
 	 *

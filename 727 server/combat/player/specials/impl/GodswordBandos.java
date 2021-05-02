@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.BANDOS_GODSWORD }, specAmount = 100)
 public class GodswordBandos implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Attack does 15% more damage and drains one of the target's combat stats by 10% of damage dealt, rounded down, until it reaches 0. If the stat drained reaches 0
 	 * before all of the damage could be accounted for, another stat is drained by the amount remaining. Stats are drained in the following order: Defence, Strength,

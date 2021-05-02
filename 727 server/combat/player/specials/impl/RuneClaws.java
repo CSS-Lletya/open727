@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.RUNE_CLAW }, specAmount = 25)
 public class RuneClaws implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Increases attack with 10% more Attack and Strength, but a slower speed.
 	 *

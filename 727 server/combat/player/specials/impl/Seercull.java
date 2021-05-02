@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.SEERCULL }, specAmount = 100)
 public class Seercull implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Inflicts damage and decreases the Magic level of the target by 10% of the damage dealt.
 	 *

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.STATIUS_WARHAMMER }, specAmount = 35)
 public class StatiusWarhammer implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Deals up to 25% more damage and decreases opponent's Defence by 30%.
 	 *

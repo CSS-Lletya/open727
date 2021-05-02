@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_SPEAR }, specAmount = 25)
 public class DragonSpear implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *When this special is used, the target is pushed back one square and stunned for three seconds. This attack does not inflict damage.
 	 * Does not work on enemies that take up more than one space.

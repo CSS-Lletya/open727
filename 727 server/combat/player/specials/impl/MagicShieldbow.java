@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MAGIC_SHIELDBOW }, specAmount = 35)
 public class MagicShieldbow implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *This attack uses the full power of the longbow and will never miss (unless blocked by Disruption shield).
 	 *

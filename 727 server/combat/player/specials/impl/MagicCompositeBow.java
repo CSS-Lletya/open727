@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MAGIC_COMPOSITE_BOW }, specAmount = 35)
 public class MagicCompositeBow implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *An accurate shot that has an increased chance of hitting your opponent.
 	 *

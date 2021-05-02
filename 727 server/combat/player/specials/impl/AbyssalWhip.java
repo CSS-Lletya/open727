@@ -14,7 +14,7 @@ import player.specials.WeaponSpecials;
 
 @WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_WHIP, 15442, 15443, 15444, 15441, 23691 }, specAmount = 50)
 public class AbyssalWhip implements WeaponSpecials {
-
+	//TODO:Sounds, graphics, animations, implementation
 	//TODO: Needs to be tested against a player
 	/**
 	 *An attack that transfers 25% of the target's run energy to the player (only works on other players).

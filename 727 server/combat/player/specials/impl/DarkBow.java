@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DARK_BOW }, specAmount = 25)
 public class DarkBow implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Fires two arrows and inflicts up to 30% more damage than a normal shot. Minimum damage is 100 (50 damage per arrow). Recommended is using rune arrows with this special attack unless you've got dragon arrows .
 	 * Descent of Dragons. 65% drain.

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_CLAW }, specAmount = 50)
 public class DragonClaws implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Four very quick attacks performed at once with increased accuracy, but the last three hits depend entirely on the first hit. The second hit will
 	 * always be half of the first hit, and the 3rd and 4th hits will always add up to the 2nd hit. For example, 200-100-50-50 or 180-90-50-40 or 120-60-30-30.

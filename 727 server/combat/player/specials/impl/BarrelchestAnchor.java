@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.BARRELCHEST_ANCHOR }, specAmount = 50)
 public class BarrelchestAnchor implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Deals 10% more damage, doubles the chance of hitting, and will lower the opponent's Attack, Defence, Ranged, or Magic level by 1% of the damage inflicted.
 	 *

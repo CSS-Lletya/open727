@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MORRIGANS_THROWING_AXE }, specAmount = 50)
 public class MorrigansThrowingAxe implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *Deals 20% extra damage and drains target's run energy four times faster for the next minute.
 	 *

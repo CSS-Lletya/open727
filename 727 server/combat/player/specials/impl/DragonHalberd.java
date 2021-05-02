@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_HALBERD }, specAmount = 30)
 public class DragonHalberd implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *A wide slash with increased strength that strikes multiple enemies if they are lined up correctly (in a multi-combat zone) and will hit
 	 * larger monsters twice. Can do well over 400 damage with each swipe.

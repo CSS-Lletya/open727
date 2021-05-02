@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.KEENBLADE }, specAmount = 75)
 public class Keenblade implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *The Keenblade hits for 50 damage. (30 through Protect from Melee.)
 	 *

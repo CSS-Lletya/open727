@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MINDSPIKE_AIR, ItemNames.MINDSPIKE_EARTH, ItemNames.MINDSPIKE_FIRE, ItemNames.MINDSPIKE_WATER }, specAmount = 75)
 public class Mindspike implements WeaponSpecials {
+	//TODO:Sounds, graphics, animations, implementation
 	/**
 	 *All four types (Mindspike (air), Mindspike (water), Mindspike (earth), Mindspike (fire)) have this special attack. Always hits 50 magic damage with a melee-range,
 	 * rune-free spell of the same element that the staff is attuned to.
