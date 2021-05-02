@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_LONGSWORD }, specAmount = 25)
 public class DragonLongsword implements WeaponSpecials {
 
 	@Override

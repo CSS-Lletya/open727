@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.MINDSPIKE_AIR, ItemNames.MINDSPIKE_EARTH, ItemNames.MINDSPIKE_FIRE, ItemNames.MINDSPIKE_WATER }, specAmount = 25)
 public class Mindspike implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

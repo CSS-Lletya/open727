@@ -12,8 +12,8 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
-public class MagicLongbow implements WeaponSpecials {
+@WeaponSpecialSignature(weapons = { ItemNames.MAGIC_SHIELDBOW }, specAmount = 25)
+public class MagicShieldbow implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
