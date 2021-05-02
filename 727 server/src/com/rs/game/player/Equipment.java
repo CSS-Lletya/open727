@@ -303,7 +303,7 @@ public final class Equipment {
 			return;
 		player.getEquipment().getItems().set(slotId, null);
 		player.getEquipment().refresh(slotId);
-		player.getCombatDefinitions().desecreaseSpecialAttack(0);
+		player.getCombatDefinitions().decreaseSpecialAttack(0);
 
 		if (player.getHitpoints() > (player.getMaxHitpoints() * 1.15)) {
 			player.setHitpoints(player.getMaxHitpoints());

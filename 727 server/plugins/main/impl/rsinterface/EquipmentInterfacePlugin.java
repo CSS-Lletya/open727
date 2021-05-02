@@ -89,7 +89,7 @@ public class EquipmentInterfacePlugin implements RSInterface {
 		}
 		
 		if (componentId == 42) {
-			System.out.println("Toolbelt");
+			player.getInterfaceManager().sendInterface(1178);
 		}
 		if (componentId == 43) {
 			System.out.println("Customize appearance");
@@ -109,6 +109,6 @@ public class EquipmentInterfacePlugin implements RSInterface {
 //		if (Runecrafting.isTiara(item.getId()))
 //			player.getPackets().sendConfig(491, 0);
 		if (slotId == 3)
-			player.getCombatDefinitions().desecreaseSpecialAttack(0);
+			player.getCombatDefinitions().decreaseSpecialAttack(0);
 	}
 }

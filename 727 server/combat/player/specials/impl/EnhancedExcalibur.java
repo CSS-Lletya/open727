@@ -1,45 +1,42 @@
 package player.specials.impl;
 
-import java.util.Optional;
-
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
-
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
 
-@WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_WHIP, 15442, 15443, 15444, 15441, 23691 }, specAmount = 50)
-public class AbyssalWhip implements WeaponSpecials {
+import java.util.Optional;
+
+
+@WeaponSpecialSignature(weapons = { ItemNames.ENHANCED_EXCALIBUR }, specAmount = 100)
+public class EnhancedExcalibur implements WeaponSpecials {
 	//TODO:Sounds, graphics, animations, implementation
-	//TODO: Needs to be tested against a player
 	/**
-	 *An attack that transfers 25% of the target's run energy to the player (only works on other players).
+	 *The Enhanced Excalibur is an upgraded version of the Excalibur that can be obtained after completing the Seers' Village Tasks. It has an enhanced
+	 * special attack that, in addition to an increased Defence boost (15% boost), heals the player 40 life points every 2 seconds up to 5 times for a
+	 * total of 200 life points. If the elite section of the Seers' Village Tasks is completed, the sword will heal 400 life points total over twice the time.
 	 *
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-
 		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
-
 		if (target instanceof Player) {
-			Player targetPlayer = (Player) target;
-			int runEnergyLoss = (int)Math.ceil(targetPlayer.getRunEnergy()*0.25);
-			targetPlayer.setRunEnergy(targetPlayer.getRunEnergy() - runEnergyLoss);
-			player.setRunEnergy(targetPlayer.getRunEnergy() + runEnergyLoss);
+			;
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		combat.getMeleeHit(player, combat.getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.2, true));
+		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
+		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.of(new Animation(11971));
+		return Optional.empty();
 	}
 
 	@Override

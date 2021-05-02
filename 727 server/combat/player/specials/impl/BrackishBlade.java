@@ -1,45 +1,41 @@
 package player.specials.impl;
 
-import java.util.Optional;
-
 import com.rs.game.Animation;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
-
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
 
-@WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_WHIP, 15442, 15443, 15444, 15441, 23691 }, specAmount = 50)
-public class AbyssalWhip implements WeaponSpecials {
+import java.util.Optional;
+
+
+@WeaponSpecialSignature(weapons = { ItemNames.BRACKISH_BLADE }, specAmount = 75)
+public class BrackishBlade implements WeaponSpecials {
 	//TODO:Sounds, graphics, animations, implementation
-	//TODO: Needs to be tested against a player
 	/**
-	 *An attack that transfers 25% of the target's run energy to the player (only works on other players).
+	 *Doubles the chance of hitting, and adds 2.5% of the damage dealt to your Strength, Attack and Defence. For example if you hit 200, this means your Strength, Attack and Defence all get a visible 5 level boost.
+	 * When using the special attack, if you hit, you will have a guarenteed max hit. Otherwise you will deal zero damage.
 	 *
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-
 		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
-
 		if (target instanceof Player) {
-			Player targetPlayer = (Player) target;
-			int runEnergyLoss = (int)Math.ceil(targetPlayer.getRunEnergy()*0.25);
-			targetPlayer.setRunEnergy(targetPlayer.getRunEnergy() - runEnergyLoss);
-			player.setRunEnergy(targetPlayer.getRunEnergy() + runEnergyLoss);
+			;
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		combat.getMeleeHit(player, combat.getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.2, true));
+		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
+		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));int weaponId = player.getEquipment().getWeaponId();
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.of(new Animation(11971));
+		return Optional.empty();
 	}
 
 	@Override

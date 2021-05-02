@@ -84,6 +84,7 @@ public class Player extends Entity {
 	private transient CoordsEvent coordsEvent;
 	private transient FriendChatsManager currentFriendChat;
 	private transient Trade trade;
+	private transient Toolbelt toolbelt;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
 	
@@ -194,6 +195,7 @@ public class Player extends Entity {
 		super(Settings.START_PLAYER_LOCATION);
 		setHitpoints(Settings.START_PLAYER_HITPOINTS);
 		this.password = password;
+		this.toolbelt = new Toolbelt();
 		appearence = new Appearance();
 		inventory = new Inventory();
 		equipment = new Equipment();
@@ -227,6 +229,8 @@ public class Player extends Entity {
 		if (details == null) {
 			details = new PlayerDetails();
 		}
+		if(toolbelt == null)
+			this.toolbelt = new Toolbelt();
 		this.session = session;
 		this.username = username;
 		this.displayMode = displayMode;
@@ -607,6 +611,9 @@ public class Player extends Entity {
 		getPackets().sendGameMessage("Welcome to " + Settings.SERVER_NAME + ".");
 		getPackets().sendGameMessage(Settings.LASTEST_UPDATE);
 
+		toolbelt.setPlayer(this);
+		toolbelt.init();
+
 		sendDefaultPlayersOptions();
 		checkMultiArea();
 		getInventory().init();
@@ -648,6 +655,10 @@ public class Player extends Entity {
 		}
 		if (!getRun())
 			toogleRun(true);
+	}
+
+	public Toolbelt getToolbelt() {
+		return toolbelt;
 	}
 
 	private void sendUnlockedObjectConfigs() {
@@ -1538,7 +1549,7 @@ public class Player extends Entity {
 		getPlayerDetails().oldItemsLook = !getPlayerDetails().oldItemsLook;
 		getPackets().sendItemsLook();
 	}
-	
+
 	public void dialog(DialogueEventListener listener){ //temp
 		getTemporaryAttributtes().put("dialogue_event", listener.begin());
 	}
