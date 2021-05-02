@@ -15,7 +15,9 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ENHANCED_EXCALIBUR }, specAmount = 100)
 public class EnhancedExcalibur implements WeaponSpecials {
 	/**
-	 *
+	 *The Enhanced Excalibur is an upgraded version of the Excalibur that can be obtained after completing the Seers' Village Tasks. It has an enhanced
+	 * special attack that, in addition to an increased Defence boost (15% boost), heals the player 40 life points every 2 seconds up to 5 times for a
+	 * total of 200 life points. If the elite section of the Seers' Village Tasks is completed, the sword will heal 400 life points total over twice the time.
 	 *
 	 */
 	@Override

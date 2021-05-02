@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ARMADYL_GODSWORD }, specAmount = 50)
 public class GodswordArmadyl implements WeaponSpecials {
 	/**
-	 *
+	 *Inflicts 25% more damage.
 	 *
 	 */
 	@Override

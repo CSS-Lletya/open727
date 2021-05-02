@@ -15,7 +15,8 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ZAMORAKIAN_SPEAR }, specAmount = 25)
 public class ZamorakianSpear implements WeaponSpecials {
 	/**
-	 *
+	 *When this special is used, the target is pushed back one square and stunned for three seconds. This attack does not inflict damage. Does not work on enemies that take up more than one space.
+	 * This special attack has the same effect as the Dragon spear.
 	 *
 	 */
 	@Override

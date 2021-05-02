@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.QUICKBOW }, specAmount = 75)
 public class QuickBow implements WeaponSpecials {
 	/**
-	 *
+	 *Fires two arrows for 25 damage each, and always hit.
 	 *
 	 */
 	@Override

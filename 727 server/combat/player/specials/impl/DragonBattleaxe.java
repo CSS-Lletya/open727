@@ -15,7 +15,12 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_BATTLEAXE }, specAmount = 100)
 public class DragonBattleaxe implements WeaponSpecials {
 	/**
-	 *
+	 *Temporary boosts:
+	 * Strength +20% of original level
+	 * Attack -10% of original level
+	 * Defence -10% of original level
+	 * Ranged -10% of original level
+	 * Magic -10% of original level
 	 *
 	 */
 	@Override

@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ZAMORAK_BOW }, specAmount = 55)
 public class ZamorakBow implements WeaponSpecials {
 	/**
-	 *
+	 *Deals double the regular damage of the shot.
 	 *
 	 */
 	@Override

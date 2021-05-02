@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_LONGSWORD }, specAmount = 25)
 public class DragonLongsword implements WeaponSpecials {
 	/**
-	 *
+	 *Deals extra damage.
 	 *
 	 */
 	@Override

@@ -15,7 +15,8 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_VINE_WHIP }, specAmount = 60)
 public class AbyssalVineWhip implements WeaponSpecials {
 	/**
-	 *
+	 *This attack summons a vine that will hit your opponent 10 times for 125% of your accuracy, and 33% of your strength. The attacks will only hit as long
+	 * as your opponent is in range.
 	 *
 	 */
 	@Override

@@ -15,7 +15,9 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.MORRIGANS_JAVELIN }, specAmount = 50)
 public class MorrigansJavelin implements WeaponSpecials {
 	/**
-	 *
+	 *Inflicts continuous damage in the same way that poison does, but faster and target can still be poisoned.
+	 * The additional damage from the special attack occurs at dart-speed until it doubles the damage dealt by the original special attack. Thus, if you hit a 260 with the special, the opponent will be hit by 50s at dart speed until 250 damage has been dealt.
+	 * This special attack can only be used in PvP.
 	 *
 	 */
 	@Override

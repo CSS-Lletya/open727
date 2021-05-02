@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.RUNE_THROWING_AXE }, specAmount = 10)//Per hit, not Miss
 public class RuneThrownaxe implements WeaponSpecials {
 	/**
-	 *
+	 *Bounces between targets in multi-combat, striking multiple targets.
 	 *
 	 */
 	@Override

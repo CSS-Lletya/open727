@@ -15,7 +15,8 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ZAMORAK_GODSWORD }, specAmount = 60)
 public class GodswordZamorak implements WeaponSpecials {
 	/**
-	 *
+	 *Freezes the target for 20 seconds if successful, though the target can still attack a player in an adjacent square.
+	 * Also increase damage by 10% for the attack
 	 *
 	 */
 	@Override

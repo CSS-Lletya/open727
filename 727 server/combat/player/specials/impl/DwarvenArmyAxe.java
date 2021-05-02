@@ -15,7 +15,9 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DWARVEN_ARMY_AXE }, specAmount = 100)
 public class DwarvenArmyAxe implements WeaponSpecials {
 	/**
-	 *
+	 *This deals 3 lots of damage to 1 target. Your target will be hit for 20, 30 and 40 simultaneously, for a total of 90 life points, except if the opponent has Protect from Melee or Deflect Melee active, then the hits are reduced to 12, 18, and 24, which is 54 lifepoints in total.
+	 * However, if the opponent has less than 90 life points remaining, damage is reduced in a reverse order of the hits mentioned.
+	 * The damage dealt is not affected by prayers or the set effect of the Void Knight Equipment.
 	 *
 	 */
 	@Override

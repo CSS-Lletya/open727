@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_BOW }, specAmount = 55)
 public class SaradominBow implements WeaponSpecials {
 	/**
-	 *
+	 *Deals regular damage, and over a period of time, heals twice the amount hit.
 	 *
 	 */
 	@Override

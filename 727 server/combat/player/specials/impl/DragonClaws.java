@@ -15,7 +15,12 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_CLAW }, specAmount = 50)
 public class DragonClaws implements WeaponSpecials {
 	/**
-	 *
+	 *Four very quick attacks performed at once with increased accuracy, but the last three hits depend entirely on the first hit. The second hit will
+	 * always be half of the first hit, and the 3rd and 4th hits will always add up to the 2nd hit. For example, 200-100-50-50 or 180-90-50-40 or 120-60-30-30.
+	 * Effectively, whatever you hit in the first strike, you will get double that hit after all 4 hits are dealt (200 + 100 + 50 + 50 = 400). There is
+	 * also the chance that you hit a 0, as your first hit. This does not mean that you'll hit 0's as your first 4 hits (special attack). For example, you
+	 * could hit 0-200-100-100, or 0-0-200-200 or even 0-0-0-350 (in this case damage is 1.5 times the original hit). Effectively, if one of the four special
+	 * hits inflicts damage, the dragon claws guarantee damage of at least 1.5 times the original hit.
 	 *
 	 */
 	@Override
@@ -30,7 +35,7 @@ public class DragonClaws implements WeaponSpecials {
 		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
 		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
 	}
-	
+
 	@Override
 	public Optional<Animation> getAnimation() {
 		return Optional.empty();

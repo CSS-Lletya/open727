@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.ZANIKS_CROSSBOW }, specAmount = 65)
 public class ZaniksCrossbow implements WeaponSpecials {
 	/**
-	 *
+	 *Deals increased damage (max. +150?) to players using Prayers and/or equipment marked by the gods. Does 30-150 extra damage to other enemies.
 	 *
 	 */
 	@Override

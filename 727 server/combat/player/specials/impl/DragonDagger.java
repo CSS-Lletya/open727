@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_DAGGER }, specAmount = 25)
 public class DragonDagger implements WeaponSpecials {
 	/**
-	 *
+	 *Two quick slashes with increased accuracy and damage. Often used to quickly finish off opponents by high-level players.
 	 *
 	 */
 	@Override

@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_HATCHET }, specAmount = 100)
 public class DragonHatchet implements WeaponSpecials {
 	/**
-	 *
+	 *Lowers the target's Defence and Magic by 10% of damage dealt.
 	 *
 	 */
 	@Override

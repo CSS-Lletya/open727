@@ -17,7 +17,7 @@ public class AbyssalWhip implements WeaponSpecials {
 
 	//TODO: Needs to be tested against a player
 	/**
-	 *
+	 *An attack that transfers 25% of the target's run energy to the player (only works on other players).
 	 *
 	 */
 	@Override

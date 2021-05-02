@@ -15,7 +15,8 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.STAFF_OF_LIGHT }, specAmount = 100)
 public class StaffOfLight implements WeaponSpecials {
 	/**
-	 *
+	 *Reduces all melee damage taken for the next minute by 50%.
+	 * Damage reduction is nullified if the staff is unequipped.
 	 *
 	 */
 	@Override

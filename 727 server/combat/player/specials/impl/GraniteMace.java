@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.GRANITE_MACE }, specAmount = 50)
 public class GraniteMace implements WeaponSpecials {
 	/**
-	 *
+	 *An extra attack done instantly with no other effects.
 	 *
 	 */
 	@Override

@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.MAGIC_SHORTBOW }, specAmount = 55)
 public class MagicShortbow implements WeaponSpecials {
 	/**
-	 *
+	 *Fires two arrows very rapidly but with reduced accuracy.
 	 *
 	 */
 	@Override

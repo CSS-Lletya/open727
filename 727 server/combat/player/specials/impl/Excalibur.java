@@ -15,7 +15,8 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.EXCALIBUR }, specAmount = 100)
 public class Excalibur implements WeaponSpecials {
 	/**
-	 *
+	 *Temporarily increases Defence by 8 levels.
+	 * Extra: Makes the player shout out "For Camelot!" automatically.
 	 *
 	 */
 	@Override

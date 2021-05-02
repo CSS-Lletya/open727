@@ -15,7 +15,10 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.KORASIS_SWORD }, specAmount = 60)
 public class KorasisSword implements WeaponSpecials {
 	/**
-	 *
+	 *This special will always deal between 50%-150% of your max hit, and in multiway combat, it can hit up to three enemies, with the damage being halved
+	 * for each subsequent enemy struck. It is also capable of keeping the Pest queen from using her own special attack, but it must be deployed while she
+	 * charges. During the fight with the Pest queen, the special attack only uses 15% of the player's special attack energy, but outside of it, it instead
+	 * requires 60%.
 	 *
 	 */
 	@Override

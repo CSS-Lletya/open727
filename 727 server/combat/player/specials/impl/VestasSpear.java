@@ -15,7 +15,7 @@ import java.util.Optional;
 @WeaponSpecialSignature(weapons = { ItemNames.VESTAS_SPEAR }, specAmount = 50)
 public class VestasSpear implements WeaponSpecials {
 	/**
-	 *
+	 *Damages everyone adjacent and prevents melee attacks from striking you for 5 seconds.
 	 *
 	 */
 	@Override
