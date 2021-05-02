@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.SAPPHIRE_BOLTS_E }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.SAPPHIRE_BOLTS_E }, specAmount = 0)
 public class EnchantedSapphireBolts implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

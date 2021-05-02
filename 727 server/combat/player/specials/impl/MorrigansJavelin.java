@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.MORRIGANS_JAVELIN }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.MORRIGANS_JAVELIN }, specAmount = 50)
 public class MorrigansJavelin implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

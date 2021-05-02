@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.ZANIKS_CROSSBOW }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.ZANIKS_CROSSBOW }, specAmount = 65)
 public class ZaniksCrossbow implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

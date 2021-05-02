@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.ZAMORAK_BOW }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.ZAMORAK_BOW }, specAmount = 55)
 public class ZamorakBow implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

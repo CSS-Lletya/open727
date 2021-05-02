@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.BARRELCHEST_ANCHOR }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.BARRELCHEST_ANCHOR }, specAmount = 50)
 public class BarrelchestAnchor implements WeaponSpecials {
 
 	@Override

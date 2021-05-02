@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.KARILS_CROSSBOW,  ItemNames.KARILS_CROSSBOW_USED, ItemNames.KARILS_CROSSBOW_100, ItemNames.KARILS_CROSSBOW_75,
-		ItemNames.KARILS_CROSSBOW_50, ItemNames.KARILS_CROSSBOW_25}, specAmount = 25)
+		ItemNames.KARILS_CROSSBOW_50, ItemNames.KARILS_CROSSBOW_25}, specAmount = 0)
 public class BarrowsKaril implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

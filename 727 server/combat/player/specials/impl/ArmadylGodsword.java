@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.ARMADYL_GODSWORD }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.ARMADYL_GODSWORD }, specAmount = 50)
 public class ArmadylGodsword implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.MAGIC_SHIELDBOW }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.MAGIC_SHIELDBOW }, specAmount = 35)
 public class MagicShieldbow implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.VESTAS_SPEAR }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.VESTAS_SPEAR }, specAmount = 50)
 public class VestasSpear implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

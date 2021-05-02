@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.VERACS_FLAIL, ItemNames.VERACS_FLAIL_USED, ItemNames.VERACS_FLAIL_25, ItemNames.VERACS_FLAIL_50,
-		ItemNames.VERACS_FLAIL_75, ItemNames.VERACS_FLAIL_100}, specAmount = 25)
+		ItemNames.VERACS_FLAIL_75, ItemNames.VERACS_FLAIL_100}, specAmount = 0)
 public class BarrowsVerac implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

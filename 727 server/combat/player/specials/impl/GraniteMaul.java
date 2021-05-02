@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.GRANITE_MAUL }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.GRANITE_MAUL }, specAmount = 50)
 public class GraniteMaul implements WeaponSpecials {
 
 	@Override

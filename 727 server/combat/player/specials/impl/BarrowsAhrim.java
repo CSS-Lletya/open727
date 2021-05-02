@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.AHRIMS_STAFF, ItemNames.AHRIMS_STAFF_USED, ItemNames.AHRIMS_STAFF_25, ItemNames.AHRIMS_STAFF_50, ItemNames.AHRIMS_STAFF_75,
-		ItemNames.AHRIMS_STAFF_100}, specAmount = 25)
+		ItemNames.AHRIMS_STAFF_100}, specAmount = 0)
 public class BarrowsAhrim implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

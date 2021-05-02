@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.ENHANCED_EXCALIBUR }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.ENHANCED_EXCALIBUR }, specAmount = 100)
 public class EnhancedExcalibur implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

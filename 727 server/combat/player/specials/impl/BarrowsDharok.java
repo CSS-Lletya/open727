@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.DHAROKS_GREATAXE, ItemNames.DHAROKS_GREATAXE_USED, ItemNames.DHAROKS_GREATAXE_100, ItemNames.DHAROKS_GREATAXE_75,
-		ItemNames.DHAROKS_GREATAXE_50, ItemNames.DHAROKS_GREATAXE_25}, specAmount = 25)
+		ItemNames.DHAROKS_GREATAXE_50, ItemNames.DHAROKS_GREATAXE_25}, specAmount = 0)
 public class BarrowsDharok implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

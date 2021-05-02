@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_SCIMITAR }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.DRAGON_SCIMITAR }, specAmount = 55)
 public class DragonScimitar implements WeaponSpecials {
 
 	@Override

@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.KEENBLADE }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.KEENBLADE }, specAmount = 75)
 public class Keenblade implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

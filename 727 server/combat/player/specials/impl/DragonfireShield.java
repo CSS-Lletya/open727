@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.DRAGONFIRE_SHIELD }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.DRAGONFIRE_SHIELD }, specAmount = 0)//Uses charge
 public class DragonfireShield implements WeaponSpecials {
 
 	@Override

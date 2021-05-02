@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.TORAGS_HAMMER, ItemNames.TORAGS_HAMMER_USED, ItemNames.TORAGS_HAMMER_100, ItemNames.TORAGS_HAMMER_75,
-		ItemNames.TORAGS_HAMMER_25, ItemNames.TORAGS_HAMMER_50 }, specAmount = 25)
+		ItemNames.TORAGS_HAMMER_25, ItemNames.TORAGS_HAMMER_50 }, specAmount = 0)
 public class BarrowsTorag implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {

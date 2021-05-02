@@ -12,7 +12,7 @@ import player.specials.WeaponSpecials;
 import java.util.Optional;
 
 
-@WeaponSpecialSignature(weapons = { ItemNames.BRACKISH_BLADE }, specAmount = 25)
+@WeaponSpecialSignature(weapons = { ItemNames.BRACKISH_BLADE }, specAmount = 75)
 public class BrackishBlade implements WeaponSpecials {
 
 	@Override
