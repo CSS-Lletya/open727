@@ -115,7 +115,7 @@ public final class Settings {
 	/**
 	 * Do we need to utilize MYSQL services?
 	 */
-	public static final boolean mysqlEnabled = false;
+	public static final boolean mysqlEnabled = true;
 
 	/**
 	 * Do we want to run our Discord bot on startup?
