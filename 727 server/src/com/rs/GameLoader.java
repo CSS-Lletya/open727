@@ -32,7 +32,6 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
-import mysql.Database;
 import npc.combat.rework.NPCCombatDispatcher;
 import player.specials.WeaponSpecialDispatcher;
 
@@ -62,12 +61,6 @@ public class GameLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		getBackgroundLoader().submit(() -> {
-			if (Settings.mysqlEnabled) {
-				new Database("127.0.0.1", "open727", "root", "", 1);
-			}
-			return null;
-		});
 		getBackgroundLoader().submit(() -> {
 			ItemsEquipIds.init();
 			Huffman.init();

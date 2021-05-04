@@ -19,19 +19,18 @@ public final class Database {
 	/**
 	 * The pool for this connection.
 	 */
-	private final ConnectionPool pool;
+	private ConnectionPool pool;
 	
-	public Database(String ip, String database, String username, String password, int threads) {
+	public void init() {
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl("jdbc:mysql://" + ip + ":3306/" + database + "?autoReconnect=true&useSSL=false&serverTimezone=UTC");
-		config.setUsername(username);
-		config.setPassword(password);
+		config.setJdbcUrl("jdbc:mysql://localhost/open727?autoReconnect=true");
+		config.setUsername("root");
+		config.setPassword("");
 		config.addDataSourceProperty("cachePrepStmts", "true");
 		config.addDataSourceProperty("prepStmtCacheSize", "250");
 		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 		HikariDataSource ds = new HikariDataSource(config);
-		pool = new HikariPool(ds, MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(threads)));
-		System.out.println(pool == null ?  "Dead" : "alive");
+		pool = new HikariPool(ds, MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(1)));
 	}
 	
 	/**
