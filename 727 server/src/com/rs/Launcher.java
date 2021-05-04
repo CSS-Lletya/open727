@@ -17,6 +17,8 @@ import com.rs.net.ServerChannelHandler;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
+import mysql.Database;
+
 public final class Launcher {
 
 	public static void main(String[] args) throws Exception {
@@ -29,6 +31,9 @@ public final class Launcher {
 		long currentTime = Utils.currentTimeMillis();
 		if (Settings.discordRelay) {
 			bot = new DiscordBot();
+		}
+		if (Settings.mysqlEnabled) {
+			getDB().init();
 		}
 		GameLoader.get().getBackgroundLoader().waitForPendingTasks().shutdown();
 
@@ -108,5 +113,11 @@ public final class Launcher {
 	
 	public static DiscordBot getDiscordBot() {
 		return bot;
+	}
+	
+	public static Database dbInstance = new Database();
+	
+	public static Database getDB() {
+		return dbInstance;
 	}
 }

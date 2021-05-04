@@ -22,26 +22,24 @@ public class SendStarter extends ConnectionUse {
 	}
 	
 	@Override
-	public void append(Connection con) throws SQLException {
-		System.out.println("?");
-//		PreparedStatement stmt2 = con.prepareStatement(generateQuery());
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss aa");
-//		Date date = new Date();
-//		stmt2.clearParameters();
-//		stmt2.setInt(1, 0);
-//		stmt2.setString(2, player.getDisplayName());
-//		stmt2.setString(3, dateFormat.format(date));
-//		System.out.println("?");
-//		stmt2.execute();
-//		System.out.println("?");
+	public void append(Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(getQuery());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss aa");
+		Date date = new Date();
+		statement.clearParameters();
+		statement.setInt(1, 0);
+		statement.setString(2, player.getDisplayName());
+		statement.setString(3, dateFormat.format(date));
+		statement.execute();
 	}
 	
 	@Override
 	public void onError() {
-		System.out.println("Error updating hiscores for " + player.getUsername());
+		System.out.println("Error updating starter for " + player.getUsername());
 	}
-	
-	private static String generateQuery() {
+
+	@Override
+	public String getQuery() {
 		return "INSERT INTO starter (id,username,date) VALUES (?, ?, ?)";
 	}
 }
