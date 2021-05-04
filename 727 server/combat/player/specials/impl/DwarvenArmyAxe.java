@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DWARVEN_ARMY_AXE }, specAmount = 100)
 public class DwarvenArmyAxe implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *This deals 3 lots of damage to 1 target. Your target will be hit for 20, 30 and 40 simultaneously, for a total of 90 life points, except if the opponent has Protect from Melee or Deflect Melee active, then the hits are reduced to 12, 18, and 24, which is 54 lifepoints in total.
 	 * However, if the opponent has less than 90 life points remaining, damage is reduced in a reverse order of the hits mentioned.
@@ -24,7 +25,8 @@ public class DwarvenArmyAxe implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}

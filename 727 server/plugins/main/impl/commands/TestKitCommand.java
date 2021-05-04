@@ -29,8 +29,11 @@ public final class TestKitCommand implements Command {
             new Item(ItemNames.SARADOMIN_GODSWORD),new Item(ItemNames.ZAMORAK_GODSWORD),new Item(ItemNames.GRANITE_MACE),new Item(ItemNames.GRANITE_MAUL),
             new Item(ItemNames.GUTHIX_BOW),new Item(ItemNames.HAND_CANNON),new Item(ItemNames.KEENBLADE),new Item(ItemNames.KORASIS_SWORD),
             new Item(ItemNames.MAGIC_COMPOSITE_BOW),new Item(ItemNames.MAGIC_SHIELDBOW),new Item(ItemNames.MAGIC_SHORTBOW),new Item(ItemNames.MINDSPIKE_AIR),
-            new Item(ItemNames.MINDSPIKE_EARTH),new Item(ItemNames.MINDSPIKE_FIRE),new Item(ItemNames.MINDSPIKE_WATER),new Item(ItemNames.MORRIGANS_JAVELIN),
-            new Item(ItemNames.MORRIGANS_THROWING_AXE),new Item(ItemNames.QUICKBOW),new Item(ItemNames.RUNE_CLAW),
+            new Item(ItemNames.MINDSPIKE_EARTH),new Item(ItemNames.MINDSPIKE_FIRE),new Item(ItemNames.MINDSPIKE_WATER),new Item(ItemNames.MORRIGANS_JAVELIN, 50),
+            new Item(ItemNames.MORRIGANS_THROWING_AXE),new Item(ItemNames.QUICKBOW),new Item(ItemNames.RUNE_CLAW),new Item(ItemNames.RUNE_THROWING_AXE, 50),
+            new Item(ItemNames.SARADOMIN_BOW),new Item(ItemNames.SARADOMIN_SWORD),new Item(ItemNames.SEERCULL),new Item(ItemNames.STAFF_OF_LIGHT),
+            new Item(ItemNames.STATIUS_WARHAMMER),new Item(ItemNames.VESTAS_LONGSWORD),new Item(ItemNames.VESTAS_SPEAR),new Item(ItemNames.ZAMORAKIAN_SPEAR),
+            new Item(ItemNames.ZANIKS_CROSSBOW),
 
 
     };

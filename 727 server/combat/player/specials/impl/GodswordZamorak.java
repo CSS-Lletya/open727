@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.ZAMORAK_GODSWORD }, specAmount = 60)
 public class GodswordZamorak implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *Freezes the target for 20 seconds if successful, though the target can still attack a player in an adjacent square.
 	 * Also increase damage by 10% for the attack
@@ -23,7 +24,8 @@ public class GodswordZamorak implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}

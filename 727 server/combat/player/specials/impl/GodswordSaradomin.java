@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.SARADOMIN_GODSWORD }, specAmount = 50)
 public class GodswordSaradomin implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *Attack deals 10% more damage and restores the user's life points by 50% of the damage dealt (with a minimum of 100 life points) and Prayer by 25% of
 	 * damage dealt (with a minimum of 50 Prayer points). The attack has no effect if it misses completely but will always take effect if the attack hits and
@@ -24,7 +25,8 @@ public class GodswordSaradomin implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}

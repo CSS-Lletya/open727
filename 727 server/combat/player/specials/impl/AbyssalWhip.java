@@ -3,6 +3,7 @@ package player.specials.impl;
 import java.util.Optional;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,8 +15,7 @@ import player.specials.WeaponSpecials;
 
 @WeaponSpecialSignature(weapons = { ItemNames.ABYSSAL_WHIP, 15442, 15443, 15444, 15441, 23691 }, specAmount = 50)
 public class AbyssalWhip implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
-	//TODO: Needs to be tested against a player
+
 	/**
 	 *An attack that transfers 25% of the target's run energy to the player (only works on other players).
 	 *
@@ -24,7 +24,7 @@ public class AbyssalWhip implements WeaponSpecials {
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
 
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, needs sound, testing against player!");
 
 		if (target instanceof Player) {
 			Player targetPlayer = (Player) target;
@@ -34,7 +34,8 @@ public class AbyssalWhip implements WeaponSpecials {
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		combat.getMeleeHit(player, combat.getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.2, true));
+		int damage = combat.getRandomMaxHit(player, weaponId, attackStyle, false, true, 1, true);
+		combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player, damage));
 	}
 
 	@Override

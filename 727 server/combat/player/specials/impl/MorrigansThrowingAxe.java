@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MORRIGANS_THROWING_AXE }, specAmount = 50)
 public class MorrigansThrowingAxe implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *Deals 20% extra damage and drains target's run energy four times faster for the next minute.
 	 *
@@ -22,7 +23,8 @@ public class MorrigansThrowingAxe implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}
