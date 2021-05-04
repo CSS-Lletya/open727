@@ -64,33 +64,32 @@ public class GEShortCut implements ObjectType {
     }
 
     private void moveOutOfGE() {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask()
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask()
+        {
+            int count = 0;
+            @Override
+            public void run()
             {
-                int count = 0;
-                @Override
-                public void run()
-                {
-                    if (count == 0) {
-                        player.lock();
-                        player.addWalkSteps(3142, 3514);
-                    } else if (count == 1) {
-                        player.setNextAnimation(new Animation(2589));
-                    } else if (count == 2) {
-                        player.setNextAnimation(new Animation (2590));
-                        player.setNextWorldTile(new WorldTile(3140, 3516, 0));
-                    } else if (count == 3) {
-                        player.setNextAnimation(new Animation(2591));
-                        player.setNextWorldTile(new WorldTile(3139, 3516, 0));
-                        player.unlock();
-                    } else if (count == 4) {
-                        player.addWalkSteps(3138, 3516);
-                    }
-                    count++;
-                    if(count == 5)
-                        timer.cancel();
+                if (count == 0) {
+                    player.lock();
+                    player.addWalkSteps(3142, 3514);
+                } else if (count == 1) {
+                    player.setNextAnimation(new Animation(2589));
+                } else if (count == 2) {
+                    player.setNextAnimation(new Animation (2590));
+                    player.setNextWorldTile(new WorldTile(3140, 3516, 0));
+                } else if (count == 3) {
+                    player.setNextAnimation(new Animation(2591));
+                    player.setNextWorldTile(new WorldTile(3139, 3516, 0));
+                    player.unlock();
+                } else if (count == 4) {
+                    player.addWalkSteps(3138, 3516);
                 }
-            }, 0, 1000);
-        }
+                count++;
+                if(count == 5)
+                    timer.cancel();
+            }
+        }, 0, 1000);
     }
 }
