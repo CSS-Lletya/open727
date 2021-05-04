@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_2H_SWORD }, specAmount = 60)
 public class Dragon2HSword implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *In a multi-combat area, all targets within 1 square of the player will take damage. No more than 14 enemies can be hit at a time with this attack. No
 	 * advantages are offered by using this attack in a single-combat area.
@@ -23,7 +24,8 @@ public class Dragon2HSword implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}

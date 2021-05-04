@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @WeaponSpecialSignature(weapons = { ItemNames.MINDSPIKE_AIR, ItemNames.MINDSPIKE_EARTH, ItemNames.MINDSPIKE_FIRE, ItemNames.MINDSPIKE_WATER }, specAmount = 75)
 public class Mindspike implements WeaponSpecials {
-	//TODO:Sounds, graphics, animations, implementation
+
 	/**
 	 *All four types (Mindspike (air), Mindspike (water), Mindspike (earth), Mindspike (fire)) have this special attack. Always hits 50 magic damage with a melee-range,
 	 * rune-free spell of the same element that the staff is attuned to.
@@ -23,7 +24,8 @@ public class Mindspike implements WeaponSpecials {
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
 		target.setNextGraphics(new Graphics(2108, 0, 100));
-		player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special!");
+		if(player.getRights() == Rights.ADMINISTRATOR)
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
 		if (target instanceof Player) {
 			;
 		}

@@ -29,7 +29,6 @@ import com.rs.utils.AntiFlood;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
 
-import mysql.Database;
 import mysql.connection.ConnectionPool;
 import npc.NPC;
 import npc.corp.CorporealBeast;
@@ -1124,14 +1123,9 @@ public final class World {
 	}
 	
 	/**
-	 * The donation database connection.
-	 */
-	private static Database starterDB;
-	
-	/**
 	 * Gets the donation database connection pool.
 	 */
-	public static ConnectionPool getStarterDBPool() {
-		return starterDB == null ? null : starterDB.getPool();
+	public static ConnectionPool getSQLPool() {
+		return Launcher.getDB().getPool();
 	}
 }

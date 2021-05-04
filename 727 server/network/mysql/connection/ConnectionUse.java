@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * An abstracted class which handles the connection pool usages.
@@ -28,11 +29,9 @@ public abstract class ConnectionUse {
 	/**
 	 * Submits the usage.
 	 */
-	@SuppressWarnings("deprecation")
 	public void submit() {
-		if(pool == null) {
+		if(pool == null)
 			return;
-		}
 		try {
 			Futures.addCallback(pool.obtainConnection(), new FutureCallback<Connection>() {
 				@Override
@@ -55,7 +54,7 @@ public abstract class ConnectionUse {
 						onFailure(e);
 					}
 				}
-			});
+			}, MoreExecutors.directExecutor());
 		} catch(Exception e) {
 			e.printStackTrace();
 			onError();
@@ -72,4 +71,10 @@ public abstract class ConnectionUse {
 	 * Process handled on an error.
 	 */
 	public abstract void onError();
+	
+	/**
+	 * The Query we're initially sending.
+	 * @return
+	 */
+	public abstract String getQuery();
 }

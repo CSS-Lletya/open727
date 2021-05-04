@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -647,7 +646,10 @@ public class Player extends Entity {
 		getControlerManager().login(); // checks what to do on login after welcome
 		OwnedObjectManager.linkKeys(this);
 		
-		new SendStarter(World.getStarterDBPool(), this).submit();
+		if (!HostManager.contains(getUsername(), HostListType.STARTER_RECEIVED)) {
+			new SendStarter(World.getSQLPool(), this).submit();
+			HostManager.add(this, HostListType.STARTER_RECEIVED, true);
+		}
 		if (!getRun())
 			toogleRun(true);
 	}
