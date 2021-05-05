@@ -33,7 +33,6 @@ import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.controlers.Wilderness;
-import com.rs.game.player.dialogues.DialogueManager;
 import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.game.task.Task;
@@ -74,7 +73,6 @@ public class Player extends Entity {
 	private transient int screenWidth;
 	private transient int screenHeight;
 	private transient InterfaceManager interfaceManager;
-	private transient DialogueManager dialogueManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient ActionManager actionManager;
 	private transient PriceCheckManager priceCheckManager;
@@ -235,7 +233,6 @@ public class Player extends Entity {
 		this.screenHeight = screenHeight;
 		this.isaacKeyPair = isaacKeyPair;
 		interfaceManager = new InterfaceManager(this);
-		dialogueManager = new DialogueManager(this);
 		hintIconsManager = new HintIconsManager(this);
 		priceCheckManager = new PriceCheckManager(this);
 		localPlayerUpdate = new LocalPlayerUpdate(this);
@@ -983,10 +980,6 @@ public class Player extends Entity {
 
 	public void setCoordsEvent(CoordsEvent coordsEvent) {
 		this.coordsEvent = coordsEvent;
-	}
-
-	public DialogueManager getDialogueManager() {
-		return dialogueManager;
 	}
 
 	public CombatDefinitions getCombatDefinitions() {

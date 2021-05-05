@@ -1,8 +1,8 @@
 package main.impl.commands;
 
-import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
+
 import main.listener.Command;
 import main.wrapper.CommandSignature;
 
