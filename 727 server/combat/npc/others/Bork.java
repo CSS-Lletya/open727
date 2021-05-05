@@ -30,7 +30,8 @@ public class Bork extends NPC {
 			if (e instanceof Player) {
 				final Player player = (Player) e;
 				player.getInterfaceManager().sendInterface(693);
-				player.getDialogueManager().startDialogue("DagonHai", 7137, player, 1);
+//				player.getDialogueManager().startDialogue("DagonHai", 7137, player, 1);
+				//TODO: Dialogue
 				World.get().submit(new Task(8) {
 					@Override
 					protected void execute() {

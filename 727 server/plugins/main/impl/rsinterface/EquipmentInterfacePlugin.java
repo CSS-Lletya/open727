@@ -20,8 +20,9 @@ public class EquipmentInterfacePlugin implements RSInterface {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET) {
 				int hatId = player.getEquipment().getHatId();
 				if (hatId == 24437 || hatId == 24439 || hatId == 24440 || hatId == 24441) {
-					player.getDialogueManager().startDialogue("FlamingSkull",
-							player.getEquipment().getItem(Equipment.SLOT_HAT), -1);
+//					player.getDialogueManager().startDialogue("FlamingSkull",
+//							player.getEquipment().getItem(Equipment.SLOT_HAT), -1);
+					//TODO: Dialogue for this
 					return;
 				}
 			} else if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)

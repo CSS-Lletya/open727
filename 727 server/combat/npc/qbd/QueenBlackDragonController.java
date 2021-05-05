@@ -145,7 +145,8 @@ public final class QueenBlackDragonController extends Controler {
 			return false;
 		}
 		if (object.getId() == 70815) {
-			player.getDialogueManager().startDialogue("RewardChest", npc);
+//			player.getDialogueManager().startDialogue("RewardChest", npc);
+			//TODO: Dialogue
 			return false;
 		}
 		if (object.getId() == 70817) {

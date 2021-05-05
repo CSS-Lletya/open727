@@ -7,43 +7,58 @@ import main.wrapper.ObjectSignature;
 
 @ObjectSignature(objectId = {}, name = {"Wilderness wall"})
 public class WildernessDitch implements ObjectType {
-
+    private Player player;
+    private WorldObject ditch;
+    private WorldTile destination;
     @Override
     public void execute(Player player, WorldObject object, int optionId) throws Exception {
+        this.player = player;
+        ditch = object;
         if (optionId == 1) {
             int playerY = player.getY();
             int ditchY = object.getY();
 
-            if(playerY < ditchY) {//You are south of the wall
-                player.stopAll();
-                player.lock(4);
-                player.setNextAnimation(new Animation(6132));
-                final WorldTile toTile = new WorldTile(object.getRotation() == 3 || object.getRotation() == 1 ? object.getX() - 1 : player.getX(),
-                        object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() + 2 : player.getY(), object.getHeight());
-                player.setNextForceMovement(new ForceMovement(
-                        new WorldTile(player), 1, toTile, 2, 	object.getRotation() == 0 || object.getRotation() == 2 ? ForceMovement.NORTH : ForceMovement.WEST));
-                player.setNextWorldTile(toTile);
-                player.faceObject(object);
-    //        player.getControlerManager().startController("Wilderness");//allows player attack
-                player.resetReceivedDamage();
-            } else {//You are north of the wall
-                player.lock();
-                player.setNextAnimation(new Animation(6132));
-                final WorldTile toTile = new WorldTile(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(),
-                        object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(), object.getHeight());
+            player.stopAll();
+            player.lock(4);
+            player.setNextAnimation(new Animation(6132));
 
-                player.setNextForceMovement(new ForceMovement(
-                        new WorldTile(player), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? ForceMovement.SOUTH : ForceMovement.EAST));
-
-                player.setNextWorldTile(toTile);
-                player.faceObject(object);
-//               removeIcon();//pvp icon
-//              removeControler();//wilderness player settings
-                player.resetReceivedDamage();
-                player.unlock();
+            if(playerY > ditchY) {//You are starting south
+                hopNorth();
+                //player.getControlerManager().startController("Wilderness");//allows player attack
+            } else {//You are starting north
+                hopSouth();
+                //removeIcon();//pvp icon
+                //removeControler();//turn off wilderness player settings
             }
 
 
+            player.setNextWorldTile(destination);
+            player.faceObject(object);
         }
+    }
+    
+    private void hopNorth() {
+        setDestinationNorth();
+        player.setNextForceMovement(new ForceMovement(
+                new WorldTile(player), 1, destination, 2, ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ForceMovement.SOUTH : ForceMovement.EAST));
+        player.resetReceivedDamage();
+        player.unlock();
+    }
+
+    private void hopSouth() {
+        setDestinationSouth();
+        player.setNextForceMovement(new ForceMovement(
+                new WorldTile(player), 1, destination, 2, 	ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ForceMovement.NORTH : ForceMovement.WEST));
+        player.resetReceivedDamage();
+    }
+    
+    private void setDestinationSouth() {
+        this.destination = new WorldTile(ditch.getRotation() == 3 || ditch.getRotation() == 1 ? ditch.getX() - 1 : player.getX(),
+                ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ditch.getY() + 2 : player.getY(), ditch.getHeight());
+    }
+    
+    private void setDestinationNorth() {
+        this.destination = new WorldTile(ditch.getRotation() == 1 || ditch.getRotation() == 3 ? ditch.getX() + 2 : player.getX(),
+                ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ditch.getY() - 1 : player.getY(), ditch.getHeight());
     }
 }

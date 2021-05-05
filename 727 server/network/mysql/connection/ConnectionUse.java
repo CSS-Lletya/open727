@@ -38,7 +38,6 @@ public abstract class ConnectionUse {
 				public void onFailure(Throwable arg0) {
 					onError();
 				}
-				
 				@Override
 				public void onSuccess(Connection arg0) {
 					try {

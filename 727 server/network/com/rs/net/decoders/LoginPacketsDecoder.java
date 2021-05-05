@@ -90,9 +90,9 @@ public final class LoginPacketsDecoder extends Decoder {
 		stream.decodeXTEA(isaacKeys, stream.getOffset(), stream.getLength());
 		boolean stringUsername = stream.readUnsignedByte() == 1; // unknown
 		String username = Utils.formatPlayerNameForProtocol(stringUsername ? stream.readString() : Utils.longToString(stream.readLong()));
-		int displayMode = stream.readUnsignedByte();
-		int screenWidth = stream.readUnsignedShort();
-		int screenHeight = stream.readUnsignedShort();
+		byte displayMode = (byte) stream.readUnsignedByte();
+		short screenWidth = (short) stream.readUnsignedShort();
+		short screenHeight = (short) stream.readUnsignedShort();
 		int unknown2 = stream.readUnsignedByte();
 		stream.skip(24); // 24bytes directly from a file, no idea whats there
 		String settings = stream.readString();

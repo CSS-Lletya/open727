@@ -25,7 +25,8 @@ public class GodWars extends Controler {
 	@Override
 	public boolean processObjectClick1(final WorldObject object) {
 		if (object.getId() == 57225) {
-			player.getDialogueManager().startDialogue("NexEntrance");
+//			player.getDialogueManager().startDialogue("NexEntrance");
+			//TODO: Dialogue
 			return false;
 		}
 		return true;
