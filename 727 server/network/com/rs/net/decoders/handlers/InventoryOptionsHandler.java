@@ -7,6 +7,7 @@ import com.rs.cache.io.InputStream;
 import com.rs.cores.WorldThread;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
+import com.rs.game.dialogue.impl.DestroyItemD;
 import com.rs.game.item.Item;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
@@ -174,7 +175,7 @@ public class InventoryOptionsHandler {
 			return;
 		}
 		if (item.getDefinitions().isDestroyItem()) {
-			player.getDialogueManager().startDialogue("DestroyItemOption", slotId, item);
+			DestroyItemD.INSTANCE.sendChatInterface(player, item);
 			return;
 		}
 		if (player.getPetManager().spawnPet(itemId, true)) {

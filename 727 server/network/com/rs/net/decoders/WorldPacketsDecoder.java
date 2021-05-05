@@ -8,6 +8,7 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.dialogue.DialogueEventListener;
+import com.rs.game.dialogue.impl.DestroyItemD;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
@@ -1143,6 +1144,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
 			int componentId = interfaceHash - (interfaceId << 16);
+			new DestroyItemD(DestroyItemD.INSTANCE.getItem()).executeDestroy(player, interfaceId, componentId);
 			if (DialogueEventListener.main(player, componentId))
 				return;
 			player.getDialogueManager().continueDialogue(interfaceId, componentId);
