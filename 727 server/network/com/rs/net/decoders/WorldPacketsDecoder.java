@@ -1101,9 +1101,9 @@ public final class WorldPacketsDecoder extends Decoder {
 			@SuppressWarnings("unused")
 			boolean inScreen = stream.readByte() == 1;
 		} else if (packetId == SCREEN_PACKET) {
-			int displayMode = stream.readUnsignedByte();
-			player.setScreenWidth(stream.readUnsignedShort());
-			player.setScreenHeight(stream.readUnsignedShort());
+			byte displayMode = (byte) stream.readUnsignedByte();
+			player.setScreenWidth((short) stream.readUnsignedShort());
+			player.setScreenHeight((short) stream.readUnsignedShort());
 			@SuppressWarnings("unused")
 			boolean switchScreenMode = stream.readUnsignedByte() == 1;
 			if (!player.hasStarted() || player.hasFinished() || displayMode == player.getDisplayMode() || !player.getInterfaceManager().containsInterface(742))

@@ -244,7 +244,7 @@ public abstract class Familiar extends NPC implements Serializable {
 		player.getPackets().closeInterface(res ? 119 : 179);
 	}
 
-	public static void setLeftclickOption(Player player, int summoningLeftClickOption) {
+	public static void setLeftclickOption(Player player, byte summoningLeftClickOption) {
 		if (summoningLeftClickOption == player.getSummoningLeftClickOption())
 			return;
 		player.setSummoningLeftClickOption(summoningLeftClickOption);

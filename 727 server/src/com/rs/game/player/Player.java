@@ -63,15 +63,15 @@ import skills.Skills;
 
 public class Player extends Entity {
 
-	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
+	public static final byte TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
 	// transient stuff
 	private transient String username;
 	private transient Session session;
 	private transient boolean clientLoadedMapRegion;
-	private transient int displayMode;
-	private transient int screenWidth;
-	private transient int screenHeight;
+	private transient byte displayMode;
+	private transient short screenWidth;
+	private transient short screenHeight;
 	private transient InterfaceManager interfaceManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient ActionManager actionManager;
@@ -90,7 +90,7 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private transient int temporaryMovementType;
+	private transient byte temporaryMovementType;
 	private transient boolean updateMovementType;
 
 	// player stages - not personal
@@ -163,15 +163,15 @@ public class Player extends Entity {
 	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
-	private int privateChatSetup;
-	private int friendChatSetup;
+	private byte privateChatSetup;
+	private byte friendChatSetup;
 	
 	private boolean forceNextMapLoadRefresh;
 
 	// game bar status
-	private int publicStatus;
-	private int clanStatus;
-	private int tradeStatus;
+	private byte publicStatus;
+	private byte clanStatus;
+	private byte tradeStatus;
 
 	// Used for storing recent ips and password
 	private transient ArrayList<String> passwordList = new ArrayList<String>();
@@ -180,7 +180,7 @@ public class Player extends Entity {
 	private ChargesManager charges;
 
 	private String currentFriendChatOwner;
-	private int summoningLeftClickOption;
+	private byte summoningLeftClickOption;
 	private List<String> ownedObjectsManagerKeys;
 	
 	private SquealOfFortune sof;
@@ -214,7 +214,7 @@ public class Player extends Entity {
 		ipList = new ArrayList<String>();
 	}
 
-	public void init(Session session, String username, int displayMode, int screenWidth, int screenHeight, IsaacKeyPair isaacKeyPair) {
+	public void init(Session session, String username, byte displayMode, short screenWidth, short screenHeight, IsaacKeyPair isaacKeyPair) {
 		// temporary deleted after reset all chars
 		if (auraManager == null)
 			auraManager = new AuraManager();
@@ -423,8 +423,8 @@ public class Player extends Entity {
 			WorldPacketsDecoder.decodeLogicPacket(this, packet);
 	}
 
-	private transient int miscTick = 0;
-	private transient int healTick = 0;
+	private transient byte miscTick = 0;
+	private transient byte healTick = 0;
 	
 	@Override
 	public void processEntity() {
@@ -880,11 +880,11 @@ public class Player extends Entity {
 		return equipment;
 	}
 
-	public int getTemporaryMoveType() {
+	public byte getTemporaryMoveType() {
 		return temporaryMovementType;
 	}
 
-	public void setTemporaryMoveType(int temporaryMovementType) {
+	public void setTemporaryMoveType(byte temporaryMovementType) {
 		this.temporaryMovementType = temporaryMovementType;
 	}
 
@@ -896,7 +896,7 @@ public class Player extends Entity {
 		return localNPCUpdate;
 	}
 
-	public int getDisplayMode() {
+	public byte getDisplayMode() {
 		return displayMode;
 	}
 
@@ -916,7 +916,7 @@ public class Player extends Entity {
 		return session;
 	}
 
-	public void setScreenWidth(int screenWidth) {
+	public void setScreenWidth(short screenWidth) {
 		this.screenWidth = screenWidth;
 	}
 
@@ -924,7 +924,7 @@ public class Player extends Entity {
 		return screenWidth;
 	}
 
-	public void setScreenHeight(int screenHeight) {
+	public void setScreenHeight(short screenHeight) {
 		this.screenHeight = screenHeight;
 	}
 
@@ -940,7 +940,7 @@ public class Player extends Entity {
 		clientLoadedMapRegion = true;
 	}
 
-	public void setDisplayMode(int displayMode) {
+	public void setDisplayMode(byte displayMode) {
 		this.displayMode = displayMode;
 	}
 
@@ -1222,15 +1222,15 @@ public class Player extends Entity {
 		getPackets().sendConfig(1438, value);
 	}
 
-	public void setPrivateChatSetup(int privateChatSetup) {
+	public void setPrivateChatSetup(byte privateChatSetup) {
 		this.privateChatSetup = privateChatSetup;
 	}
 
-	public void setFriendChatSetup(int friendChatSetup) {
+	public void setFriendChatSetup(byte friendChatSetup) {
 		this.friendChatSetup = friendChatSetup;
 	}
 
-	public int getPrivateChatSetup() {
+	public byte getPrivateChatSetup() {
 		return privateChatSetup;
 	}
 
@@ -1419,7 +1419,7 @@ public class Player extends Entity {
 		return summoningLeftClickOption;
 	}
 
-	public void setSummoningLeftClickOption(int summoningLeftClickOption) {
+	public void setSummoningLeftClickOption(byte summoningLeftClickOption) {
 		this.summoningLeftClickOption = summoningLeftClickOption;
 	}
 
@@ -1431,7 +1431,7 @@ public class Player extends Entity {
 		return auraManager;
 	}
 
-	public int getMovementType() {
+	public byte getMovementType() {
 		if (getTemporaryMoveType() != -1)
 			return getTemporaryMoveType();
 		return getRun() ? RUN_MOVE_TYPE : WALK_MOVE_TYPE;
@@ -1451,27 +1451,27 @@ public class Player extends Entity {
 		return disableEquip;
 	}
 
-	public int getPublicStatus() {
+	public byte getPublicStatus() {
 		return publicStatus;
 	}
 
-	public void setPublicStatus(int publicStatus) {
+	public void setPublicStatus(byte publicStatus) {
 		this.publicStatus = publicStatus;
 	}
 
-	public int getClanStatus() {
+	public byte getClanStatus() {
 		return clanStatus;
 	}
 
-	public void setClanStatus(int clanStatus) {
+	public void setClanStatus(byte clanStatus) {
 		this.clanStatus = clanStatus;
 	}
 
-	public int getTradeStatus() {
+	public byte getTradeStatus() {
 		return tradeStatus;
 	}
 
-	public void setTradeStatus(int tradeStatus) {
+	public void setTradeStatus(byte tradeStatus) {
 		this.tradeStatus = tradeStatus;
 	}
 	
