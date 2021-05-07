@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 
@@ -986,5 +987,15 @@ public final class Utils {
 
 	public static String format(long number) {
 		return NumberFormat.getIntegerInstance().format(number);
+	}
+
+	public static void runLater(Runnable runThis, int milliseconds) {
+		new java.util.Timer().schedule(
+				new java.util.TimerTask() {
+					@Override
+					public void run() {
+						runThis.run();
+					}
+				}, milliseconds);
 	}
 }

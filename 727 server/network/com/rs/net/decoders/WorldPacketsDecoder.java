@@ -1134,6 +1134,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			int interfaceId = interfaceHash >> 16;
 			int buttonId = (interfaceHash & 0xFF);
 			System.out.println("interId: "+interfaceId+", buttonId: "+buttonId);
+
 			if (Utils.getInterfaceDefinitionsSize() <= interfaceId) {
 				// hack, or server error or client error
 				// player.getSession().getChannel().close();

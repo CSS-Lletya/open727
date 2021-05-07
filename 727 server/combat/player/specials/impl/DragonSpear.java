@@ -6,6 +6,8 @@ import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
+import com.rs.utils.Utils;
+import npc.NPC;
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
@@ -23,21 +25,43 @@ public class DragonSpear implements WeaponSpecials {
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
-		target.setNextGraphics(new Graphics(2108, 0, 100));
+		player.stopAll();
+		target.setNextGraphics(new Graphics(80, 5, 60));
 		if(player.getRights() == Rights.ADMINISTRATOR)
-			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, and testing!");
+
+
+		if (!target.addWalkSteps(target.getX() - player.getX() + target.getX(), target.getY() - player.getY() + target.getY(), 1))
+			player.setNextFaceEntity(target);
+		target.setNextFaceEntity(player);
+
+		target.setNextFaceEntity(null);
+		player.setNextFaceEntity(null);
+
 		if (target instanceof Player) {
-			;
+			final Player defendingPlayer = (Player) target;
+			defendingPlayer.lock();
+			defendingPlayer.getWatchMap().get("FOOD").elapsed(3000);
+			defendingPlayer.setDisableEquip(true);
+			Utils.runLater(new Runnable() {
+				@Override
+				public void run() {
+					defendingPlayer.setDisableEquip(false);
+					defendingPlayer.unlock();
+				}
+			}, 5000);
+
+		} else {
+			NPC n = (NPC) target;
+			n.setFreezeDelay(3000);
+			n.resetCombat();
+			n.setRandomWalk(false);
 		}
-		int weaponId = player.getEquipment().getWeaponId();
-		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
-		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.empty();
+		return Optional.of(new Animation(12017));
 	}
 
 	@Override
@@ -49,4 +73,5 @@ public class DragonSpear implements WeaponSpecials {
 	public Optional<Integer> getSound() {
 		return Optional.empty();
 	}
+
 }
