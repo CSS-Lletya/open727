@@ -92,10 +92,10 @@ public final class PlayerLook {
 		} else if (buttonId == 10) {
 			Boolean hairSalon = (Boolean) player.getTemporaryAttributtes().get("hairSaloon");
 			if (hairSalon != null && hairSalon)
-				player.getAppearance().setHairStyle((int) ClientScriptMap
+				player.getAppearance().setHairStyle((byte) ClientScriptMap
 						.getMap(player.getAppearance().isMale() ? 2339 : 2342).getKeyForValue(slotId / 2));
 			else if (player.getAppearance().isMale())
-				player.getAppearance().setBeardStyle(ClientScriptMap.getMap(703).getIntValue(slotId / 2));
+				player.getAppearance().setBeardStyle((byte) ClientScriptMap.getMap(703).getIntValue(slotId / 2));
 		} else if (buttonId == 16)
 			player.getAppearance().setHairColor(ClientScriptMap.getMap(2345).getIntValue(slotId / 2));
 	}
@@ -131,19 +131,19 @@ public final class PlayerLook {
 		} else if (buttonId == 12) { // set part
 			Integer stage = (Integer) player.getTemporaryAttributtes().get("ThessaliasMakeOver");
 			if (stage == null || stage == 0) {
-				player.getAppearance().setTopStyle((int) ClientScriptMap
+				player.getAppearance().setTopStyle((byte) ClientScriptMap
 						.getMap(player.getAppearance().isMale() ? 690 : 1591).getIntValue(slotId / 2));
 				if (!player.getAppearance().isMale())
-					player.getAppearance().setBeardStyle(player.getAppearance().getTopStyle());
-				player.getAppearance().setArmsStyle(player.getAppearance().isMale() ? 26 : 65); // default
-				player.getAppearance().setWristsStyle(player.getAppearance().isMale() ? 34 : 68); // default
+					player.getAppearance().setBeardStyle((byte) player.getAppearance().getTopStyle());
+				player.getAppearance().setArmsStyle((byte) (player.getAppearance().isMale() ? 26 : 65)); // default
+				player.getAppearance().setWristsStyle((byte) (player.getAppearance().isMale() ? 34 : 68)); // default
 			} else if (stage == 1) // arms
-				player.getAppearance().setArmsStyle((int) ClientScriptMap
+				player.getAppearance().setArmsStyle((byte) ClientScriptMap
 						.getMap(player.getAppearance().isMale() ? 711 : 693).getIntValue(slotId / 2));
 			else if (stage == 2) // wrists
-				player.getAppearance().setWristsStyle((int) ClientScriptMap.getMap(751).getIntValue(slotId / 2));
+				player.getAppearance().setWristsStyle((byte) ClientScriptMap.getMap(751).getIntValue(slotId / 2));
 			else
-				player.getAppearance().setLegsStyle((int) ClientScriptMap
+				player.getAppearance().setLegsStyle((byte) ClientScriptMap
 						.getMap(player.getAppearance().isMale() ? 1586 : 1607).getIntValue(slotId / 2));
 
 		} else if (buttonId == 17) {// color

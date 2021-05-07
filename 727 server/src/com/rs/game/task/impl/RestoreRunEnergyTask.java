@@ -1,7 +1,6 @@
 package com.rs.game.task.impl;
 
 import com.rs.game.World;
-import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
 import skills.Skills;
@@ -17,18 +16,12 @@ public final class RestoreRunEnergyTask extends Task {
 
 	@Override
 	public void execute() {
-		for (Player player : World.getPlayers()) {
-			if (player == null || !player.isRunning() || player.isDead()) {
-				continue;
-			}
-			if (player.runEnergy < 100 && (player.getWalkSteps().isEmpty())) {
-				double restoreRate = 0.45D;
-				double agilityFactor = 0.01 * player.getSkills().getLevel(Skills.AGILITY);
-				player.setRunEnergy(player.runEnergy + (restoreRate + agilityFactor));
-				player.getPackets().sendRunEnergy();
-			}
-		}
-
+		World.players().filter(p -> p.runEnergy < 100 && (p.getWalkSteps().isEmpty())).forEach(p -> {
+			double restoreRate = 0.45D;
+			double agilityFactor = 0.01 * p.getSkills().getLevel(Skills.AGILITY);
+			p.setRunEnergy(p.runEnergy + (restoreRate + agilityFactor));
+			p.getPackets().sendRunEnergy();
+		});
 	}
 
 	@Override

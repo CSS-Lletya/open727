@@ -90,7 +90,6 @@ public final class WorldPacketsDecoder extends Decoder {
 	private final static int NPC_CLICK1_PACKET = 65;
 	private final static int NPC_CLICK2_PACKET = 50;
 	private final static int NPC_CLICK3_PACKET = 77;
-	@SuppressWarnings("unused")
 	private final static int NPC_CLICK4_PACKET = 95;
 	
 	//MISC
@@ -152,11 +151,8 @@ public final class WorldPacketsDecoder extends Decoder {
 
 	private final static int MAGIC_ON_ITEM_PACKET = -1; //ignore this one - shitty configuration
 	
-	static {
-		loadPacketSizes();
-	}
 
-	public static void loadPacketSizes() {
+	static {
 		PACKET_SIZES[0] = 0;
 		PACKET_SIZES[1] = 3;
 		PACKET_SIZES[2] = 4;
@@ -1319,7 +1315,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				|| packetId == OBJECT_CLICK4_PACKET 
 				|| packetId == OBJECT_CLICK5_PACKET 
 				|| packetId == INTERFACE_ON_OBJECT)
-			player.addLogicPacketToQueue(new LogicPacket(packetId, length, stream));
+			player.addLogicPacketToQueue(new LogicPacket((byte) packetId, length, stream));
 		else if (packetId == OBJECT_EXAMINE_PACKET) {
 			ObjectDispatcher.handleOption(player, stream, -1);
 		} else if (packetId == NPC_EXAMINE_PACKET) {

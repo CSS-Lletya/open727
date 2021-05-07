@@ -12,7 +12,6 @@ import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.discord.DiscordBot;
 import com.rs.game.player.AccountCreation;
-import com.rs.game.player.Player;
 import com.rs.net.ServerChannelHandler;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
@@ -61,11 +60,9 @@ public final class Launcher {
 			@Override
 			public void run() {
 				try {
-					for (Player player : World.getPlayers()) {
-						if (player == null || !player.hasStarted() || player.hasFinished())
-							continue;
-						AccountCreation.savePlayer(player);
-					}
+					World.players().forEach(p -> {
+						AccountCreation.savePlayer(p);
+					});
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}

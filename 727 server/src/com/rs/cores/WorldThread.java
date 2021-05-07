@@ -3,11 +3,8 @@ package com.rs.cores;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.item.AutomaticGroundItem;
-import com.rs.game.player.Player;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
-
-import npc.NPC;
 
 public final class WorldThread extends Thread {
 
@@ -24,42 +21,25 @@ public final class WorldThread extends Thread {
 				World.get().taskManager.sequence();
 				World.get().dequeueLogout();
 				AutomaticGroundItem.processGameTick();
-				for (Player player : World.getPlayers()) {
-					if (player == null || !player.hasStarted() || player.hasFinished())
-						continue;
-					if (currentTime - player.getPacketsDecoderPing() > Settings.MAX_PACKETS_DECODER_PING_DELAY
-							&& player.getSession().getChannel().isOpen())
-						player.getSession().getChannel().close();
-					player.processEntity();
-				}
-				for (NPC npc : World.getNPCs()) {
-					if (npc == null || npc.hasFinished())
-						continue;
-					npc.processEntity();
-				}
+				World.players().forEach(p -> {
+					if (currentTime - p.getPacketsDecoderPing() > Settings.MAX_PACKETS_DECODER_PING_DELAY
+							&& p.getSession().getChannel().isOpen())
+						p.getSession().getChannel().close();
+					p.processEntity();
+				});
+				World.npcs().forEach(mob -> mob.processEntity());
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
 			try {
-				for (Player player : World.getPlayers()) {
-					if (player == null || !player.hasStarted() || player.hasFinished())
-						continue;
-					player.getPackets().sendLocalPlayersUpdate();
-					player.getPackets().sendLocalNPCsUpdate();
-				}
-				for (Player player : World.getPlayers()) {
-					if (player == null || !player.hasStarted() || player.hasFinished())
-						continue;
-					player.resetMasks();
-				}
-				for (NPC npc : World.getNPCs()) {
-					if (npc == null || npc.hasFinished())
-						continue;
-					npc.resetMasks();
-				}
+				World.players().forEach(p -> {
+					p.getPackets().sendLocalPlayersUpdate();
+					p.getPackets().sendLocalNPCsUpdate();
+				});
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
+			World.entities().parallel().forEach((e) -> e.resetMasks());
 			LAST_CYCLE_CTM = Utils.currentTimeMillis();
 			long sleepTime = Settings.WORLD_CYCLE_TIME + currentTime - LAST_CYCLE_CTM;
 			if (sleepTime <= 0)
@@ -71,6 +51,6 @@ public final class WorldThread extends Thread {
 			}
 		}
 	}
-	
+
 	public static long LAST_CYCLE_CTM;
 }

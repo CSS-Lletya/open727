@@ -1,7 +1,6 @@
 package com.rs.game.task.impl;
 
 import com.rs.game.World;
-import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
 /**
@@ -19,20 +18,7 @@ public final class RestoreSpecialTask extends Task {
 	
 	@Override
 	public void execute() {
-		for(Player player : World.getPlayers()) {
-			if(player == null) {
-				continue;
-			}
-			if(!player.isRunning()) {
-				continue;
-			}
-			if(player.isDead()) {
-				continue;
-			}
-			if(player.getCombatDefinitions().getSpecialAttackPercentage() < 100) {
-				player.getCombatDefinitions().restoreSpecialAttack(5);
-			}
-		}
+		World.players().filter(p -> p.getCombatDefinitions().getSpecialAttackPercentage() < 100).forEach(p -> p.getCombatDefinitions().restoreSpecialAttack(5));
 	}
 	
 	@Override

@@ -1160,12 +1160,7 @@ public abstract class Entity extends WorldTile {
 		for (int regionId : getMapRegionsIds()) {
 			List<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
 			if (playerIndexes != null) {
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || !player.isRunning() || !withinDistance(player))
-						continue;
-					player.getPackets().sendSound(soundId, 0, type);
-				}
+				World.players().filter(p -> !withinDistance(p)).forEach(p -> p.getPackets().sendSound(soundId, 0, type));
 			}
 		}
 	}

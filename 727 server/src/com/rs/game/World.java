@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import com.rs.Launcher;
 import com.rs.Settings;
@@ -60,8 +63,22 @@ public final class World {
 	public static int exiting_delay;
 	public static long exiting_start;
 
-	private static final EntityList<Player> players = new EntityList<Player>(Settings.PLAYERS_LIMIT);
+	private static final Predicate<Player> VALID_PLAYER = (p) -> p != null && p.hasStarted() && !p.hasFinished() && p.isRunning();
+	private static final Predicate<NPC> VALID_NPC = (n) -> n != null && !n.hasFinished();
 
+	public static Stream<Entity> entities() {
+		return Stream.concat(players(), npcs());
+	}
+
+	public static Stream<Player> players() {
+		return players.stream().filter(VALID_PLAYER);
+	}
+
+	public static Stream<NPC> npcs() {
+		return npcs.stream().filter(VALID_NPC);
+	}
+	
+	private static final EntityList<Player> players = new EntityList<Player>(Settings.PLAYERS_LIMIT);
 	private static final EntityList<NPC> npcs = new EntityList<NPC>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> regions = Collections.synchronizedMap(new HashMap<Integer, Region>());
 	
@@ -494,25 +511,13 @@ public final class World {
 		return false;
 	}
 
-	public static Player getPlayer(String username) {
-		for (Player player : getPlayers()) {
-			if (player == null)
-				continue;
-			if (player.getUsername().equals(username))
-				return player;
-		}
-		return null;
+	public Optional<Player> getPlayer(String username) {
+		return Optional.of(players().filter(p -> p.getUsername().equals(username)).findFirst().orElse(null));
 	}
 
 	public static final Player getPlayerByDisplayName(String username) {
 		String formatedUsername = Utils.formatPlayerNameForDisplay(username);
-		for (Player player : getPlayers()) {
-			if (player == null)
-				continue;
-			if (player.getUsername().equalsIgnoreCase(formatedUsername) || player.getDisplayName().equalsIgnoreCase(formatedUsername))
-				return player;
-		}
-		return null;
+		return players().filter(p -> p.getUsername().equalsIgnoreCase(formatedUsername) || p.getDisplayName().equalsIgnoreCase(formatedUsername)).findFirst().orElse(null);
 	}
 
 	public static final EntityList<Player> getPlayers() {
@@ -527,25 +532,17 @@ public final class World {
 
 	}
 
-	public static final void safeShutdown(final boolean restart, int delay) {
+	public final void safeShutdown(final boolean restart, int delay) {
 		if (exiting_start != 0)
 			return;
 		exiting_start = Utils.currentTimeMillis();
 		exiting_delay = delay;
-		for (Player player : World.getPlayers()) {
-			if (player == null || !player.hasStarted() || player.hasFinished())
-				continue;
-			player.getPackets().sendSystemUpdate(delay);
-		}
+		players().forEach(p -> p.getPackets().sendSystemUpdate(delay));
 		CoresManager.slowExecutor.schedule(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					for (Player player : World.getPlayers()) {
-						if (player == null || !player.hasStarted())
-							continue;
-						player.realFinish();
-					}
+					players().forEach(p -> p.realFinish());
 					if (restart)
 						Launcher.restart();
 					else
@@ -652,11 +649,7 @@ public final class World {
 			getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
 		}
 		synchronized (players) {
-			for (Player p2 : players) {
-				if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-					continue;
-				p2.getPackets().sendDestroyObject(object);
-			}
+			players().forEach(p -> p.getPackets().sendDestroyObject(object));
 		}
 	}
 
@@ -696,11 +689,7 @@ public final class World {
 		final Region region = getRegion(tile.getRegionId());
 		region.forceGetFloorItems().add(floorItem);
 		int regionId = tile.getRegionId();
-		for (Player player : players) {
-			if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
-				continue;
-			player.getPackets().sendGroundItem(floorItem);
-		}
+		players().filter(p -> tile.getHeight() == p.getHeight() && p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendGroundItem(floorItem));
 	}
 
 	public static final void addGroundItem(final Item item, final WorldTile tile, final Player owner/* null for default */, final boolean underGrave, long hiddenTime/* default 3minutes */, boolean invisible) {
@@ -791,11 +780,8 @@ public final class World {
 					if (!region.forceGetFloorItems().contains(floorItem))
 						return;
 					region.forceGetFloorItems().remove(floorItem);
-					for (Player player : World.getPlayers()) {
-						if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != floorItem.getTile().getHeight() || !player.getMapRegionsIds().contains(regionId))
-							continue;
-						player.getPackets().sendRemoveGroundItem(floorItem);
-					}
+					players().filter(p -> p.getHeight() != floorItem.getTile().getHeight() || !p.getMapRegionsIds().contains(regionId)) .forEach(p -> p.getPackets().sendRemoveGroundItem(floorItem));
+					
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}
@@ -821,11 +807,7 @@ public final class World {
 			player.getPackets().sendRemoveGroundItem(floorItem);
 			return true;
 		} else {
-			for (Player p2 : World.getPlayers()) {
-				if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getHeight() != floorItem.getTile().getHeight() || !p2.getMapRegionsIds().contains(regionId))
-					continue;
-				p2.getPackets().sendRemoveGroundItem(floorItem);
-			}
+			players().filter(p -> p.getHeight() != floorItem.getTile().getHeight() || !p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendRemoveGroundItem(floorItem));
 			return true;
 		}
 	}
@@ -836,11 +818,7 @@ public final class World {
 
 	public static final void sendObjectAnimation(Entity creator, WorldObject object, Animation animation) {
 		if (creator == null) {
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object))
-					continue;
-				player.getPackets().sendObjectAnimation(object, animation);
-			}
+			players().filter(p -> p.withinDistance(object)).forEach(p-> p.getPackets().sendObjectAnimation(object, animation));
 		} else {
 			for (int regionId : creator.getMapRegionsIds()) {
 				List<Integer> playersIndexes = getRegion(regionId).getPlayerIndexes();
@@ -858,11 +836,7 @@ public final class World {
 
 	public static final void sendGraphics(Entity creator, Graphics graphics, WorldTile tile) {
 		if (creator == null) {
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(tile))
-					continue;
-				player.getPackets().sendGraphics(graphics, tile);
-			}
+			players().filter(p -> !p.withinDistance(tile)).forEach(p -> p.getPackets().sendGraphics(graphics, tile));
 		} else {
 			for (int regionId : creator.getMapRegionsIds()) {
 				List<Integer> playersIndexes = getRegion(regionId).getPlayerIndexes();
@@ -979,14 +953,12 @@ public final class World {
 		World.getRegion(regionId).removeObject(object);
 		if (clip)
 			World.getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-		for (Player p2 : World.getPlayers()) {
-			if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-				continue;
+		players().filter(p -> !p.getMapRegionsIds().contains(regionId)).forEach(p -> {
 			if (realMapObject != null)
-				p2.getPackets().sendSpawnedObject(realMapObject);
+				p.getPackets().sendSpawnedObject(realMapObject);
 			else
-				p2.getPackets().sendDestroyObject(object);
-		}
+				p.getPackets().sendDestroyObject(object);
+		});
 	}
 
 	public static void destroySpawnedObject(WorldObject object) {
@@ -995,11 +967,7 @@ public final class World {
 		int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
 		World.getRegion(regionId).removeObject(object);
 		World.getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-		for (Player p2 : World.getPlayers()) {
-			if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-				continue;
-			p2.getPackets().sendDestroyObject(object);
-		}
+		players().filter(p -> !p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendDestroyObject(object));
 	}
 
 	public static final void spawnTempGroundObject(final WorldObject object, final int replaceId, long time) {
@@ -1029,11 +997,7 @@ public final class World {
 	}
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
-		for (Player p : World.getPlayers()) {
-			if (p == null || !p.isRunning() || (forStaff && p.getRights() == Rights.PLAYER))
-				continue;
-			p.getPackets().sendGameMessage(message);
-		}
+		players().filter(p -> (forStaff && p.getRights() == Rights.PLAYER)).forEach(p -> p.getPackets().sendGameMessage(message));
 	}
 
 	public static final void sendProjectile(WorldObject object, WorldTile startTile, WorldTile endTile, int gfxId, int startHeight, int endHeight, int speed, int delay, int curve, int startOffset) {
