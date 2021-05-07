@@ -163,15 +163,15 @@ public class InventoryOptionsHandler {
 		if (!player.getControlerManager().canDropItem(item))
 			return;
 		player.stopAll(false);
-
-		List<Integer> list = Toolbelt.getToolbeltItems();
-
-		if(list.contains(itemId))
-			player.getToolbelt().addItem(slotId, item);
-
+		
 		if (item.getDefinitions().isOverSized()) {
 			player.getPackets().sendGameMessage("The item appears to be oversized.");
 			player.getInventory().deleteItem(item);
+			return;
+		}
+
+		if(Toolbelt.getToolbeltItems().contains(itemId)) {
+			player.getToolbelt().addItem(slotId, item);
 			return;
 		}
 		if (item.getDefinitions().isDestroyItem()) {

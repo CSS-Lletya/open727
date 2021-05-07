@@ -79,7 +79,6 @@ public class Player extends Entity {
 	private transient CoordsEvent coordsEvent;
 	private transient FriendChatsManager currentFriendChat;
 	private transient Trade trade;
-	private transient Toolbelt toolbelt;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
 
@@ -1658,7 +1657,7 @@ public class Player extends Entity {
 		watchMap.put("FOOD", new Stopwatch());
 		watchMap.put("DRINKS", new Stopwatch());
 		watchMap.put("TOLERANCE", new Stopwatch());
-		watchMap.put("EMOTE", new Stopwatch()).reset();
+		watchMap.put("EMOTE", new Stopwatch());
 	}
 	
 	public PlayerDetails getPlayerDetails() {
@@ -1668,4 +1667,6 @@ public class Player extends Entity {
 	public void sendSound(int id) {
 		getPackets().sendSound(id, 0, 1);
 	}
+	
+	private Toolbelt toolbelt;
 }
