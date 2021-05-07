@@ -41,7 +41,7 @@ public class DragonSpear implements WeaponSpecials {
 		if (target instanceof Player) {
 			final Player defendingPlayer = (Player) target;
 			defendingPlayer.lock();
-			defendingPlayer.addFoodDelay(3000);
+			defendingPlayer.getWatchMap().get("FOOD").elapsed(3000);
 			defendingPlayer.setDisableEquip(true);
 			Utils.runLater(new Runnable() {
 				@Override

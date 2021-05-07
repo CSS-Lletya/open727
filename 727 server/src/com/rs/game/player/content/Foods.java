@@ -499,8 +499,6 @@ public class Foods {
 		Food food = Food.forId(item.getId());
 		if (food == null)
 			return false;
-		if (player.getFoodDelay() > Utils.currentTimeMillis())
-			return true;
 		if (!player.getWatchMap().get("FOOD").elapsed(1800)) {
 			return false;
 		}
