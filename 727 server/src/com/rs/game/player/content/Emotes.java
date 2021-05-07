@@ -20,7 +20,7 @@ import npc.NPC;
  *
  */
 public final class Emotes {
-
+	
 	/**
 	 * A list of Emotes for the Player to perform from the Emotes tab
 	 * 
@@ -85,9 +85,9 @@ public final class Emotes {
 		HIGH_FIVE((byte) 54, Optional.of(new Animation(2312)), Optional.empty(), Optional.empty()),
 		FACE_PALM((byte) 55, Optional.of(new Animation(2254)), Optional.empty(), Optional.empty()),
 		SURRENDER((byte) 56, Optional.of(new Animation(2360)), Optional.empty(), Optional.empty()),
-		LEVITATE((byte) 57, Optional.of(new Animation(2347)), Optional.empty(), Optional.empty()),
-		ROFL((byte) 58, Optional.of(new Animation(2327)), Optional.empty(), Optional.empty()),
-		MUSCLE_MAN_POSE((byte) 59, Optional.of(new Animation(2566)), Optional.empty(), Optional.empty()),
+		LEVITATE((byte) 57, Optional.of(new Animation(2327)), Optional.empty(), Optional.empty()),
+		MUSCLE_MAN_POSE((byte) 58, Optional.of(new Animation(2566)), Optional.empty(), Optional.empty()),
+		ROFL((byte) 59, Optional.of(new Animation(2347)), Optional.empty(), Optional.empty()),
 		BREATHE_FIRE((byte) 60, Optional.of(new Animation(2238)), Optional.of(new Graphics(358)), Optional.empty()),
 		STORM((byte) 61, Optional.of(new Animation(2563)), Optional.of(new Graphics(365)), Optional.empty()),
 		SNOW((byte) 62, Optional.of(new Animation(2417)), Optional.of(new Graphics(364)), Optional.empty()),
@@ -204,8 +204,12 @@ public final class Emotes {
 		 * @param buttonId
 		 */
 		public static void executeEmote(Player player, byte buttonId) {
+			if (!player.getWatchMap().get("EMOTE").elapsed(1600)) {
+				return;
+			}
 			for (Emote emote : Emote.values()) {
 				if (buttonId == emote.getButtonId()) {
+					player.getWatchMap().get("EMOTE").reset();
 					emote.getSpecialEmote().ifPresent(user -> user.handleSpecialEmote(player));
 
 					emote.getAnimation().ifPresent(player::setNextAnimation);

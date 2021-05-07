@@ -22,6 +22,7 @@ import com.rs.game.task.Task;
 import com.rs.game.task.TaskManager;
 import com.rs.game.task.impl.DrainPrayerTask;
 import com.rs.game.task.impl.PlayerOwnedObjectTask;
+import com.rs.game.task.impl.RestoreRunEnergyTask;
 import com.rs.game.task.impl.RestoreSpecialTask;
 import com.rs.game.task.impl.ShopRestockTask;
 import com.rs.game.task.impl.SummoningPassiveTask;
@@ -76,6 +77,7 @@ public final class World {
 		World.get().submit(new ShopRestockTask());
 		World.get().submit(new ShopRestockTask());
 		World.get().submit(new SummoningPassiveTask());
+		World.get().submit(new RestoreRunEnergyTask());
 	}
 	
 	public static final Map<Integer, Region> getRegions() {

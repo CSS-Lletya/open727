@@ -161,7 +161,7 @@ public class Player extends Entity {
 	private Familiar familiar;
 	private AuraManager auraManager;
 	private PetManager petManager;
-	private double runEnergy;
+	public double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
 	private byte privateChatSetup;
@@ -457,7 +457,6 @@ public class Player extends Entity {
         boolean usingRapidHeal = Prayer.usingRapidHeal(this);
         if (healTick % (usingRenewal ? 2 : isResting() ? 2 : usingRapidHeal ? 5 : 10) == 0)
             restoreHitPoints();
-        restoreRunEnergy();
 
 		charges.process();
 		auraManager.process();
@@ -1667,8 +1666,8 @@ public class Player extends Entity {
 	{
 		watchMap.put("FOOD", new Stopwatch());
 		watchMap.put("DRINKS", new Stopwatch());
-		watchMap.put("ENERGY", new Stopwatch());
 		watchMap.put("TOLERANCE", new Stopwatch());
+		watchMap.put("EMOTE", new Stopwatch()).reset();
 	}
 	
 	public PlayerDetails getPlayerDetails() {
