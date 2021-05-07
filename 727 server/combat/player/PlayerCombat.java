@@ -14,6 +14,7 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
+import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
@@ -1522,7 +1523,7 @@ public class PlayerCombat extends Action {
 					return;
 				}
 				player.getEquipment().removeAmmo(weaponId, quantity);
-				World.updateGroundItem(new Item(weaponId, quantity),
+				FloorItem.updateGroundItem(new Item(weaponId, quantity),
 						new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()),
 								target.getHeight()),
 						player);
@@ -1539,7 +1540,7 @@ public class PlayerCombat extends Action {
 			}
 			if (ammoId != -1) {
 				player.getEquipment().removeAmmo(ammoId, quantity);
-				World.updateGroundItem(new Item(ammoId, quantity), new WorldTile(target.getCoordFaceX(target.getSize()),
+				FloorItem.updateGroundItem(new Item(ammoId, quantity), new WorldTile(target.getCoordFaceX(target.getSize()),
 						target.getCoordFaceY(target.getSize()), target.getHeight()), player);
 			}
 		}

@@ -1085,10 +1085,10 @@ public class Player extends Entity {
 					containedItems.remove(item);	//	This remove the whole list of the contained items that is matched
 				}
 			}
-			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);	//	This dropps the items to the killer, and is showed for 180 seconds
+			FloorItem.createGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);	//	This dropps the items to the killer, and is showed for 180 seconds
 		}
 		for (Item item : containedItems) {
-			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
+			FloorItem.createGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
 		}
 	}
 

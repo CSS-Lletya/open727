@@ -8,6 +8,7 @@ import com.rs.cores.WorldThread;
 import com.rs.game.World;
 import com.rs.game.WorldTile;
 import com.rs.game.dialogue.impl.DestroyItemD;
+import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
@@ -115,7 +116,7 @@ public class InventoryInterfacePlugin implements RSInterface {
 				player.getInventory().deleteItem(slotId, item);
 				if (player.getCharges().degradeCompletly(item))
 					return;
-				World.addGroundItem(item, new WorldTile(player), player, false, 180, true);
+				FloorItem.createGroundItem(item, new WorldTile(player), player, false, 180, true);
 				player.getPackets().sendSound(2739, 0, 1);
 				break;
 			case 81:

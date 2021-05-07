@@ -8,7 +8,7 @@ import com.rs.utils.Utils;
 
 public final class WorldThread extends Thread {
 
-	protected WorldThread() {
+	public WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
 		setName("World Thread");
 	}

@@ -148,7 +148,7 @@ public class OwnedObjectManager {
 	}
 
 	private void spawnObject() {
-		World.spawnObject(objects[count], true);
+		WorldObject.createObject(objects[count], true);
 		resetLifeTime();
 	}
 
@@ -179,7 +179,7 @@ public class OwnedObjectManager {
 	}
 
 	public void destroyObject(WorldObject object) {
-		World.destroySpawnedObject(object);
+		WorldObject.destroySpawnedObject(object);
 	}
 
 }

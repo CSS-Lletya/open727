@@ -28,8 +28,29 @@ import com.rs.utils.Utils;
 
 import npc.combat.NPCCombat;
 import npc.combat.NPCCombatDefinitions;
+import npc.corp.CorporealBeast;
+import npc.dragons.KingBlackDragon;
 import npc.drops.DropManager;
 import npc.familiar.Familiar;
+import npc.godwars.GodWarMinion;
+import npc.godwars.GodWarsBosses;
+import npc.godwars.armadyl.GodwarsArmadylFaction;
+import npc.godwars.armadyl.KreeArra;
+import npc.godwars.bandos.GeneralGraardor;
+import npc.godwars.bandos.GodwarsBandosFaction;
+import npc.godwars.saradomin.CommanderZilyana;
+import npc.godwars.saradomin.GodwarsSaradominFaction;
+import npc.godwars.zammorak.GodwarsZammorakFaction;
+import npc.godwars.zammorak.KrilTstsaroth;
+import npc.godwars.zaros.Nex;
+import npc.godwars.zaros.NexMinion;
+import npc.godwars.zaros.ZarosGodwars;
+import npc.kalph.KalphiteQueen;
+import npc.others.Bork;
+import npc.others.LivingRock;
+import npc.others.PestMonsters;
+import npc.others.Revenant;
+import npc.slayer.Strykewyrm;
 
 public class NPC extends Entity {
 
@@ -858,4 +879,65 @@ public class NPC extends Entity {
 	}
 	
 	private WorldTile startTile;
+	
+	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {
+		NPC n = null;
+		if (id == 6142 || id == 6144 || id == 6145 || id == 6143)
+			n = new PestMonsters(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 7134)
+			n = new Bork(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id >= 8832 && id <= 8834)
+			n = new LivingRock(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id >= 13465 && id <= 13481)
+			n = new Revenant(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 1158 || id == 1160)
+			n = new KalphiteQueen(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6215 || id == 6211 || id == 3406 || id == 6216 || id == 6214 || id == 6215 || id == 6212 || id == 6219 || id == 6221 || id == 6218)
+			n = new GodwarsZammorakFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6254 && id == 6259)
+			n = new GodwarsSaradominFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6246 || id == 6236 || id == 6232 || id == 6240 || id == 6241 || id == 6242 || id == 6235 || id == 6234 || id == 6243 || id == 6236 || id == 6244 || id == 6237 || id == 6246 || id == 6238 || id == 6239 || id == 6230)
+			n = new GodwarsArmadylFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6281 || id == 6282 || id == 6275 || id == 6279 || id == 9184 || id == 6268 || id == 6270 || id == 6274 || id == 6277 || id == 6276 || id == 6278)
+			n = new GodwarsBandosFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6261 || id == 6263 || id == 6265)
+			n = GodWarsBosses.graardorMinions[(id - 6261) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6260)
+			n = new GeneralGraardor(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6222)
+			n = new KreeArra(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6223 || id == 6225 || id == 6227)
+			n = GodWarsBosses.armadylMinions[(id - 6223) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6203)
+			n = new KrilTstsaroth(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6204 || id == 6206 || id == 6208)
+			n = GodWarsBosses.zamorakMinions[(id - 6204) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 50 || id == 2642)
+			n = new KingBlackDragon(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id >= 9462 && id <= 9467)
+			n = new Strykewyrm(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
+		else if (id == 6248 || id == 6250 || id == 6252)
+			n = GodWarsBosses.commanderMinions[(id - 6248) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 6247)
+			n = new CommanderZilyana(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 8133)
+			n = new CorporealBeast(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 13447)
+			n = ZarosGodwars.nex = new Nex(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 13451)
+			n = ZarosGodwars.fumus = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 13452)
+			n = ZarosGodwars.umbra = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 13453)
+			n = ZarosGodwars.cruor = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else if (id == 13454)
+			n = ZarosGodwars.glacies = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		else
+			n = new NPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
+		return n;
+	}
+
+	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, false);
+	}
 }

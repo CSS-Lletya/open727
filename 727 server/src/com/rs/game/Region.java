@@ -20,6 +20,8 @@ import com.rs.utils.MapArchiveKeys;
 import com.rs.utils.NPCSpawning;
 import com.rs.utils.Utils;
 
+import npc.NPC;
+
 public class Region {
 	private int regionId;
 	private RegionMap map;
@@ -1023,7 +1025,7 @@ public class Region {
 			return;
 		}
 		for (NPCSpawning spawn : spawns) {
-			World.spawnNPC(spawn.getId(), spawn.getTile(), -1, true);
+			NPC.spawnNPC(spawn.getId(), spawn.getTile(), -1, true);
 		}
 	}
 	

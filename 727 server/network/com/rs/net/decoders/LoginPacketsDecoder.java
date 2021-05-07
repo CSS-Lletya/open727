@@ -120,7 +120,7 @@ public final class LoginPacketsDecoder extends Decoder {
 			session.getLoginPackets().sendClientPacket(7);
 			return;
 		}
-		if (World.containsPlayer(username)) {
+		if (World.containsPlayer(username).isPresent()) {
 			session.getLoginPackets().sendClientPacket(5);
 			return;
 		}

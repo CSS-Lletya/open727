@@ -238,7 +238,7 @@ public final class QueenBlackDragon extends NPC {
 					"The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.");
 			break;
 		}
-		World.spawnObject(activeArtifact, true);
+		WorldObject.createObject(activeArtifact, true);
 		setCantInteract(true);
 		if (phase < 5) {
 			this.setSpawningWorms(true);
@@ -263,9 +263,9 @@ public final class QueenBlackDragon extends NPC {
 			switchState(QueenState.DEFAULT);
 			switchState(QueenState.SLEEPING);
 			super.setNextAnimation(SLEEP_ANIMATION);
-			World.removeObject(new WorldObject(70778, (short) 10, (short) 0, base.transform(33, 31, 0)), true);
-			World.spawnObject(new WorldObject(70790, (short) 10, (short) 0, base.transform(31, 29, 0)), true);
-			World.spawnObject(new WorldObject(70775, (short) 10, (short) 0, base.transform(31, 29, -1)), true);
+			WorldObject.removeObject(new WorldObject(70778, (short) 10, (short) 0, base.transform(33, 31, 0)), true);
+			WorldObject.createObject(new WorldObject(70790, (short) 10, (short) 0, base.transform(31, 29, 0)), true);
+			WorldObject.createObject(new WorldObject(70775, (short) 10, (short) 0, base.transform(31, 29, -1)), true);
 		} else if (ticks == -1) {
 			return;
 		}
@@ -393,7 +393,7 @@ public final class QueenBlackDragon extends NPC {
 		attacker.getPackets().sendAccessMask(1284, 7, 0, (short) 10, (short) 0, 1, 2, 3);
 		attacker.getPackets().sendItems(100, rewards);
 		if (replace) {
-			World.spawnObject(new WorldObject(70817, (short) 10, (short) 0, base.transform(30, 28, -1)), true);
+			WorldObject.createObject(new WorldObject(70817, (short) 10, (short) 0, base.transform(30, 28, -1)), true);
 		}
 	}
 

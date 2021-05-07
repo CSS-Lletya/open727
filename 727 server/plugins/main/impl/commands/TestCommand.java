@@ -1,6 +1,5 @@
 package main.impl.commands;
 
-import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 
@@ -18,6 +17,5 @@ public final class TestCommand implements Command {
 	
 	@Override
 	public void execute(Player player, String[] cmd, String command) throws Exception {
-		World.get().getPlayer("Zed").ifPresent(p -> p.getPackets().sendGameMessage("SUP"));
 	}
 }

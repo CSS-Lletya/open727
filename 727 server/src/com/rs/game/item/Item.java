@@ -1,7 +1,5 @@
 package com.rs.game.item;
 
-import java.io.Serializable;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ItemsEquipIds;
 
@@ -11,9 +9,7 @@ import com.rs.cache.loaders.ItemsEquipIds;
  * 
  * @author Graham / edited by Dragonkk(Alex)
  */
-public class Item implements Serializable {
-
-	private static final long serialVersionUID = -6485003878697568087L;
+public class Item {
 
 	private short id;
 	protected int amount;
@@ -70,5 +66,4 @@ public class Item implements Serializable {
 	public long getFixedUniqueId() {
 		return id * 234111 +  amount * 23911;
 	}
-	
 }

@@ -2,8 +2,8 @@ package npc.familiar;
 
 import java.io.Serializable;
 
-import com.rs.game.World;
 import com.rs.game.WorldTile;
+import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemConstants;
 import com.rs.game.item.ItemsContainer;
@@ -46,7 +46,7 @@ public class BeastOfBurden implements Serializable {
 		for (int i = 0; i < beastItems.getSize(); i++) {
 			Item item = beastItems.get(i);
 			if (item != null)
-				World.addGroundItem(item, WorldTile, player, false, -1, false);
+				FloorItem.createGroundItem(item, WorldTile, player, false, -1, false);
 		}
 		beastItems.reset();
 	}

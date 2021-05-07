@@ -166,7 +166,7 @@ public class DungeonManager {
 				((boundChuncks[1] << 3) + reference.getY() * 16) + y, 0);
 		if (check && !World.canMoveNPC(0, tile.getX(), tile.getY(), NPCDefinitions.getNPCDefinitions(id).size))
 			return;
-		NPC n = guardian ? new Guardian(id, tile, this, reference) : World.spawnNPC(id, tile, -1, true, true);
+		NPC n = guardian ? new Guardian(id, tile, this, reference) : NPC.spawnNPC(id, tile, -1, true, true);
 		n.setForceMultiArea(true);
 		if (guardian) {
 			n.setForceAgressive(true);

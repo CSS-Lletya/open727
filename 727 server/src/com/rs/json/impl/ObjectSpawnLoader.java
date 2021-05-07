@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
-import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.json.GsonHandler;
@@ -79,7 +78,7 @@ public class ObjectSpawnLoader extends GsonLoader<ObjectSpawnLoader.ObjectSpawn>
 			return;
 		}
 		for (ObjectSpawn spawn : spawns) {
-			World.spawnObject(new WorldObject(spawn.getId(), (short) spawn.getType(), (short) spawn.getRotation(), spawn.getX(), spawn.getY(), spawn.getPlane()), true);
+			WorldObject.createObject(new WorldObject(spawn.getId(), (short) spawn.getType(), (short) spawn.getRotation(), spawn.getX(), spawn.getY(), spawn.getPlane()), true);
 		}
 	}
 

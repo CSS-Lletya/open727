@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -14,9 +16,7 @@ import java.util.stream.Stream;
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cores.CoresManager;
-import com.rs.game.item.FloorItem;
-import com.rs.game.item.Item;
-import com.rs.game.item.ItemConstants;
+import com.rs.cores.WorldThread;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.game.player.controlers.Wilderness;
@@ -35,28 +35,9 @@ import com.rs.utils.Utils;
 
 import mysql.connection.ConnectionPool;
 import npc.NPC;
-import npc.corp.CorporealBeast;
 import npc.dragons.KingBlackDragon;
-import npc.godwars.GodWarMinion;
-import npc.godwars.GodWarsBosses;
-import npc.godwars.armadyl.GodwarsArmadylFaction;
-import npc.godwars.armadyl.KreeArra;
-import npc.godwars.bandos.GeneralGraardor;
-import npc.godwars.bandos.GodwarsBandosFaction;
-import npc.godwars.saradomin.CommanderZilyana;
-import npc.godwars.saradomin.GodwarsSaradominFaction;
-import npc.godwars.zammorak.GodwarsZammorakFaction;
-import npc.godwars.zammorak.KrilTstsaroth;
-import npc.godwars.zaros.Nex;
-import npc.godwars.zaros.NexMinion;
-import npc.godwars.zaros.ZarosGodwars;
-import npc.kalph.KalphiteQueen;
 import npc.others.Bork;
-import npc.others.LivingRock;
-import npc.others.PestMonsters;
-import npc.others.Revenant;
 import npc.others.TormentedDemon;
-import npc.slayer.Strykewyrm;
 
 public final class World {
 
@@ -95,6 +76,7 @@ public final class World {
 		World.get().submit(new ShopRestockTask());
 		World.get().submit(new SummoningPassiveTask());
 		World.get().submit(new RestoreRunEnergyTask());
+		EXECUTOR_SERVICE.submit(new WorldThread());
 	}
 	
 	public static final Map<Integer, Region> getRegions() {
@@ -132,67 +114,6 @@ public final class World {
 
 	public static final void removeNPC(NPC npc) {
 		npcs.remove(npc);
-	}
-
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {
-		NPC n = null;
-		if (id == 6142 || id == 6144 || id == 6145 || id == 6143)
-			n = new PestMonsters(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 7134)
-			n = new Bork(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id >= 8832 && id <= 8834)
-			n = new LivingRock(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id >= 13465 && id <= 13481)
-			n = new Revenant(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 1158 || id == 1160)
-			n = new KalphiteQueen(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6215 || id == 6211 || id == 3406 || id == 6216 || id == 6214 || id == 6215 || id == 6212 || id == 6219 || id == 6221 || id == 6218)
-			n = new GodwarsZammorakFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6254 && id == 6259)
-			n = new GodwarsSaradominFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6246 || id == 6236 || id == 6232 || id == 6240 || id == 6241 || id == 6242 || id == 6235 || id == 6234 || id == 6243 || id == 6236 || id == 6244 || id == 6237 || id == 6246 || id == 6238 || id == 6239 || id == 6230)
-			n = new GodwarsArmadylFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6281 || id == 6282 || id == 6275 || id == 6279 || id == 9184 || id == 6268 || id == 6270 || id == 6274 || id == 6277 || id == 6276 || id == 6278)
-			n = new GodwarsBandosFaction(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6261 || id == 6263 || id == 6265)
-			n = GodWarsBosses.graardorMinions[(id - 6261) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6260)
-			n = new GeneralGraardor(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6222)
-			n = new KreeArra(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6223 || id == 6225 || id == 6227)
-			n = GodWarsBosses.armadylMinions[(id - 6223) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6203)
-			n = new KrilTstsaroth(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6204 || id == 6206 || id == 6208)
-			n = GodWarsBosses.zamorakMinions[(id - 6204) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 50 || id == 2642)
-			n = new KingBlackDragon(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id >= 9462 && id <= 9467)
-			n = new Strykewyrm(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
-		else if (id == 6248 || id == 6250 || id == 6252)
-			n = GodWarsBosses.commanderMinions[(id - 6248) / 2] = new GodWarMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 6247)
-			n = new CommanderZilyana(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 8133)
-			n = new CorporealBeast(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 13447)
-			n = ZarosGodwars.nex = new Nex(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 13451)
-			n = ZarosGodwars.fumus = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 13452)
-			n = ZarosGodwars.umbra = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 13453)
-			n = ZarosGodwars.cruor = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else if (id == 13454)
-			n = ZarosGodwars.glacies = new NexMinion(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		else
-			n = new NPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned);
-		return n;
-	}
-
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
-		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, false);
 	}
 
 	/*
@@ -310,10 +231,6 @@ public final class World {
 	public static final boolean checkProjectileStep(int plane, int x, int y, int dir, int size) {
 		int xOffset = Utils.DIRECTION_DELTA_X[dir];
 		int yOffset = Utils.DIRECTION_DELTA_Y[dir];
-		/*
-		 * int rotation = getRotation(plane,x+xOffset,y+yOffset); if(rotation != 0) { dir += rotation; if(dir >= Utils.DIRECTION_DELTA_X.length) dir = dir -
-		 * (Utils.DIRECTION_DELTA_X.length-1); xOffset = Utils.DIRECTION_DELTA_X[dir]; yOffset = Utils.DIRECTION_DELTA_Y[dir]; }
-		 */
 		if (size == 1) {
 			int mask = getClipedOnlyMask(plane, x + Utils.DIRECTION_DELTA_X[dir], y + Utils.DIRECTION_DELTA_Y[dir]);
 			if (xOffset == -1 && yOffset == 0)
@@ -501,18 +418,8 @@ public final class World {
 		return true;
 	}
 
-	public static final boolean containsPlayer(String username) {
-		for (Player p2 : players) {
-			if (p2 == null)
-				continue;
-			if (p2.getUsername().equals(username))
-				return true;
-		}
-		return false;
-	}
-
-	public Optional<Player> getPlayer(String username) {
-		return Optional.of(players().filter(p -> p.getUsername().equals(username)).findFirst().orElse(null));
+	public static final Optional<Player> containsPlayer(String username) {
+		return players().filter(p -> p.getUsername().equals(username)).findAny();
 	}
 
 	public static final Player getPlayerByDisplayName(String username) {
@@ -552,286 +459,6 @@ public final class World {
 				}
 			}
 		}, delay, TimeUnit.SECONDS);
-	}
-
-	/*
-	 * by default doesnt changeClipData
-	 */
-	public static final void spawnTemporaryObject(final WorldObject object, long time) {
-		spawnTemporaryObject(object, time, false);
-	}
-
-	public static final void spawnTemporaryObject(final WorldObject object, long time, final boolean clip) {
-		final int regionId = object.getRegionId();
-		WorldObject realMapObject = getRegion(regionId).getRealObject(object);
-		// remakes object, has to be done because on static region coords arent
-		// same of real
-		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getHeight());
-		spawnObject(object, clip);
-		final int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-		final int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-		if (realObject != null && clip)
-			getRegion(regionId).removeMapObject(realObject, baseLocalX, baseLocalY);
-		CoresManager.slowExecutor.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getRegion(regionId).removeObject(object);
-					if (clip) {
-						getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-						if (realObject != null) {
-							int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-							int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-							getRegion(regionId).addMapObject(realObject, baseLocalX, baseLocalY);
-						}
-					}
-					for (Player p2 : players) {
-						if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-							continue;
-						if (realObject != null)
-							p2.getPackets().sendSpawnedObject(realObject);
-						else
-							p2.getPackets().sendDestroyObject(object);
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-
-		}, time, TimeUnit.MILLISECONDS);
-	}
-
-	public static final boolean isSpawnedObject(WorldObject object) {
-		final int regionId = object.getRegionId();
-		WorldObject spawnedObject = getRegion(regionId).getSpawnedObject(object);
-		if (spawnedObject != null && object.getId() == spawnedObject.getId())
-			return true;
-		return false;
-	}
-
-	public static final boolean removeTemporaryObject(final WorldObject object, long time, final boolean clip) {
-		final int regionId = object.getRegionId();
-		// remakes object, has to be done because on static region coords arent
-		// same of real
-		final WorldObject realObject = object == null ? null : new WorldObject(object.getId(), object.getType(), object.getRotation(), object.getX(), object.getY(), object.getHeight());
-		removeObject(object, clip);
-		CoresManager.slowExecutor.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getRegion(regionId).removeRemovedObject(object);
-					if (clip) {
-						int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-						int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-						getRegion(regionId).addMapObject(realObject, baseLocalX, baseLocalY);
-					}
-					for (Player p2 : players) {
-						if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-							continue;
-						p2.getPackets().sendSpawnedObject(realObject);
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-
-		}, time, TimeUnit.MILLISECONDS);
-
-		return true;
-	}
-
-	public static final void removeObject(WorldObject object, boolean clip) {
-		int regionId = object.getRegionId();
-		getRegion(regionId).addRemovedObject(object);
-		if (clip) {
-			int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-			int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-			getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-		}
-		synchronized (players) {
-			players().forEach(p -> p.getPackets().sendDestroyObject(object));
-		}
-	}
-
-	public static final WorldObject getObject(WorldTile tile) {
-		int regionId = tile.getRegionId();
-		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getHeight(), baseLocalX, baseLocalY);
-	}
-
-	public static final WorldObject getObject(WorldTile tile, int type) {
-		int regionId = tile.getRegionId();
-		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getHeight(), baseLocalX, baseLocalY, type);
-	}
-
-	public static final void spawnObject(WorldObject object, boolean clip) {
-		int regionId = object.getRegionId();
-		getRegion(regionId).addObject(object);
-		if (clip) {
-			int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-			int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-			getRegion(regionId).addMapObject(object, baseLocalX, baseLocalY);
-		}
-		synchronized (players) {
-			for (Player p2 : players) {
-				if (p2 == null || !p2.hasStarted() || p2.hasFinished() || !p2.getMapRegionsIds().contains(regionId))
-					continue;
-				p2.getPackets().sendSpawnedObject(object);
-			}
-		}
-	}
-
-	public static final void addGroundItem(final Item item, final WorldTile tile) {
-		final FloorItem floorItem = new FloorItem(item, tile, null, false, false);
-		final Region region = getRegion(tile.getRegionId());
-		region.forceGetFloorItems().add(floorItem);
-		int regionId = tile.getRegionId();
-		players().filter(p -> tile.getHeight() == p.getHeight() && p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendGroundItem(floorItem));
-	}
-
-	public static final void addGroundItem(final Item item, final WorldTile tile, final Player owner/* null for default */, final boolean underGrave, long hiddenTime/* default 3minutes */, boolean invisible) {
-		addGroundItem(item, tile, owner, underGrave, hiddenTime, invisible, false, 180);
-	}
-
-	public static final void addGroundItem(final Item item, final WorldTile tile, final Player owner/* null for default */, final boolean underGrave, long hiddenTime/* default 3minutes */, boolean invisible, boolean intoGold) {
-		addGroundItem(item, tile, owner, underGrave, hiddenTime, invisible, intoGold, 180);
-	}
-
-	public static final void addGroundItem(final Item item, final WorldTile tile, final Player owner/* null for default */, final boolean underGrave, long hiddenTime/* default 3minutes */, boolean invisible, boolean intoGold, final int publicTime) {
-		if (intoGold) {
-			if (!ItemConstants.isTradeable(item)) {
-				int price = item.getDefinitions().getValue();
-				if (price <= 0)
-					return;
-				item.setId(995);
-				item.setAmount(price);
-			}
-		}
-		final FloorItem floorItem = new FloorItem(item, tile, owner, owner == null ? false : underGrave, invisible);
-		final Region region = getRegion(tile.getRegionId());
-		region.forceGetFloorItems().add(floorItem);
-		if (invisible && hiddenTime != -1) {
-			if (owner != null)
-				owner.getPackets().sendGroundItem(floorItem);
-			CoresManager.slowExecutor.schedule(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						if (!region.forceGetFloorItems().contains(floorItem))
-							return;
-						int regionId = tile.getRegionId();
-						if (underGrave || !ItemConstants.isTradeable(floorItem) || item.getName().contains("Dr nabanik")) {
-							region.forceGetFloorItems().remove(floorItem);
-							if (owner != null) {
-								if (owner.getMapRegionsIds().contains(regionId) && owner.getHeight() == tile.getHeight())
-									owner.getPackets().sendRemoveGroundItem(floorItem);
-							}
-							return;
-						}
-
-						floorItem.setInvisible(false);
-						for (Player player : players) {
-							if (player == null || player == owner || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
-								continue;
-							player.getPackets().sendGroundItem(floorItem);
-						}
-						removeGroundItem(floorItem, publicTime);
-					} catch (Throwable e) {
-						Logger.handle(e);
-					}
-				}
-			}, hiddenTime, TimeUnit.SECONDS);
-			return;
-		}
-		int regionId = tile.getRegionId();
-		for (Player player : players) {
-			if (player == null || !player.hasStarted() || player.hasFinished() || player.getHeight() != tile.getHeight() || !player.getMapRegionsIds().contains(regionId))
-				continue;
-			player.getPackets().sendGroundItem(floorItem);
-		}
-		removeGroundItem(floorItem, publicTime);
-	}
-
-	public static final void updateGroundItem(Item item, final WorldTile tile, final Player owner) {
-		final FloorItem floorItem = World.getRegion(tile.getRegionId()).getGroundItem(item.getId(), tile, owner);
-		if (floorItem == null) {
-			addGroundItem(item, tile, owner, false, 360, true);
-			return;
-		}
-		floorItem.setAmount(floorItem.getAmount() + item.getAmount());
-		owner.getPackets().sendRemoveGroundItem(floorItem);
-		owner.getPackets().sendGroundItem(floorItem);
-
-	}
-
-	private static final void removeGroundItem(final FloorItem floorItem, long publicTime) {
-		if (publicTime < 0) {
-			return;
-		}
-		CoresManager.slowExecutor.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					int regionId = floorItem.getTile().getRegionId();
-					Region region = getRegion(regionId);
-					if (!region.forceGetFloorItems().contains(floorItem))
-						return;
-					region.forceGetFloorItems().remove(floorItem);
-					players().filter(p -> p.getHeight() != floorItem.getTile().getHeight() || !p.getMapRegionsIds().contains(regionId)) .forEach(p -> p.getPackets().sendRemoveGroundItem(floorItem));
-					
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, publicTime, TimeUnit.SECONDS);
-	}
-
-	public static final boolean removeGroundItem(Player player, FloorItem floorItem) {
-		return removeGroundItem(player, floorItem, true);
-	}
-
-	public static final boolean removeGroundItem(Player player, FloorItem floorItem, boolean add) {
-		int regionId = floorItem.getTile().getRegionId();
-		Region region = getRegion(regionId);
-		if (!region.forceGetFloorItems().contains(floorItem))
-			return false;
-		if (player.getInventory().getFreeSlots() == 0)
-			return false;
-		region.forceGetFloorItems().remove(floorItem);
-		if (add)
-			player.getInventory().addItem(floorItem.getId(), floorItem.getAmount());
-		if (floorItem.isInvisible() || floorItem.isGrave()) {
-			player.getPackets().sendRemoveGroundItem(floorItem);
-			return true;
-		} else {
-			players().filter(p -> p.getHeight() != floorItem.getTile().getHeight() || !p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendRemoveGroundItem(floorItem));
-			return true;
-		}
-	}
-
-	public static final void sendObjectAnimation(WorldObject object, Animation animation) {
-		sendObjectAnimation(null, object, animation);
-	}
-
-	public static final void sendObjectAnimation(Entity creator, WorldObject object, Animation animation) {
-		if (creator == null) {
-			players().filter(p -> p.withinDistance(object)).forEach(p-> p.getPackets().sendObjectAnimation(object, animation));
-		} else {
-			for (int regionId : creator.getMapRegionsIds()) {
-				List<Integer> playersIndexes = getRegion(regionId).getPlayerIndexes();
-				if (playersIndexes == null)
-					continue;
-				for (Integer playerIndex : playersIndexes) {
-					Player player = players.get(playerIndex);
-					if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object))
-						continue;
-					player.getPackets().sendObjectAnimation(object, animation);
-				}
-			}
-		}
 	}
 
 	public static final void sendGraphics(Entity creator, Graphics graphics, WorldTile tile) {
@@ -942,58 +569,6 @@ public final class World {
 
 	public static final boolean isPvpArea(WorldTile tile) {
 		return Wilderness.isAtWild(tile);
-	}
-
-	public static void destroySpawnedObject(WorldObject object, boolean clip) {
-		int regionId = object.getRegionId();
-		int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-		WorldObject realMapObject = getRegion(regionId).getRealObject(object);
-
-		World.getRegion(regionId).removeObject(object);
-		if (clip)
-			World.getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-		players().filter(p -> !p.getMapRegionsIds().contains(regionId)).forEach(p -> {
-			if (realMapObject != null)
-				p.getPackets().sendSpawnedObject(realMapObject);
-			else
-				p.getPackets().sendDestroyObject(object);
-		});
-	}
-
-	public static void destroySpawnedObject(WorldObject object) {
-		int regionId = object.getRegionId();
-		int baseLocalX = object.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = object.getY() - ((regionId & 0xff) * 64);
-		World.getRegion(regionId).removeObject(object);
-		World.getRegion(regionId).removeMapObject(object, baseLocalX, baseLocalY);
-		players().filter(p -> !p.getMapRegionsIds().contains(regionId)).forEach(p -> p.getPackets().sendDestroyObject(object));
-	}
-
-	public static final void spawnTempGroundObject(final WorldObject object, final int replaceId, long time) {
-		final int regionId = object.getRegionId();
-		WorldObject realMapObject = getRegion(regionId).getRealObject(object);
-		final WorldObject realObject = realMapObject == null ? null : new WorldObject(realMapObject.getId(), realMapObject.getType(), realMapObject.getRotation(), object.getX(), object.getY(), object.getHeight());
-		spawnObject(object, false);
-		CoresManager.slowExecutor.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					getRegion(regionId).removeObject(object);
-					addGroundItem(new Item(replaceId), object, null, false, 180, false);
-					for (Player p2 : players) {
-						if (p2 == null || !p2.hasStarted() || p2.hasFinished() || p2.getHeight() != object.getHeight() || !p2.getMapRegionsIds().contains(regionId))
-							continue;
-						if (realObject != null)
-							p2.getPackets().sendSpawnedObject(realObject);
-						else
-							p2.getPackets().sendDestroyObject(object);
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, time, TimeUnit.MILLISECONDS);
 	}
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
@@ -1112,4 +687,11 @@ public final class World {
 				| Flags.CORNEROBJ_SOUTHEAST | Flags.CORNEROBJ_SOUTHWEST | Flags.WALLOBJ_EAST | Flags.WALLOBJ_NORTH
 				| Flags.WALLOBJ_SOUTH | Flags.WALLOBJ_WEST)) == 0;
 	}
+	
+	/**
+	 * The cached thread pool executor instance.
+	 * 
+	 * @see Executors#newFixedThreadPool()
+	 */
+	private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 }

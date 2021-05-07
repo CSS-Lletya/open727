@@ -1012,7 +1012,7 @@ public final class WorldPacketsDecoder extends Decoder {
 					
 					player.addWalkSteps(tile.getX(), tile.getY(), 1);
 					AutomaticGroundItem.pickup(tile, item);
-					World.removeGroundItem(player, item);
+					FloorItem.removeGroundItem(player, item);
 				}
 			}, false));
 		}
