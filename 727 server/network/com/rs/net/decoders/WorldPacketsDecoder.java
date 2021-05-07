@@ -8,6 +8,7 @@ import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.dialogue.DialogueEventListener;
+import com.rs.game.dialogue.impl.DestroyItemD;
 import com.rs.game.item.AutomaticGroundItem;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
@@ -1100,9 +1101,9 @@ public final class WorldPacketsDecoder extends Decoder {
 			@SuppressWarnings("unused")
 			boolean inScreen = stream.readByte() == 1;
 		} else if (packetId == SCREEN_PACKET) {
-			int displayMode = stream.readUnsignedByte();
-			player.setScreenWidth(stream.readUnsignedShort());
-			player.setScreenHeight(stream.readUnsignedShort());
+			byte displayMode = (byte) stream.readUnsignedByte();
+			player.setScreenWidth((short) stream.readUnsignedShort());
+			player.setScreenHeight((short) stream.readUnsignedShort());
 			@SuppressWarnings("unused")
 			boolean switchScreenMode = stream.readUnsignedByte() == 1;
 			if (!player.hasStarted() || player.hasFinished() || displayMode == player.getDisplayMode() || !player.getInterfaceManager().containsInterface(742))
@@ -1144,9 +1145,9 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
 			int componentId = interfaceHash - (interfaceId << 16);
+			new DestroyItemD(DestroyItemD.INSTANCE.getItem()).executeDestroy(player, interfaceId, componentId);
 			if (DialogueEventListener.main(player, componentId))
 				return;
-			player.getDialogueManager().continueDialogue(interfaceId, componentId);
 		} else if (packetId == WORLD_MAP_CLICK) {
 			int coordinateHash = stream.readIntLE();
 			int x = coordinateHash >> 14;
@@ -1189,17 +1190,17 @@ public final class WorldPacketsDecoder extends Decoder {
 			
 			if (player.getInterfaceManager().containsInterface(1108))
 				player.getFriendsIgnores().setChatPrefix(value);
-			else if (player.getTemporaryAttributtes().get("yellcolor") == Boolean.TRUE) {
-				if (value.length() != 6) {
-					player.getDialogueManager().startDialogue("SimpleMessage", "The HEX yell color you wanted to pick cannot be longer and shorter then 6.");
-				} else if (Utils.containsInvalidCharacter(value) || value.contains("_")) {
-					player.getDialogueManager().startDialogue("SimpleMessage", "The requested yell color can only contain numeric and regular characters.");
-				} else {
-					player.getPlayerDetails().setYellColor(value);
-					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getPlayerDetails().getYellColor() + ">" + player.getPlayerDetails().getYellColor() + "</col>.");
-				}
-				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
-			}
+//			else if (player.getTemporaryAttributtes().get("yellcolor") == Boolean.TRUE) {
+//				if (value.length() != 6) {
+//					player.getDialogueManager().startDialogue("SimpleMessage", "The HEX yell color you wanted to pick cannot be longer and shorter then 6.");
+//				} else if (Utils.containsInvalidCharacter(value) || value.contains("_")) {
+//					player.getDialogueManager().startDialogue("SimpleMessage", "The requested yell color can only contain numeric and regular characters.");
+//				} else {
+//					player.getPlayerDetails().setYellColor(value);
+//					player.getDialogueManager().startDialogue("SimpleMessage", "Your yell color has been changed to <col=" + player.getPlayerDetails().getYellColor() + ">" + player.getPlayerDetails().getYellColor() + "</col>.");
+//				}
+//				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
+//			}
 		} else if (packetId == ENTER_INTEGER_PACKET) {
 			if (!player.isRunning() || player.isDead())
 				return;
@@ -1253,23 +1254,6 @@ public final class WorldPacketsDecoder extends Decoder {
 					player.getTrade().removeItem(trade_item_X_Slot, value);
 				else
 					player.getTrade().addItem(trade_item_X_Slot, value);
-			} else if (player.getTemporaryAttributtes().get("skillId") != null) {
-				if (player.getEquipment().wearingArmour()) {
-					player.getDialogueManager().finishDialogue();
-					player.getDialogueManager().startDialogue("SimpleMessage", "You cannot do this while having armour on!");
-					return;
-				}
-				int skillId = (Integer) player.getTemporaryAttributtes().remove("skillId");
-				if (skillId == Skills.HITPOINTS && value <= 9)
-					value = 10;
-				else if (value < 1)
-					value = 1;
-				else if (value > 99)
-					value = 99;
-				player.getSkills().set(skillId, value);
-				player.getSkills().setXp(skillId, Skills.getXPForLevel(value));
-				player.getAppearance().generateAppearenceData();
-				player.getDialogueManager().finishDialogue();
 			}
 		} else if (packetId == SWITCH_INTERFACE_ITEM_PACKET) {
 			stream.readUnsignedShortLE();//skip in stream

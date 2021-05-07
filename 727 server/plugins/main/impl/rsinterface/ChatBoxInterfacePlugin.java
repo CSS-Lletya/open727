@@ -29,13 +29,13 @@ public class ChatBoxInterfacePlugin implements RSInterface {
 				player.getPlayerDetails().setFilterGame(true);
 		} else if (componentId == 29) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
-				player.setPublicStatus(0);
+				player.setPublicStatus((byte) 0);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET)
-				player.setPublicStatus(1);
+				player.setPublicStatus((byte) 1);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.setPublicStatus(2);
+				player.setPublicStatus((byte) 2);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON5_PACKET)
-				player.setPublicStatus(3);
+				player.setPublicStatus((byte) 3);
 		} else if (componentId == 0) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
 				player.getFriendsIgnores().setFriendsChatStatus(0);
@@ -45,18 +45,18 @@ public class ChatBoxInterfacePlugin implements RSInterface {
 				player.getFriendsIgnores().setFriendsChatStatus(2);
 		} else if (componentId == 23) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
-				player.setClanStatus(0);
+				player.setClanStatus((byte) 0);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET)
-				player.setClanStatus(1);
+				player.setClanStatus((byte) 1);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.setClanStatus(2);
+				player.setClanStatus((byte) 2);
 		} else if (componentId == 20) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)
-				player.setTradeStatus(0);
+				player.setTradeStatus((byte) 0);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON3_PACKET)
-				player.setTradeStatus(1);
+				player.setTradeStatus((byte) 1);
 			else if (packetId == WorldPacketsDecoder.ACTION_BUTTON4_PACKET)
-				player.setTradeStatus(2);
+				player.setTradeStatus((byte) 2);
 		} 
 //		else if (componentId == 17) {
 //			if (packetId == WorldPacketsDecoder.ACTION_BUTTON2_PACKET)

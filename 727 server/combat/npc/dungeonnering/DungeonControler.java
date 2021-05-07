@@ -81,7 +81,8 @@ public class DungeonControler extends Controler {
 			openDoor(object);
 			return false;
 		} else if (DungeonUtils.isExit(object.getId())) {
-			player.getDialogueManager().startDialogue("DungeonExit", this);
+//			player.getDialogueManager().startDialogue("DungeonExit", this);
+			//TODO: Dialogue
 			return false;
 		}
 		return true;
