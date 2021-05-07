@@ -84,7 +84,7 @@ public class Player extends Entity {
 	private transient Toolbelt toolbelt;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
-	
+
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
 
@@ -115,6 +115,7 @@ public class Player extends Entity {
 	private transient double hpBoostMultiplier;
 	private transient boolean largeSceneView;
 	private transient RouteEvent routeEvent;
+	private transient long foodDelay;
 
 	// interface
 
@@ -1262,6 +1263,14 @@ public class Player extends Entity {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public void addFoodDelay(long milliseconds) {
+		foodDelay = milliseconds + Utils.currentTimeMillis();
+	}
+
+	public long getFoodDelay() {
+		return foodDelay;
 	}
 
 	@Override

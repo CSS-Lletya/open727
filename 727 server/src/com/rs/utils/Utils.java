@@ -989,15 +989,13 @@ public final class Utils {
 		return NumberFormat.getIntegerInstance().format(number);
 	}
 
-	public static void runLater(Runnable runThis, int delay) {
+	public static void runLater(Runnable runThis, int milliseconds) {
 		new java.util.Timer().schedule(
 				new java.util.TimerTask() {
 					@Override
 					public void run() {
 						runThis.run();
 					}
-				},
-				900
-		);
+				}, milliseconds);
 	}
 }

@@ -33,18 +33,23 @@ public class KorasisSword implements WeaponSpecials {
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
-		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
+		int korasiDamage = combat.getMaxHit(player, weaponId, attackStyle,
+				false, true, 1);
+		double multiplier = 0.5 + Math.random();
+		combat.max_hit = (int) (korasiDamage * 1.5);
+		korasiDamage *= multiplier;
+		combat.delayNormalHit(weaponId, attackStyle,
+				combat.getMagicHit(player, korasiDamage));
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.empty();
+		return Optional.of(new Animation(14788));
 	}
 
 	@Override
 	public Optional<Graphics> getGraphics() {
-		return Optional.empty();
+		return Optional.of(new Graphics(1729));
 	}
 
 	@Override

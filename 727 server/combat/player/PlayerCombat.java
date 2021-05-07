@@ -35,7 +35,7 @@ import skills.magic.Magic;
 public class PlayerCombat extends Action {
 
 	private Entity target;
-	private int max_hit; // temporary constant
+	public int max_hit; // temporary constant
 	private double base_mage_xp; // temporary constant
 	private int mage_hit_gfx; // temporary constant
 	private int magic_sound; // temporary constant
@@ -2104,8 +2104,8 @@ public class PlayerCombat extends Action {
 		return hit;
 	}
 
-	private final int getMaxHit(Player player, int weaponId, int attackStyle, boolean ranging, boolean usingSpec,
-			double specMultiplier) {
+	public final int getMaxHit(Player player, int weaponId, int attackStyle, boolean ranging, boolean usingSpec,
+                               double specMultiplier) {
 		if (!ranging) {
 
 			/*
@@ -2380,7 +2380,7 @@ public class PlayerCombat extends Action {
 		block_tele = false;
 	}
 
-	private void delayHit(int delay, final int weaponId, final int attackStyle, final Hit... hits) {
+	public void delayHit(int delay, final int weaponId, final int attackStyle, final Hit... hits) {
 		addAttackedByDelay(hits[0].getSource());
 
 		final Entity target = this.target;

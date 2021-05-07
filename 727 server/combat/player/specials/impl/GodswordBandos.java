@@ -9,6 +9,7 @@ import com.rs.game.player.Player;
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
+import skills.Skills;
 
 import java.util.Optional;
 
@@ -24,26 +25,51 @@ public class GodswordBandos implements WeaponSpecials {
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
-		target.setNextGraphics(new Graphics(2108, 0, 100));
 		if(player.getRights() == Rights.ADMINISTRATOR)
-			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound");
 		if (target instanceof Player) {
 			;
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
-		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
+		int damage = combat.getRandomMaxHit(player, weaponId, attackStyle,
+				false, true, 1.2, true);
+		combat.delayNormalHit(weaponId, attackStyle,
+				combat.getMeleeHit(player, damage));
+		if (target instanceof Player) {
+			Player targetPlayer = ((Player) target);
+			int amountLeft;
+			if ((amountLeft = targetPlayer.getSkills().drainLevel(
+					Skills.DEFENCE, damage / 10)) > 0) {
+				if ((amountLeft = targetPlayer.getSkills().drainLevel(
+						Skills.STRENGTH, amountLeft)) > 0) {
+					if ((amountLeft = targetPlayer.getSkills()
+							.drainLevel(Skills.PRAYER, amountLeft)) > 0) {
+						if ((amountLeft = targetPlayer.getSkills()
+								.drainLevel(Skills.ATTACK, amountLeft)) > 0) {
+							if ((amountLeft = targetPlayer.getSkills()
+									.drainLevel(Skills.MAGIC,
+											amountLeft)) > 0) {
+								if (targetPlayer.getSkills()
+										.drainLevel(Skills.RANGE,
+												amountLeft) > 0) {
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.empty();
+		return Optional.of(new Animation(11991));
 	}
 
 	@Override
 	public Optional<Graphics> getGraphics() {
-		return Optional.empty();
+		return Optional.of(new Graphics(2114));
 	}
 
 	@Override

@@ -24,26 +24,29 @@ public class GodswordSaradomin implements WeaponSpecials {
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
-		target.setNextGraphics(new Graphics(2108, 0, 100));
 		if(player.getRights() == Rights.ADMINISTRATOR)
-			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound and testing!");
 		if (target instanceof Player) {
 			;
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
-		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
+		int sgsdamage = combat.getRandomMaxHit(player, weaponId, attackStyle,
+				false, true, 1.1, true);
+		player.heal(sgsdamage / 2);
+		player.getPrayer().restorePrayer((sgsdamage / 4) * 10);
+		combat.delayNormalHit(weaponId, attackStyle,
+				combat.getMeleeHit(player, sgsdamage));
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.empty();
+		return Optional.of(new Animation(7071));
 	}
 
 	@Override
 	public Optional<Graphics> getGraphics() {
-		return Optional.empty();
+		return Optional.of(new Graphics(2109));
 	}
 
 	@Override
