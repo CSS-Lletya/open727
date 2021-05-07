@@ -22,7 +22,6 @@ import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.net.Session;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.utils.Huffman;
 import com.rs.utils.IntegerInputAction;
 import com.rs.utils.Logger;
@@ -33,6 +32,7 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import main.impl.rsinterface.InventoryInterfacePlugin;
 import npc.NPC;
 import npc.familiar.Familiar;
 import npc.familiar.Familiar.SpecialAttack;
@@ -808,7 +808,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				Item item = player.getInventory().getItem(interfaceSlot);
 				if (item == null || !player.getControlerManager().processItemOnNPC(npc, item))
 					return;
-				InventoryOptionsHandler.handleItemOnNPC(player, npc, item);
+				InventoryInterfacePlugin.handleItemOnNPC(player, npc, item);
 				break;
 			case 1165:
 				Summoning.attackDreadnipTarget(npc, player);
@@ -1034,7 +1034,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			// interface packets
 			stream.readInt();
 		} else if (packetId == INTERFACE_ON_INTERFACE_PACKET) {
-			InventoryOptionsHandler.handleItemOnItem(player, stream);
+			InventoryInterfacePlugin.handleItemOnItem(player, stream);
 		} else if (packetId == MAGIC_ON_ITEM_PACKET) {
 			int inventoryInter = stream.readInt() >> 16;
 			int itemId = stream.readShort128();

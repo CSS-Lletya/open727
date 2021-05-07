@@ -29,6 +29,7 @@ import com.rs.utils.NPCBonuses;
 import com.rs.utils.NPCCombatDefinitionsL;
 
 import main.CommandDispatcher;
+import main.InventoryDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
@@ -91,6 +92,7 @@ public class GameLoader {
 			ObjectDispatcher.load();
 			NPCDispatcher.load();
 			NPCCombatDispatcher.load();
+			InventoryDispatcher.load();
 		});
 		getBackgroundLoader().submit(() -> {
 			HostManager.deserialize(HostListType.STARTER_RECEIVED);

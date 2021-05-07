@@ -1,6 +1,5 @@
 package com.rs.game.player.content.pet;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +17,7 @@ import npc.pet.Pet;
  * @author Emperor
  *
  */
-public final class PetManager implements Serializable {
-
-	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -3379270918966667109L;
+public final class PetManager {
 
 	/**
 	 * The pet details mapping, sorted by item id.
@@ -49,15 +43,6 @@ public final class PetManager implements Serializable {
 	 * The troll baby's name (if any).
 	 */
 	private String trollBabyName;
-
-	/**
-	 * Constructs a new {@code PetManager} {@code Object}.
-	 */
-	public PetManager() {
-		/*
-		 * empty.
-		 */
-	}
 
 	/**
 	 * Spawns a pet.
