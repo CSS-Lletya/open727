@@ -1128,4 +1128,22 @@ public final class World {
 	public static ConnectionPool getSQLPool() {
 		return Launcher.getDB().getPool();
 	}
+
+	public static boolean isTileFree(int plane, int x, int y, int size) {
+		for (int tileX = x; tileX < x + size; tileX++)
+			for (int tileY = y; tileY < y + size; tileY++)
+				if (!isFloorFree(plane, tileX, tileY) || !isWallsFree(plane, tileX, tileY))
+					return false;
+		return true;
+	}
+	
+	public static boolean isFloorFree(int plane, int x, int y) {
+		return (getMask(plane, x, y) & (Flags.FLOOR_BLOCKSWALK | Flags.FLOORDECO_BLOCKSWALK | Flags.OBJ)) == 0;
+	}
+	
+	public static boolean isWallsFree(int plane, int x, int y) {
+		return (getMask(plane, x, y) & (Flags.CORNEROBJ_NORTHEAST | Flags.CORNEROBJ_NORTHWEST
+				| Flags.CORNEROBJ_SOUTHEAST | Flags.CORNEROBJ_SOUTHWEST | Flags.WALLOBJ_EAST | Flags.WALLOBJ_NORTH
+				| Flags.WALLOBJ_SOUTH | Flags.WALLOBJ_WEST)) == 0;
+	}
 }
