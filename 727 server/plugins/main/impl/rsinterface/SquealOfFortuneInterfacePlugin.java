@@ -8,7 +8,7 @@ import main.wrapper.RSInterfaceSignature;
 @RSInterfaceSignature(interfaceId = {1252, 1253})
 public class SquealOfFortuneInterfacePlugin implements RSInterface {
     @Override
-    public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+    public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
         if(interfaceId == 1252) {
             if(componentId == 3) //Goblin icon
                 if(player.getPlayerDetails().getSpins() > 0)

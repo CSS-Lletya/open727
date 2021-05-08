@@ -23,7 +23,7 @@ public class ChargesManager {
 
 	public void process() {
 		Item[] items = player.getEquipment().getItems().getItems();
-		for (int slot = 0; slot < items.length; slot++) {
+		for (byte slot = 0; slot < items.length; slot++) {
 			Item item = items[slot];
 			if (item == null)
 				continue;
@@ -86,7 +86,7 @@ public class ChargesManager {
 		return false;
 	}
 
-	public void wear(int slot) {
+	public void wear(byte slot) {
 		Item item = player.getEquipment().getItems().get(slot);
 		if (item == null)
 			return;
@@ -99,7 +99,7 @@ public class ChargesManager {
 		player.getPackets().sendGameMessage("Your " + item.getDefinitions().getName() + " degraded.");
 	}
 
-	private void degrade(int itemId, int defaultCharges, int slot) {
+	private void degrade(int itemId, int defaultCharges, byte slot) {
 		Integer c = charges.remove(itemId);
 		if (c == null)
 			c = defaultCharges;

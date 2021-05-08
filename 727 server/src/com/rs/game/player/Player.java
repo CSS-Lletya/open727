@@ -79,7 +79,6 @@ public class Player extends Entity {
 	private transient CoordsEvent coordsEvent;
 	private transient FriendChatsManager currentFriendChat;
 	private transient Trade trade;
-	private transient Toolbelt toolbelt;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
 
@@ -95,9 +94,9 @@ public class Player extends Entity {
 
 	// player stages - not personal
 	private transient boolean started;
-	private transient boolean running;
-	public void setRunning(boolean running) {
-		this.running = running;
+	private transient boolean isActive;
+	public void isactive(boolean active) {
+		this.isActive = active;
 	}
 
 	private transient long packetsDecoderPing;
@@ -107,7 +106,7 @@ public class Player extends Entity {
 	private transient long lockDelay; // used for doors and stuff like that
 	private transient Runnable closeInterfacesEvent;
 	private transient long lastPublicMessage;
-	private transient List<Integer> switchItemCache;
+	private transient List<Byte> switchItemCache;
 	private transient boolean disableEquip;
 	private transient boolean castedVeng;
 	private transient double hpBoostMultiplier;
@@ -160,7 +159,7 @@ public class Player extends Entity {
 	private Familiar familiar;
 	private AuraManager auraManager;
 	private PetManager petManager;
-	public double runEnergy;
+	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
 	private byte privateChatSetup;
@@ -257,11 +256,11 @@ public class Player extends Entity {
 		petManager.setPlayer(this);
 		temporaryMovementType = -1;
 		logicPackets = new ConcurrentLinkedQueue<LogicPacket>();
-		switchItemCache = Collections.synchronizedList(new ArrayList<Integer>());
+		switchItemCache = Collections.synchronizedList(new ArrayList<Byte>());
 		initEntity();
 		packetsDecoderPing = Utils.currentTimeMillis();
 		World.addPlayer(this);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		if (Settings.DEBUG)
 			Logger.log(this, "Initiated player: " + username + ", pass: " + password);
 
@@ -428,7 +427,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void processEntity() {
-		if (!isRunning())
+		if (!isActive())
 			return;
 		super.processEntity();
 		processLogicPackets();
@@ -551,20 +550,6 @@ public class Player extends Entity {
 		getPackets().sendConfig(173, resting ? 3 : getRun() ? 1 : 0);
 	}
 
-	/**
-	 * Restores run energy based on the last time it was restored.
-	 */
-
-	public void restoreRunEnergy() {
-		if (getWatchMap().get("ENERGY").elapsed(3500) && runEnergy < 100 && (getWalkSteps().isEmpty())) {
-			double restoreRate = 0.45D;
-			double agilityFactor = 0.01 * getSkills().getLevel(Skills.AGILITY);
-			setRunEnergy(runEnergy + (restoreRate + agilityFactor));
-			getWatchMap().get("ENERGY").reset();
-			getPackets().sendRunEnergy();
-		}
-	}
-
 	public void run() {
 		if (World.exiting_start != 0) {
 			int delayPassed = (int) ((Utils.currentTimeMillis() - World.exiting_start) / 1000);
@@ -636,7 +621,7 @@ public class Player extends Entity {
 		} else {
 			getPetManager().init();
 		}
-		running = true;
+		isActive = true;
 		updateMovementType = true;
 		getAppearance().getAppeareanceBlocks();
 		getControlerManager().login(); // checks what to do on login after welcome
@@ -736,7 +721,7 @@ public class Player extends Entity {
 
 	public void forceLogout() {
 		getPackets().sendLogout(false);
-		running = false;
+		isActive = false;
 		realFinish();
 	}
 
@@ -779,7 +764,7 @@ public class Player extends Entity {
 		stopAll();
 		controlerManager.logout(); // checks what to do on before logout for
 		// login
-		running = false;
+		isActive = false;
 		friendsIgnores.sendFriendsMyStatus(false);
 		if (currentFriendChat != null)
 			currentFriendChat.leaveChat(this, true);
@@ -792,7 +777,7 @@ public class Player extends Entity {
 		setFinished(true);
 		session.setDecoder(-1);
 		AccountCreation.savePlayer(this);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		World.removePlayer(this);
 		if (Settings.DEBUG)
 			Logger.log(this, "Finished Player: " + username + ", pass: " + password);
@@ -857,8 +842,8 @@ public class Player extends Entity {
 		return started;
 	}
 
-	public boolean isRunning() {
-		return running;
+	public boolean isActive() {
+		return isActive;
 	}
 
 	public String getDisplayName() {
@@ -1086,10 +1071,10 @@ public class Player extends Entity {
 					containedItems.remove(item);	//	This remove the whole list of the contained items that is matched
 				}
 			}
-			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);	//	This dropps the items to the killer, and is showed for 180 seconds
+			FloorItem.createGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);	//	This dropps the items to the killer, and is showed for 180 seconds
 		}
 		for (Item item : containedItems) {
-			World.addGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
+			FloorItem.createGroundItem(item, getLastWorldTile(), killer == null ? this : killer, false, 180, true, true);
 		}
 	}
 
@@ -1422,7 +1407,7 @@ public class Player extends Entity {
 		this.summoningLeftClickOption = summoningLeftClickOption;
 	}
 
-	public List<Integer> getSwitchItemCache() {
+	public List<Byte> getSwitchItemCache() {
 		return switchItemCache;
 	}
 
@@ -1658,7 +1643,7 @@ public class Player extends Entity {
 		watchMap.put("FOOD", new Stopwatch());
 		watchMap.put("DRINKS", new Stopwatch());
 		watchMap.put("TOLERANCE", new Stopwatch());
-		watchMap.put("EMOTE", new Stopwatch()).reset();
+		watchMap.put("EMOTE", new Stopwatch());
 	}
 	
 	public PlayerDetails getPlayerDetails() {
@@ -1668,4 +1653,6 @@ public class Player extends Entity {
 	public void sendSound(int id) {
 		getPackets().sendSound(id, 0, 1);
 	}
+	
+	private Toolbelt toolbelt;
 }

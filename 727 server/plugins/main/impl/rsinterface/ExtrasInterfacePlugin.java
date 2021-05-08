@@ -8,7 +8,7 @@ import main.wrapper.RSInterfaceSignature;
 @RSInterfaceSignature(interfaceId = {1139})
 public class ExtrasInterfacePlugin implements RSInterface {
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		player.getPackets().sendIComponentText(1139, 6, Integer.toString(player.getPlayerDetails().getSpins()));
 		switch(componentId) {
 			case 14:

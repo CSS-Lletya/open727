@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.game.Animation;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 

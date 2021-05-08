@@ -1,18 +1,11 @@
 package com.rs.game.player.content.pet;
 
-import java.io.Serializable;
-
 /**
  * A class containing pet details for a certain pet.
  * @author Emperor
  *
  */
-public final class PetDetails implements Serializable {
-
-	/**
-	 * The serial UID.
-	 */
-	private static final long serialVersionUID = -8863494278992020170L;
+public final class PetDetails {
 
 	/**
 	 * The hunger rate.

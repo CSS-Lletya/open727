@@ -31,7 +31,7 @@ public class GodwarsBandosFaction extends NPC {
 			if (playerIndexes != null) {
 				for (int npcIndex : playerIndexes) {
 					Player player = World.getPlayers().get(npcIndex);
-					if (player == null || player.isDead() || !player.isRunning() || !player.withinDistance(this,
+					if (player == null || player.isDead() || !player.isActive() || !player.withinDistance(this,
 							getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.MELEE ? 4
 									: getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.SPECIAL ? 16 : 8)
 							|| ((!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this

@@ -3,8 +3,8 @@ package npc.drops;
 import java.util.HashMap;
 import java.util.List;
 
-import com.rs.game.World;
 import com.rs.game.WorldTile;
+import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
 
@@ -46,7 +46,7 @@ public final class DropManager {
 		for (Item drop : dropItems) {
 			if (drop == null)
 				continue;
-			World.addGroundItem(drop, lastMobLocation, killer, false, 180, true);
+			FloorItem.createGroundItem(drop, lastMobLocation, killer, false, 180, true);
 		}
 	}
 	

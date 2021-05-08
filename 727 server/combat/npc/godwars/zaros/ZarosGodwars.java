@@ -16,6 +16,8 @@ import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 import com.rs.utils.Utils;
 
+import npc.NPC;
+
 public final class ZarosGodwars {
 
 	private static final List<Player> playersOn = Collections.synchronizedList(new ArrayList<Player>());
@@ -114,7 +116,7 @@ public final class ZarosGodwars {
 		// synchronized(LOCK) {
 		ArrayList<Entity> possibleTarget = new ArrayList<Entity>(playersOn.size());
 		for (Player player : playersOn) {
-			if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
+			if (player == null || player.isDead() || player.hasFinished() || !player.isActive())
 				continue;
 			possibleTarget.add(player);
 			/*
@@ -150,7 +152,7 @@ public final class ZarosGodwars {
 	private static void startWar() {
 		if (getPlayersCount() >= 1) {
 			if (nex == null) {
-				World.spawnNPC(13447, new WorldTile(2924, 5202, 0), -1, true, true);
+				NPC.spawnNPC(13447, new WorldTile(2924, 5202, 0), -1, true, true);
 				World.get().submit(new Task(1) {
 					private int count = 0;
 					@Override
@@ -165,7 +167,7 @@ public final class ZarosGodwars {
 							nex.setNextGraphics(new Graphics(1217));
 							nex.playSound(3295, 2);
 						} else if (count == 3) {
-							World.spawnNPC(13451, new WorldTile(2912, 5216, 0), -1, true, true);
+							NPC.spawnNPC(13451, new WorldTile(2912, 5216, 0), -1, true, true);
 							fumus.setDirection(Utils.getFaceDirection(1, -1));
 							nex.setNextFaceWorldTile(new WorldTile(fumus.getCoordFaceX(fumus.getSize()),
 									fumus.getCoordFaceY(fumus.getSize()), 0));
@@ -174,7 +176,7 @@ public final class ZarosGodwars {
 							World.sendProjectile(fumus, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.playSound(3325, 2);
 						} else if (count == 5) {
-							World.spawnNPC(13452, new WorldTile(2937, 5216, 0), -1, true, true);
+							NPC.spawnNPC(13452, new WorldTile(2937, 5216, 0), -1, true, true);
 							umbra.setDirection(Utils.getFaceDirection(-1, -1));
 							nex.setNextFaceWorldTile(new WorldTile(umbra.getCoordFaceX(umbra.getSize()),
 									umbra.getCoordFaceY(umbra.getSize()), 0));
@@ -183,7 +185,7 @@ public final class ZarosGodwars {
 							World.sendProjectile(umbra, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.playSound(3313, 2);
 						} else if (count == 7) {
-							World.spawnNPC(13453, new WorldTile(2937, 5190, 0), -1, true, true);
+							NPC.spawnNPC(13453, new WorldTile(2937, 5190, 0), -1, true, true);
 							cruor.setDirection(Utils.getFaceDirection(-1, 1));
 							nex.setNextFaceWorldTile(new WorldTile(cruor.getCoordFaceX(cruor.getSize()),
 									cruor.getCoordFaceY(cruor.getSize()), 0));
@@ -192,7 +194,7 @@ public final class ZarosGodwars {
 							World.sendProjectile(cruor, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.playSound(3299, 2);
 						} else if (count == 9) {
-							World.spawnNPC(13454, new WorldTile(2912, 5190, 0), -1, true, true);
+							NPC.spawnNPC(13454, new WorldTile(2912, 5190, 0), -1, true, true);
 							glacies.setNextFaceWorldTile(new WorldTile(glacies.getCoordFaceX(glacies.getSize()),
 									glacies.getCoordFaceY(glacies.getSize()), 0));
 							glacies.setDirection(Utils.getFaceDirection(1, 1));

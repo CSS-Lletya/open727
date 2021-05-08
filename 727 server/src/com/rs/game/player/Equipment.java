@@ -18,7 +18,7 @@ public final class Equipment {
 	private transient Player player;
 	private transient int equipmentHpIncrease;
 
-	static final int[] DISABLED_SLOTS = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 };
+	static final byte[] DISABLED_SLOTS = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 };
 
 	public Equipment() {
 		items = new ItemsContainer<Item>(15, false);
@@ -33,7 +33,7 @@ public final class Equipment {
 		refresh(null);
 	}
 
-	public void refresh(int... slots) {
+	public void refresh(byte... slots) {
 		if (slots != null) {
 			player.getPackets().sendUpdateItems(94, items, slots);
 			player.getCombatDefinitions().checkAttackStyle();
@@ -127,8 +127,8 @@ public final class Equipment {
 				|| (name.contains("helm") && !name.contains("full"));
 	}
 
-	public static int getItemSlot(int itemId) {
-		return ItemDefinitions.getItemDefinitions(itemId).getEquipSlot();
+	public static byte getItemSlot(int itemId) {
+		return (byte) ItemDefinitions.getItemDefinitions(itemId).getEquipSlot();
 	}
 
 	public static boolean isTwoHandedWeapon(Item item) {
@@ -237,13 +237,13 @@ public final class Equipment {
 	}
 
 	public void refreshItems(Item[] itemsBefore) {
-		int[] changedSlots = new int[itemsBefore.length];
+		byte[] changedSlots = new byte[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
 			if (itemsBefore[index] != items.getItems()[index])
-				changedSlots[count++] = index;
+				changedSlots[count++] = (byte) index;
 		}
-		int[] finalChangedSlots = new int[count];
+		byte[] finalChangedSlots = new byte[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
 	}
@@ -296,7 +296,7 @@ public final class Equipment {
 	 * Removes equipment based on the slot
 	 * @param slotId
 	 */
-	public void sendRemoveEquipment(final int slotId) {
+	public void sendRemoveEquipment(final byte slotId) {
 		player.stopAll(false, false);
 		Item item = player.getEquipment().getItem(slotId);
 		if (item == null)

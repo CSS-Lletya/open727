@@ -495,7 +495,7 @@ public class Foods {
 
 	private static final Animation EAT_ANIM = new Animation(829);
 
-	public static boolean eat(final Player player, Item item, int slot) {
+	public static boolean eat(final Player player, Item item, byte slot) {
 		Food food = Food.forId(item.getId());
 		if (food == null)
 			return false;

@@ -2,7 +2,6 @@ package com.rs.game.task.impl;
 
 import com.rs.game.World;
 import com.rs.game.player.OwnedObjectManager;
-import com.rs.game.player.Player;
 import com.rs.game.task.Task;
 
 public final class PlayerOwnedObjectTask extends Task {
@@ -16,11 +15,7 @@ public final class PlayerOwnedObjectTask extends Task {
 	
 	@Override
 	public void execute() {
-		for (Player player : World.getPlayers()) {
-			if (!player.getOwnedObjectManagerKeys().isEmpty()) {
-				OwnedObjectManager.processAll();
-			}
-		}
+		World.players().filter(p -> !p.getOwnedObjectManagerKeys().isEmpty()).forEach(p -> OwnedObjectManager.processAll());
 	}
 	
 	@Override

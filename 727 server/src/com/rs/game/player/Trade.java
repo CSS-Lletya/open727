@@ -114,7 +114,7 @@ public class Trade {
 	}
 
 	public void refreshItems(Item[] itemsBefore) {
-		int[] changedSlots = new int[itemsBefore.length];
+		byte[] changedSlots = new byte[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
 			Item item = items.getItems()[index];
@@ -122,10 +122,10 @@ public class Trade {
 				if (itemsBefore[index] != null && (item == null || item.getId() != itemsBefore[index].getId()
 						|| item.getAmount() < itemsBefore[index].getAmount()))
 					sendFlash(index);
-				changedSlots[count++] = index;
+				changedSlots[count++] = (byte) index;
 			}
 		}
-		int[] finalChangedSlots = new int[count];
+		byte[] finalChangedSlots = new byte[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
 		refreshFreeInventorySlots();
@@ -160,7 +160,7 @@ public class Trade {
 		target.getPackets().sendItems(90, true, items);
 	}
 
-	public void refresh(int... slots) {
+	public void refresh(byte... slots) {
 		player.getPackets().sendUpdateItems(90, items, slots);
 		target.getPackets().sendUpdateItems(90, true, items.getItems(), slots);
 	}

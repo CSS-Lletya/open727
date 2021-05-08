@@ -12,7 +12,7 @@ import player.PlayerCombat;
 public class CombatStylesInterfacePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if (componentId == 4) {
 			int weaponId = player.getEquipment().getWeaponId();
 			if (PlayerCombat.hasInstantSpecial(weaponId)) {

@@ -18,7 +18,7 @@ public class OwnedObjectManager {
 
 	private Player player;
 	private WorldObject[] objects;
-	private int count;
+	private short count;
 	private long cycleTime;
 	private long lifeTime;
 	private String managerKey;
@@ -148,7 +148,7 @@ public class OwnedObjectManager {
 	}
 
 	private void spawnObject() {
-		World.spawnObject(objects[count], true);
+		WorldObject.createObject(objects[count], true);
 		resetLifeTime();
 	}
 
@@ -179,7 +179,7 @@ public class OwnedObjectManager {
 	}
 
 	public void destroyObject(WorldObject object) {
-		World.destroySpawnedObject(object);
+		WorldObject.destroySpawnedObject(object);
 	}
 
 }

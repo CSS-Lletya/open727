@@ -283,12 +283,12 @@ public class PlayerDesign {
                 if (player.getAppearance().isMale()) {
                     player.getAppearance().setBodyStyle(2, MALE_TORSOS[slot][0]);
                     int arms = MALE_TORSOS[slot][1];
-                    player.getAppearance().setBodyStyle(3, arms == -1 ? 1000 : arms);
+                    player.getAppearance().setBodyStyle(3, (short) (arms == -1 ? 1000 : arms));
                     player.getAppearance().setBodyStyle(4, MALE_TORSOS[slot][2]);
                 } else {
                     player.getAppearance().setBodyStyle(2, FEMALE_TORSOS[slot][0]);
                     int arms = FEMALE_TORSOS[slot][1];
-                    player.getAppearance().setBodyStyle(3, arms == -1 ? 1000 : arms);
+                    player.getAppearance().setBodyStyle(3, (short) (arms == -1 ? 1000 : arms));
                     player.getAppearance().setBodyStyle(4, FEMALE_TORSOS[slot][2]);
                 }
             } else if (buttonId == 132)
@@ -329,14 +329,14 @@ public class PlayerDesign {
             PlayerDesign[] set = getMaleSet(1);
             player.getAppearance().setLooks(set[0].looks);
             player.getAppearance().copyColors(set[0].colors);
-            player.getAppearance().setBodyStyle(0, 5);
-            player.getAppearance().setBodyStyle(1, 14);
+            player.getAppearance().setBodyStyle(0, (short) 5);
+            player.getAppearance().setBodyStyle(1, (short) 14);
         } else {
             PlayerDesign[] set = getFemaleSet(1);
             player.getAppearance().setLooks(set[0].looks);
             player.getAppearance().copyColors(set[0].colors);
-            player.getAppearance().setBodyStyle(0, 141);
-            player.getAppearance().setBodyStyle(1, 57);
+            player.getAppearance().setBodyStyle(0, (byte) 141);
+            player.getAppearance().setBodyStyle(1, (short) 57);
         }
         player.getPackets().sendConfig(1363, male ? 8249 : 12345);
         player.getAppearance().setMale(male);

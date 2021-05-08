@@ -68,7 +68,7 @@ public class InterfaceManager {
 		player.getEmotesManager().unlockEmotesBook();
 		player.getInventory().unlockInventoryOptions();
 		player.getPrayer().unlockPrayerBookButtons();
-		if (player.getFamiliar() != null && player.isRunning())
+		if (player.getFamiliar() != null && player.isActive())
 			player.getFamiliar().unlock();
 		player.getControlerManager().sendInterfaces();
 		player.getInterfaceManager().sendOverlay(1252, false);

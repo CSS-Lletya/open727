@@ -212,7 +212,7 @@ public class NexCombat extends MobCombatInterface {
 						String key = t.getX() + "_" + t.getY();
 						if (!tiles.containsKey(t.getX() + "_" + t.getY())) {
 							tiles.put(key, new int[] { t.getX(), t.getY() });
-							World.spawnTemporaryObject(new WorldObject(57261, (short) 10, (short) 0, (short)t.getX(), (short) t.getY(), 0), 2400);
+							WorldObject.createTemporaryObject(new WorldObject(57261, (short) 10, (short) 0, (short)t.getX(), (short) t.getY(), 0), 2400);
 						}
 					}
 					World.get().submit(new Task(3) {

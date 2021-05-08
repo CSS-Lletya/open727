@@ -44,6 +44,8 @@ public final class ServerChannelHandler extends SimpleChannelHandler {
 		bootstrap.setOption("child.tcpNoDelay", true);
 		bootstrap.setOption("child.TcpAckFrequency", true);
 		bootstrap.setOption("child.keepAlive", true);
+		System.setProperty("java.net.preferIPv4Stack", "true");
+	    System.setProperty("java.net.preferIPv6Addresses", "false");
 		bootstrap.bind(new InetSocketAddress(Settings.PORT_ID));
 	}
 

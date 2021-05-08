@@ -22,7 +22,6 @@ import com.rs.game.route.RouteFinder;
 import com.rs.game.route.strategy.FixedTileStrategy;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.net.Session;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.utils.Huffman;
 import com.rs.utils.IntegerInputAction;
 import com.rs.utils.Logger;
@@ -33,6 +32,7 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import main.impl.rsinterface.InventoryInterfacePlugin;
 import npc.NPC;
 import npc.familiar.Familiar;
 import npc.familiar.Familiar.SpecialAttack;
@@ -90,7 +90,6 @@ public final class WorldPacketsDecoder extends Decoder {
 	private final static int NPC_CLICK1_PACKET = 65;
 	private final static int NPC_CLICK2_PACKET = 50;
 	private final static int NPC_CLICK3_PACKET = 77;
-	@SuppressWarnings("unused")
 	private final static int NPC_CLICK4_PACKET = 95;
 	
 	//MISC
@@ -152,11 +151,8 @@ public final class WorldPacketsDecoder extends Decoder {
 
 	private final static int MAGIC_ON_ITEM_PACKET = -1; //ignore this one - shitty configuration
 	
-	static {
-		loadPacketSizes();
-	}
 
-	public static void loadPacketSizes() {
+	static {
 		PACKET_SIZES[0] = 0;
 		PACKET_SIZES[1] = 3;
 		PACKET_SIZES[2] = 4;
@@ -808,7 +804,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				Item item = player.getInventory().getItem(interfaceSlot);
 				if (item == null || !player.getControlerManager().processItemOnNPC(npc, item))
 					return;
-				InventoryOptionsHandler.handleItemOnNPC(player, npc, item);
+				InventoryInterfacePlugin.handleItemOnNPC(player, npc, item);
 				break;
 			case 1165:
 				Summoning.attackDreadnipTarget(npc, player);
@@ -1016,7 +1012,7 @@ public final class WorldPacketsDecoder extends Decoder {
 					
 					player.addWalkSteps(tile.getX(), tile.getY(), 1);
 					AutomaticGroundItem.pickup(tile, item);
-					World.removeGroundItem(player, item);
+					FloorItem.removeGroundItem(player, item);
 				}
 			}, false));
 		}
@@ -1034,7 +1030,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			// interface packets
 			stream.readInt();
 		} else if (packetId == INTERFACE_ON_INTERFACE_PACKET) {
-			InventoryOptionsHandler.handleItemOnItem(player, stream);
+			InventoryInterfacePlugin.handleItemOnItem(player, stream);
 		} else if (packetId == MAGIC_ON_ITEM_PACKET) {
 			int inventoryInter = stream.readInt() >> 16;
 			int itemId = stream.readShort128();
@@ -1087,7 +1083,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == AFK_PACKET) {
 			player.getSession().getChannel().close();
 		} else if (packetId == CLOSE_INTERFACE_PACKET) {
-			if (player.hasStarted() && !player.hasFinished() && !player.isRunning()) { // used for old welcome screen
+			if (player.hasStarted() && !player.hasFinished() && !player.isActive()) { // used for old welcome screen
 				player.run();
 				return;
 			}
@@ -1140,7 +1136,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				// player.getSession().getChannel().close();
 				return;
 			}
-			if (!player.isRunning() || !player.getInterfaceManager().containsInterface(interfaceId))
+			if (!player.isActive() || !player.getInterfaceManager().containsInterface(interfaceId))
 				return;
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
@@ -1165,7 +1161,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			RSInterfaceDispatcher.handleButtons(player, stream, packetId);
 		} 
 		else if (packetId ==  ENTER_LONGSTRING_PACKET){
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int byte0 = stream.readUnsignedByte();
 			String v1 = stream.readString();
@@ -1180,7 +1176,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			player.getPackets().sendGameMessage(""+value);
 		}
 		else if (packetId == ENTER_NAME_PACKET) {
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int byte0 = stream.readUnsignedByte();
 			String v1 = stream.readString();
@@ -1202,7 +1198,7 @@ public final class WorldPacketsDecoder extends Decoder {
 //				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
 //			}
 		} else if (packetId == ENTER_INTEGER_PACKET) {
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int value = stream.readInt();
 			if (player.getTemporaryAttributtes().get("integer_input_action") != null) {
@@ -1319,7 +1315,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				|| packetId == OBJECT_CLICK4_PACKET 
 				|| packetId == OBJECT_CLICK5_PACKET 
 				|| packetId == INTERFACE_ON_OBJECT)
-			player.addLogicPacketToQueue(new LogicPacket(packetId, length, stream));
+			player.addLogicPacketToQueue(new LogicPacket((byte) packetId, length, stream));
 		else if (packetId == OBJECT_EXAMINE_PACKET) {
 			ObjectDispatcher.handleOption(player, stream, -1);
 		} else if (packetId == NPC_EXAMINE_PACKET) {
@@ -1461,7 +1457,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Chat type: " + chatType);
 		} else if (packetId == COMMANDS_PACKET) {
-			if (!player.isRunning())
+			if (!player.isActive())
 				return;
 			boolean clientCommand = stream.readUnsignedByte() == 1;
 			@SuppressWarnings("unused")
