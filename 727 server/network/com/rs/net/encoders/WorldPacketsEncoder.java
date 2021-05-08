@@ -837,15 +837,15 @@ public class WorldPacketsEncoder extends Encoder {
 		session.write(stream);
 	}
 
-	public void sendUpdateItems(int key, ItemsContainer<Item> items, int... slots) {
+	public void sendUpdateItems(int key, ItemsContainer<Item> items, byte... slots) {
 		sendUpdateItems(key, items.getItems(), slots);
 	}
 
-	public void sendUpdateItems(int key, Item[] items, int... slots) {
+	public void sendUpdateItems(int key, Item[] items, byte... slots) {
 		sendUpdateItems(key, key < 0, items, slots);
 	}
 
-	public void sendUpdateItems(int key, boolean negativeKey, Item[] items, int... slots) {
+	public void sendUpdateItems(int key, boolean negativeKey, Item[] items, byte... slots) {
 		OutputStream stream = new OutputStream();
 		stream.writePacketVarShort(player, 4);
 		stream.writeShort(key);

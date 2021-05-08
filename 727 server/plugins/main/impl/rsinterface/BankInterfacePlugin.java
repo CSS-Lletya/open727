@@ -9,7 +9,7 @@ import main.wrapper.RSInterfaceSignature;
 public class BankInterfacePlugin implements RSInterface {
 
     @Override
-    public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+    public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
         if (interfaceId == 762) {
             if (componentId == 15)
                 player.getBank().switchInsertItems();

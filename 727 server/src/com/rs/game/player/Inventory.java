@@ -38,7 +38,7 @@ public final class Inventory {
 		init(); // as all slots reseted better just send all again
 	}
 
-	public void refresh(int... slots) {
+	public void refresh(byte... slots) {
 		player.getPackets().sendUpdateItems(93, items, slots);
 	}
 
@@ -118,13 +118,13 @@ public final class Inventory {
 	}
 
 	public void refreshItems(Item[] itemsBefore) {
-		int[] changedSlots = new int[itemsBefore.length];
+		byte[] changedSlots = new byte[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
 			if (itemsBefore[index] != items.getItems()[index])
-				changedSlots[count++] = index;
+				changedSlots[count++] = (byte) index;
 		}
-		int[] finalChangedSlots = new int[count];
+		byte[] finalChangedSlots = new byte[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
 	}

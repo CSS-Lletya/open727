@@ -512,7 +512,7 @@ public class Bank {
 		player.getPackets().sendItems(95, getContainerCopy());
 	}
 
-	public void refreshItems(int[] slots) {
+	public void refreshItems(byte[] slots) {
 		player.getPackets().sendUpdateItems(95, getContainerCopy(), slots);
 	}
 
@@ -538,7 +538,7 @@ public class Bank {
 			if (itemsBefore[index] != itemsAfter[index])
 				changedSlots[count++] = index;
 		}
-		int[] finalChangedSlots = new int[count];
+		byte[] finalChangedSlots = new byte[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		lastContainerCopy = itemsAfter;
 		refreshItems(finalChangedSlots);

@@ -32,7 +32,7 @@ public class CommanderZilyana extends NPC {
 			if (playerIndexes != null) {
 				for (int npcIndex : playerIndexes) {
 					Player player = World.getPlayers().get(npcIndex);
-					if (player == null || player.isDead() || player.hasFinished() || !player.isRunning()
+					if (player == null || player.isDead() || player.hasFinished() || !player.isActive()
 							|| !player.withinDistance(this, 64)
 							|| ((!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this
 									&& player.getAttackedByDelay() > Utils.currentTimeMillis())
@@ -89,7 +89,7 @@ public class CommanderZilyana extends NPC {
 					setFinished(false);
 					World.addNPC(npc);
 					npc.setLastRegionId(0);
-					World.updateEntityRegion(npc);
+					updateEntityRegion(npc);
 					loadMapRegions();
 					checkMultiArea();
 					GodWarsBosses.respawnSaradominMinions();

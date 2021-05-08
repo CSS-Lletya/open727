@@ -355,4 +355,9 @@ public class WorldObject extends WorldTile {
 			}
 		}, time, TimeUnit.MILLISECONDS);
 	}
+	
+	public static final void spawnObject(WorldObject object) {
+		World.getRegion(object.getRegionId()).addObject(object, object.getHeight(), object.getXInRegion(),
+				object.getYInRegion());
+	}
 }

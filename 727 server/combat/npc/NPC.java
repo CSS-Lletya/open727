@@ -113,7 +113,7 @@ public class NPC extends Entity {
 		// npc is inited on creating instance
 		initEntity();
 		World.addNPC(this);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
@@ -139,7 +139,7 @@ public class NPC extends Entity {
 		// npc is inited on creating instance
 		initEntity();
 		World.addNPC(this);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
@@ -528,7 +528,7 @@ public class NPC extends Entity {
 		if (hasFinished())
 			return;
 		setFinished(true);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		World.removeNPC(this);
 	}
 
@@ -560,7 +560,7 @@ public class NPC extends Entity {
 		setFinished(false);
 		World.addNPC(this);
 		setLastRegionId(0);
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		loadMapRegions();
 		checkMultiArea();
 	}
@@ -672,7 +672,7 @@ public class NPC extends Entity {
 			if (playerIndexes != null) {
 				for (int playerIndex : playerIndexes) {
 					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || player.isDead() || player.hasFinished() || !player.isRunning() || !player.withinDistance(this, forceTargetDistance > 0 ? forceTargetDistance : (getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.MELEE ? 4 : getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.SPECIAL ? 64 : 8)) || (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.getAttackedByDelay() > Utils.currentTimeMillis() || player.getFindTargetDelay() > Utils.currentTimeMillis())) || !clipedProjectile(player, false) || (!forceAgressive && !Wilderness.isAtWild(this) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+					if (player == null || player.isDead() || player.hasFinished() || !player.isActive() || !player.withinDistance(this, forceTargetDistance > 0 ? forceTargetDistance : (getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.MELEE ? 4 : getCombatDefinitions().getAttackStyle() == NPCCombatDefinitions.SPECIAL ? 64 : 8)) || (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.getAttackedByDelay() > Utils.currentTimeMillis() || player.getFindTargetDelay() > Utils.currentTimeMillis())) || !clipedProjectile(player, false) || (!forceAgressive && !Wilderness.isAtWild(this) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
 						continue;
 					possibleTarget.add(player);
 				}

@@ -554,7 +554,7 @@ public final class Pots {
 			@Override
 			public void extra(Player player) {
 				player.getPrayer()
-						.setPrayerpoints((int) ((int) (70 + (player.getSkills().getLevelForXp(Skills.PRAYER) * 3.43))
+						.setPrayerpoints((byte) ((int) (70 + (player.getSkills().getLevelForXp(Skills.PRAYER) * 3.43))
 								* player.getAuraManager().getPrayerPotsRestoreMultiplier()));
 			}
 		},
@@ -633,7 +633,7 @@ public final class Pots {
 		return null;
 	}
 
-	public static boolean pot(Player player, Item item, int slot) {
+	public static boolean pot(Player player, Item item, byte slot) {
 		Pot pot = getPot(item.getId());
 		if (pot == null)
 			return false;

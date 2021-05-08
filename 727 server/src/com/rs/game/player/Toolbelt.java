@@ -11,9 +11,10 @@ import com.rs.game.item.Item;
  */
 public class Toolbelt {
 
-    private static final int[] TOOLBELT_ITEMS = new int[] { 946, 1735, 1595, 1755, 1599, 1597, 1733, 1592, 5523, 13431, 307, 309, 311, 301, 303, 1265, 2347, 1351, 590, -1, 8794, 4, 9434, 11065, 1785, 2976, 1594, 5343, 5325, 5341, 5329, 233, 952, 305, 975, 11323, 2575, 2576, 13153, 10150, 6739 };
+    private final int[] TOOLBELT_ITEMS = new int[] { 946, 1735, 1595, 1755, 1599, 1597, 1733, 1592, 5523, 13431, 307, 309, 311, 301, 303, 1265, 2347, 1351, 590, -1, 8794, 4, 9434, 11065, 1785, 2976, 1594, 5343, 5325, 5341, 5329, 233, 952, 305, 975, 11323, 2575, 2576, 13153, 10150, 6739 };
     private static final short[] CONFIG_IDS = new short[] { 2438, 2439 };
     private boolean[] TOOLBELT_ITEMS_TAKEN;//Each index represents the same index as TOOLBELT_ITEMS
+    private boolean[] tools;
     private transient Player player;
 
     public Toolbelt() {
@@ -103,7 +104,7 @@ public class Toolbelt {
         int slot = getItemSlot(id);
         return slot == -1 ? false : TOOLBELT_ITEMS_TAKEN[slot];
     }
-    private boolean[] tools;
+    
     public boolean hasTool(int toolId) {
         return tools[toolId] || player.getInventory().containsItem(toolId, 1) || player.getEquipment().getWeaponId() == toolId;
     }
@@ -112,8 +113,7 @@ public class Toolbelt {
      * Returns a list of acceptable toolbel items
      * @return List of Integer
      */
-    public static List<Integer> getToolbeltItems() {
-        return Arrays.stream( TOOLBELT_ITEMS ).boxed().collect( Collectors.toList() );
+    public List<Integer> getToolbeltItems() {
+        return Arrays.stream(TOOLBELT_ITEMS).boxed().collect(Collectors.toList());
     }
-
 }

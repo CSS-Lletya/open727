@@ -12,7 +12,7 @@ import main.wrapper.RSInterfaceSignature;
 public class WorldMapInterfacePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if ((interfaceId == 548 && componentId == 35) || (interfaceId == 746 && componentId == 55)) {
 			if (packetId == WorldPacketsDecoder.ACTION_BUTTON1_PACKET)
 				player.getSkills().switchXPDisplay();

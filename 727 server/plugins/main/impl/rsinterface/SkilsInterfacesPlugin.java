@@ -10,7 +10,7 @@ import skills.Skills;
 public class SkilsInterfacesPlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2)
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2)
 			throws Exception {
 		switch(interfaceId) {
 		case 1218:

@@ -10,7 +10,7 @@ import skills.magic.Magic;
 public class NormalMagicSpellbookInterfacePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if (componentId == 2)
 			player.getCombatDefinitions().switchDefensiveCasting();
 		else if (componentId == 7)

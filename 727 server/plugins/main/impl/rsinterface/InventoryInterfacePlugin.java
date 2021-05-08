@@ -12,7 +12,6 @@ import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
-import com.rs.game.player.Toolbelt;
 import com.rs.game.player.content.Foods;
 import com.rs.game.player.content.Pots;
 import com.rs.game.route.CoordsEvent;
@@ -32,7 +31,7 @@ import npc.pet.Pet;
 public class InventoryInterfacePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if (componentId == 0) {
 			if (slotId > 27 || player.getInterfaceManager().containsInventoryInter())
 				return;
@@ -60,7 +59,7 @@ public class InventoryInterfacePlugin implements RSInterface {
 					
 					@Override
 					protected void execute() {
-						List<Integer> slots = player.getSwitchItemCache();
+						List<Byte> slots = player.getSwitchItemCache();
 						int[] slot = new int[slots.size()];
 						for (int i = 0; i < slot.length; i++)
 							slot[i] = slots.get(i);
@@ -101,7 +100,7 @@ public class InventoryInterfacePlugin implements RSInterface {
 					return;
 				}
 
-				if(Toolbelt.getToolbeltItems().contains(item.getId())) {
+				if(player.getToolbelt().getToolbeltItems().contains(item.getId())) {
 					player.getToolbelt().addItem(slotId, item);
 					return;
 				}

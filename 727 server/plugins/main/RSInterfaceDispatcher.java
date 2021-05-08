@@ -33,7 +33,7 @@ public final class RSInterfaceDispatcher {
 	 * @param player the player executing the interface.
 	 * @param parts the string which represents a interface.
 	 */
-	public static void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) {
+	public static void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) {
 		Optional<RSInterface> rsInterface = getRSInterface(interfaceId);
 		if(!rsInterface.isPresent()) {
 			player.getPackets().sendGameMessage(interfaceId + " is not handled yet.");
@@ -116,7 +116,7 @@ public final class RSInterfaceDispatcher {
 			return;
 		}
 		final int slotId2 = stream.readUnsignedShort();
-		final int slotId = stream.readUnsignedShort128();
+		final byte slotId = (byte) stream.readUnsignedShort128();
 		final int itemId = stream.readUnsignedShortLE128();
 		RSInterfaceDispatcher.execute(player, interfaceId, componentId, packetId, slotId, slotId2);
 		

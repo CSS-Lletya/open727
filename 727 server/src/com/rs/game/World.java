@@ -44,7 +44,7 @@ public final class World {
 	public static int exiting_delay;
 	public static long exiting_start;
 
-	private static final Predicate<Player> VALID_PLAYER = (p) -> p != null && p.hasStarted() && !p.hasFinished() && p.isRunning();
+	private static final Predicate<Player> VALID_PLAYER = (p) -> p != null && p.hasStarted() && !p.hasFinished() && p.isActive();
 	private static final Predicate<NPC> VALID_NPC = (n) -> n != null && !n.hasFinished();
 
 	public static Stream<Entity> entities() {
@@ -114,52 +114,6 @@ public final class World {
 
 	public static final void removeNPC(NPC npc) {
 		npcs.remove(npc);
-	}
-
-	/*
-	 * check if the entity region changed because moved or teled then we update it
-	 */
-	public static final void updateEntityRegion(Entity entity) {
-		if (entity.hasFinished()) {
-			if (entity instanceof Player)
-				getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
-			else
-				getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
-			return;
-		}
-		int regionId = entity.getRegionId();
-		if (entity.getLastRegionId() != regionId) { // map region entity at
-			// changed
-			if (entity instanceof Player) {
-				if (entity.getLastRegionId() > 0)
-					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
-				Region region = getRegion(regionId);
-				region.addPlayerIndex(entity.getIndex());
-				Player player = (Player) entity;
-				int musicId = region.getMusicId();
-				if (musicId != -1)
-					player.getMusicsManager().checkMusic(musicId);
-				player.getControlerManager().moved();
-				if (player.hasStarted()) {
-//					checkControlersAtMove(player);
-				}
-			} else {
-				if (entity.getLastRegionId() > 0)
-					getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
-				getRegion(regionId).addNPCIndex(entity.getIndex());
-			}
-			entity.checkMultiArea();
-			entity.setLastRegionId(regionId);
-		} else {
-			if (entity instanceof Player) {
-				Player player = (Player) entity;
-				player.getControlerManager().moved();
-				if (player.hasStarted()) {
-//					checkControlersAtMove(player);					
-				}
-			}
-			entity.checkMultiArea();
-		}
 	}
 	
 	/*
@@ -582,11 +536,6 @@ public final class World {
 			pl.getPackets().sendProjectile(null, startTile, endTile, gfxId, startHeight, endHeight, speed, delay, curve, startOffset, 1);
 		}
 	}
-
-	public static final void spawnObject(WorldObject object) {
-		getRegion(object.getRegionId()).addObject(object, object.getHeight(), object.getXInRegion(),
-				object.getYInRegion());
-	}
 	
 	/**
 	 * An implementation of the singleton pattern to prevent indirect
@@ -628,7 +577,7 @@ public final class World {
 	 * @param player the player to log out.
 	 */
 	public void queueLogout(Player player) {
-		if (!player.isRunning())
+		if (!player.isActive())
 			return;
 		long currentTime = Utils.currentTimeMillis();
 		if (player.getAttackedByDelay() + 10000 > currentTime) {

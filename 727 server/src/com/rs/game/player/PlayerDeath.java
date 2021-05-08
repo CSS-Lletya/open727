@@ -52,7 +52,7 @@ public class PlayerDeath extends ActorDeathTask<Player> {
 		getActor().unlock();
 		getActor().getCombatDefinitions().resetSpecialAttack();
 		getActor().getPrayer().closeAllPrayers();
-		getActor().restoreRunEnergy();
+		getActor().setRunEnergy(100);
 		
 		if (getActor() instanceof Player) {
 			Player killer = (Player) getActor();

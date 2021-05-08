@@ -10,7 +10,7 @@ import main.wrapper.RSInterfaceSignature;
 public class ChatBoxInterfacePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if (componentId == 14 && packetId == 96) {
 			//report function 
 			//TODO: SQL reports

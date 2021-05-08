@@ -9,13 +9,13 @@ import skills.Skills;
 
 public class Prayer {
 
-	private final static int[][] prayerLvls = {
+	private final static byte[][] prayerLvls = {
 			// normal prayer book
 			{ 1, 4, 7, 8, 9, 10, 13, 16, 19, 22, 25, 26, 27, 28, 31, 34, 35, 37, 40, 43, 44, 45, 46, 49, 52, 60, 65, 70, 74, 77 },
 			// ancient prayer book
 			{ 50, 50, 52, 54, 56, 59, 62, 65, 68, 71, 74, 76, 78, 80, 82, 84, 86, 89, 92, 95 } };
 
-	private final static int[][][] closePrayers = { { // normal prayer book
+	private final static byte[][][] closePrayers = { { // normal prayer book
 			{ 0, 5, 13 }, // Skin prayers 0
 			{ 1, 6, 14 }, // Strength prayers 1
 			{ 2, 7, 15 }, // Attack prayers 2
@@ -44,11 +44,11 @@ public class Prayer {
 	private transient Player player;
 	private transient boolean[][] onPrayers;
 	private transient boolean usingQuickPrayer;
-	private transient int onPrayersCount;
+	private transient byte onPrayersCount;
 
 	private boolean[][] quickPrayers;
-	private int prayerpoints;
-	private transient int[] leechBonuses;
+	private short prayerpoints;
+	private transient byte[] leechBonuses;
 	private boolean ancientcurses;
 	private transient long[] nextDrain;
 	private transient boolean boostedLeech;
@@ -224,9 +224,9 @@ public class Prayer {
 	}
 
 	public void increaseTurmoilBonus(Player p2) {
-		leechBonuses[8] = (int) ((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Skills.ATTACK))) / p2.getSkills().getLevelForXp(Skills.ATTACK));
-		leechBonuses[9] = (int) ((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Skills.DEFENCE))) / p2.getSkills().getLevelForXp(Skills.DEFENCE));
-		leechBonuses[10] = (int) ((100 * Math.floor(0.1 * p2.getSkills().getLevelForXp(Skills.STRENGTH))) / p2.getSkills().getLevelForXp(Skills.STRENGTH));
+		leechBonuses[8] = (byte) ((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Skills.ATTACK))) / p2.getSkills().getLevelForXp(Skills.ATTACK));
+		leechBonuses[9] = (byte) ((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Skills.DEFENCE))) / p2.getSkills().getLevelForXp(Skills.DEFENCE));
+		leechBonuses[10] = (byte) ((100 * Math.floor(0.1 * p2.getSkills().getLevelForXp(Skills.STRENGTH))) / p2.getSkills().getLevelForXp(Skills.STRENGTH));
 		adjustStat(0, leechBonuses[8]);
 		adjustStat(1, leechBonuses[10]);
 		adjustStat(2, leechBonuses[9]);
@@ -236,7 +236,7 @@ public class Prayer {
 		player.getPackets().sendConfigByFile(6857 + stat, 30 + percentage);
 	}
 
-	public void closePrayers(int prayerId) {
+	public void closePrayers(byte prayerId) {
 		if (ancientcurses) {
 			if (prayerId == 1) {
 				if (leechBonuses[0] > 0)
@@ -349,7 +349,7 @@ public class Prayer {
 			closeAllPrayers();
 		else {
 			boolean hasOn = false;
-			int index = 0;
+			byte index = 0;
 			for (boolean prayer : quickPrayers[getPrayerBook()]) {
 				if (prayer) {
 					if (usePrayer(index))
@@ -364,9 +364,9 @@ public class Prayer {
 		}
 	}
 
-	private void closePrayers(int[]... prayers) {
-		for (int[] prayer : prayers)
-			for (int prayerId : prayer)
+	private void closePrayers(byte[]... prayers) {
+		for (byte[] prayer : prayers)
+			for (byte prayerId : prayer)
 				if (usingQuickPrayer)
 					quickPrayers[getPrayerBook()][prayerId] = false;
 				else {
@@ -378,7 +378,7 @@ public class Prayer {
 				}
 	}
 
-	public void switchPrayer(int prayerId) {
+	public void switchPrayer(byte prayerId) {
 		if (!usingQuickPrayer)
 			if (!checkPrayer())
 				return;
@@ -386,7 +386,7 @@ public class Prayer {
 		recalculatePrayer();
 	}
 
-	private boolean usePrayer(int prayerId) {
+	private boolean usePrayer(byte prayerId) {
 		if (prayerId < 0 || prayerId >= prayerLvls[getPrayerBook()].length)
 			return false;
 		if (player.getSkills().getLevelForXp(5) < prayerLvls[this.getPrayerBook()][prayerId]) {
@@ -596,7 +596,7 @@ public class Prayer {
 
 	public void closeAllPrayers() {
 		onPrayers = new boolean[][] { new boolean[30], new boolean[20] };
-		leechBonuses = new int[11];
+		leechBonuses = new byte[11];
 		onPrayersCount = 0;
 		player.getPackets().sendGlobalConfig(182, 0);
 		player.getPackets().sendConfig(ancientcurses ? 1582 : 1395, 0);
@@ -669,7 +669,7 @@ public class Prayer {
 		this.player = player;
 		onPrayers = new boolean[][] { new boolean[30], new boolean[20] };
 		nextDrain = new long[30];
-		leechBonuses = new int[11];
+		leechBonuses = new byte[11];
 	}
 
 	public boolean isAncientCurses() {
@@ -696,7 +696,7 @@ public class Prayer {
 		return prayerpoints;
 	}
 
-	public void setPrayerpoints(int prayerpoints) {
+	public void setPrayerpoints(byte prayerpoints) {
 		this.prayerpoints = prayerpoints;
 	}
 
@@ -706,7 +706,7 @@ public class Prayer {
 
 	public void drainPrayerOnHalf() {
 		if (prayerpoints > 0) {
-			prayerpoints = prayerpoints / 2;
+			prayerpoints = (short) (prayerpoints / 2);
 			refreshPrayerPoints();
 		}
 	}
@@ -724,7 +724,7 @@ public class Prayer {
 	}
 
 	public void restorePrayer(int amount) {
-		int maxPrayer = player.getSkills().getLevelForXp(Skills.PRAYER) * 10;
+		short maxPrayer = (short) (player.getSkills().getLevelForXp(Skills.PRAYER) * 10);
 		if ((prayerpoints + amount) <= maxPrayer)
 			prayerpoints += amount;
 		else
@@ -734,7 +734,7 @@ public class Prayer {
 
 	public void reset() {
 		closeAllPrayers();
-		prayerpoints = player.getSkills().getLevelForXp(Skills.PRAYER) * 10;
+		prayerpoints = (short) (player.getSkills().getLevelForXp(Skills.PRAYER) * 10);
 		refreshPrayerPoints();
 	}
 
