@@ -7,7 +7,7 @@ import main.listener.NPCType;
 import main.wrapper.NPCSignature;
 import npc.NPC;
 
-@NPCSignature(name = {"Ozan"}, npcId = {})
+@NPCSignature(name = {"Man"}, npcId = {})
 public class TestNPC implements NPCType {
 
 	
