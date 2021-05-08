@@ -187,7 +187,7 @@ public abstract class Entity extends WorldTile {
 					setNextGraphics(new Graphics(436));
 					setHitpoints((int) (hitpoints + player.getSkills().getLevelForXp(Skills.PRAYER) * 2.5));
 					player.getSkills().set(Skills.PRAYER, 0);
-					player.getPrayer().setPrayerpoints(0);
+					player.getPrayer().setPrayerpoints((byte) 0);
 				} else if (player.getEquipment().getAmuletId() != 11090 && player.getEquipment().getRingId() == 11090 && player.getHitpoints() <= player.getMaxHitpoints() * 0.1) {
 					Magic.sendNormalTeleportSpell(player, 1, 0, Settings.RESPAWN_PLAYER_LOCATION);
 					player.getEquipment().deleteItem(11090, 1);
@@ -297,7 +297,7 @@ public abstract class Entity extends WorldTile {
 			teleported = true;
 			if (this instanceof Player && ((Player) this).getTemporaryMoveType() == -1)
 				((Player) this).setTemporaryMoveType(Player.TELE_MOVE_TYPE);
-			World.updateEntityRegion(this);
+			updateEntityRegion(this);
 			if (needMapUpdate())
 				loadMapRegions();
 			else if (this instanceof Player && lastPlane != getHeight())
@@ -349,7 +349,7 @@ public abstract class Entity extends WorldTile {
 			 * if (this instanceof Player) { Area area = AreaManager.get(this); if (area != null) { AreaManager.update((Player) this, area); } }
 			 */
 		}
-		World.updateEntityRegion(this);
+		updateEntityRegion(this);
 		if (needMapUpdate())
 			loadMapRegions();
 	}
@@ -1242,5 +1242,51 @@ public abstract class Entity extends WorldTile {
 	 */
 	public final MutableNumber getPoisonDamage() {
 		return poisonDamage;
+	}
+	
+	/*
+	 * check if the entity region changed because moved or teled then we update it
+	 */
+	public final void updateEntityRegion(Entity entity) {
+		if (entity.hasFinished()) {
+			if (entity instanceof Player)
+				World.getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
+			else
+				World.getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
+			return;
+		}
+		int regionId = entity.getRegionId();
+		if (entity.getLastRegionId() != regionId) { // map region entity at
+			// changed
+			if (entity instanceof Player) {
+				if (entity.getLastRegionId() > 0)
+					World.getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
+				Region region = World.getRegion(regionId);
+				region.addPlayerIndex(entity.getIndex());
+				Player player = (Player) entity;
+				int musicId = region.getMusicId();
+				if (musicId != -1)
+					player.getMusicsManager().checkMusic(musicId);
+				player.getControlerManager().moved();
+				if (player.hasStarted()) {
+//					checkControlersAtMove(player);
+				}
+			} else {
+				if (entity.getLastRegionId() > 0)
+					World.getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
+				World.getRegion(regionId).addNPCIndex(entity.getIndex());
+			}
+			entity.checkMultiArea();
+			entity.setLastRegionId(regionId);
+		} else {
+			if (entity instanceof Player) {
+				Player player = (Player) entity;
+				player.getControlerManager().moved();
+				if (player.hasStarted()) {
+//					checkControlersAtMove(player);					
+				}
+			}
+			entity.checkMultiArea();
+		}
 	}
 }

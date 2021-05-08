@@ -75,26 +75,26 @@ public class PriceCheckManager {
 
 	public void refreshItems(Item[] itemsBefore) {
 		int totalPrice = 0;
-		int[] changedSlots = new int[itemsBefore.length];
+		byte[] changedSlots = new byte[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
 			Item item = pcInv.getItems()[index];
 			if (item != null)
 				totalPrice += EconomyPrices.getPrice(item.getId()) * item.getAmount();
 			if (itemsBefore[index] != item) {
-				changedSlots[count++] = index;
+				changedSlots[count++] = (byte) index;
 				player.getPackets().sendGlobalConfig(700 + index,
 						item == null ? 0 : EconomyPrices.getPrice(item.getId()));
 			}
 
 		}
-		int[] finalChangedSlots = new int[count];
+		byte[] finalChangedSlots = new byte[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
 		player.getPackets().sendGlobalConfig(728, totalPrice);
 	}
 
-	public void refresh(int... slots) {
+	public void refresh(byte... slots) {
 		player.getPackets().sendUpdateItems(90, pcInv, slots);
 	}
 

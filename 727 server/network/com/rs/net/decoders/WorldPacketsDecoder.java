@@ -1083,7 +1083,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == AFK_PACKET) {
 			player.getSession().getChannel().close();
 		} else if (packetId == CLOSE_INTERFACE_PACKET) {
-			if (player.hasStarted() && !player.hasFinished() && !player.isRunning()) { // used for old welcome screen
+			if (player.hasStarted() && !player.hasFinished() && !player.isActive()) { // used for old welcome screen
 				player.run();
 				return;
 			}
@@ -1136,7 +1136,7 @@ public final class WorldPacketsDecoder extends Decoder {
 				// player.getSession().getChannel().close();
 				return;
 			}
-			if (!player.isRunning() || !player.getInterfaceManager().containsInterface(interfaceId))
+			if (!player.isActive() || !player.getInterfaceManager().containsInterface(interfaceId))
 				return;
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
@@ -1161,7 +1161,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			RSInterfaceDispatcher.handleButtons(player, stream, packetId);
 		} 
 		else if (packetId ==  ENTER_LONGSTRING_PACKET){
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int byte0 = stream.readUnsignedByte();
 			String v1 = stream.readString();
@@ -1176,7 +1176,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			player.getPackets().sendGameMessage(""+value);
 		}
 		else if (packetId == ENTER_NAME_PACKET) {
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int byte0 = stream.readUnsignedByte();
 			String v1 = stream.readString();
@@ -1198,7 +1198,7 @@ public final class WorldPacketsDecoder extends Decoder {
 //				player.getTemporaryAttributtes().put("yellcolor", Boolean.FALSE);
 //			}
 		} else if (packetId == ENTER_INTEGER_PACKET) {
-			if (!player.isRunning() || player.isDead())
+			if (!player.isActive() || player.isDead())
 				return;
 			int value = stream.readInt();
 			if (player.getTemporaryAttributtes().get("integer_input_action") != null) {
@@ -1457,7 +1457,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Chat type: " + chatType);
 		} else if (packetId == COMMANDS_PACKET) {
-			if (!player.isRunning())
+			if (!player.isActive())
 				return;
 			boolean clientCommand = stream.readUnsignedByte() == 1;
 			@SuppressWarnings("unused")

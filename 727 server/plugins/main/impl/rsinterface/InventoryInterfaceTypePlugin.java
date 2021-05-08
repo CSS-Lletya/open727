@@ -17,7 +17,7 @@ import skills.Skills;
 public class InventoryInterfaceTypePlugin implements RSInterface {
 
 	@Override
-	public void execute(Player player, int interfaceId, int componentId, int packetId, int slotId, int slotId2) throws Exception {
+	public void execute(Player player, int interfaceId, int componentId, int packetId, byte slotId, int slotId2) throws Exception {
 		if(interfaceId == 670)
 			if (componentId == 0) {
 				if (slotId >= player.getInventory().getItemsContainerSize())
@@ -34,7 +34,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 	}
 	
 	@SuppressWarnings("unused")
-	public static boolean sendWear(Player player, int slotId, int itemId) {
+	public static boolean sendWear(Player player, byte slotId, int itemId) {
 
 		if (player.hasFinished() || player.isDead())
 			return false;
@@ -47,7 +47,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 			player.getPackets().sendGameMessage("You can't wear that.");
 			return true;
 		}
-		int targetSlot = Equipment.getItemSlot(itemId);
+		byte targetSlot = Equipment.getItemSlot(itemId);
 		if (targetSlot == -1) {
 			player.getPackets().sendGameMessage("You can't wear that.");
 			return true;
@@ -129,7 +129,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 		}
 		Item item2 = new Item(itemId, oldAmt + item.getAmount());
 		player.getEquipment().getItems().set(targetSlot, item2);
-		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? 5 : targetSlot == 3 ? 0 : 3);
+		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? (byte) 5 : targetSlot == 3 ? (byte) 0 : (byte) 3);
 		player.getAppearance().generateAppearenceData();
 		player.getPackets().sendSound(2240, 0, 1);
 		if (targetSlot == 3)
@@ -154,7 +154,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 			player.getPackets().sendGameMessage("You can't wear that.");
 			return false;
 		}
-		int targetSlot = Equipment.getItemSlot(itemId);
+		byte targetSlot = Equipment.getItemSlot(itemId);
 		if (itemId == 4084)
 			targetSlot = 3;
 		if (targetSlot == -1) {
@@ -231,7 +231,7 @@ public class InventoryInterfaceTypePlugin implements RSInterface {
 		}
 		Item item2 = new Item(itemId, oldAmt + item.getAmount());
 		player.getEquipment().getItems().set(targetSlot, item2);
-		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? 5 : targetSlot == 3 ? 0 : 3);
+		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? (byte) 5 : targetSlot == 3 ? (byte) 0 : (byte) 3);
 		if (targetSlot == 3)
 			player.getCombatDefinitions().decreaseSpecialAttack(0);
 		player.getCharges().wear(targetSlot);

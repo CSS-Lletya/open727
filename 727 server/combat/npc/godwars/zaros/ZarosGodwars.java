@@ -116,7 +116,7 @@ public final class ZarosGodwars {
 		// synchronized(LOCK) {
 		ArrayList<Entity> possibleTarget = new ArrayList<Entity>(playersOn.size());
 		for (Player player : playersOn) {
-			if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
+			if (player == null || player.isDead() || player.hasFinished() || !player.isActive())
 				continue;
 			possibleTarget.add(player);
 			/*

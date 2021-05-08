@@ -14,23 +14,23 @@ public final class LocalPlayerUpdate {
 	/**
 	 * The maximum amount of local players being added per tick. This is to decrease time it takes to load crowded places (such as home).
 	 */
-	private static final int MAX_PLAYER_ADD = 15;
+	private static final byte MAX_PLAYER_ADD = 15;
 
 	private transient Player player;
 
 	private byte[] slotFlags;
 
 	private transient Player[] localPlayers;
-	private int[] localPlayersIndexes;
-	private int localPlayersIndexesCount;
+	private short[] localPlayersIndexes;
+	private byte localPlayersIndexesCount;
 
-	private int[] outPlayersIndexes;
-	private int outPlayersIndexesCount;
+	private short[] outPlayersIndexes;
+	private short outPlayersIndexesCount;
 
-	private int[] regionHashes;
+	private short[] regionHashes;
 
 	private byte[][] cachedAppearencesHashes;
-	private int totalRenderDataSentLength;
+	private byte totalRenderDataSentLength;
 
 	/**
 	 * The amount of local players added this tick.
@@ -41,7 +41,7 @@ public final class LocalPlayerUpdate {
 		return localPlayers;
 	}
 
-	public boolean needAppearenceUpdate(int index, byte[] hash) {
+	public boolean needAppearenceUpdate(byte index, byte[] hash) {
 		if (totalRenderDataSentLength > ((Settings.PACKET_SIZE_LIMIT - 500) / 2) || hash == null)
 			return false;
 		return cachedAppearencesHashes[index] == null || !MessageDigest.isEqual(cachedAppearencesHashes[index], hash);
@@ -51,9 +51,9 @@ public final class LocalPlayerUpdate {
 		this.player = player;
 		slotFlags = new byte[2048];
 		localPlayers = new Player[2048];
-		localPlayersIndexes = new int[Settings.PLAYERS_LIMIT];
-		outPlayersIndexes = new int[2048];
-		regionHashes = new int[2048];
+		localPlayersIndexes = new short[Settings.PLAYERS_LIMIT];
+		outPlayersIndexes = new short[2048];
+		regionHashes = new short[2048];
 		cachedAppearencesHashes = new byte[Settings.PLAYERS_LIMIT][];
 	}
 
@@ -61,13 +61,13 @@ public final class LocalPlayerUpdate {
 		stream.initBitAccess();
 		stream.writeBits(30, player.getTileHash());
 		localPlayers[player.getIndex()] = player;
-		localPlayersIndexes[localPlayersIndexesCount++] = player.getIndex();
+		localPlayersIndexes[localPlayersIndexesCount++] = (short) player.getIndex();
 		for (int playerIndex = 1; playerIndex < 2048; playerIndex++) {
 			if (playerIndex == player.getIndex())
 				continue;
 			Player player = World.getPlayers().get(playerIndex);
-			stream.writeBits(18, regionHashes[playerIndex] = player == null ? 0 : player.getRegionHash());
-			outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
+			stream.writeBits(18, regionHashes[playerIndex] = (short) (player == null ? 0 : player.getRegionHash()));
+			outPlayersIndexes[outPlayersIndexesCount++] = (short) playerIndex;
 
 		}
 		stream.finishBitAccess();
@@ -145,11 +145,11 @@ public final class LocalPlayerUpdate {
 				else {
 					stream.writeBits(1, 1);
 					updateRegionHash(stream, regionHashes[playerIndex], hash);
-					regionHashes[playerIndex] = hash;
+					regionHashes[playerIndex] = (short) hash;
 				}
 				stream.writeBits(6, p.getXInRegion());
 				stream.writeBits(6, p.getYInRegion());
-				boolean needAppearenceUpdate = needAppearenceUpdate(p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
+				boolean needAppearenceUpdate = needAppearenceUpdate((byte) p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
 				appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, true);
 				stream.writeBits(1, 1);
 				localAddedPlayers++;
@@ -160,7 +160,7 @@ public final class LocalPlayerUpdate {
 				if (p != null && hash != regionHashes[playerIndex]) {
 					stream.writeBits(1, 1);
 					updateRegionHash(stream, regionHashes[playerIndex], hash);
-					regionHashes[playerIndex] = hash;
+					regionHashes[playerIndex] = (short) hash;
 				} else {
 					stream.writeBits(1, 0); // no update needed
 					for (int i2 = i + 1; i2 < outPlayersIndexesCount; i2++) {
@@ -197,18 +197,18 @@ public final class LocalPlayerUpdate {
 				stream.writeBits(1, 1); // needs update
 				stream.writeBits(1, 0); // no masks update needeed
 				stream.writeBits(2, 0); // request remove
-				regionHashes[playerIndex] = p.getLastWorldTile() == null ? p.getRegionHash() : p.getLastWorldTile().getRegionHash();
+				regionHashes[playerIndex] = (short) (p.getLastWorldTile() == null ? p.getRegionHash() : p.getLastWorldTile().getRegionHash());
 				int hash = p.getRegionHash();
 				if (hash == regionHashes[playerIndex])
 					stream.writeBits(1, 0);
 				else {
 					stream.writeBits(1, 1);
 					updateRegionHash(stream, regionHashes[playerIndex], hash);
-					regionHashes[playerIndex] = hash;
+					regionHashes[playerIndex] = (short) hash;
 				}
 				localPlayers[playerIndex] = null;
 			} else {
-				boolean needAppearenceUpdate = needAppearenceUpdate(p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
+				boolean needAppearenceUpdate = needAppearenceUpdate((byte) p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
 				boolean needUpdate = p.needMasksUpdate() || needAppearenceUpdate;
 				if (needUpdate)
 					appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, false);
@@ -271,7 +271,7 @@ public final class LocalPlayerUpdate {
 						if (nsn0 ? (0x1 & slotFlags[p2Index]) != 0 : (0x1 & slotFlags[p2Index]) == 0)
 							continue;
 						Player p2 = localPlayers[p2Index];
-						if (needsRemove(p2) || p2.hasTeleported() || p2.getNextWalkDirection() != -1 || (p2.needMasksUpdate() || needAppearenceUpdate(p2.getIndex(), p2.getAppearance().getMD5AppeareanceDataHash())))
+						if (needsRemove(p2) || p2.hasTeleported() || p2.getNextWalkDirection() != -1 || (p2.needMasksUpdate() || needAppearenceUpdate((byte) p2.getIndex(), p2.getAppearance().getMD5AppeareanceDataHash())))
 							break;
 						skip++;
 					}
@@ -516,9 +516,9 @@ public final class LocalPlayerUpdate {
 			slotFlags[playerIndex] >>= 1;
 			Player player = localPlayers[playerIndex];
 			if (player == null)
-				outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
+				outPlayersIndexes[outPlayersIndexesCount++] = (short) playerIndex;
 			else
-				localPlayersIndexes[localPlayersIndexesCount++] = playerIndex;
+				localPlayersIndexes[localPlayersIndexesCount++] = (short) playerIndex;
 		}
 		return stream;
 	}

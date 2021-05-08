@@ -18,7 +18,7 @@ public class OwnedObjectManager {
 
 	private Player player;
 	private WorldObject[] objects;
-	private int count;
+	private short count;
 	private long cycleTime;
 	private long lifeTime;
 	private String managerKey;
