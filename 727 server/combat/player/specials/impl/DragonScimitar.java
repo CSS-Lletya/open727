@@ -1,6 +1,7 @@
 package player.specials.impl;
 
 import com.rs.game.Animation;
+import com.rs.game.Hit;
 import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
@@ -23,30 +24,34 @@ public class DragonScimitar implements WeaponSpecials {
 	 */
 	@Override
 	public void execute(Player player, Entity target, PlayerCombat combat) throws Exception {
-		target.setNextGraphics(new Graphics(2108, 0, 100));
 		if(player.getRights() == Rights.ADMINISTRATOR)
-			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, Needs sound, graphics, animations and implementation!");
-		if (target instanceof Player) {
-			;
-		}
+			player.getPackets().sendGameMessage(this.getClass().getName() + " Unfinished special, needs accuracy implementation and testing!");
 		int weaponId = player.getEquipment().getWeaponId();
 		int attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int damage = 0;//getRandomMaxHit(player, weaponId, attackStyle, )
-		//combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(player));
+		Hit hit11 = combat.getMeleeHit(
+				player,
+				combat.getRandomMaxHit(player, weaponId, attackStyle, false,
+						true, 1.0, true));
+		if (target instanceof Player) {
+			Player p2 = (Player) target;
+			if (hit11.getDamage() > 0)
+				p2.setPrayerDelay(5000);// 5 seconds
+		}
+		combat.delayNormalHit(weaponId, attackStyle, hit11);
 	}
 
 	@Override
 	public Optional<Animation> getAnimation() {
-		return Optional.empty();
+		return Optional.of(new Animation(12031));
 	}
 
 	@Override
 	public Optional<Graphics> getGraphics() {
-		return Optional.empty();
+		return Optional.of(new Graphics(2118));
 	}
 
 	@Override
 	public Optional<Integer> getSound() {
-		return Optional.empty();
+		return Optional.of(2540);
 	}
 }

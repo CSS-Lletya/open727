@@ -12,7 +12,6 @@ import player.specials.WeaponSpecials;
 
 import java.util.Optional;
 
-//TODO we are here
 @WeaponSpecialSignature(weapons = { ItemNames.BARRELCHEST_ANCHOR }, specAmount = 50)
 public class BarrelchestAnchor implements WeaponSpecials {
 
@@ -32,7 +31,7 @@ public class BarrelchestAnchor implements WeaponSpecials {
 		combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(
 						player,
 						combat.getRandomMaxHit(player, weaponId, attackStyle,
-								false, false, 1.0, true)));
+								false, false, 1.1, true)));
 	}
 
 	@Override
