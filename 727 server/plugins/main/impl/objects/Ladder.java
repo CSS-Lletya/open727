@@ -2,6 +2,7 @@ package main.impl.objects;
 
 import com.rs.game.Animation;
 import com.rs.game.WorldObject;
+import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 import main.listener.ObjectType;
@@ -10,15 +11,20 @@ import main.wrapper.ObjectSignature;
 @ObjectSignature(objectId = {}, name = {"Ladder"})
 public class Ladder implements ObjectType {
     Player player;
+    WorldObject ladder;
+    int optionId;
+
     @Override
     public void execute(Player player, WorldObject object, int optionId) throws Exception {
         this.player = player;
+        this.ladder = object;
+        this.optionId = optionId;
         player.stopAll();
         player.lock(2);
         player.faceObject(object);
 
-        Utils.runLater(climbAnimate(), 900);
-        Utils.runLater(changeHeight(), 2000);
+        Utils.runLater(climbAnimate(), 1000);
+        Utils.runLater(changeHeight(), 1000);
 
     }
 
@@ -35,7 +41,10 @@ public class Ladder implements ObjectType {
         return new Runnable(){
             @Override
             public void run(){
-                player.setLocation(player.getX(), player.getY(), player.getHeight()+1);
+                if(ladder.getDefinitions().getOption(optionId).equalsIgnoreCase("Climb-up"))
+                    player.setNextWorldTile(new WorldTile(player.getX(), player.getY(), player.getHeight() + 1));
+                else if(ladder.getDefinitions().getOption(optionId).equalsIgnoreCase("Climb-down"))
+                    player.setNextWorldTile(new WorldTile(player.getX(), player.getY(), player.getHeight() - 1));
             }
         };
     }
