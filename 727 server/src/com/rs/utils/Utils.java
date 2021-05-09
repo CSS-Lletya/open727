@@ -18,6 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.cache.io.InputStream;
+import com.rs.cache.io.Stream;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
 
@@ -997,4 +999,6 @@ public final class Utils {
 					}
 				}, milliseconds);
 	}
+
+
 }

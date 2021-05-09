@@ -28,6 +28,7 @@ import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.actions.ActionManager;
 import com.rs.game.player.content.EmotesManager;
+import com.rs.game.player.content.LodeStone;
 import com.rs.game.player.content.MusicsManager;
 import com.rs.game.player.content.PriceCheckManager;
 import com.rs.game.player.content.pet.PetManager;
@@ -81,6 +82,9 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
+	//Stones
+	private transient boolean[] activatedLodestones;
+	private transient LodeStone lodeStone;
 
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
@@ -205,6 +209,7 @@ public class Player extends Entity {
 		charges = new ChargesManager();
 		auraManager = new AuraManager();
 		petManager = new PetManager();
+		lodeStone = new LodeStone();
 		runEnergy = 100D;
 		allowChatEffects = true;
 		mouseButtons = true;
@@ -217,14 +222,17 @@ public class Player extends Entity {
 		// temporary deleted after reset all chars
 		if (auraManager == null)
 			auraManager = new AuraManager();
-		if (petManager == null) {
+		if (petManager == null)
 			petManager = new PetManager();
-		}
-		if (details == null) {
+		if (details == null)
 			details = new PlayerDetails();
-		}
 		if(toolbelt == null)
 			this.toolbelt = new Toolbelt();
+		if (lodeStone == null)
+			lodeStone = new LodeStone();
+		if (activatedLodestones == null)
+			activatedLodestones = new boolean[16];
+
 		this.session = session;
 		this.username = username;
 		this.displayMode = displayMode;
@@ -239,6 +247,7 @@ public class Player extends Entity {
 		actionManager = new ActionManager(this);
 		sof = new SquealOfFortune(this);
 		trade = new Trade(this);
+		lodeStone.setPlayer(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
 		inventory.setPlayer(this);
@@ -610,7 +619,8 @@ public class Player extends Entity {
 		getPackets().sendGameBarStages();
 		getMusicsManager().init();
 		getEmotesManager().refreshListConfigs();
-		sendUnlockedObjectConfigs();
+		if(this.rights == Rights.ADMINISTRATOR)
+			lodeStone.unlockAllLodestones();
 		if (getCurrentFriendChatOwner() != null) {
 			FriendChatsManager.joinChat(getCurrentFriendChatOwner(), this);
 			if (currentFriendChat == null) // failed
@@ -836,6 +846,14 @@ public class Player extends Entity {
 
 	public WorldPacketsEncoder getPackets() {
 		return session.getWorldPackets();
+	}
+
+	public boolean[] getActivatedLodestones() {
+		return activatedLodestones;
+	}
+
+	public LodeStone getLodeStones() {
+		return lodeStone;
 	}
 
 	public boolean hasStarted() {
