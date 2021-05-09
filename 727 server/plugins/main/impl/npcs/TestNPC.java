@@ -10,23 +10,23 @@ import npc.NPC;
 @NPCSignature(name = {"Ozan"}, npcId = {})
 public class TestNPC implements NPCType {
 
-	
-	@Override
-	public void execute(Player player, NPC npc, int option) throws Exception {
-		/*
-		 * For a full dialogue script use this.
-		 */
-		player.dialog(new TestD(player, npc));
-		
-		/*
-		 * For a quick access dialogue entry use this
-		 * (example)
-		 */
+
+    @Override
+    public void execute(Player player, NPC npc, int option) throws Exception {
+        /*
+         * For a full dialogue script use this.
+         */
+        player.dialog(new TestD(player, npc));
+
+        /*
+         * For a quick access dialogue entry use this
+         * (example)
+         */
 //		player.dialog(new DialogueEventListener(player) {
 //			@Override
 //			public void start() {
 //				mes("lol");
 //			}
-//		}.begin());
-	}
+//		});
+    }
 }
