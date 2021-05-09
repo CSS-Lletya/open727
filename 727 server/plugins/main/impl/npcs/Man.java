@@ -7,7 +7,7 @@ import main.listener.NPCType;
 import main.wrapper.NPCSignature;
 import npc.NPC;
 
-@NPCSignature(name = {"Ozan"}, npcId = {})
+@NPCSignature(name = {"Man"}, npcId = {})
 public class Man implements NPCType {
 
 	
@@ -26,11 +26,14 @@ public class Man implements NPCType {
 			@Override
 			public void start() {
 				player(happy, "Hello.");
-				npc(scared,"Quickly - Tell me, is it still there?");
+				player(scared,"Quickly - Tell me, is it still there?");
 				player(question, "Is what still where?");
-				npc(dispair, "The THING, the THING! It was just outside my house! Has it gone away yet? Or is it still lurking out there, waiting for me to go outside?");
-				player(annoyed, "I didn't see any THING out there, just a couple of guards. What did it look like?");
-				npc(shock_omg, "Ohhh, it was HORRIBLE! It was an enormous THING, with TEETH and EYES and... and... and THINGS!");
+//				player(dispair, "The THING, the THING! It was just outside my house! Has it gone away yet? Or is it still lurking out there, waiting for me to go outside?");
+//				player(annoyed, "I didn't see any THING out there, just a couple of guards. What did it look like?");
+				player(shock_omg, "Ohhh, it was HORRIBLE! It was an enormous THING, with TEETH and EYES and... and... and THINGS!");
+				player(shock_omg, "Ohhh, it was HORRIBLE! It was an enormous THING, with TEETH and EYES and... and... and THINGS!");
+				player(shock_omg, "Ohhh, it was HORRIBLE! It was an enormous THING, with TEETH and EYES and... and... and THINGS!");
+				player(shock_omg, "Ohhh, it was HORRIBLE! It was an enormous THING, with TEETH and EYES and... and... and THINGS!");
 						/*Player: Um... would you care to be more specific?
 						Man: I can't. I only saw it in the dark.
 				Player: You only saw this THING in the dark?
