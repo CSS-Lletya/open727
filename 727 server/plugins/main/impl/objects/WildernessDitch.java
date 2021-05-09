@@ -12,7 +12,6 @@ public class WildernessDitch implements ObjectType {
     private WorldTile destination;
     @Override
     public void execute(Player player, WorldObject object, int optionId) throws Exception {
-        System.out.println("test");
         this.player = player;
         ditch = object;
         if (optionId == 1) {

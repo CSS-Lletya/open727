@@ -23,8 +23,8 @@ public class Ladder implements ObjectType {
         player.lock(2);
         player.faceObject(object);
 
-        Utils.runLater(climbAnimate(), 1000);
-        Utils.runLater(changeHeight(), 1000);
+        Utils.runLater(climbAnimate(), 800);
+        Utils.runLater(changeHeight(), 1300);
 
     }
 
