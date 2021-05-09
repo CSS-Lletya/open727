@@ -8,12 +8,12 @@ import com.rs.utils.Utils;
 import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 
-@ObjectSignature(objectId = {}, name = {"Ladder"})
-public class Ladder implements ObjectType {
+@ObjectSignature(objectId = {}, name = {"Trapdoor"})
+public class Trapdoor implements ObjectType {
     Player player;
     WorldObject ladder;
     int optionId;
-    int LUMBRIDGE_CELLAR_LADDER = 29355;
+    int LUMBRIDGE_KITCHEN_TRAPDDOR = 36687;
 
     @Override
     public void execute(Player player, WorldObject object, int optionId) throws Exception {
@@ -25,8 +25,8 @@ public class Ladder implements ObjectType {
         player.faceObject(object);
 
         Utils.runLater(climbAnimate(), 800);
-        if(object.getId() == LUMBRIDGE_CELLAR_LADDER)
-            Utils.runLater(goToLumbridgeKitchen(), 1300);
+        if(object.getId() == LUMBRIDGE_KITCHEN_TRAPDDOR)
+            Utils.runLater(goToLumbridgeCellar(), 1300);
         else
             Utils.runLater(changeHeight(), 1300);
 
@@ -41,11 +41,11 @@ public class Ladder implements ObjectType {
         };
     }
 
-    public Runnable goToLumbridgeKitchen() {
+    public Runnable goToLumbridgeCellar() {
         return new Runnable(){
             @Override
             public void run(){
-                player.setNextWorldTile(new WorldTile(3210, 3216, 0));
+                player.setNextWorldTile(new WorldTile(3208, 9616, 0));
             }
         };
     }

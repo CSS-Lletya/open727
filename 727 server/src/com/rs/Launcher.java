@@ -12,6 +12,7 @@ import com.rs.game.Region;
 import com.rs.game.World;
 import com.rs.game.discord.DiscordBot;
 import com.rs.game.player.AccountCreation;
+import com.rs.json.impl.ObjectSpawnLoader;
 import com.rs.net.ServerChannelHandler;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
@@ -35,6 +36,7 @@ public final class Launcher {
 			getDB().init();
 		}
 		GameLoader.get().getBackgroundLoader().waitForPendingTasks().shutdown();
+		new ObjectSpawnLoader().initialize();
 
 		Logger.log("Launcher",
 				"Server took " + (Utils.currentTimeMillis() - currentTime) + " milli seconds to launch.");
