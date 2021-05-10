@@ -3,10 +3,10 @@ package com.rs.json;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
-import java.lang.reflect.Type;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

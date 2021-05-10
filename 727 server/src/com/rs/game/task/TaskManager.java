@@ -1,10 +1,10 @@
 package com.rs.game.task;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-
 import java.util.Iterator;
 import java.util.Objects;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 
 /**
  * Handles the processing and execution of {@link Task}s.

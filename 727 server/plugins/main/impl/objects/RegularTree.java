@@ -1,8 +1,8 @@
 package main.impl.objects;
 
-import com.rs.game.World;
 import com.rs.game.WorldObject;
 import com.rs.game.player.Player;
+
 import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 

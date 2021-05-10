@@ -1,15 +1,16 @@
 package main.impl.objects;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.rs.game.Animation;
 import com.rs.game.WorldObject;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
+
 import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 import skills.Skills;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @ObjectSignature(objectId = {}, name = {"Underwall tunnel"})
 public class GEShortCut implements ObjectType {

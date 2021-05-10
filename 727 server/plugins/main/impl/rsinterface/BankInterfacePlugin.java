@@ -2,6 +2,7 @@ package main.impl.rsinterface;
 
 import com.rs.game.player.Player;
 import com.rs.net.decoders.WorldPacketsDecoder;
+
 import main.listener.RSInterface;
 import main.wrapper.RSInterfaceSignature;
 

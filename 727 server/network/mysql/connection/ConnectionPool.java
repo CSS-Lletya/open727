@@ -1,9 +1,9 @@
 package mysql.connection;
 
-import com.google.common.util.concurrent.ListenableFuture;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 /**
  * An interface for asynchronously pooling database {@link Connection}s.

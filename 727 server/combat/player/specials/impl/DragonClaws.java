@@ -1,17 +1,18 @@
 package player.specials.impl;
 
+import java.util.Optional;
+
 import com.rs.game.Animation;
-import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
+import com.rs.game.player.Rights;
 import com.rs.utils.Utils;
+
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
-
-import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_CLAW }, specAmount = 50)

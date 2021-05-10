@@ -1,15 +1,16 @@
 package main.impl.commands;
 
+import java.lang.annotation.IncompleteAnnotationException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
-
 import com.rs.utils.Utils;
+
 import main.listener.Command;
 import main.wrapper.CommandSignature;
-
-import java.lang.annotation.IncompleteAnnotationException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @CommandSignature(alias = {"commandslist"}, rights = {Rights.ADMINISTRATOR}, syntax = "Lists all commands")
 public final class ShowCommandsListCommand implements Command {
