@@ -233,13 +233,26 @@ public class Bank {
 	}
 
 	public void openBank() {
-		player.getInterfaceManager().sendInterface(762);
-		player.getInterfaceManager().sendInventoryInterface(763);
-		refreshViewingTab();
-		refreshTabs();
-		unlockButtons();
-		sendItems();
-		refreshLastX();
+		if((System.currentTimeMillis() - player.lastOpenedWithPin) > (24 * 60 * 60 * 1000))
+			player.hasPinOpenedToday = false;
+		if(!player.getSession().getIP().equalsIgnoreCase(player.lastIPBankWasOpened)) {
+			player.hasPinOpenedToday = false;
+			player.lastIPBankWasOpened = player.getSession().getIP();
+		}
+
+		if(!player.setPin || player.hasPinOpenedToday) {
+			player.getInterfaceManager().sendInterface(762);
+			player.getInterfaceManager().sendInventoryInterface(763);
+			refreshViewingTab();
+			refreshTabs();
+			unlockButtons();
+			sendItems();
+			refreshLastX();
+		} else if(player.setPin && !player.hasPinOpenedToday) {
+			player.getBankPin().openBankPin();
+			player.getTemporaryAttributtes().put("open_bank", player);
+		}
+
 	}
 
 	public void openEquipmentBonuses(boolean banking) {

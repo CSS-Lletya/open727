@@ -85,16 +85,19 @@ public class Player extends Entity {
 	private transient LodeStone lodeStone;
 
 	//Pins
-	private BankPin pin;
-	public boolean bypass;
-	private int pinpinpin;
-	public boolean setPin = false;
-	public boolean openPin = false;
-	public boolean startpin = false;
-	private int[] bankpins = new int[] { 0, 0, 0, 0 };
-	private int[] confirmpin = new int[] { 0, 0, 0, 0 };
-	private int[] openBankPin = new int[] { 0, 0, 0, 0 };
-	private int[] changeBankPin = new int[] { 0, 0, 0, 0 };
+	private transient BankPin pin;
+	public transient String lastIPBankWasOpened;
+	public transient boolean bypass;
+	private transient int pinpinpin;
+	public transient boolean hasPinOpenedToday = false;
+	public transient long lastOpenedWithPin = -1;
+	public transient boolean setPin = false;
+	public transient boolean openPin = false;
+	public transient boolean startpin = false;
+	private transient int[] bankpins = new int[] { 0, 0, 0, 0 };
+	private transient int[] confirmpin = new int[] { 0, 0, 0, 0 };
+	private transient int[] openBankPin = new int[] { 0, 0, 0, 0 };
+	private transient int[] changeBankPin = new int[] { 0, 0, 0, 0 };
 
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;

@@ -60,7 +60,6 @@ public class BankPin {
     }
 
     public void handleButtons(int interfaceId, int componentId) {
-        System.out.println("wea TRI here");
         if (interfaceId == 759) {
             switch (componentId) {
                 case 4:// 0
@@ -206,6 +205,7 @@ public class BankPin {
                             player.getTemporaryAttributtes().remove("open_last");
                             player.getTemporaryAttributtes().remove("open_bank");
                             player.openPin = false;
+                            player.hasPinOpenedToday = false;
                         } else {
                             player.closeInterfaces();
                             for (int i = 0; i < 4; i++) {
@@ -215,6 +215,8 @@ public class BankPin {
                             player.getTemporaryAttributtes().remove("open_last");
                             player.getTemporaryAttributtes().remove("open_bank");
                             player.openPin = true;
+                            player.hasPinOpenedToday = true;
+                            player.lastOpenedWithPin = System.currentTimeMillis();
                             player.getBank().openBank();
                         }
                     }
