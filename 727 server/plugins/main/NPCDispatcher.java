@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 import com.rs.Settings;
 import com.rs.cache.io.InputStream;
 import com.rs.game.World;
+import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
+import com.rs.game.route.CoordsEvent;
 import com.rs.game.route.strategy.RouteEvent;
 import com.rs.utils.Logger;
 import com.rs.utils.Utils;
@@ -125,6 +127,9 @@ public final class NPCDispatcher {
 		player.stopAll(true);
 		if (forceRun)
 			player.setRun(forceRun);
+
+
+
 		player.setRouteEvent(new RouteEvent(npc, new Runnable() {
 			@Override
 			public void run() {
@@ -133,6 +138,7 @@ public final class NPCDispatcher {
 				NPCDispatcher.execute(player, npc, optionId);
 			}
 		}, npc.getDefinitions().name.contains("Banker") || npc.getDefinitions().name.contains("banker")));
+
 	}
 	
 	public static void handleExamine(final Player player, InputStream stream) {
