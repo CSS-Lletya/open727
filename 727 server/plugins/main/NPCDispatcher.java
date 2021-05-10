@@ -122,7 +122,7 @@ public final class NPCDispatcher {
 		if (npc == null || npc.isCantInteract() || npc.isDead() || npc.hasFinished()
 				|| !player.getMapRegionsIds().contains(npc.getRegionId()))
 			return;
-		player.stopAll(false);
+		player.stopAll(true);
 		if (forceRun)
 			player.setRun(forceRun);
 		player.setRouteEvent(new RouteEvent(npc, new Runnable() {
