@@ -1142,7 +1142,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
 			int componentId = interfaceHash - (interfaceId << 16);
-			BankPinInterfacePlugin.finishPinDialogue(player, interfaceId, interfaceHash);
+			BankPinInterfacePlugin.finishPinDialogue(player, interfaceId, componentId);
 			new DestroyItemD(DestroyItemD.INSTANCE.getItem()).executeDestroy(player, interfaceId, componentId);
 			if (DialogueEventListener.main(player, componentId))
 				return;
