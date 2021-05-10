@@ -27,10 +27,7 @@ import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.actions.ActionManager;
-import com.rs.game.player.content.EmotesManager;
-import com.rs.game.player.content.LodeStone;
-import com.rs.game.player.content.MusicsManager;
-import com.rs.game.player.content.PriceCheckManager;
+import com.rs.game.player.content.*;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.controlers.Wilderness;
@@ -82,9 +79,22 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
+
 	//Stones
 	private transient boolean[] activatedLodestones;
 	private transient LodeStone lodeStone;
+
+	//Pins
+	private BankPin pin;
+	public boolean bypass;
+	private int pinpinpin;
+	public boolean setPin = false;
+	public boolean openPin = false;
+	public boolean startpin = false;
+	private int[] bankpins = new int[] { 0, 0, 0, 0 };
+	private int[] confirmpin = new int[] { 0, 0, 0, 0 };
+	private int[] openBankPin = new int[] { 0, 0, 0, 0 };
+	private int[] changeBankPin = new int[] { 0, 0, 0, 0 };
 
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
@@ -209,6 +219,7 @@ public class Player extends Entity {
 		charges = new ChargesManager();
 		auraManager = new AuraManager();
 		petManager = new PetManager();
+		pin = new BankPin();
 		lodeStone = new LodeStone();
 		runEnergy = 100D;
 		allowChatEffects = true;
@@ -232,6 +243,16 @@ public class Player extends Entity {
 			lodeStone = new LodeStone();
 		if (activatedLodestones == null)
 			activatedLodestones = new boolean[16];
+		if (pin == null)
+			pin = new BankPin();
+
+		if (pinpinpin != 1) {
+			pinpinpin = 1;
+			bankpins = new int[] { 0, 0, 0, 0 };
+			confirmpin = new int[] { 0, 0, 0, 0 };
+			openBankPin = new int[] { 0, 0, 0, 0 };
+			changeBankPin = new int[] { 0, 0, 0, 0 };
+		}
 
 		this.session = session;
 		this.username = username;
@@ -248,6 +269,7 @@ public class Player extends Entity {
 		sof = new SquealOfFortune(this);
 		trade = new Trade(this);
 		lodeStone.setPlayer(this);
+		pin.setPlayer(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
 		inventory.setPlayer(this);
@@ -329,6 +351,34 @@ public class Player extends Entity {
 						getPackets().sendDestroyObject(object);
 			}
 		}
+	}
+
+	public BankPin getBankPin() {
+		return pin;
+	}
+
+	public boolean getSetPin() {
+		return setPin;
+	}
+
+	public boolean getOpenedPin() {
+		return openPin;
+	}
+
+	public int[] getPin() {
+		return bankpins;
+	}
+
+	public int[] getConfirmPin() {
+		return confirmpin;
+	}
+
+	public int[] getOpenBankPin() {
+		return openBankPin;
+	}
+
+	public int[] getChangeBankPin() {
+		return changeBankPin;
 	}
 
 	// now that we inited we can start showing game

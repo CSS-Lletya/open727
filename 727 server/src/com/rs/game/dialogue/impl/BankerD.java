@@ -20,7 +20,7 @@ public class BankerD extends DialogueEventListener {
                 },
                 "I'd like to check my PIN settings.",
                 () -> {
-                    ;
+                    player.getBankPin().openPinSettings();
                 },
                 "I'd like to see my collection box.",
                 () -> {

@@ -32,6 +32,7 @@ import main.CommandDispatcher;
 import main.NPCDispatcher;
 import main.ObjectDispatcher;
 import main.RSInterfaceDispatcher;
+import main.impl.rsinterface.BankPinInterfacePlugin;
 import main.impl.rsinterface.InventoryInterfacePlugin;
 import npc.NPC;
 import npc.familiar.Familiar;
@@ -1141,6 +1142,7 @@ public final class WorldPacketsDecoder extends Decoder {
 			if (Settings.DEBUG)
 				Logger.log(this, "Dialogue: " + interfaceId + ", " + buttonId + ", " + junk);
 			int componentId = interfaceHash - (interfaceId << 16);
+			BankPinInterfacePlugin.finishPinDialogue(player, interfaceId, interfaceHash);
 			new DestroyItemD(DestroyItemD.INSTANCE.getItem()).executeDestroy(player, interfaceId, componentId);
 			if (DialogueEventListener.main(player, componentId))
 				return;
