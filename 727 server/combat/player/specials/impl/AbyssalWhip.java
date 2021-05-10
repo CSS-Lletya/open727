@@ -3,7 +3,6 @@ package player.specials.impl;
 import java.util.Optional;
 
 import com.rs.game.Animation;
-import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;

@@ -1,8 +1,6 @@
 package main.impl.npcs;
 
-import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.dialogue.impl.BankerD;
-import com.rs.game.dialogue.impl.TestD;
 import com.rs.game.player.Player;
 
 import main.listener.NPCType;

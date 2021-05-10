@@ -1,8 +1,8 @@
 package com.rs.game.task;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Objects;
+
+import com.google.common.base.Preconditions;
 
 /**
  * A single link within a {@link LinkedTaskSequence}.

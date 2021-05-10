@@ -3,6 +3,7 @@ package main.impl.commands;
 import com.rs.game.player.Player;
 import com.rs.game.player.Rights;
 import com.rs.utils.Utils;
+
 import main.listener.Command;
 import main.wrapper.CommandSignature;
 

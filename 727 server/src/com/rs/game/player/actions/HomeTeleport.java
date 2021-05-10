@@ -1,7 +1,6 @@
 package com.rs.game.player.actions;
 
 import com.rs.game.Animation;
-import com.rs.game.ForceMovement;
 import com.rs.game.Graphics;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;

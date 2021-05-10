@@ -1,9 +1,13 @@
 package com.rs.json;
 
-import com.google.gson.*;
-
 import java.io.FileReader;
 import java.nio.file.Paths;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * The utility class that provides functions for parsing {@code .json} files.

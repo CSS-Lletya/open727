@@ -1,7 +1,11 @@
 package main.impl.objects;
 
-import com.rs.game.*;
+import com.rs.game.Animation;
+import com.rs.game.ForceMovement;
+import com.rs.game.WorldObject;
+import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
+
 import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 

@@ -1,12 +1,12 @@
 package com.rs.cache;
 
+import java.io.IOException;
+
 import com.alex.io.OutputStream;
 import com.alex.store.Store;
 import com.alex.util.whirlpool.Whirlpool;
 import com.rs.Settings;
 import com.rs.utils.Utils;
-
-import java.io.IOException;
 
 public final class Cache {
 
