@@ -1,7 +1,5 @@
 package com.rs.game.player.content;
 
-import java.io.Serializable;
-
 import com.rs.Settings;
 import com.rs.game.player.Player;
 

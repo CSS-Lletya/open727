@@ -702,6 +702,7 @@ public class Player extends Entity {
 		return toolbelt;
 	}
 
+	@SuppressWarnings("unused")
 	private void sendUnlockedObjectConfigs() {
 		refreshLodestoneNetwork();
 	}
