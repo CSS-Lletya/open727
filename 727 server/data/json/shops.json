@@ -3067,12 +3067,48 @@
     "name": "General Store",
     "mainStock": [
       {
-        "id": 590,
-        "amount": 50000
+        "id": 1931,
+        "amount": 30
       },
       {
-        "id": 1050,
-        "amount": 69
+        "id": 1935,
+        "amount": 10
+      },
+      {
+        "id": 1735,
+        "amount": 10
+      },
+      {
+        "id": 1925,
+        "amount": 30
+      },
+      {
+        "id": 1923,
+        "amount": 10
+      },
+      {
+        "id": 1887,
+        "amount": 10
+      },
+      {
+        "id": 590,
+        "amount": 10
+      },
+      {
+        "id": 1755,
+        "amount": 10
+      },
+      {
+        "id": 2347,
+        "amount": 10
+      },
+      {
+        "id": 550,
+        "amount": 10
+      },
+      {
+        "id": 9003,
+        "amount": 10
       }
     ],
     "generalStock": [
