@@ -27,9 +27,7 @@ import com.rs.game.dialogue.DialogueEventListener;
 import com.rs.game.item.FloorItem;
 import com.rs.game.item.Item;
 import com.rs.game.player.actions.ActionManager;
-import com.rs.game.player.content.EmotesManager;
-import com.rs.game.player.content.MusicsManager;
-import com.rs.game.player.content.PriceCheckManager;
+import com.rs.game.player.content.*;
 import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.controlers.ControlerManager;
 import com.rs.game.player.controlers.Wilderness;
@@ -81,6 +79,25 @@ public class Player extends Entity {
 	private transient Trade trade;
 	private transient IsaacKeyPair isaacKeyPair;
 	private transient Pet pet;
+
+	//Stones
+	private transient boolean[] activatedLodestones;
+	private transient LodeStone lodeStone;
+
+	//Pins
+	private transient BankPin pin;
+	public transient String lastIPBankWasOpened;
+	public transient boolean bypass;
+	private transient int pinpinpin;
+	public transient boolean hasPinOpenedToday = false;
+	public transient long lastOpenedWithPin = -1;
+	public transient boolean setPin = false;
+	public transient boolean openPin = false;
+	public transient boolean startpin = false;
+	private transient int[] bankpins = new int[] { 0, 0, 0, 0 };
+	private transient int[] confirmpin = new int[] { 0, 0, 0, 0 };
+	private transient int[] openBankPin = new int[] { 0, 0, 0, 0 };
+	private transient int[] changeBankPin = new int[] { 0, 0, 0, 0 };
 
 	// used for packets logic
 	private transient ConcurrentLinkedQueue<LogicPacket> logicPackets;
@@ -205,6 +222,8 @@ public class Player extends Entity {
 		charges = new ChargesManager();
 		auraManager = new AuraManager();
 		petManager = new PetManager();
+		pin = new BankPin();
+		lodeStone = new LodeStone();
 		runEnergy = 100D;
 		allowChatEffects = true;
 		mouseButtons = true;
@@ -217,14 +236,27 @@ public class Player extends Entity {
 		// temporary deleted after reset all chars
 		if (auraManager == null)
 			auraManager = new AuraManager();
-		if (petManager == null) {
+		if (petManager == null)
 			petManager = new PetManager();
-		}
-		if (details == null) {
+		if (details == null)
 			details = new PlayerDetails();
-		}
 		if(toolbelt == null)
 			this.toolbelt = new Toolbelt();
+		if (lodeStone == null)
+			lodeStone = new LodeStone();
+		if (activatedLodestones == null)
+			activatedLodestones = new boolean[16];
+		if (pin == null)
+			pin = new BankPin();
+
+		if (pinpinpin != 1) {
+			pinpinpin = 1;
+			bankpins = new int[] { 0, 0, 0, 0 };
+			confirmpin = new int[] { 0, 0, 0, 0 };
+			openBankPin = new int[] { 0, 0, 0, 0 };
+			changeBankPin = new int[] { 0, 0, 0, 0 };
+		}
+
 		this.session = session;
 		this.username = username;
 		this.displayMode = displayMode;
@@ -239,6 +271,8 @@ public class Player extends Entity {
 		actionManager = new ActionManager(this);
 		sof = new SquealOfFortune(this);
 		trade = new Trade(this);
+		lodeStone.setPlayer(this);
+		pin.setPlayer(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
 		inventory.setPlayer(this);
@@ -320,6 +354,34 @@ public class Player extends Entity {
 						getPackets().sendDestroyObject(object);
 			}
 		}
+	}
+
+	public BankPin getBankPin() {
+		return pin;
+	}
+
+	public boolean getSetPin() {
+		return setPin;
+	}
+
+	public boolean getOpenedPin() {
+		return openPin;
+	}
+
+	public int[] getPin() {
+		return bankpins;
+	}
+
+	public int[] getConfirmPin() {
+		return confirmpin;
+	}
+
+	public int[] getOpenBankPin() {
+		return openBankPin;
+	}
+
+	public int[] getChangeBankPin() {
+		return changeBankPin;
 	}
 
 	// now that we inited we can start showing game
@@ -610,7 +672,8 @@ public class Player extends Entity {
 		getPackets().sendGameBarStages();
 		getMusicsManager().init();
 		getEmotesManager().refreshListConfigs();
-		sendUnlockedObjectConfigs();
+		if(this.rights == Rights.ADMINISTRATOR)
+			lodeStone.unlockAllLodestones();
 		if (getCurrentFriendChatOwner() != null) {
 			FriendChatsManager.joinChat(getCurrentFriendChatOwner(), this);
 			if (currentFriendChat == null) // failed
@@ -639,6 +702,7 @@ public class Player extends Entity {
 		return toolbelt;
 	}
 
+	@SuppressWarnings("unused")
 	private void sendUnlockedObjectConfigs() {
 		refreshLodestoneNetwork();
 	}
@@ -836,6 +900,14 @@ public class Player extends Entity {
 
 	public WorldPacketsEncoder getPackets() {
 		return session.getWorldPackets();
+	}
+
+	public boolean[] getActivatedLodestones() {
+		return activatedLodestones;
+	}
+
+	public LodeStone getLodeStones() {
+		return lodeStone;
 	}
 
 	public boolean hasStarted() {

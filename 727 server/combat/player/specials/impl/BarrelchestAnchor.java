@@ -1,18 +1,18 @@
 package player.specials.impl;
 
+import java.util.Optional;
+
 import com.rs.game.Animation;
-import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
+import com.rs.game.player.Rights;
+
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
 
-import java.util.Optional;
-
-//TODO we are here
 @WeaponSpecialSignature(weapons = { ItemNames.BARRELCHEST_ANCHOR }, specAmount = 50)
 public class BarrelchestAnchor implements WeaponSpecials {
 
@@ -32,7 +32,7 @@ public class BarrelchestAnchor implements WeaponSpecials {
 		combat.delayNormalHit(weaponId, attackStyle, combat.getMeleeHit(
 						player,
 						combat.getRandomMaxHit(player, weaponId, attackStyle,
-								false, false, 1.0, true)));
+								false, false, 1.1, true)));
 	}
 
 	@Override

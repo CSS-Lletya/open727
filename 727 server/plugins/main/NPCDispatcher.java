@@ -122,9 +122,12 @@ public final class NPCDispatcher {
 		if (npc == null || npc.isCantInteract() || npc.isDead() || npc.hasFinished()
 				|| !player.getMapRegionsIds().contains(npc.getRegionId()))
 			return;
-		player.stopAll(false);
+		player.stopAll(true);
 		if (forceRun)
 			player.setRun(forceRun);
+
+
+
 		player.setRouteEvent(new RouteEvent(npc, new Runnable() {
 			@Override
 			public void run() {
@@ -133,6 +136,7 @@ public final class NPCDispatcher {
 				NPCDispatcher.execute(player, npc, optionId);
 			}
 		}, npc.getDefinitions().name.contains("Banker") || npc.getDefinitions().name.contains("banker")));
+
 	}
 	
 	public static void handleExamine(final Player player, InputStream stream) {

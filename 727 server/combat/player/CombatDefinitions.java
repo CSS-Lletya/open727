@@ -1,5 +1,7 @@
 package player;
 
+import org.redrune.game.content.combat.MagicConstants.MagicBook;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
 import com.rs.game.player.Player;
@@ -182,6 +184,16 @@ public final class CombatDefinitions {
 		showMiscallaneousSpells = true;
 		showTeleportSpells = true;
 	}
+	
+	/**
+	 * The id of the spellbook
+	 */
+	private MagicBook spellbook = MagicBook.REGULAR;
+	
+	public MagicBook getSpellbook() {
+		return spellbook;
+	}
+	
 
 	public void setSpellBook(int id) {
 		if (id == 3)
@@ -573,6 +585,10 @@ public final class CombatDefinitions {
 
 	public boolean isUsingSpecialAttack() {
 		return usingSpecialAttack;
+	}
+	
+	public boolean setUsuingSpecilAttack(boolean activate) {
+		return usingSpecialAttack = activate;
 	}
 
 	public int getAttackStyle() {

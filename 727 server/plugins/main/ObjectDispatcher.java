@@ -119,16 +119,22 @@ public final class ObjectDispatcher {
 	}
 	
 	public static void handleOption(final Player player, InputStream stream, int option) {
+//		System.out.println("option " + option);
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
 		long currentTime = Utils.currentTimeMillis();
 		if (player.getLockDelay() >= currentTime || player.getEmotesManager().getNextEmoteEnd() >= currentTime)
 			return;
 
+
+
+		int id = getObjectIDFromStreamCopy(stream);
+
 		int y = stream.readUnsignedShort();
 		int x = stream.readUnsignedShort();
 		boolean forceRun = stream.readUnsignedShort() == 1;
-		final int id = stream.readUnsignedShort();
+		if(id == -1)
+			id = stream.readUnsignedShort();
 
 		if (Settings.DEBUG)
 			System.out.println(x+", "+ y +", "+id +", "+forceRun);
@@ -176,6 +182,8 @@ public final class ObjectDispatcher {
 			handleOptionExamine(player, object);
 			return;
 		}
+
+
 		player.setRouteEvent(new RouteEvent(object, new Runnable() {
 			@Override
 			public void run() {
@@ -184,6 +192,17 @@ public final class ObjectDispatcher {
 				ObjectDispatcher.execute(player, object, option);
 			}
 		}, false));
+	}
+
+	private static int getObjectIDFromStreamCopy(InputStream stream) {
+		try {
+			InputStream stream2;
+			stream2 = (InputStream) stream.clone();
+			stream2.readInt();
+			return stream2.readInt();
+		} catch(Exception e) {
+			return -1;
+		}
 	}
 
 	private static void handleOptionExamine(final Player player, final WorldObject object) {

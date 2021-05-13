@@ -1,6 +1,5 @@
 package com.rs.cache.loaders;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import com.rs.cache.Cache;
 import com.rs.cache.io.InputStream;
 import com.rs.game.item.Item;
 import com.rs.game.player.Equipment;
-import com.rs.utils.ItemExamines;
 import com.rs.utils.Utils;
 
 import skills.Skills;

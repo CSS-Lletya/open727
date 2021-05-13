@@ -232,4 +232,6 @@ public abstract class DialogueEventListener implements DialogueFaceExpression {
 		dialogue.listenToDialogueEvent(i);
 		return true;
 	}
+
+
 }

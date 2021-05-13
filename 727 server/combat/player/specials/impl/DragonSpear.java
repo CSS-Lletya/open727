@@ -1,18 +1,20 @@
 package player.specials.impl;
 
+import java.util.Optional;
+
 import com.rs.game.Animation;
-import com.rs.game.player.Rights;
 import com.rs.game.Entity;
 import com.rs.game.Graphics;
+import com.rs.game.World;
 import com.rs.game.item.ItemNames;
 import com.rs.game.player.Player;
-import com.rs.utils.Utils;
+import com.rs.game.player.Rights;
+import com.rs.game.task.Task;
+
 import npc.NPC;
 import player.PlayerCombat;
 import player.specials.WeaponSpecialSignature;
 import player.specials.WeaponSpecials;
-
-import java.util.Optional;
 
 
 @WeaponSpecialSignature(weapons = { ItemNames.DRAGON_SPEAR }, specAmount = 25)
@@ -43,14 +45,14 @@ public class DragonSpear implements WeaponSpecials {
 			defendingPlayer.lock();
 			defendingPlayer.getWatchMap().get("FOOD").elapsed(3000);
 			defendingPlayer.setDisableEquip(true);
-			Utils.runLater(new Runnable() {
+			World.get().submit(new Task(5) {
 				@Override
-				public void run() {
+				protected void execute() {
 					defendingPlayer.setDisableEquip(false);
 					defendingPlayer.unlock();
+					this.cancel();
 				}
-			}, 5000);
-
+			});
 		} else {
 			NPC n = (NPC) target;
 			n.setFreezeDelay(3000);

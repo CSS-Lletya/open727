@@ -1,7 +1,6 @@
 package com.rs.game.player.actions;
 
 import com.rs.game.Animation;
-import com.rs.game.ForceMovement;
 import com.rs.game.Graphics;
 import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
@@ -52,11 +51,11 @@ public class HomeTeleport extends Action {
 			player.setNextGraphics(new Graphics(HOME_GRAPHIC + 1));
 			player.setNextAnimation(new Animation(HOME_ANIMATION + 1));
 		} else if (currentTime == 23) {
-			player.setNextForceMovement(new ForceMovement(tile.transform(0, 1, 0), 0, tile, 1, ForceMovement.SOUTH));
+			player.setNextAnimation(new Animation(16393));
 			player.setNextWorldTile(tile);
-			player.setNextAnimation(new Animation(819));
-		} else if (currentTime == 24)
+		} else if (currentTime == 24) {
 			return -1;
+		}
 		return 0;
 	}
 

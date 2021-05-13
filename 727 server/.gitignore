@@ -12,3 +12,4 @@ data/dtRanks.ser
 data/pkRanks.ser
 data/characters
 data/charactersBackup
+/data/libs/HikariCP-2.6.2.jar

@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import mysql.connection.ConnectionPool;

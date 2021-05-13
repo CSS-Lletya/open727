@@ -1,6 +1,6 @@
 package com.rs.cache.io;
 
-public abstract class Stream {
+public abstract class Stream implements Cloneable{
 
 	protected int offset;
 	protected int length;

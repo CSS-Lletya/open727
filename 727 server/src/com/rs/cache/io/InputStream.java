@@ -2,7 +2,11 @@ package com.rs.cache.io;
 
 import com.rs.game.player.Player;
 
-public final class InputStream extends Stream {
+public class InputStream extends Stream {
+
+	public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
 	public void initBitAccess() {
 		bitPosition = offset * 8;

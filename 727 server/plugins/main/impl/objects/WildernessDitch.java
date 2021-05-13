@@ -1,7 +1,11 @@
 package main.impl.objects;
 
-import com.rs.game.*;
+import com.rs.game.Animation;
+import com.rs.game.ForceMovement;
+import com.rs.game.WorldObject;
+import com.rs.game.WorldTile;
 import com.rs.game.player.Player;
+
 import main.listener.ObjectType;
 import main.wrapper.ObjectSignature;
 
@@ -24,7 +28,7 @@ public class WildernessDitch implements ObjectType {
 
             if(playerY > ditchY) {//You are starting south
                 hopNorth();
-                //player.getControlerManager().startController("Wilderness");//allows player attack
+                player.getControlerManager().startControler("Wilderness");//allows player attack
             } else {//You are starting north
                 hopSouth();
                 //removeIcon();//pvp icon
