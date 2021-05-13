@@ -1,5 +1,7 @@
 package com.rs.game.player;
 
+import java.util.HashMap;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.item.Item;
 import com.rs.game.item.ItemsContainer;
@@ -311,5 +313,55 @@ public final class Equipment {
 		}
 		player.getAppearance().generateAppearenceData();;
 
+	}
+
+		/**
+	 * Gets the skill weapon requirement of a weapon
+	 *
+	 * @param skill
+	 * 		The skill
+	 */
+	public int getWeaponRequirement(int skill) {
+		int weaponId = getWeaponId();
+		if (weaponId == -1) {
+			return 1;
+		}
+		ItemDefinitions definition = ItemDefinitions.forId(weaponId);
+		HashMap<Integer, Integer> requirements = definition.getWearingSkillRequiriments();
+		if (requirements == null) {
+			return 1;
+		}
+		for (int skillId : requirements.keySet()) {
+			if (skillId > 24 || skillId < 0) {
+				continue;
+			}
+			int level = requirements.get(skillId);
+			if (level < 0 || level > 120) {
+				continue;
+			}
+			if (skill == skillId) {
+				return level;
+			}
+		}
+		return 1;
+	}
+	
+	/**
+	 * The bonuses of the player
+	 */
+	private int[] bonuses = new int[18];
+	
+	/**
+	 * Gets the bonus at an index
+	 *
+	 * @param index
+	 * 		The index
+	 */
+	public int getBonus(int index) {
+		if (index < 0 || index >= bonuses.length) {
+			System.out.println("Invalid bonus index expected: " + index);
+			return 0;
+		}
+		return bonuses[index];
 	}
 }

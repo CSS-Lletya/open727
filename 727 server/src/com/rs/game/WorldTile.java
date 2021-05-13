@@ -392,4 +392,15 @@ public class WorldTile {
 		result = prime * result + z;
 		return result;
 	}
+	
+	/**
+	 * Gets the distance between this location and the given location.
+	 *
+	 * @param location
+	 * 		The location argued.
+	 * @return The distance.
+	 */
+	public int getDistance(WorldTile location) {
+		return Utils.getDistance(getX(), getY(), location.getX(), location.getY());
+	}
 }

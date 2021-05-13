@@ -93,6 +93,7 @@ public abstract class Entity extends WorldTile {
 		receivedHits = new ConcurrentLinkedQueue<Hit>();
 		receivedDamage = new ConcurrentHashMap<Entity, Integer>();
 		temporaryAttributes = new ConcurrentHashMap<Object, Object>();
+		this.attributes = new ConcurrentHashMap<>();
 		nextHits = new ArrayList<Hit>();
 		nextBars = new ArrayList<Bar>();
 		nextWalkDirection = nextRunDirection - 1;
@@ -1288,5 +1289,88 @@ public abstract class Entity extends WorldTile {
 			}
 			entity.checkMultiArea();
 		}
+	}
+	
+	/**
+	 * Gets the attribute from the {@link #attributes} map, and if it doesn't exist, we return the default value
+	 *
+	 * @param key
+	 * 		The key of the attribute
+	 * @param defaultValue
+	 * 		The default value
+	 * @param <T>
+	 * 		The return type
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getAttribute(Object key, T defaultValue) {
+		T value = (T) attributes.get(key);
+		if (value == null) {
+			return defaultValue;
+		}
+		return value;
+	}
+	
+	/**
+	 * The map of temporary attributes
+	 */
+	private transient ConcurrentHashMap<Object, Object> attributes;
+	
+	/**
+	 * Puts the key into the attributes map
+	 *
+	 * @param key
+	 * 		The key
+	 * @param value
+	 * 		The value
+	 */
+	public <T> T putAttribute(Object key, T value) {
+		attributes.put(key, value);
+		return value;
+	}
+	
+	/**
+	 * Verifies if this entity is a player
+	 *
+	 * @return A {@code Boolean} flag
+	 */
+	public boolean isPlayer() {
+		return toPlayer() != null;
+	}
+	
+	/**
+	 * Converts this node to a {@code Player} {@code Object}
+	 *
+	 * @return A {@code Player}
+	 */
+	public Player toPlayer() {
+		return null;
+	}
+	
+	/**
+	 * Verifies if this node is an npc
+	 *
+	 * @return A {@code Boolean} flag
+	 */
+	public boolean isNPC() {
+		return toNPC() != null;
+	}
+	
+	/**
+	 * Converts this entity to a {@code NPC} {@code Object}
+	 *
+	 * @return A {@code NPC}
+	 */
+	public NPC toNPC() {
+		return null;
+	}
+	
+	/**
+	 * Gets the center location.
+	 *
+	 * @return The center location.
+	 */
+	public WorldTile getCenterLocation() {
+		int offset = getSize() >> 1;
+		return this.getLastWorldTile().transform(offset, offset, 0);
 	}
 }
