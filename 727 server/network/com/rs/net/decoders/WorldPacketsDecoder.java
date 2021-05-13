@@ -370,26 +370,26 @@ public final class WorldPacketsDecoder extends Decoder {
 		} 
 		//TODO do player buttons here
 		
-		switch (packetId){
-		case PLAYER_OPTION_1_PACKET:
-		case PLAYER_OPTION_2_PACKET:
-		case PLAYER_OPTION_3_PACKET:
-		case PLAYER_OPTION_4_PACKET:
-		case PLAYER_OPTION_5_PACKET:
-		case PLAYER_OPTION_6_PACKET:
-		case PLAYER_OPTION_7_PACKET:
-		case PLAYER_OPTION_8_PACKET:
-		
-			int playerIndex = stream.readUnsignedShort(); //incorrect returns 32k
-			boolean forceRun = stream.read128Byte() == 1;
-			if (forceRun)
-				player.setRun(true);
-			Player p2 = World.getPlayers().get(playerIndex);
-			if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
-				return;
-			player.getPackets().sendGameMessage("Sent player interact packet, id: " +packetId);
-			return;
-		}
+//		switch (packetId){
+//		case PLAYER_OPTION_1_PACKET:
+//		case PLAYER_OPTION_2_PACKET:
+//		case PLAYER_OPTION_3_PACKET:
+//		case PLAYER_OPTION_4_PACKET:
+//		case PLAYER_OPTION_5_PACKET:
+//		case PLAYER_OPTION_6_PACKET:
+//		case PLAYER_OPTION_7_PACKET:
+//		case PLAYER_OPTION_8_PACKET:
+//		
+//			int playerIndex = stream.readUnsignedShort(); //incorrect returns 32k
+//			boolean forceRun = stream.read128Byte() == 1;
+//			if (forceRun)
+//				player.setRun(true);
+//			Player p2 = World.getPlayers().get(playerIndex);
+//			if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
+//				return;
+//			player.getPackets().sendGameMessage("Sent player interact packet, id: " +packetId);
+//			return;
+//		}
 		
 		
 		
@@ -470,7 +470,7 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == PLAYER_OPTION_4_PACKET) {
 			@SuppressWarnings("unused")
 			boolean unknown = stream.readByte() == 1;
-			int playerIndex = stream.readUnsignedShortLE128();
+			int playerIndex = stream.readUnsignedShort(); //incorrect returns 32k
 			Player p2 = World.getPlayers().get(playerIndex);
 			if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
 				return;
@@ -502,31 +502,36 @@ public final class WorldPacketsDecoder extends Decoder {
 		} else if (packetId == PLAYER_OPTION_1_PACKET) {
 			if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 				return;
-			@SuppressWarnings("unused")
-			boolean unknown = stream.readByte() == 1;
-			int playerIndex = stream.readUnsignedShortLE128();
-			Player p2 = World.getPlayers().get(playerIndex);
-			if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
+			int playerIndex = stream.readUnsignedShort(); //incorrect returns 32k
+			boolean forceRun = stream.read128Byte() == 1;
+			if (forceRun)
+				player.setRun(true);
+			Player targetPlayer = World.getPlayers().get(playerIndex);
+			if (targetPlayer == null || targetPlayer.isDead() || targetPlayer.hasFinished()
+					|| !player.getMapRegionsIds().contains(targetPlayer.getRegionId()))
 				return;
-			if (player.getLockDelay() > Utils.currentTimeMillis() || !player.getControlerManager().canPlayerOption1(p2))
+			if (targetPlayer == null || targetPlayer.isDead() || targetPlayer.hasFinished() || !player.getMapRegionsIds().contains(targetPlayer.getRegionId()))
+				return;
+			
+			if (player.getLockDelay() > Utils.currentTimeMillis() || !player.getControlerManager().canPlayerOption1(targetPlayer))
 				return;
 			if (!player.isCanPvp())
 				return;
-			if (!player.getControlerManager().canAttack(p2))
+			if (!player.getControlerManager().canAttack(targetPlayer))
 				return;
-
-			if (!player.isCanPvp() || !p2.isCanPvp()) {
+			
+			if (!player.isCanPvp() || !targetPlayer.isCanPvp()) {
 				player.getPackets().sendGameMessage("You can only attack players in a player-vs-player area.");
 				return;
 			}
-			if (!p2.isAtMultiArea() || !player.isAtMultiArea()) {
-				if (player.getAttackedBy() != p2 && player.getAttackedByDelay() > Utils.currentTimeMillis()) {
+			if (!targetPlayer.isAtMultiArea() || !player.isAtMultiArea()) {
+				if (player.getAttackedBy() != targetPlayer && player.getAttackedByDelay() > Utils.currentTimeMillis()) {
 					player.getPackets().sendGameMessage("You are already in combat.");
 					return;
 				}
-				if (p2.getAttackedBy() != player && p2.getAttackedByDelay() > Utils.currentTimeMillis()) {
-					if (p2.getAttackedBy() instanceof NPC) {
-						p2.setAttackedBy(player); // changes enemy to player,
+				if (targetPlayer.getAttackedBy() != player && targetPlayer.getAttackedByDelay() > Utils.currentTimeMillis()) {
+					if (targetPlayer.getAttackedBy() instanceof NPC) {
+						targetPlayer.setAttackedBy(player); // changes enemy to player,
 						// player has priority over
 						// npc on single areas
 					} else {
@@ -535,8 +540,9 @@ public final class WorldPacketsDecoder extends Decoder {
 					}
 				}
 			}
+			
 			player.stopAll(false);
-			player.getActionManager().setAction(new PlayerCombat(p2));
+			player.getActionManager().setAction(new PlayerCombat(targetPlayer));
 		} else if (packetId == ATTACK_NPC) {
 			if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead()) {
 				return;
