@@ -77,7 +77,7 @@ public class ShopsLoader extends GsonLoader<Shop> {
 	 *            The name of the shop
 	 * @return {@code true} if it was opened successfully
 	 */
-	public boolean openShop(Player player, String name) {
+	public static boolean openShop(Player player, String name) {
 		Shop shop = getShop(name);
 		if (shop == null) {
 			System.out.println("Attempted to open a shop by name: " + name);
@@ -94,7 +94,7 @@ public class ShopsLoader extends GsonLoader<Shop> {
 	 *            The key to search for
 	 * @return
 	 */
-	public Shop getShop(String key) {
+	public static Shop getShop(String key) {
 		Iterator<Entry<String, Shop>> it = getShops().entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, Shop> entry = it.next();
@@ -120,7 +120,7 @@ public class ShopsLoader extends GsonLoader<Shop> {
 	/**
 	 * The map of the shops
 	 */
-	private final Map<String, Shop> shops = new HashMap<String, Shop>();
+	private final static Map<String, Shop> shops = new HashMap<String, Shop>();
 
 	public void sortShops() {
 		sortedShops.clear();
@@ -139,7 +139,7 @@ public class ShopsLoader extends GsonLoader<Shop> {
 		return sortedShops;
 	}
 
-	public Map<String, Shop> getShops() {
+	public static Map<String, Shop> getShops() {
 		return shops;
 	}
 
