@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.rs.game.player.Player;
 
 /**
  * Punished list defining all punishments for a certain {@link HostListType}.
@@ -43,14 +42,7 @@ public class HostList {
 		}
 		return false;
 	}
-	
-	/**
-	 * Adds a blocked entry with a username.
-	 */
-	public void add(Player player) {
-		BLOCKED.add(player.getSession().getIP() + "-" + player.getUsername());
-	}
-	
+
 	/**
 	 * Removes a blocked entry by the text.
 	 */

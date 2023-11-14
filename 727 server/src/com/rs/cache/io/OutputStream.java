@@ -1,6 +1,5 @@
 package com.rs.cache.io;
 
-import com.rs.game.player.Player;
 import com.rs.utils.Utils;
 
 public final class OutputStream extends Stream {
@@ -235,28 +234,6 @@ public final class OutputStream extends Stream {
 		writeByte(0);
 		writeString(s);
 		writeByte(0);
-	}
-
-	public void writePacket(Player player, int id) {
-		if (player == null)
-			writeSmart(id);
-		else if (id >= 128) {
-			writeByte((id >> 8) + 128 + player.getIsaacKeyPair().outKey().getNextValue());
-			writeByte(id + player.getIsaacKeyPair().outKey().getNextValue());
-		} else
-			writeByte(id + player.getIsaacKeyPair().outKey().getNextValue());
-	}
-
-	public void writePacketVarByte(Player player, int id) {
-		writePacket(player, id);
-		writeByte(0);
-		opcodeStart = getOffset() - 1;
-	}
-
-	public void writePacketVarShort(Player player, int id) {
-		writePacket(player, id);
-		writeShort(0);
-		opcodeStart = getOffset() - 2;
 	}
 
 	public void endPacketVarByte() {

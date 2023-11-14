@@ -1,6 +1,5 @@
 package com.rs.cache.io;
 
-import com.rs.game.player.Player;
 
 public class InputStream extends Stream {
 
@@ -78,13 +77,6 @@ public class InputStream extends Stream {
 		checkCapacity(length - offset);
 		System.arraycopy(b, offset, buffer, this.offset, length);
 		this.length += length - offset;
-	}
-
-	public int readPacket(Player player) {
-		int id = 0xff & readUnsignedByte() - player.getIsaacKeyPair().inKey().getNextValue();
-		if (id < 128)
-			return id;
-		return (id - 128 << 8) + (readUnsignedByte() - player.getIsaacKeyPair().inKey().getNextValue());
 	}
 
 	public int readByte() {

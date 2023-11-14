@@ -3,9 +3,6 @@ package com.rs;
 import java.math.BigInteger;
 
 import com.google.common.collect.ImmutableMap;
-import com.rs.game.WorldTile;
-import com.rs.game.player.Player;
-import com.rs.game.player.Rights;
 
 /**
  * Server Settings
@@ -23,7 +20,7 @@ public final class Settings {
 	/**
 	 * The Network Port ID
 	 */
-	public static final int PORT_ID = 43594;
+	public static final int PORT_ID = 5555;
 	
 	/**
 	 * The latest update (this is a message sent on login)
@@ -59,8 +56,6 @@ public final class Settings {
 	 * Player settings
 	 */
 	public static final byte START_PLAYER_HITPOINTS = 100;
-	public static final WorldTile START_PLAYER_LOCATION = new WorldTile(3094, 3502, 0);
-	public static final WorldTile RESPAWN_PLAYER_LOCATION = new WorldTile(3094, 3502, 0);
 
 	/**
 	 * The Max ping delay for packs
@@ -142,10 +137,6 @@ public final class Settings {
 			"fire cape", "max cape", "max hood", "completionist cape", "completionist hood", "farseer kiteshield",
 			"eagle-eye kiteshield", "gravite" };
 
-	/**
-	 * The time in seconds that has to be spent in a region before {@link Mob}s stop
-	 * acting aggressive towards a specific {@link Player}.
-	 */
 	public static final short TOLERANCE_SECONDS = 600;
 	/**
 	 * Retrieves the delay before consuming another consumable type.
@@ -162,12 +153,7 @@ public final class Settings {
 	 */
 	public static boolean PIN_ACTIVE = false;
 
-	/**
-	 * An immutable map of Staff members
-	 */
-	public static final ImmutableMap<String, Rights> STAFF = ImmutableMap.of(
-			"Zed", Rights.ADMINISTRATOR,
-			"Jawarrior1", Rights.ADMINISTRATOR
-	);
+
+
 
 }

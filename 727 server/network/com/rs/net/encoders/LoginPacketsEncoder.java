@@ -4,7 +4,6 @@ import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 
 import com.rs.cache.io.OutputStream;
-import com.rs.game.player.Player;
 import com.rs.net.Session;
 
 public final class LoginPacketsEncoder extends Encoder {
@@ -30,21 +29,5 @@ public final class LoginPacketsEncoder extends Encoder {
 		}
 	}
 
-	public final void sendLoginDetails(Player player) {
-		OutputStream stream = new OutputStream();
-		stream.writePacketVarByte(null, 2);
-		stream.writeByte(player.getRights().getValue());
-		stream.writeByte(0);
-		stream.writeByte(0);
-		stream.writeByte(0);
-		stream.writeByte(1);
-		stream.writeByte(0);
-		stream.writeShort(player.getIndex());
-		stream.writeByte(1);
-		stream.write24BitInteger(0);
-		stream.writeByte(1); // is member world
-		stream.writeString(player.getDisplayName());
-		stream.endPacketVarByte();
-		session.write(stream);
-	}
+
 }

@@ -18,12 +18,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.game.WorldTile;
-import com.rs.game.player.Player;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
-import skills.Skills;
 
 public final class Utils {
 
@@ -92,10 +89,6 @@ public final class Utils {
 		}
 	}
 
-	public static boolean inCircle(WorldTile location, WorldTile center, int radius) {
-		return getDistance(center, location) < radius;
-	}
-
 	@SuppressWarnings("resource")
 	public static void copyFile(File sourceFile, File destFile) throws IOException {
 		if (!destFile.exists()) {
@@ -159,9 +152,6 @@ public final class Utils {
 		return classes;
 	}
 
-	public static final int getDistance(WorldTile t1, WorldTile t2) {
-		return getDistance(t1.getX(), t1.getY(), t2.getX(), t2.getY());
-	}
 
 	public static final int getDistance(int coordX1, int coordY1, int coordX2, int coordY2) {
 		int deltaX = coordX2 - coordX1;
@@ -780,65 +770,7 @@ public final class Utils {
 		return -1;
 	}
 
-	public static byte[] completeQuickMessage(Player player, int fileId, byte[] data) {
-		if (fileId == 1)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.AGILITY) };
-		else if (fileId == 8)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.ATTACK) };
-		else if (fileId == 13)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.CONSTRUCTION) };
-		else if (fileId == 16)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.COOKING) };
-		else if (fileId == 23)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.CRAFTING) };
-		else if (fileId == 30)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.DEFENCE) };
-		else if (fileId == 34)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.FARMING) };
-		else if (fileId == 41)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.FIREMAKING) };
-		else if (fileId == 47)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.FISHING) };
-		else if (fileId == 55)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.FLETCHING) };
-		else if (fileId == 62)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.HERBLORE) };
-		else if (fileId == 70)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.HITPOINTS) };
-		else if (fileId == 74)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.HUNTER) };
-		else if (fileId == 135)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.MAGIC) };
-		else if (fileId == 127)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.MINING) };
-		else if (fileId == 120)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.PRAYER) };
-		else if (fileId == 116)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.RANGE) };
-		else if (fileId == 111)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.RUNECRAFTING) };
-		else if (fileId == 103)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.SLAYER) };
-		else if (fileId == 96)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.SMITHING) };
-		else if (fileId == 92)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.STRENGTH) };
-		else if (fileId == 85)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.SUMMONING) };
-		else if (fileId == 79)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.THIEVING) };
-		else if (fileId == 142)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.WOODCUTTING) };
-		else if (fileId == 990)
-			data = new byte[] { (byte) player.getSkills().getLevelForXp(Skills.DUNGEONEERING) };
-		else if (fileId == 965) {
-			int value = player.getHitpoints();
-			data = new byte[] { (byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
-		}
-		else if (Settings.DEBUG)
-			Logger.log("Utils", "qc: " + fileId + ", " + (data == null ? 0 : data.length));
-		return data;
-	}
+
 
 	public static String fixChatMessage(String message) {
 		StringBuilder newText = new StringBuilder();

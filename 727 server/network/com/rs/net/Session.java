@@ -6,16 +6,13 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 
 import com.rs.cache.io.OutputStream;
-import com.rs.game.player.Player;
 import com.rs.net.decoders.ClientPacketsDecoder;
 import com.rs.net.decoders.Decoder;
 import com.rs.net.decoders.GrabPacketsDecoder;
 import com.rs.net.decoders.LoginPacketsDecoder;
-import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.net.encoders.Encoder;
 import com.rs.net.encoders.GrabPacketsEncoder;
 import com.rs.net.encoders.LoginPacketsEncoder;
-import com.rs.net.encoders.WorldPacketsEncoder;
 
 public class Session {
 
@@ -81,7 +78,7 @@ public class Session {
 			decoder = new LoginPacketsDecoder(this);
 			break;
 		case 3:
-			decoder = new WorldPacketsDecoder(this, (Player) attachement);
+			;
 			break;
 		case -1:
 		default:
@@ -103,7 +100,6 @@ public class Session {
 			encoder = new LoginPacketsEncoder(this);
 			break;
 		case 2:
-			encoder = new WorldPacketsEncoder(this, (Player) attachement);
 			break;
 		case -1:
 		default:
@@ -120,9 +116,6 @@ public class Session {
 		return (GrabPacketsEncoder) encoder;
 	}
 
-	public WorldPacketsEncoder getWorldPackets() {
-		return (WorldPacketsEncoder) encoder;
-	}
 
 	public String getIP() {
 		return channel == null ? "" : channel.getRemoteAddress().toString().split(":")[0].replace("/", "");

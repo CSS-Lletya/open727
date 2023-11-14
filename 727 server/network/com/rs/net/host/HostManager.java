@@ -1,7 +1,5 @@
 package com.rs.net.host;
 
-import com.rs.game.player.Player;
-
 /**
  * The net security that handles and validates all incoming connections
  * received by the server to ensure that the server does not fall victim to
@@ -29,9 +27,7 @@ public final class HostManager {
 	 * @param other the other player to determine for.
 	 * @return {@code true} if the two players are connected from same network, {@code false} otherwise.
 	 */
-	public static boolean same(Player player, Player other) {
-		return !(player.getSession() == null || other.getSession() == null) && (player.getSession().getIP().equals(other.getSession().getIP()));
-	}
+
 	
 	/**
 	 * Determines if the {@code text} is contained in the list.
@@ -44,14 +40,7 @@ public final class HostManager {
 	/**
 	 * Adds a blocked entry to the desired type.
 	 */
-	public static boolean add(Player player, HostListType type, boolean save) {
-		HostList list = lists[type.getIndex()];
-		list.add(player);
-		if (save) {
-			HostManager.serialize(type);
-		}
-		return true;
-	}
+
 	
 	/**
 	 * Removes a blocked entry to the desired type.

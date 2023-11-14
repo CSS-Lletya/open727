@@ -16,7 +16,6 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import com.rs.Settings;
 import com.rs.cache.io.InputStream;
 import com.rs.cores.CoresManager;
-import com.rs.net.decoders.WorldPacketsDecoder;
 import com.rs.utils.Logger;
 
 public final class ServerChannelHandler extends SimpleChannelHandler {
@@ -71,8 +70,6 @@ public final class ServerChannelHandler extends SimpleChannelHandler {
 			Session session = (Session) sessionObject;
 			if (session.getDecoder() == null)
 				return;
-			if (session.getDecoder() instanceof WorldPacketsDecoder)
-				session.getWorldPackets().getPlayer().finish();
 		}
 	}
 
